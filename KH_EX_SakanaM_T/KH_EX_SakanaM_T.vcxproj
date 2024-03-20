@@ -27,6 +27,8 @@
     <ClInclude Include="KH_EX_SakanaM_T\Camera.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Character.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Collision.h" />
+    <ClInclude Include="KH_EX_SakanaM_T\Crab.h" />
+    <ClInclude Include="KH_EX_SakanaM_T\Fish.h" />
     <ClInclude Include="KH_EX_SakanaM_T\GameScene.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Hitbox.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Input.h" />

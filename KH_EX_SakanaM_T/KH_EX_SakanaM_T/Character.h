@@ -49,11 +49,7 @@ class Character
 		is_alive = false;
 	}
 
-	Ball*
-	Fire()
-	{
-		return new Ball(main_world, Object::pos_x, Object::pos_y);
-	}
+	Ball* Fire() { return new Ball(main_world, Object::pos_x, Object::pos_y); }
 
 	bool
 	Update()
@@ -87,7 +83,7 @@ class Character
 
 	Hitbox main_hitbox;
 
-private:
+protected:
 
 	World* main_world;
 

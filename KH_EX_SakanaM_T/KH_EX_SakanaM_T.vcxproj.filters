@@ -4,6 +4,9 @@
     <Filter Include="code">
       <UniqueIdentifier>{f31d8c4c-c317-4b02-8c78-cc27ffc6d570}</UniqueIdentifier>
     </Filter>
+    <Filter Include="code\Character">
+      <UniqueIdentifier>{191384c3-f03c-45fe-b70e-fb0d220a0396}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KH_EX_SakanaM_T\Animate.h">
@@ -22,9 +25,6 @@
       <Filter>code</Filter>
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Camera.h">
-      <Filter>code</Filter>
-    </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\Character.h">
       <Filter>code</Filter>
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Collision.h">
@@ -83,6 +83,15 @@
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\World.h">
       <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Character.h">
+      <Filter>code\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Crab.h">
+      <Filter>code\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Fish.h">
+      <Filter>code\Character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
