@@ -42,4 +42,5 @@ class Renderer
 	void Align_y() { Set_position_y(-shape_high >> 1); }
 
 private:
+
 };
