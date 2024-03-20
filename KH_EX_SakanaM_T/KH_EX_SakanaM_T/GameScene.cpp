@@ -16,10 +16,10 @@ bool GameScene::Update()
 	if (input->key_J) { x2--; }
 	if (input->key_L) { x2++; }
 
-	if (input->arr_U) { y3--; }
-	if (input->arr_D) { y3++; }
-	if (input->arr_L) { x3--; }
-	if (input->arr_R) { x3++; }
+	if (-20<=camera->Get_dy()&&input->arr_U) { y3--; }
+	if (+20>=camera->Get_dy()&&input->arr_D) { y3++; }
+	if (-20<=camera->Get_dx()&&input->arr_L) { x3--; }
+	if (+20>=camera->Get_dx()&&input->arr_R) { x3++; }
 
 	if (input->key_F)
 	{
@@ -96,7 +96,7 @@ bool GameScene::Update()
 
 	sakana->Update();
 	ikacyann->Update();
-	//camera_man.Update();
+	camera_man.Update();
 
 	for (int i = 0; i < ball_num; i++)
 	{

@@ -24,6 +24,22 @@ class GameScene
 
 		mouse = new Mouse(&library->_skin_target);
 		ui_mouse = new Target(&library->_skin_target);
+
+		r[0].Move_to(35, 10);
+		r[1].Move_to(25, 10);
+		r[2].Move_to(15, 10);
+
+		sakana_wp_x[0].Move_to(55, 50);
+		sakana_wp_x[1].Move_to(45, 50);
+		sakana_wp_x[2].Move_to(35, 50);
+		sakana_wp_x[3].Move_to(25, 50);
+		sakana_wp_x[4].Move_to(15, 50);
+
+		sakana_wp_y[0].Move_to(55, 70);
+		sakana_wp_y[1].Move_to(45, 70);
+		sakana_wp_y[2].Move_to(35, 70);
+		sakana_wp_y[3].Move_to(25, 70);
+		sakana_wp_y[4].Move_to(15, 70);
 	}
 
 	~GameScene()
@@ -51,6 +67,14 @@ class GameScene
 	}
 
 private:
+
+	DWORD start_time = 0;
+	DWORD end___time = 0;
+	DWORD delta_time = 0;
+	Renderer r[3];
+
+	Renderer sakana_wp_x[5];
+	Renderer sakana_wp_y[5];
 
 	World main_world;
 
@@ -163,7 +187,75 @@ private:
 
 		camera->Rending(&mouse->ren_target);
 
-		ui->Clear();
+		camera->Photographed();
+
 		ui->Rending(&ui_mouse->ren_target);
+
+		
+		end___time = clock();
+		delta_time = end___time - start_time;
+		start_time = clock();
+
+		delta_time = 1000 / delta_time;
+
+		int n[3];
+		n[0] = delta_time % 10;
+		n[1] = delta_time / 10 % 10;
+		n[2] = delta_time / 100;
+
+		for (int i = 0; i < 3; i++)
+		{
+			r[i].Reset_skin(get_num(n[i]));
+			ui->Rending(&r[i]);
+		}
+
+		int sx = sakana->Object::Get_x();
+		int ssx[5];
+		ssx[0] = sx % 10;
+		ssx[1] = sx / 10 % 10;
+		ssx[2] = sx / 100 % 10;
+		ssx[3] = sx / 1000 % 10;
+		ssx[4] = sx / 10000;
+
+		for (int i = 0; i < 5; i++)
+		{
+			sakana_wp_x[i].Reset_skin(get_num(ssx[i]));
+			ui->Rending(&sakana_wp_x[i]);
+		}
+
+		int sy = sakana->Object::Get_y();
+		int ssy[5];
+		ssy[0] = sy % 10;
+		ssy[1] = sy / 10 % 10;
+		ssy[2] = sy / 100 % 10;
+		ssy[3] = sy / 1000 % 10;
+		ssy[4] = sy / 10000;
+
+		for (int i = 0; i < 5; i++)
+		{
+			sakana_wp_y[i].Reset_skin(get_num(ssy[i]));
+			ui->Rending(&sakana_wp_y[i]);
+		}
+	}
+
+	inline IMAGE* 
+	get_num(int n)
+	{
+		IMAGE* img = nullptr;
+		switch (n)
+		{
+		case 0: img = &library->char_size0_num_0; break;
+		case 1: img = &library->char_size0_num_1; break;
+		case 2: img = &library->char_size0_num_2; break;
+		case 3: img = &library->char_size0_num_3; break;
+		case 4: img = &library->char_size0_num_4; break;
+		case 5: img = &library->char_size0_num_5; break;
+		case 6: img = &library->char_size0_num_6; break;
+		case 7: img = &library->char_size0_num_7; break;
+		case 8: img = &library->char_size0_num_8; break;
+		case 9: img = &library->char_size0_num_9; break;
+		default: break;
+		}
+		return img;
 	}
 };

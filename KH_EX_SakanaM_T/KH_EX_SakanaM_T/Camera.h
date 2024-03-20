@@ -184,8 +184,9 @@ private:
 	static inline void
 	mix_color(DWORD* c1, DWORD* c2)
 	{
-		int a1 = (*c1 & 0xff000000) >> 24;
 		int a2 = (*c2 & 0xff000000) >> 24;
+		if (!a2) { return; }
+		int a1 = (*c1 & 0xff000000) >> 24;
 
 		int r1 = (*c1 & 0x00ff0000) >> 16;
 		int r2 = (*c2 & 0x00ff0000) >> 16;

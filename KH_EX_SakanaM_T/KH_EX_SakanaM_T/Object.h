@@ -54,10 +54,14 @@ class Object : public Position
 		buffer_x += xd - xi;
 		buffer_y += yd - yi;
 
-		if (buffer_x > 1.0) { xi++; buffer_x -= 1.0; }
-		else if (buffer_x < -1.0) { xi--; buffer_x += 1.0; }
-		if (buffer_y > 1.0) { yi++; buffer_y -= 1.0; }
-		else if (buffer_y < -1.0) { yi--; buffer_y += 1.0; }
+		if (buffer_x > 1.0) 
+		{ xi++; buffer_x -= 1.0; }
+		else if (buffer_x < -1.0) 
+		{ xi--; buffer_x += 1.0; }
+		if (buffer_y > 1.0) 
+		{ yi++; buffer_y -= 1.0; }
+		else if (buffer_y < -1.0) 
+		{ yi--; buffer_y += 1.0; }
 
 		Position::Move(xi, yi);
 
@@ -94,8 +98,8 @@ protected:
 	inline void
 	update_drag()
 	{
+		if (0.0 == obj_vx && 0.0 == obj_vy) { return; }
 		double v_mod = sqrt(obj_vx * obj_vx + obj_vy * obj_vy);
-		if (0.0 == v_mod) { return; }
 
 		double fforce_1 = _u;
 		double fforce_2 = v_mod * v_mod * _c;

@@ -22,7 +22,7 @@ class MainGame
 		{	FlushBatchDraw();
 			end___time = clock();
 			delta_time = end___time - start_time; std::cout << delta_time << std::endl;
-			if (delta_time < 1000 / FRAME_RATE) { Sleep(1000 / FRAME_RATE - delta_time); }
+			if (delta_time < SLEEP) { Sleep(SLEEP - delta_time); }
 			start_time = clock();
 		} while (update());
 		EndBatchDraw();
@@ -43,6 +43,7 @@ private:
 	GameScene* main_game_scene = nullptr;
 
 	const int FRAME_RATE = 60;
+	const int SLEEP = 1000 / FRAME_RATE;
 
 	const int GRAPHWIDE = 1600;
 	const int GRAPHHIGH = 900;
@@ -77,7 +78,7 @@ private:
 	inline bool
 	update()
 	{
-		camera->Photographed();
+		//camera->Photographed();
 		//ui->Photographed();
 		return main_game_scene->Update();
 	}
