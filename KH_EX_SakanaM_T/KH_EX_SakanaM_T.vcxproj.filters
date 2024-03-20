@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="code">
+      <UniqueIdentifier>{f31d8c4c-c317-4b02-8c78-cc27ffc6d570}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="KH_EX_SakanaM_T\Animate.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Area.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Ball.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Bar.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Boom.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Camera.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Character.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Collision.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\GameScene.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Hitbox.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Input.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Library.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\MainGame.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Map.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Map_Maker.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Matrix.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Mouse.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Object.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Position.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Renderer.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Scene.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Shape.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Shape_Maker.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Target.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\UI.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\World.h">
+      <Filter>code</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="KH_EX_SakanaM_T\GameScene.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+    <ClCompile Include="KH_EX_SakanaM_T\main.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
