@@ -31,10 +31,10 @@ class Boom : public Area
 		}
 	}
 
+	Boom* next_boom = nullptr;
+
 private:
 	Area* hurt_area;
-
-	Boom* b = nullptr;
 
 	int time;
 };

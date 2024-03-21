@@ -4,10 +4,6 @@
 #include "Map.h"
 #include "Boom.h"
 
-//const int MAINWORLDWIDE = 1600;
-//const int MAINWORLDHIGH = 1280;
-//const int MAINWORLDLONG = MAINWORLDWIDE * MAINWORLDHIGH;
-
 class World
 {	public:
 	World(unsigned int w, unsigned int h)
@@ -21,32 +17,50 @@ class World
 		, hurt_area(w, h)
 	{}
 
-	void
+	void 
 	Update_booms()
 	{
-		for (int i = 0; i < boom_count; i++)
+		Boom* prev_boom = nullptr;
+		Boom* now_boom = booms;
+
+		while (now_boom)
 		{
-			if (!booms[i]->Update())
+			if (!now_boom->Update())
 			{
-				boom_count--;
-				delete booms[i];
-				booms[i] = booms[boom_count];
-				booms[boom_count] = nullptr;
+				if (now_boom == booms)
+				{
+					booms = now_boom->next_boom;
+				}
+				else
+				{
+					prev_boom->next_boom = now_boom->next_boom;
+				}
+
+				Boom* temp_boom = now_boom;
+				now_boom = now_boom->next_boom;
+
+				delete temp_boom;
+			}
+			else
+			{
+				prev_boom = now_boom;
+				now_boom = now_boom->next_boom;
 			}
 		}
 	}
 
+
 	void
 	Add_new_boom(Boom* b)
 	{
-		if (boom_count < MAX_BOOMS)
+		if (booms)
 		{
-			booms[boom_count] = b;
-			boom_count++;
+			b->next_boom = booms;
+			booms = b;
 		}
 		else
 		{
-			delete b;
+			booms = b;
 		}
 	}
 
@@ -58,10 +72,8 @@ class World
 	Area hurt_area;
 
 private:
-	
-	static const unsigned int MAX_BOOMS = 100;
-	Boom* booms[MAX_BOOMS] = { nullptr };
-	int boom_count = 0;
+
+	Boom* booms = nullptr;
 
 	unsigned int world_wide;
 	unsigned int world_high;
