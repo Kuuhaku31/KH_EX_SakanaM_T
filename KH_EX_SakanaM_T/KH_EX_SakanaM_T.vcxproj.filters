@@ -105,6 +105,9 @@
     <ClInclude Include="KH_EX_SakanaM_T\MainGame.h">
       <Filter>code\main</Filter>
     </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\AI.h">
+      <Filter>code</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KH_EX_SakanaM_T\GameScene.cpp">

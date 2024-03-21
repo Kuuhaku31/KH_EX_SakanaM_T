@@ -5,6 +5,7 @@
 
 #include "World.h"
 
+#include "AI.h"
 #include "Collision.h"
 #include "Bar.h"
 #include "Animate.h"
@@ -30,6 +31,8 @@ class Character
 		, bar(&MAX_HP, &HP, static_cast<Object*>(this))
 		, animate_skin_R(static_cast<Object*>(this))
 		, animate_skin_L(static_cast<Object*>(this))
+
+		, ai(this)
 	{}
 
 	int GetHP() const { return HP; }
@@ -54,7 +57,8 @@ class Character
 	bool
 	Update()
 	{
-		Collision::Update();
+		bool b = Collision::Update();
+		ai.Update(b);
 		Object::Update();
 
 		HP -= main_world->hurt_area.Is_in_area(Object::pos_x, Object::pos_y);
@@ -84,6 +88,7 @@ class Character
 	Hitbox main_hitbox;
 
 protected:
+	AI ai;
 
 	World* main_world;
 

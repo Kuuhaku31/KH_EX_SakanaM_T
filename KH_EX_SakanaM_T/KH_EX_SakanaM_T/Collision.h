@@ -19,11 +19,11 @@ class Collision
 		, coll_area(coll_area)
 	{}
 
-	void
+	bool
 	Update()
 	{
 		update_test_points();
-		test_area();
+		return test_area();
 	}
 
 	void
@@ -192,7 +192,7 @@ private:
 		test_point_12_y = y + _tp_12_dy;
 	}
 
-	inline void
+	inline bool
 	test_area()
 	{
 		double F_1 = 200;
@@ -289,10 +289,14 @@ private:
 			force_x += F_1;
 		}
 
-		if (move_x) { obj->Stop_obj_x(); }
-		if (move_y) { obj->Stop_obj_y(); }
+		bool b = false;
+
+		if (move_x) { obj->Stop_obj_x(); b = 1; }
+		if (move_y) { obj->Stop_obj_y(); b = 1; }
 
 		obj->Force(force_x, force_y);
 		obj->Move(move_x, move_y);
+
+		return b;
 	}
 };
