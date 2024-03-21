@@ -12,10 +12,10 @@ class Shape_Maker
 	static void
 	Write(Shape* shape, IMAGE* input, int k = 1)
 	{
-		DWORD* input_buffer = GetImageBuffer(input);
+		unsigned long* input_buffer = GetImageBuffer(input);
 		int input_long = input->getwidth() * input->getheight();
 
-		DWORD* shape_buffer = shape->Get_buffer();
+		unsigned long* shape_buffer = shape->Get_buffer();
 		int shape_long = shape->Get_shape_size();
 
 		for (int i = 0, p = 0; i < input_long; i++)

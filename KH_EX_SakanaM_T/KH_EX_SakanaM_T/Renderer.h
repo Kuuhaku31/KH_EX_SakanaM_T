@@ -16,21 +16,6 @@ class Renderer
 	{ Reset_skin(img); }
 
 	void
-	Set_alpha(double a)
-	{
-		DWORD alpha = a * 0xff;
-		if (alpha < 0) { alpha = 0; }
-		if (alpha > 0xff) { alpha = 0xff; }
-		alpha <<= 24;
-
-		for (int i = 0; i < shape_long; i++)
-		{
-			shape_buffer[i] &= 0x00ffffff;
-			shape_buffer[i] |= alpha;
-		}
-	}
-
-	void
 	Reset_skin(IMAGE* img = nullptr)
 	{
 		if (img) { Write(GetImageBuffer(img), img->getwidth(), img->getheight()); }

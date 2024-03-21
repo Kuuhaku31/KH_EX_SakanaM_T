@@ -4,24 +4,22 @@
 #include "Map.h"
 #include "Boom.h"
 
-const int MAINWORLDWIDE = 1600;
-const int MAINWORLDHIGH = 1280;
-const int MAINWORLDLONG = MAINWORLDWIDE * MAINWORLDHIGH;
+//const int MAINWORLDWIDE = 1600;
+//const int MAINWORLDHIGH = 1280;
+//const int MAINWORLDLONG = MAINWORLDWIDE * MAINWORLDHIGH;
 
 class World
 {	public:
-	World()
-		: main_map(MAINWORLDWIDE, MAINWORLDHIGH)
-		, wall_map(MAINWORLDWIDE, MAINWORLDHIGH)
-		, fire_map(MAINWORLDWIDE, MAINWORLDHIGH)
-		, coll_area(MAINWORLDWIDE, MAINWORLDHIGH)
-		, hurt_area(MAINWORLDWIDE, MAINWORLDHIGH)
-	{
-		for (int i = 0; i < MAX_BOOMS; i++)
-		{
-			booms[i] = nullptr;
-		}
-	}
+	World(unsigned int w, unsigned int h)
+		: world_wide(w)
+		, world_high(h)
+		, world_long(w* h)
+		, main_map(w, h)
+		, wall_map(w, h)
+		, fire_map(w, h)
+		, coll_area(w, h)
+		, hurt_area(w, h)
+	{}
 
 	void
 	Update_booms()
@@ -30,7 +28,6 @@ class World
 		{
 			if (!booms[i]->Update())
 			{
-				hurt_area.Add_area(booms[i], true);
 				boom_count--;
 				delete booms[i];
 				booms[i] = booms[boom_count];
@@ -45,7 +42,6 @@ class World
 		if (boom_count < MAX_BOOMS)
 		{
 			booms[boom_count] = b;
-			hurt_area.Add_area(b);
 			boom_count++;
 		}
 		else
@@ -63,7 +59,11 @@ class World
 
 private:
 	
-	static const int MAX_BOOMS = 100;
+	static const unsigned int MAX_BOOMS = 100;
 	Boom* booms[MAX_BOOMS] = { nullptr };
 	int boom_count = 0;
+
+	unsigned int world_wide;
+	unsigned int world_high;
+	unsigned int world_long;
 };

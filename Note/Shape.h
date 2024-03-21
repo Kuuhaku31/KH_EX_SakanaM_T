@@ -4,12 +4,12 @@
 class Shape
 {
 public:
-	Shape(int w, int h, DWORD b = 0)
+	Shape(int w, int h, unsigned long b = 0)
 		: shape_wide(w)
 		, shape_high(h)
 		, shape_size(w * h)
 	{
-		shape_buffer = new DWORD[shape_size];
+		shape_buffer = new unsigned long[shape_size];
 		Clear(b); 
 	}
 	~Shape() { delete[] shape_buffer; }
@@ -28,13 +28,13 @@ public:
 	(int x, int y) const
 	{ return Is_in_shape(y * shape_wide + x); }
 
-	DWORD*
+	unsigned long*
 	Get_buffer() const
 	{ return shape_buffer; }
 
 	void
 	Draw
-	(int x, int y, int wide, int high, DWORD b)
+	(int x, int y, int wide, int high, unsigned long b)
 	{
 		if (x < 0) { x = 0; }
 		if (y < 0) { y = 0; }
@@ -55,7 +55,7 @@ public:
 	}
 
 	void
-	Clear(DWORD b = 0)
+	Clear(unsigned long b = 0)
 	{
 		for (int i = 0; i < shape_size; i++)
 		{ shape_buffer[i] = b; }
@@ -69,14 +69,14 @@ public:
 	}
 
 	void
-	Write(const DWORD* input, int input_long)
+	Write(const unsigned long* input, int input_long)
 	{
 		for (int i = 0; i < input_long; i++)
 		{ shape_buffer[i] = input[i] == 0 ? 0 : 0xffffff; }
 	}
 
 protected:
-	DWORD* shape_buffer;
+	unsigned long* shape_buffer;
 	const int shape_wide;
 	const int shape_high;
 	const int shape_size;

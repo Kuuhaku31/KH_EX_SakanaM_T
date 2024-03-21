@@ -11,7 +11,7 @@ Fun_0()
 }
 
 void
-fun(DWORD* a, DWORD* b)
+fun(unsigned long* a, unsigned long* b)
 {
 	*a = *a | *b;
 }
@@ -30,8 +30,8 @@ Fun_2()
 	Shape_Maker::PrintShape(shape1);
 	Shape_Maker::PrintShape(shape2);
 
-	DWORD* buffer1 = shape1->Get_buffer();
-	DWORD* buffer2 = shape2->Get_buffer();
+	unsigned long* buffer1 = shape1->Get_buffer();
+	unsigned long* buffer2 = shape2->Get_buffer();
 
 	int wide1 = shape1->Get_shape_wide();
 	int high1 = shape1->Get_shape_high();
@@ -41,7 +41,7 @@ Fun_2()
 	int high2 = shape2->Get_shape_high();
 	int size2 = shape2->Get_shape_size();
 
-	Matrix::Write<DWORD>(buffer1, wide1, high1, size1, buffer2, wide2, high2, size2, -1, 0, fun);
+	Matrix::Write<unsigned long>(buffer1, wide1, high1, size1, buffer2, wide2, high2, size2, -1, 0, fun);
 
 	Shape_Maker::PrintShape(shape1);
 	Shape_Maker::PrintShape(shape2);

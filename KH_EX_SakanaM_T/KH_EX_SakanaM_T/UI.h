@@ -18,13 +18,13 @@ class UI
 		graph_long = l;
 
 		delete[] ui_buffer;
-		ui_buffer = new DWORD[w * h];
+		ui_buffer = new unsigned long[w * h];
 	}
 
 	void
 	Rending(Renderer* ren)
 	{
-		Matrix::Write<DWORD>
+		Matrix::Write<unsigned long>
 			(
 				  graph_buffer
 				, graph_wide
@@ -56,15 +56,15 @@ class UI
 
 private:
 
-	DWORD* graph_buffer = nullptr;
+	unsigned long* graph_buffer = nullptr;
 	int graph_wide = 0;
 	int graph_high = 0;
 	int graph_long = 0;
 
-	DWORD* ui_buffer = nullptr;
+	unsigned long* ui_buffer = nullptr;
 
 	static inline void
-	mix_color(DWORD* c1, DWORD* c2)
+	mix_color(unsigned long* c1, unsigned long* c2)
 	{
 		int a2 = (*c2 & 0xff000000) >> 24;
 		if (!a2) { return; }

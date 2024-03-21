@@ -13,9 +13,9 @@ class MainGame
 	{
 		init();
 
-		DWORD start_time = 0;
-		DWORD end___time = 0;
-		DWORD delta_time = 0;
+		unsigned long start_time = 0;
+		unsigned long end___time = 0;
+		unsigned long delta_time = 0;
 
 		BeginBatchDraw();
 		do
@@ -35,8 +35,9 @@ private:
 	HWND graph_HWND = nullptr;
 	HDC graph_HDC = nullptr;
 
-	Library* library = nullptr;
-	Input* input = nullptr;
+	Library library;
+	Input input;
+
 	Camera* camera = nullptr;
 	UI* ui = nullptr;
 
@@ -59,10 +60,7 @@ private:
 		setbkcolor(DARKGRAY);
 		cleardevice();
 
-		library = new Library();
-		library->Init();
-
-		input = new Input();
+		library.Init();
 
 		double k = 1.0 / 4.0;
 		camera = new Camera();
@@ -72,7 +70,7 @@ private:
 		ui = new UI();
 		ui->New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
 
-		main_game_scene = new GameScene(library, input, camera, ui);
+		main_game_scene = new GameScene(&library, &input, camera, ui);
 	}
 
 	inline bool
@@ -86,10 +84,8 @@ private:
 	inline void
 	over()
 	{
-		library->Delete();
+		library.Delete();
 
-		delete library;
-		delete input;
 		delete camera;
 		delete ui;
 

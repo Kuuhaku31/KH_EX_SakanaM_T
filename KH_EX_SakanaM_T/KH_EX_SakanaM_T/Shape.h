@@ -7,18 +7,18 @@ class Shape
 {
 public:
 	Shape() {}
-	Shape(DWORD* b, int w, int h)
+	Shape(unsigned long* b, int w, int h)
 	{
 		if (!b) { return; }
-		shape_buffer = new DWORD[w * h];
+		shape_buffer = new unsigned long[w * h];
 		shape_wide = w;
 		shape_high = h;
 		shape_long = w * h;
 		for (int i = 0; i < shape_long; i++) { shape_buffer[i] = b[i]; }
 	}
-	Shape(int w, int h, DWORD v = 0x00000000)
+	Shape(int w, int h, unsigned long v = 0x00000000)
 	{
-		shape_buffer = new DWORD[w * h];
+		shape_buffer = new unsigned long[w * h];
 		shape_wide = w;
 		shape_high = h;
 		shape_long = w * h;
@@ -30,19 +30,19 @@ public:
 	int	Get_shape_high() const { return shape_high; }
 	int Get_shape_long() const { return shape_long; }
 
-	DWORD
+	unsigned long
 	Is_in_shape(int n) const
 	{
 		return n < 0 || n >= shape_long ? 0 : shape_buffer[n];
 	}
 
-	DWORD
+	unsigned long
 	Is_in_shape(int x, int y) const
 	{
 		return Is_in_shape(y * shape_wide + x);
 	}
 
-	DWORD*
+	unsigned long*
 	Get_buffer() const
 	{
 		return shape_buffer;
@@ -52,11 +52,26 @@ public:
 	int Get_high() const { return shape_high; }
 
 	void
+	Set_alpha(double a)
+	{
+		unsigned long alpha = a * 0xff;
+		if (alpha < 0) { alpha = 0; }
+		if (alpha > 0xff) { alpha = 0xff; }
+		alpha <<= 24;
+
+		for (int i = 0; i < shape_long; i++)
+		{
+			shape_buffer[i] &= 0x00ffffff;
+			shape_buffer[i] |= alpha;
+		}
+	}
+
+	void
 	Add_shape(Shape* shape, int x, int y, bool is_neg = false)
 	{
 		if (is_neg)
 		{
-			Matrix::Write<DWORD>
+			Matrix::Write<unsigned long>
 				(
 					shape_buffer
 					, shape_wide
@@ -74,7 +89,7 @@ public:
 		}
 		else
 		{
-			Matrix::Write<DWORD>
+			Matrix::Write<unsigned long>
 				(
 					shape_buffer
 					, shape_wide
@@ -103,7 +118,7 @@ public:
 	}
 
 	void
-	Draw(int x, int y, int wide, int high, DWORD b)
+	Draw(int x, int y, int wide, int high, unsigned long b)
 	{
 		if (x < 0) { x = 0; }
 		if (y < 0) { y = 0; }
@@ -124,7 +139,7 @@ public:
 	}
 
 	void
-	Write(const DWORD* b, int w, int h)
+	Write(const unsigned long* b, int w, int h)
 	{
 		Resize_shape(w, h);
 		for (int i = 0; i < shape_long; i++)
@@ -141,7 +156,7 @@ public:
 		else
 		{
 			delete[] shape_buffer;
-			shape_buffer = new DWORD[w * h];
+			shape_buffer = new unsigned long[w * h];
 			shape_wide = w;
 			shape_high = h;
 			shape_long = w * h;
@@ -149,14 +164,14 @@ public:
 	}
 
 	void
-	Clear(DWORD b = 0)
+	Clear(unsigned long b = 0)
 	{
 		for (int i = 0; i < shape_long; i++)
 		{ shape_buffer[i] = b; }
 	}
 
 	void
-	Clear_shape(DWORD b = 0xffffffff)
+	Clear_shape(unsigned long b = 0xffffffff)
 	{
 		for (int i = 0; i < shape_long; i++)
 		{ if (shape_buffer[i]) { shape_buffer[i] = b; } }
@@ -172,7 +187,7 @@ public:
 	}
 
 	void 
-	Fill_circle(int centerX, int centerY, int radius, DWORD value)
+	Fill_circle(int centerX, int centerY, int radius, unsigned long value)
 	{
 		for (int y = -radius; y <= radius; y++)
 		{
@@ -192,13 +207,13 @@ public:
 
 protected:
 
-	DWORD* shape_buffer = nullptr;
+	unsigned long* shape_buffer = nullptr;
 	int shape_wide = 0;
 	int shape_high = 0;
 	int shape_long = 0;
 
 private:
-	inline static void fun_1(DWORD* a, DWORD* b) { *a += *b; }
-	inline static void fun_2(DWORD* a, DWORD* b) { *a -= *b; }
+	inline static void fun_1(unsigned long* a, unsigned long* b) { *a += *b; }
+	inline static void fun_2(unsigned long* a, unsigned long* b) { *a -= *b; }
 };
 

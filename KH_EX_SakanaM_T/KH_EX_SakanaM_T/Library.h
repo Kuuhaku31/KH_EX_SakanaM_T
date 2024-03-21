@@ -55,41 +55,18 @@ class Library
 	//====================================================================================================
 	//====================================================================================================
 
-	IMAGE char_size0_num_0;
-	IMAGE char_size0_num_1;
-	IMAGE char_size0_num_2;
-	IMAGE char_size0_num_3;
-	IMAGE char_size0_num_4;
-	IMAGE char_size0_num_5;
-	IMAGE char_size0_num_6;
-	IMAGE char_size0_num_7;
-	IMAGE char_size0_num_8;
-	IMAGE char_size0_num_9;
+	IMAGE char_size0_num[10];
 
-	std::string path_char_size0_num_0 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_0.png";
-	std::string path_char_size0_num_1 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_1.png";
-	std::string path_char_size0_num_2 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_2.png";
-	std::string path_char_size0_num_3 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_3.png";
-	std::string path_char_size0_num_4 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_4.png";
-	std::string path_char_size0_num_5 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_5.png";
-	std::string path_char_size0_num_6 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_6.png";
-	std::string path_char_size0_num_7 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_7.png";
-	std::string path_char_size0_num_8 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_8.png";
-	std::string path_char_size0_num_9 = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_9.png";
+	std::string path_char_size0_num = "./KH_EX_SakanaM_T/Material/Chars/char_size0_num_";
+	std::string _png = ".png";
 
 	inline void
 	init_nums()
 	{
-		loadimage(&char_size0_num_0, path_char_size0_num_0.c_str());
-		loadimage(&char_size0_num_1, path_char_size0_num_1.c_str());
-		loadimage(&char_size0_num_2, path_char_size0_num_2.c_str());
-		loadimage(&char_size0_num_3, path_char_size0_num_3.c_str());
-		loadimage(&char_size0_num_4, path_char_size0_num_4.c_str());
-		loadimage(&char_size0_num_5, path_char_size0_num_5.c_str());
-		loadimage(&char_size0_num_6, path_char_size0_num_6.c_str());
-		loadimage(&char_size0_num_7, path_char_size0_num_7.c_str());
-		loadimage(&char_size0_num_8, path_char_size0_num_8.c_str());
-		loadimage(&char_size0_num_9, path_char_size0_num_9.c_str());
+		for (int i = 0; i < 10; i++)
+		{
+			loadimage(&char_size0_num[i], (path_char_size0_num + std::to_string(i) + _png).c_str());
+		}
 	}
 
 	//====================================================================================================
@@ -210,12 +187,12 @@ class Library
 	IMAGE
 	Reverse_img(IMAGE* img)
 	{
-		DWORD* input_buffer = GetImageBuffer(img);
+		unsigned long* input_buffer = GetImageBuffer(img);
 		int wigh = img->getwidth();
 		int high = img->getheight();
 
 		IMAGE output(wigh, high);
-		DWORD* output_buffer = GetImageBuffer(&output);
+		unsigned long* output_buffer = GetImageBuffer(&output);
 
 		for (int i = 0; i < high; i++)
 		{

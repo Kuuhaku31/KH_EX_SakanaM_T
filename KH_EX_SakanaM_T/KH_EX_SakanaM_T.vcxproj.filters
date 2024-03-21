@@ -7,6 +7,15 @@
     <Filter Include="code\Character">
       <UniqueIdentifier>{191384c3-f03c-45fe-b70e-fb0d220a0396}</UniqueIdentifier>
     </Filter>
+    <Filter Include="code\Shape">
+      <UniqueIdentifier>{ea7508fa-c57f-4651-917b-c9b493d524bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="code\Scene">
+      <UniqueIdentifier>{ada217cc-d2a9-435b-a878-5fadfb8136e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="code\main">
+      <UniqueIdentifier>{756f2d78-86f8-428b-8c6d-4297fb5b86c4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KH_EX_SakanaM_T\Animate.h">
@@ -30,9 +39,6 @@
     <ClInclude Include="KH_EX_SakanaM_T\Collision.h">
       <Filter>code</Filter>
     </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\GameScene.h">
-      <Filter>code</Filter>
-    </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Hitbox.h">
       <Filter>code</Filter>
     </ClInclude>
@@ -40,9 +46,6 @@
       <Filter>code</Filter>
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Library.h">
-      <Filter>code</Filter>
-    </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\MainGame.h">
       <Filter>code</Filter>
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Map.h">
@@ -66,12 +69,6 @@
     <ClInclude Include="KH_EX_SakanaM_T\Renderer.h">
       <Filter>code</Filter>
     </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\Scene.h">
-      <Filter>code</Filter>
-    </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\Shape.h">
-      <Filter>code</Filter>
-    </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Shape_Maker.h">
       <Filter>code</Filter>
     </ClInclude>
@@ -93,13 +90,31 @@
     <ClInclude Include="KH_EX_SakanaM_T\Fish.h">
       <Filter>code\Character</Filter>
     </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Slideboard.h">
+      <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Shape.h">
+      <Filter>code\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\GameScene.h">
+      <Filter>code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Scene.h">
+      <Filter>code\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\MainGame.h">
+      <Filter>code\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KH_EX_SakanaM_T\GameScene.cpp">
+      <Filter>code\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="KH_EX_SakanaM_T\Slideboard.cpp">
       <Filter>code</Filter>
     </ClCompile>
     <ClCompile Include="KH_EX_SakanaM_T\main.cpp">
-      <Filter>code</Filter>
+      <Filter>code\main</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -47,10 +47,10 @@ private:
 	void
 	fill(int color, int x, int y, int w, int h)
 	{
-		DWORD fill_color = color | 0xff000000;
+		unsigned long fill_color = color | 0xff000000;
 
 		int p_s = w * h;
-		DWORD* p = new DWORD[p_s];
+		unsigned long* p = new unsigned long[p_s];
 		for (int i = 0; i < p_s; i++)
 		{ p[i] = fill_color; }
 
@@ -73,6 +73,6 @@ private:
 	}
 
 	static void
-	fun(DWORD* a, DWORD* b)
+	fun(unsigned long* a, unsigned long* b)
 	{ *a = *b; }
 };

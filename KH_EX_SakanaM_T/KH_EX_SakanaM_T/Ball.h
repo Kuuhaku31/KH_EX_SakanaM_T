@@ -41,7 +41,7 @@ class Ball:
 	Boom*
 	Explode()
 	{
-		return new Boom(pos_x, pos_y, 20, 10);
+		return new Boom(&main_world->hurt_area, pos_x, pos_y, 20, 10);
 	}
 
 	Renderer*

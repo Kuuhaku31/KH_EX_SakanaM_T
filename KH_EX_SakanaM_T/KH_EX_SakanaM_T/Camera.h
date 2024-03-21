@@ -49,7 +49,7 @@ class Camera
 	{
 		if (ren)
 		{
-			Matrix::Write<DWORD>
+			Matrix::Write<unsigned long>
 				(
 					sight_buffer
 					, sight_wide
@@ -70,7 +70,7 @@ class Camera
 	void
 	Rending_(Renderer* ren)
 	{
-		SMatrix<DWORD> S
+		SMatrix<unsigned long> S
 			(
 				sight_buffer
 				, sight_wide
@@ -87,8 +87,8 @@ class Camera
 			);
 
 		//S.DO();
-		DWORD* a = nullptr;
-		DWORD* b = nullptr;
+		unsigned long* a = nullptr;
+		unsigned long* b = nullptr;
 		if (S.Update(&a, &b))
 		{
 			mix_color(a, b);
@@ -98,7 +98,7 @@ class Camera
 	void
 	Rending_A(Area* area)
 	{
-		Matrix::Write<DWORD>
+		Matrix::Write<unsigned long>
 			(
 				sight_buffer
 				, sight_wide
@@ -159,7 +159,7 @@ private:
 	int graph_long = 0;
 
 	IMAGE sight;
-	DWORD* sight_buffer = nullptr;
+	unsigned long* sight_buffer = nullptr;
 	HDC sight_HDC = nullptr;
 	int sight_wide = 0;
 	int sight_high = 0;
@@ -171,18 +171,18 @@ private:
 	double ky = 1.0;
 
 	static void
-	fun_add_A(DWORD* a, DWORD* b)
+	fun_add_A(unsigned long* a, unsigned long* b)
 	{
 		if (*b)
 		{
-			DWORD d = ((*b * 0xff )/ 20000) << 24;
-			DWORD c = 0x00000000 | d;
+			unsigned long d = ((*b * 0xff )/ 20000) << 24;
+			unsigned long c = 0x00000000 | d;
 			mix_color(a, &c);
 		}
 	}
 
 	static inline void
-	mix_color(DWORD* c1, DWORD* c2)
+	mix_color(unsigned long* c1, unsigned long* c2)
 	{
 		int a2 = (*c2 & 0xff000000) >> 24;
 		if (!a2) { return; }

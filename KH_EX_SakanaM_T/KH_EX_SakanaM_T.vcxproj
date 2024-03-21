@@ -44,6 +44,7 @@
     <ClInclude Include="KH_EX_SakanaM_T\Scene.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Shape.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Shape_Maker.h" />
+    <ClInclude Include="KH_EX_SakanaM_T\Slideboard.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Target.h" />
     <ClInclude Include="KH_EX_SakanaM_T\UI.h" />
     <ClInclude Include="KH_EX_SakanaM_T\World.h" />
@@ -51,6 +52,7 @@
   <ItemGroup>
     <ClCompile Include="KH_EX_SakanaM_T\GameScene.cpp" />
     <ClCompile Include="KH_EX_SakanaM_T\main.cpp" />
+    <ClCompile Include="KH_EX_SakanaM_T\Slideboard.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
