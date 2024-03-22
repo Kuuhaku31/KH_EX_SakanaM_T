@@ -195,11 +195,11 @@ private:
 	inline bool
 	test_area()
 	{
-		double F_1 = 200;
-		double F_2 = 500;
+		float F_1 = 200;
+		float F_2 = 500;
 
-		double force_x = 0.0;
-		double force_y = 0.0;
+		float force_x = 0.0;
+		float force_y = 0.0;
 
 		int move_x = 0;
 		int move_y = 0;

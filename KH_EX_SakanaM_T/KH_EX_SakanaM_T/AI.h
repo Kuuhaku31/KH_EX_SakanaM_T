@@ -30,8 +30,8 @@ private:
 
 	Object* obj;
 
-	double fx = 0;
-	double fy = 0;
+	float fx = 0;
+	float fy = 0;
 
 	int
 	getRandomNumber(int min = -1000, int max = +1000)

@@ -100,10 +100,10 @@ private:
 	const int spawn_point_2_x = 400;
 	const int spawn_point_2_y = 100;
 
-	const double friction = 50.0;
-	const double friction_m = 0.1;
-	const double restitution = 0.1;
-	const double restitution_m = 0.1;
+	const float friction = 50.0;
+	const float friction_m = 0.1;
+	const float restitution = 0.1;
+	const float restitution_m = 0.1;
 
 	void init_area();
 	void init_character();

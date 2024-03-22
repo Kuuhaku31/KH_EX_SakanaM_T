@@ -62,7 +62,7 @@ private:
 
 		library.Init();
 
-		double k = 1.0 / 4.0;
+		float k = 1.0 / 4.0;
 		camera = new Camera();
 		camera->New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
 		camera->Reset_sight(GRAPHWIDE * k, GRAPHHIGH * k);

@@ -7,7 +7,7 @@ GameScene::Update()
 	input->GetInput();
 	if (input->enter) { return false; }
 
-	double x1 = 0, y1 = 0, x2 = 0, y2 = 0, x3 = 0, y3 = 0;
+	float x1 = 0, y1 = 0, x2 = 0, y2 = 0, x3 = 0, y3 = 0;
 	if (input->key_W) { y1--; }
 	if (input->key_S) { y1++; }
 	if (input->key_A) { x1--; sakana->Face_to_L(); }
@@ -37,11 +37,11 @@ GameScene::Update()
 		camera->Reset_sight(w - 16, h - 9);
 	}
 
-	double FORCE_01 = 500;
-	double FORCE_02 = 1000;
+	float FORCE_01 = 500;
+	float FORCE_02 = 1000;
 
-	double V_01 = 100;
-	double V_02 = 10;
+	float V_01 = 100;
+	float V_02 = 10;
 
 	if (Matrix::to_unit(&x1, &y1)) { sakana->Force(x1 * FORCE_01, y1 * FORCE_01); }
 	if (Matrix::to_unit(&x2, &y2)) { ikacyann->Force(x2 * FORCE_01, y2 * FORCE_01); }
@@ -59,8 +59,8 @@ GameScene::Update()
 	int sakana_w_x = sakana->Object::Get_x();
 	int sakana_w_y = sakana->Object::Get_y();
 
-	double x0 = sakana_w_x - camera_man_w_x;
-	double y0 = sakana_w_y - camera_man_w_y;
+	float x0 = sakana_w_x - camera_man_w_x;
+	float y0 = sakana_w_y - camera_man_w_y;
 
 	if (ball_num < 100 && space && input->space)
 	{
@@ -71,8 +71,8 @@ GameScene::Update()
 		balls[ball_num]->break_animate.Set_cuts(library->animate_skin_for_ball_break, library->num_of_animate_skin_for_ball_break);
 		balls[ball_num]->break_animate.Set(3, false, true);
 
-		double x = mouse_w_x - sakana_w_x;
-		double y = mouse_w_y - sakana_w_y;
+		float x = mouse_w_x - sakana_w_x;
+		float y = mouse_w_y - sakana_w_y;
 
 		if (Matrix::to_unit(&x, &y))
 		{
@@ -125,7 +125,7 @@ void
 GameScene::init_area()
 {
 	main_world.main_map.Resize_shape(MAINWORLDWIDE, MAINWORLDHIGH);
-	main_world.main_map.Clear(10000);
+	main_world.main_map.Clear(20000);
 	main_world.wall_map.Write(GetImageBuffer(&library->_area_wall_01), MAINWORLDWIDE, MAINWORLDHIGH);
 	main_world.coll_area.Resize_shape(MAINWORLDWIDE, MAINWORLDHIGH);
 	main_world.coll_area.Clear();

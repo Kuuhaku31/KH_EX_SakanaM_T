@@ -167,8 +167,8 @@ private:
 	int half_sight_wide = 0;
 	int half_sight_high = 0;
 
-	double kx = 1.0;
-	double ky = 1.0;
+	float kx = 1.0;
+	float ky = 1.0;
 
 	static void
 	fun_add_A(unsigned long* a, unsigned long* b)

@@ -32,7 +32,7 @@ class Character
 		, animate_skin_R(static_cast<Object*>(this))
 		, animate_skin_L(static_cast<Object*>(this))
 
-		, ai(this)
+		//, ai(this)
 	{}
 
 	int GetHP() const { return HP; }
@@ -58,7 +58,7 @@ class Character
 	Update()
 	{
 		bool b = Collision::Update();
-		ai.Update(b);
+		//ai.Update(b);
 		Object::Update();
 
 		HP -= main_world->hurt_area.Is_in_area(Object::pos_x, Object::pos_y);
@@ -88,7 +88,7 @@ class Character
 	Hitbox main_hitbox;
 
 protected:
-	AI ai;
+	//AI ai;
 
 	World* main_world;
 

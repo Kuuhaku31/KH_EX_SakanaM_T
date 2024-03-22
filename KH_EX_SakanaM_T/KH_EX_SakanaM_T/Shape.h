@@ -52,7 +52,7 @@ public:
 	int Get_high() const { return shape_high; }
 
 	void
-	Set_alpha(double a)
+	Set_alpha(float a)
 	{
 		unsigned long alpha = a * 0xff;
 		if (alpha < 0) { alpha = 0; }
