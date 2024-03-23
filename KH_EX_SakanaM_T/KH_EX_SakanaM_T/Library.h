@@ -18,6 +18,11 @@ class Library
 	IMAGE _area_main;
 	std::string _path_skin_main = "./KH_EX_SakanaM_T/Material/skin_main.png";
 	IMAGE _skin_main;
+	Renderer ren_main_map;
+	void init_ren_main_map()
+	{
+
+	}
 
 	std::string _path_skin_wall_01 = "./KH_EX_SakanaM_T/Material/skin_wall_01.png";
 	IMAGE _skin_wall_01;
@@ -75,12 +80,6 @@ class Library
 	//====================================================================================================
 	//====================================================================================================
 
-	std::string _path_hitbox_size16 = "./KH_EX_SakanaM_T/Material/hitbox/hitbox16.png";
-	IMAGE _hitbox_size16;
-	int _hitbox_size16_wigh = 0;
-	int _hitbox_size16_high = 0;
-	int _hitbox_size16_long = 0;
-
 	std::string _path_coll_size32 = "./KH_EX_SakanaM_T/Material/collision/size32.png";
 	IMAGE _coll_size32;
 	std::string _path_coll_size64 = "./KH_EX_SakanaM_T/Material/collision/size64.png";
@@ -90,12 +89,9 @@ class Library
 	IMAGE bar_02;
 	IMAGE bar_03;
 
-
 	void
 	Init()
 	{
-		init_nums();
-
 		loadimage(&_area_main, _path_area_main.c_str());
 		loadimage(&_skin_main, _path_skin_main.c_str());
 		loadimage(&_skin_wall_01, _path_skin_wall_01.c_str());
@@ -119,32 +115,18 @@ class Library
 		loadimage(&_unit_skin_wall_02, _path_unit_skin_wall_02.c_str());
 		loadimage(&_unit_area_wall_01, _path_unit_area_wall_01.c_str());
 
-		loadimage(&_hitbox_size16, _path_hitbox_size16.c_str());
-		_hitbox_size16_wigh = _hitbox_size16.getwidth();
-		_hitbox_size16_high = _hitbox_size16.getheight();
-		_hitbox_size16_long = _hitbox_size16_wigh * _hitbox_size16_high;
+		
 
 		loadimage(&_coll_size32, _path_coll_size32.c_str());
 		loadimage(&_coll_size64, _path_coll_size64.c_str());
 
-		/*loadimage(&bar_01, "./KH_EX_SakanaM_T/Material/bar_01.png");
-		loadimage(&bar_02, "./KH_EX_SakanaM_T/Material/bar_02.png");
-		loadimage(&bar_03, "./KH_EX_SakanaM_T/Material/bar_03.png");*/
-
-		//Shape_Maker maker;
-		//main = maker.Make(_area_main, 320);
-		//wall = maker.Make(_area_wall_01, 32);
-		////fire = maker.Make(_area_main);
-
-		//coll_size16 = maker.Make(_coll_size16);
-		//coll_size32 = maker.Make(_coll_size32);
-		//coll_size64 = maker.Make(_coll_size64);
-
+		
+		init_nums();
 		Init_animate_skin_for_sakana();
 		Init_animate_skin_for_ikacyann();
 		Init_animate_skin_for_ball_break();
 
-		Init_crab_hitbox();
+		init_crab_hitbox();
 	}
 
 	void
@@ -194,13 +176,16 @@ class Library
 	}
 
 	Hitbox crab_hitbox;
-	void Init_crab_hitbox()
+	void init_crab_hitbox()
 	{
-		crab_hitbox.Write(GetImageBuffer(&_hitbox_size16), _hitbox_size16_wigh, _hitbox_size16_high);
+
+		IMAGE img;
+		loadimage(&img, "./KH_EX_SakanaM_T/Material/hitbox/hitbox16.png");
+		crab_hitbox.Write(GetImageBuffer(&img), img.getwidth(), img.getheight());
 		crab_hitbox.Align();
 	}
 
-	IMAGE
+	static inline IMAGE
 	Reverse_img(IMAGE* img)
 	{
 		unsigned long* input_buffer = GetImageBuffer(img);

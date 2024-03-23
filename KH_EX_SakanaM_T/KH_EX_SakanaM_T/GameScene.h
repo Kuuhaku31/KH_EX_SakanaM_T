@@ -13,40 +13,8 @@
 class GameScene 
 	: public Scene
 {	public:
-	GameScene(Library* library, Input* input, Camera* camera, UI* ui)
-		: Scene(library, input, camera, ui)
-		, main_world(1600, 1280)
-		, camera_man(&main_world.main_map)
-		, frame_board(ui)
-		, sakana_wp_x(ui)
-		, sakana_wp_y(ui)
-	{
-		Slideboard::Init_nums(library->char_size0_num);
-		Crab::crab_animate_skin_R.Copy(&library->animate_for_ikacyann);
-		Crab::crab_animate_skin_R.Set(60, 1, 1);
-		Crab::crab_animate_skin_L.Copy(&library->animate_for_ikacyann);
-		Crab::crab_animate_skin_L.Set(60, 1, 1);
-		Crab::crab_hitbox.Copy(&library->crab_hitbox);
-		Crab::crab_hitbox.main_world = &main_world;
-
-		init_area();
-		init_character();
-
-		camera->Set_position(&camera_man);
-		camera_man.Set_obj_m(100.0);
-		camera_man.Set_drag(friction, friction_m, restitution, restitution_m);
-
-		mouse = new Mouse(&library->_skin_target);
-		ui_mouse = new Target(&library->_skin_target);
-
-		sakana_wp_x.Move_to(15, 50);
-		sakana_wp_x.Set_bits(4);
-		sakana_wp_y.Move_to(15, 70);
-		sakana_wp_y.Set_bits(4);
-
-		frame_board.Move_to(15, 20);
-		frame_board.Set_bits(3);
-	}
+	GameScene(Library* library, Input* input, Camera* camera, UI* ui);
+		
 
 	~GameScene()
 	{

@@ -1,7 +1,41 @@
 
 #include "GameScene.h"
 
-bool 
+GameScene::GameScene(Library* library, Input* input, Camera* camera, UI* ui)
+	: Scene(library, input, camera, ui)
+	, main_world(1600, 1280)
+	, camera_man(&main_world.main_map)
+	, frame_board(ui)
+	, sakana_wp_x(ui)
+	, sakana_wp_y(ui)
+{
+	Slideboard::Init_nums(library->char_size0_num);
+	Crab::crab_animate_skin_R.Copy(&library->animate_for_ikacyann);
+	Crab::crab_animate_skin_R.Set(60, 1, 1);
+	Crab::crab_animate_skin_L.Copy(&library->animate_for_ikacyann);
+	Crab::crab_animate_skin_L.Set(60, 1, 1);
+	Crab::crab_hitbox.Copy(&library->crab_hitbox);
+
+	init_area();
+	init_character();
+
+	camera->Set_position(&camera_man);
+	camera_man.Set_obj_m(100.0);
+	camera_man.Set_drag(friction, friction_m, restitution, restitution_m);
+
+	mouse = new Mouse(&library->_skin_target);
+	ui_mouse = new Target(&library->_skin_target);
+
+	sakana_wp_x.Move_to(15, 50);
+	sakana_wp_x.Set_bits(4);
+	sakana_wp_y.Move_to(15, 70);
+	sakana_wp_y.Set_bits(4);
+
+	frame_board.Move_to(15, 20);
+	frame_board.Set_bits(3);
+}
+
+bool
 GameScene::Update()
 {
 	input->GetInput();
@@ -105,11 +139,11 @@ GameScene::Update()
 		R = true;
 	}
 
-	sakana->main_hitbox.Add_hit_box_to_area();
+	sakana->main_hitbox.Add_hit_box_to_area(&main_world.coll_area);
 
 	for (int i = 0; i < crab_count; i++)
 	{
-		crabs[i]->main_hitbox.Add_hit_box_to_area();
+		crabs[i]->main_hitbox.Add_hit_box_to_area(&main_world.coll_area);
 	}
 
 	main_world.Update_booms();
@@ -138,10 +172,10 @@ GameScene::Update()
 
 	camera_man.Move_to(sakana_w_x, sakana_w_y);
 
-	sakana->main_hitbox.Delete_hitbox_from_area();
+	sakana->main_hitbox.Delete_hitbox_from_area(&main_world.coll_area);
 	for (int i = 0; i < crab_count; i++)
 	{
-		crabs[i]->main_hitbox.Delete_hitbox_from_area();
+		crabs[i]->main_hitbox.Delete_hitbox_from_area(&main_world.coll_area);
 	}
 
 	return true;
@@ -181,8 +215,9 @@ GameScene::init_character()
 	sakana->animate_skin_R.Set(30, true, true);
 	sakana->animate_skin_L.Set_cuts(library->animate_skin_for_sakana_left, library->num_of_animate_skin_for_sakana);
 	sakana->animate_skin_L.Set(30, true, true);
-	sakana->main_hitbox.Write(GetImageBuffer(&library->_hitbox_size16), library->_hitbox_size16_wigh, library->_hitbox_size16_high);
-	sakana->main_hitbox.Align();
+	sakana->main_hitbox.Copy(&library->crab_hitbox);
+	sakana->main_hitbox.Set_position(static_cast<Object*>(sakana));
+	//sakana->main_hitbox.Align();
 
 	camera->Set_position(static_cast<Object*>(sakana));
 

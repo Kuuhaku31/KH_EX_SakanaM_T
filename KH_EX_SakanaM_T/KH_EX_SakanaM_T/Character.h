@@ -26,7 +26,7 @@ class Character
 
 		, main_world(world)
 
-		, main_hitbox(world, static_cast<Object*>(this))
+		, main_hitbox(static_cast<Object*>(this))
 
 		, bar(&MAX_HP, &HP, static_cast<Object*>(this))
 		, animate_skin_R(static_cast<Object*>(this))

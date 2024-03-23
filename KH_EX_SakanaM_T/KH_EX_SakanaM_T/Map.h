@@ -31,7 +31,6 @@ class Map :
 		ren->Set_position(this, skin_x, skin_y);
 	}
 
-
 	Renderer*
 	Get_ren(int n)
 	{
@@ -42,6 +41,7 @@ class Map :
 		case 3: return &ren_skin_03;
 		}
 	}
+
 
 private:
 
