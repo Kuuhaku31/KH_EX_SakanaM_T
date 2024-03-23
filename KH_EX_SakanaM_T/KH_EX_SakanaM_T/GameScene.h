@@ -4,6 +4,7 @@
 #include "Scene.h"
 
 #include "Fish.h"
+#include "Crab.h"
 #include "Mouse.h"
 #include "Ball.h"
 #include "World.h"
@@ -78,7 +79,7 @@ private:
 
 	World main_world;
 
-	Character* ikacyann = nullptr;
+	Crab* ikacyann = nullptr;
 	Fish* sakana = nullptr;
 
 	Object camera_man;

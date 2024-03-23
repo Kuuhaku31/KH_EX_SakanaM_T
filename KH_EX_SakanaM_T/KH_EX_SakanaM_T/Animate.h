@@ -5,7 +5,7 @@
 
 class Animate : public Position
 {	public:
-	Animate(Position* pos) : Position(pos) {}
+	Animate(Position* pos = nullptr) : Position(pos) {}
 
 	void
 	Restart()
@@ -99,6 +99,24 @@ class Animate : public Position
 
 	bool is_roop = false;
 	bool is_playing = false;
+
+	void
+	operator=(Animate& a)
+	{
+		cut_num = a.cut_num;
+		cut_now = a.cut_now;
+
+		cut_timer_max = a.cut_timer_max;
+		cut_timer = a.cut_timer;
+
+		delete[] cuts;
+		cuts = new Renderer[cut_num];
+		for (int i = 0; i < cut_num; i++)
+		{
+			cuts[i] = a.cuts[i];
+			cuts[i].Set_position(this);
+		}
+	}
 
 private:
 

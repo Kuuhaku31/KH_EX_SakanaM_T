@@ -7,9 +7,11 @@
 #include "Shape_Maker.h"
 
 #include "Renderer.h"
+#include "Animate.h"
 
 class Library
 {	public:
+	Library() {}
 
 	std::string _path_area_main = "./KH_EX_SakanaM_T/Material/area_main.png";
 	IMAGE _area_main;
@@ -172,7 +174,11 @@ class Library
 		animate_skin_for_ikacyann[0].Align();
 		animate_skin_for_ikacyann[1].Reset_skin(&_skin_sakana);
 		animate_skin_for_ikacyann[1].Align();
+
+		animate_for_ikacyann.Set_cuts(animate_skin_for_ikacyann, num_of_animate_skin_for_ikacyann);
+		animate_for_ikacyann.Set(60, 1, 1);
 	}
+	Animate animate_for_ikacyann;
 
 	static const int num_of_animate_skin_for_ball_break = 2;
 	Renderer animate_skin_for_ball_break[num_of_animate_skin_for_ikacyann];
