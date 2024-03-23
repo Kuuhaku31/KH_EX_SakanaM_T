@@ -23,7 +23,9 @@ class GameScene
 	{
 		Slideboard::Init_nums(library->char_size0_num);
 		Crab::crab_animate_skin_R.Copy(&library->animate_for_ikacyann);
+		Crab::crab_animate_skin_R.Set(60, 1, 1);
 		Crab::crab_animate_skin_L.Copy(&library->animate_for_ikacyann);
+		Crab::crab_animate_skin_L.Set(60, 1, 1);
 		Crab::crab_hitbox.Copy(&library->crab_hitbox);
 		Crab::crab_hitbox.main_world = &main_world;
 
@@ -49,27 +51,19 @@ class GameScene
 	~GameScene()
 	{
 		delete sakana;
-		delete ikacyann;
 		delete mouse;
 		delete ui_mouse;
 
 		for (int i = 0; i < ball_num; i++)
 		{ delete balls[i]; }
+
+		for (int i = 0; i < crab_count; i++)
+		{
+			delete crabs[i];
+		}
 	}
 
 	bool Update();
-
-	
-	void
-	Exit()
-	{
-		delete sakana;
-		delete ikacyann;
-		delete mouse;
-
-		for (int i = 0; i < ball_num; i++)
-		{ delete balls[i]; }
-	}
 
 private:
 
@@ -83,7 +77,9 @@ private:
 
 	World main_world;
 
-	Crab* ikacyann = nullptr;
+	Crab* crabs[100] = { nullptr };
+	int crab_count = 0;
+
 	Fish* sakana = nullptr;
 
 	Object camera_man;
@@ -95,6 +91,7 @@ private:
 	int ball_num = 0;
 
 	bool space = false;
+	bool R = false;
 
 	const int MAINWORLDWIDE = 1600;
 	const int MAINWORLDHIGH = 1280;

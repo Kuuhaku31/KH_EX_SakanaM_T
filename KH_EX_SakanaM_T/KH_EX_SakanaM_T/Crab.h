@@ -5,7 +5,7 @@
 
 class Crab : public Character
 {	public:
-	Crab(World* world) :Character(world) 
+	Crab(World* world) : Character(world) 
 	{
 		animate_skin_L.Copy(&crab_animate_skin_R);
 		animate_skin_L.Set_position(static_cast<Object*>(this));
@@ -25,6 +25,13 @@ class Crab : public Character
 
 		Object::Set_drag(50, 0.1, 0.1, 0.1);
 	};
+
+	void
+	Update(Position* pos)
+	{
+		See(pos);
+		Character::Update();
+	}
 
 	void
 	See(Position* pos)
@@ -65,7 +72,7 @@ class Crab : public Character
 			}
 			if (b)
 			{
-				Force(dx * 30, dy * 30);
+				Force(dx * 50, dy * 50);
 			}
 		}
 	}

@@ -104,6 +104,9 @@ class Animate : public Position
 	void
 	Copy(Animate* a)
 	{
+		is_roop = a->is_roop;
+		is_playing = a->is_playing;
+
 		cut_num = a->cut_num;
 		cut_now = a->cut_now;
 

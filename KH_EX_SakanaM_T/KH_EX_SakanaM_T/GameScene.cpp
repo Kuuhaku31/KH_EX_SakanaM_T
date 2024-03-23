@@ -44,7 +44,7 @@ GameScene::Update()
 	float V_02 = 10;
 
 	if (Matrix::to_unit(&x1, &y1)) { sakana->Force(x1 * FORCE_01, y1 * FORCE_01); }
-	if (Matrix::to_unit(&x2, &y2)) { ikacyann->Force(x2 * FORCE_01, y2 * FORCE_01); }
+	//if (Matrix::to_unit(&x2, &y2)) { ikacyann->Force(x2 * FORCE_01, y2 * FORCE_01); }
 	if (Matrix::to_unit(&x3, &y3)) { camera->Move(x3 * 10, y3 * 10); }
 
 	int mouse_w_x = input->mouse_X;
@@ -91,16 +91,36 @@ GameScene::Update()
 		space = true;
 	}
 
+	if (R && input->key_R)
+	{
+		R = false;
+
+		crabs[crab_count] = new Crab(&main_world);
+		crabs[crab_count]->Object::Move_to(200, 100);
+
+		crab_count++;
+	}
+	if (!input->key_R)
+	{
+		R = true;
+	}
+
 	sakana->main_hitbox.Add_hit_box_to_area();
-	ikacyann->main_hitbox.Add_hit_box_to_area();
+
+	for (int i = 0; i < crab_count; i++)
+	{
+		crabs[i]->main_hitbox.Add_hit_box_to_area();
+	}
 
 	main_world.Update_booms();
 
 	sakana->Update();
 
-	ikacyann->See(static_cast<Object*>(sakana));
+	for (int i = 0; i < crab_count; i++)
+	{
+		crabs[i]->Update(static_cast<Object*>(sakana));
+	}
 
-	ikacyann->Update();
 	camera_man.Update();
 
 	for (int i = 0; i < ball_num; i++)
@@ -119,7 +139,10 @@ GameScene::Update()
 	camera_man.Move_to(sakana_w_x, sakana_w_y);
 
 	sakana->main_hitbox.Delete_hitbox_from_area();
-	ikacyann->main_hitbox.Delete_hitbox_from_area();
+	for (int i = 0; i < crab_count; i++)
+	{
+		crabs[i]->main_hitbox.Delete_hitbox_from_area();
+	}
 
 	return true;
 }
@@ -163,23 +186,8 @@ GameScene::init_character()
 
 	camera->Set_position(static_cast<Object*>(sakana));
 
-	ikacyann = new Crab(&main_world);
-
-	ikacyann->Object::Move_to(spawn_point_1_x, spawn_point_1_y);
-	//ikacyann->Object::Set_drag(friction, friction_m, restitution, restitution_m);
-	/*ikacyann->Collision::Set(24, 18);
-	ikacyann->Set_MAX_HP(200000);
-	ikacyann->Heal_full();*/
-	//ikacyann->Collision::Move_to(0, 8);
-	//ikacyann->bar.ren_bar.Set_position(-25, -30);
-	//ikacyann->animate_skin_R.Set_cuts(library->animate_skin_for_ikacyann, library->num_of_animate_skin_for_ikacyann);
-	//ikacyann->animate_skin_R.Set(60, true, true);
-	/*ikacyann->animate_skin_L.Copy(&library->animate_for_ikacyann);
-	ikacyann->animate_skin_L.Set_position(static_cast<Object*>(ikacyann));
-	ikacyann->animate_skin_R.Copy(&library->animate_for_ikacyann);
-	ikacyann->animate_skin_R.Set_position(static_cast<Object*>(ikacyann));*/
-	//ikacyann->main_hitbox.Write(GetImageBuffer(&library->_hitbox_size16), library->_hitbox_size16_wigh, library->_hitbox_size16_high);
-	//ikacyann->main_hitbox.Align();
+	//ikacyann = new Crab(&main_world);
+	//ikacyann->Object::Move_to(spawn_point_1_x, spawn_point_1_y);
 }
 
 void 
@@ -192,7 +200,13 @@ GameScene::update_screen()
 	camera->Rending(main_world.fire_map.Get_ren(1));
 	camera->Rending(main_world.wall_map.Get_ren(1));
 
-	camera->Rending(ikacyann->Get_skin_renderer());
+	
+	for (int i = 0; i < crab_count; i++)
+	{
+		camera->Rending(crabs[i]->Get_skin_renderer());
+	}
+
+
 	camera->Rending(sakana->Get_skin_renderer());
 
 	camera->Rending(main_world.wall_map.Get_ren(2));
@@ -206,7 +220,12 @@ GameScene::update_screen()
 	}
 
 
-	camera->Rending(&ikacyann->bar.ren_bar);
+	
+	for (int i = 0; i < crab_count; i++)
+	{
+		camera->Rending(&crabs[i]->bar.ren_bar);
+	}
+
 	camera->Rending(&sakana->bar.ren_bar);
 
 	camera->Rending(&mouse->ren_target);

@@ -57,8 +57,7 @@ class Character
 	bool
 	Update()
 	{
-		bool b = Collision::Update();
-		//ai.Update(b);
+		Collision::Update();
 		Object::Update();
 
 		HP -= main_world->hurt_area.Is_in_area(Object::pos_x, Object::pos_y);
