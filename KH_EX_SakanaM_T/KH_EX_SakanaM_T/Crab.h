@@ -5,30 +5,26 @@
 
 class Crab : public Character
 {	public:
-	Crab(World* world) :Character(world) {};
-
-	static inline void
-	Init_skin_R(Renderer* ren, int n)
+	Crab(World* world) :Character(world) 
 	{
-		skin_R = new IMAGE[n];
-		for (int i = 0; i < n; i++)
-		{
-			//skin_R[i]=
-		}
-	}
+		animate_skin_L.Copy(&crab_animate_skin_R);
+		animate_skin_L.Set_position(static_cast<Object*>(this));
+		animate_skin_R.Copy(&crab_animate_skin_L);
+		animate_skin_R.Set_position(static_cast<Object*>(this));
 
-	static inline void
-	Init_skin_L(Renderer* ren, int n)
-	{
+		main_hitbox.Copy(&crab_hitbox);
+		main_hitbox.Set_position(static_cast<Object*>(this));
 
-	}
+		Collision::Set(24, 18);
+		Set_MAX_HP(200000);
+		Heal_full();
 
-	static inline void
-	Delete_skin()
-	{
-		delete[] skin_R;
-		delete[] skin_L;
-	}
+		bar.ren_bar.Set_position(-25, -30);
+
+		Set_obj_m(20.0);
+
+		Object::Set_drag(50, 0.1, 0.1, 0.1);
+	};
 
 	void
 	See(Position* pos)
@@ -74,9 +70,11 @@ class Crab : public Character
 		}
 	}
 
-private:
+	static Animate crab_animate_skin_R;
+	static Animate crab_animate_skin_L;
 
-	static IMAGE* skin_R;
-	static IMAGE* skin_L;
+	static Hitbox crab_hitbox;
+
+private:
 
 };

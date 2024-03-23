@@ -5,7 +5,7 @@
 
 class Hitbox : public Area
 {	public:
-	Hitbox(World* main_world, Position* pos)
+	Hitbox(World* main_world = nullptr, Position* pos = nullptr)
 		: Area(pos)
 		, main_world(main_world)
 	{}
@@ -24,9 +24,19 @@ class Hitbox : public Area
 		main_world->coll_area.Add_shape(this, x, y, true);
 	}
 
-private:
+	void
+	Copy(Hitbox* h)
+	{
+		main_world = h->main_world;
+		x = h->x;
+		y = h->y;
+		Area::Copy(h);
+	}
 
 	World* main_world;
+private:
+
+	
 	int x = 0;
 	int y = 0;
 };

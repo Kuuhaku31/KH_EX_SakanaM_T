@@ -69,6 +69,13 @@ class Position
 		pos_y = parent_pos ? y - Get_y() : y;
 	}
 
+	void
+	Copy(Position* p)
+	{
+		parent_pos = p->parent_pos;
+		pos_x = p->pos_x;
+		pos_y = p->pos_y;
+	}
 
 protected:
 

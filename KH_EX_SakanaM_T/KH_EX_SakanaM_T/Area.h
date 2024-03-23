@@ -40,5 +40,12 @@ class Area
 		Shape::Fill_circle(centerX, centerY, radius, value);
 	}
 
+	void
+	Copy(Area* a)
+	{
+		Position::Copy(a);
+		Shape::Copy(a);
+	}
+
 private:
 };

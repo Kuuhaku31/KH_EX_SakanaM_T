@@ -1,5 +1,7 @@
 
 #include "Crab.h"
 
-IMAGE* Crab::skin_R = nullptr;
-IMAGE* Crab::skin_L = nullptr;
+Animate Crab::crab_animate_skin_R;
+Animate Crab::crab_animate_skin_L;
+
+Hitbox Crab::crab_hitbox;

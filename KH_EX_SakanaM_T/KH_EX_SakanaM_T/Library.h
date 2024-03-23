@@ -8,6 +8,7 @@
 
 #include "Renderer.h"
 #include "Animate.h"
+#include "Hitbox.h"
 
 class Library
 {	public:
@@ -76,9 +77,9 @@ class Library
 
 	std::string _path_hitbox_size16 = "./KH_EX_SakanaM_T/Material/hitbox/hitbox16.png";
 	IMAGE _hitbox_size16;
-	int _hitbox_size16_wigh;
-	int _hitbox_size16_high;
-	int _hitbox_size16_long;
+	int _hitbox_size16_wigh = 0;
+	int _hitbox_size16_high = 0;
+	int _hitbox_size16_long = 0;
 
 	std::string _path_coll_size32 = "./KH_EX_SakanaM_T/Material/collision/size32.png";
 	IMAGE _coll_size32;
@@ -142,6 +143,8 @@ class Library
 		Init_animate_skin_for_sakana();
 		Init_animate_skin_for_ikacyann();
 		Init_animate_skin_for_ball_break();
+
+		Init_crab_hitbox();
 	}
 
 	void
@@ -188,6 +191,13 @@ class Library
 		animate_skin_for_ball_break[0].Align();
 		animate_skin_for_ball_break[1].Reset_skin(&_skin_ball_break_2);
 		animate_skin_for_ball_break[1].Align();
+	}
+
+	Hitbox crab_hitbox;
+	void Init_crab_hitbox()
+	{
+		crab_hitbox.Write(GetImageBuffer(&_hitbox_size16), _hitbox_size16_wigh, _hitbox_size16_high);
+		crab_hitbox.Align();
 	}
 
 	IMAGE
