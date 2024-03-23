@@ -6,6 +6,7 @@
 class Animate : public Position
 {	public:
 	Animate(Position* pos = nullptr) : Position(pos) {}
+	~Animate() { delete[] cuts; }
 
 	void
 	Restart()
@@ -77,7 +78,7 @@ class Animate : public Position
 		cut_num = n;
 		for (int i = 0; i < cut_num; i++)
 		{
-			cuts[i] = rens[i];
+			cuts[i].Copy(&rens[i]);
 			cuts[i].Set_position(this);
 		}
 	}
@@ -101,19 +102,19 @@ class Animate : public Position
 	bool is_playing = false;
 
 	void
-	operator=(Animate& a)
+	Copy(Animate* a)
 	{
-		cut_num = a.cut_num;
-		cut_now = a.cut_now;
+		cut_num = a->cut_num;
+		cut_now = a->cut_now;
 
-		cut_timer_max = a.cut_timer_max;
-		cut_timer = a.cut_timer;
+		cut_timer_max = a->cut_timer_max;
+		cut_timer = a->cut_timer;
 
 		delete[] cuts;
 		cuts = new Renderer[cut_num];
 		for (int i = 0; i < cut_num; i++)
 		{
-			cuts[i] = a.cuts[i];
+			cuts[i].Copy(&a->cuts[i]);
 			cuts[i].Set_position(this);
 		}
 	}

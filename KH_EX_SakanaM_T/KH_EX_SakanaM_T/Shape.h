@@ -205,6 +205,20 @@ public:
 		}
 	}
 
+	void
+	Copy(Shape* s)
+	{
+		shape_wide = s->shape_wide;
+		shape_high = s->shape_high;
+		shape_long = s->shape_long;
+		delete[] shape_buffer;
+		shape_buffer = new unsigned long[shape_long];
+		for (int i = 0; i < shape_long; i++)
+		{
+			shape_buffer[i] = s->shape_buffer[i];
+		}
+	}
+
 protected:
 
 	unsigned long* shape_buffer = nullptr;

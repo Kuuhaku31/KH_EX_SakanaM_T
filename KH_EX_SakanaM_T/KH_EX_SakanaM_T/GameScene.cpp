@@ -175,9 +175,9 @@ GameScene::init_character()
 	ikacyann->bar.ren_bar.Set_position(-25, -30);
 	//ikacyann->animate_skin_R.Set_cuts(library->animate_skin_for_ikacyann, library->num_of_animate_skin_for_ikacyann);
 	//ikacyann->animate_skin_R.Set(60, true, true);
-	ikacyann->animate_skin_L = library->animate_for_ikacyann;
+	ikacyann->animate_skin_L.Copy(&library->animate_for_ikacyann);
 	ikacyann->animate_skin_L.Set_position(static_cast<Object*>(ikacyann));
-	ikacyann->animate_skin_R = library->animate_for_ikacyann;
+	ikacyann->animate_skin_R.Copy(&library->animate_for_ikacyann);
 	ikacyann->animate_skin_R.Set_position(static_cast<Object*>(ikacyann));
 	ikacyann->main_hitbox.Write(GetImageBuffer(&library->_hitbox_size16), library->_hitbox_size16_wigh, library->_hitbox_size16_high);
 	ikacyann->main_hitbox.Align();
