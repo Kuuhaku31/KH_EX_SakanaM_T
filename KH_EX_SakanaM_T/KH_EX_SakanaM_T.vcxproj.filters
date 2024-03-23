@@ -122,5 +122,8 @@
     <ClCompile Include="KH_EX_SakanaM_T\Crab.cpp">
       <Filter>code\Character</Filter>
     </ClCompile>
+    <ClCompile Include="KH_EX_SakanaM_T\Movement.h">
+      <Filter>code</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
