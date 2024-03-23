@@ -3,7 +3,7 @@
 
 #include "Scene.h"
 
-#include "Character.h"
+#include "Fish.h"
 #include "Mouse.h"
 #include "Ball.h"
 #include "World.h"
@@ -79,7 +79,7 @@ private:
 	World main_world;
 
 	Character* ikacyann = nullptr;
-	Character* sakana = nullptr;
+	Fish* sakana = nullptr;
 
 	Object camera_man;
 

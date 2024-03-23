@@ -97,6 +97,9 @@ GameScene::Update()
 	main_world.Update_booms();
 
 	sakana->Update();
+
+	ikacyann->See(static_cast<Object*>(sakana));
+
 	ikacyann->Update();
 	camera_man.Update();
 
@@ -141,7 +144,7 @@ GameScene::init_area()
 void 
 GameScene::init_character()
 {
-	sakana = new Character(&main_world);
+	sakana = new Fish(&main_world);
 	sakana->Set_obj_m(10.0);
 
 	sakana->Object::Move_to(spawn_point_2_x, spawn_point_2_y);
@@ -161,7 +164,7 @@ GameScene::init_character()
 	camera->Set_position(static_cast<Object*>(sakana));
 
 	ikacyann = new Character(&main_world);
-	ikacyann->Set_obj_m(200.0);
+	ikacyann->Set_obj_m(20.0);
 
 	ikacyann->Object::Move_to(spawn_point_1_x, spawn_point_1_y);
 	ikacyann->Object::Set_drag(friction, friction_m, restitution, restitution_m);

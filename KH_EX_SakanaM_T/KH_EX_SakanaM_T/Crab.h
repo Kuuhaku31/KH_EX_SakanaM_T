@@ -1,10 +1,20 @@
 
 #pragma once
 
-#include "Character.h"
+#include "Position.h"
 
-class Crab : public Character
+class Pheromone : public Position
 {	public:
+
+	void
+	Update()
+	{
+
+	}
+
+	Position* pos;
+	float v_x = 0.0f;
+	float v_y = 0.0f;
 
 private:
 

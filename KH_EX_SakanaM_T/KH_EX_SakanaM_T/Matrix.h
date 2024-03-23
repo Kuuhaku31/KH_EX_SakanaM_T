@@ -197,26 +197,10 @@ namespace Matrix
 		return y;
 	}
 
-	inline static float 
-	sqrt_newton(float n)
-	{
-		float x = n;
-		float threshold = 0.01;
-
-		float v = x * x - n;
-		//while (0 > v ? -v : v > threshold)
-		while (std::abs(x * x - n) > threshold)
-		{
-			x = (x + n / x) / 2;
-		}
-
-		return x;
-	}
-
 	inline static bool
 	to_unit(float* x, float* y)
 	{
-		float n = sqrt_newton(*x * *x + *y * *y);
+		float n = sqrt(*x * *x + *y * *y);
 		if (n == 0) 
 		{
 			return false;
