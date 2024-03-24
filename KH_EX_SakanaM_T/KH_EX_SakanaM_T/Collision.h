@@ -190,52 +190,60 @@ private:
 		int move_x = 0;
 		int move_y = 0;
 
-		if 
-		(
-			   wall_area->Is_in_area(test_point_01_x, test_point_01_y) 
-			|| wall_area->Is_in_area(test_point_02_x, test_point_02_y)
-			|| wall_area->Is_in_area(test_point_03_x, test_point_03_y)
-		)
+		if(wall_area)
 		{
-			force_y += F_2;
-			move_y += 1;
-		}
+			if
+				(
+					wall_area->Is_in_area(test_point_01_x, test_point_01_y)
+					|| wall_area->Is_in_area(test_point_02_x, test_point_02_y)
+					|| wall_area->Is_in_area(test_point_03_x, test_point_03_y)
+					)
+			{
+				force_y += F_2;
+				move_y += 1;
+			}
 
-		if
-		(
-			   wall_area->Is_in_area(test_point_04_x, test_point_04_y)
-			|| wall_area->Is_in_area(test_point_05_x, test_point_05_y)
-			|| wall_area->Is_in_area(test_point_06_x, test_point_06_y)	
-		)
-		{
-			force_x -= F_2;
-			move_x -= 1;
-		}
+			if
+				(
+					wall_area->Is_in_area(test_point_04_x, test_point_04_y)
+					|| wall_area->Is_in_area(test_point_05_x, test_point_05_y)
+					|| wall_area->Is_in_area(test_point_06_x, test_point_06_y)
+					)
+			{
+				force_x -= F_2;
+				move_x -= 1;
+			}
 
-		if
-		(
-			   wall_area->Is_in_area(test_point_07_x, test_point_07_y)
-			|| wall_area->Is_in_area(test_point_08_x, test_point_08_y)
-			|| wall_area->Is_in_area(test_point_09_x, test_point_09_y)
-		)
-		{
-			force_y -= F_2;
-			move_y -= 1;
-		}
+			if
+				(
+					wall_area->Is_in_area(test_point_07_x, test_point_07_y)
+					|| wall_area->Is_in_area(test_point_08_x, test_point_08_y)
+					|| wall_area->Is_in_area(test_point_09_x, test_point_09_y)
+					)
+			{
+				force_y -= F_2;
+				move_y -= 1;
+			}
 
-		if
-		(
-			   wall_area->Is_in_area(test_point_10_x, test_point_10_y)
-			|| wall_area->Is_in_area(test_point_11_x, test_point_11_y)
-			|| wall_area->Is_in_area(test_point_12_x, test_point_12_y)
-		)
-		{
-			force_x += F_2;
-			move_x += 1;
+			if
+				(
+					wall_area->Is_in_area(test_point_10_x, test_point_10_y)
+					|| wall_area->Is_in_area(test_point_11_x, test_point_11_y)
+					|| wall_area->Is_in_area(test_point_12_x, test_point_12_y)
+					)
+			{
+				force_x += F_2;
+				move_x += 1;
+			}
 		}
 
 		
-		if
+		force_y += coll_area->Is_in_area(test_point_01_x, test_point_01_y) + coll_area->Is_in_area(test_point_02_x, test_point_02_y) + coll_area->Is_in_area(test_point_03_x, test_point_03_y);
+		force_x -= coll_area->Is_in_area(test_point_04_x, test_point_04_y) + coll_area->Is_in_area(test_point_05_x, test_point_05_y) + coll_area->Is_in_area(test_point_06_x, test_point_06_y);
+		force_y -= coll_area->Is_in_area(test_point_07_x, test_point_07_y) + coll_area->Is_in_area(test_point_08_x, test_point_08_y) + coll_area->Is_in_area(test_point_09_x, test_point_09_y);
+		force_x += coll_area->Is_in_area(test_point_10_x, test_point_10_y) + coll_area->Is_in_area(test_point_11_x, test_point_11_y) + coll_area->Is_in_area(test_point_12_x, test_point_12_y);
+
+		/*if
 		(
 			   coll_area->Is_in_area(test_point_01_x, test_point_01_y)
 			|| coll_area->Is_in_area(test_point_02_x, test_point_02_y)
@@ -273,7 +281,7 @@ private:
 		)
 		{
 			force_x += F_1;
-		}
+		}*/
 
 		bool b = false;
 

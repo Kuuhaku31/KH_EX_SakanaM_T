@@ -4,7 +4,7 @@
 GameScene::GameScene(Library* library, Input* input, Camera* camera, UI* ui)
 	: Scene(library, input, camera, ui)
 	, main_world(1600, 1280)
-	, camera_man(&main_world.main_map)
+	, camera_man(&main_world)
 	, frame_board(ui)
 	, sakana_wp_x(ui)
 	, sakana_wp_y(ui)
@@ -20,7 +20,7 @@ GameScene::GameScene(Library* library, Input* input, Camera* camera, UI* ui)
 	init_character();
 
 	camera->Set_position(&camera_man);
-	camera_man.Set_obj_m(100.0);
+	camera_man.Set_mov_m(100.0);
 	camera_man.Set_drag(friction, friction_m, restitution, restitution_m);
 
 	mouse = new Mouse(&library->_skin_target);
@@ -78,7 +78,7 @@ GameScene::Update()
 	float V_02 = 10;
 
 	if (Matrix::to_unit(&x1, &y1)) { sakana->Movement::Force(x1 * FORCE_01, y1 * FORCE_01); }
-	//if (Matrix::to_unit(&x2, &y2)) { ikacyann->Force(x2 * FORCE_01, y2 * FORCE_01); }
+  //if (Matrix::to_unit(&x2, &y2)) { ikacyann->Force(x2 * FORCE_01, y2 * FORCE_01); }
 	if (Matrix::to_unit(&x3, &y3)) { camera->Move(x3 * 10, y3 * 10); }
 
 	int mouse_w_x = input->mouse_X;
@@ -87,8 +87,8 @@ GameScene::Update()
 	camera->Get_mouse_point(&mouse_w_x, &mouse_w_y);
 	mouse->Move_to(mouse_w_x, mouse_w_y);
 
-	int camera_man_w_x = camera_man.Get_x();
-	int camera_man_w_y = camera_man.Get_y();
+	int camera_man_w_x = camera_man.Position::Get_x();
+	int camera_man_w_y = camera_man.Position::Get_y();
 
 	int sakana_w_x = sakana->Get_x();
 	int sakana_w_y = sakana->Get_y();
@@ -96,7 +96,7 @@ GameScene::Update()
 	float x0 = sakana_w_x - camera_man_w_x;
 	float y0 = sakana_w_y - camera_man_w_y;
 
-	if (ball_num < 100 && space && input->space)
+	if (ball_num < 100 && space && (input->space || input->mouse_L))
 	{
 		space = false;
 		balls[ball_num] = sakana->Fire();
@@ -110,12 +110,12 @@ GameScene::Update()
 
 		if (Matrix::to_unit(&x, &y))
 		{
-			balls[ball_num]->Reset_obj_v(x * V_01, y * V_01);
-			balls[ball_num]->Move(x * V_02, y * V_02);
+			balls[ball_num]->Reset_mov_v(x * V_01, y * V_01);
+			balls[ball_num]->Position::Move(x * V_02, y * V_02);
 		}
 		else
 		{
-			balls[ball_num]->Reset_obj_v(0, -V_01);
+			balls[ball_num]->Reset_mov_v(0, -V_01);
 		}
 
 		ball_num++;
@@ -125,7 +125,7 @@ GameScene::Update()
 		space = true;
 	}
 
-	if (R && input->key_R)
+	if (100 > crab_count && R && input->key_R)
 	{
 		R = false;
 
@@ -137,6 +137,22 @@ GameScene::Update()
 	if (!input->key_R)
 	{
 		R = true;
+	}
+
+	for (int i = 0; i < crab_count; i++)
+	{
+		Crab* c = crabs[i]->Bron();
+		if (100 > crab_count && c)
+		{
+			crabs[crab_count] = new Crab(&main_world);
+			crabs[crab_count]->Move_to(crabs[i]);
+			crabs[crab_count]->Move(0, 10);
+			crab_count++;
+		}
+		else
+		{
+			delete c;
+		}
 	}
 
 	sakana->main_hitbox.Add_hit_box_to_area(&main_world.coll_area);
@@ -170,12 +186,22 @@ GameScene::Update()
 
 	update_screen();
 
-	camera_man.Move_to(sakana_w_x, sakana_w_y);
+	camera_man.Position::Move_to(sakana_w_x, sakana_w_y);
 
 	sakana->main_hitbox.Delete_hitbox_from_area(&main_world.coll_area);
 	for (int i = 0; i < crab_count; i++)
 	{
 		crabs[i]->main_hitbox.Delete_hitbox_from_area(&main_world.coll_area);
+	}
+	for (int i = 0; i < crab_count; i++)
+	{
+		if (0 >= crabs[i]->GetHP())
+		{
+			delete crabs[i];
+			crabs[i] = crabs[crab_count - 1];
+			crabs[crab_count - 1] = nullptr;
+			crab_count--;
+		}
 	}
 
 	return true;

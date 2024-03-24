@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <random>
+
 #include "Character.h"
 
 class Crab : public Character
@@ -30,6 +32,8 @@ class Crab : public Character
 	Update(Position* pos)
 	{
 		See(pos);
+		Collision::Update(this, this, nullptr, &main_world->coll_area);
+		Movement::Update(this, main_world->main_map.Is_in_area(pos_x, pos_y));
 		Character::Update();
 	}
 
@@ -47,7 +51,7 @@ class Crab : public Character
 			float dx = pos_x - this_x;
 			float dy = pos_y - this_y;
 			int t = sqrt(dx * dx + dy * dy);
-			if (300 < t)
+			if (10000 < t)
 			{
 				return;
 			}
@@ -70,10 +74,30 @@ class Crab : public Character
 					break;
 				}
 			}
-			if (b)
+			if (1)
 			{
 				Movement::Force(dx * 50, dy * 50);
 			}
+		}
+	}
+
+	Crab* 
+	Bron()
+	{
+		std::random_device rd;  // 用于获取种子数据
+		std::mt19937 gen(rd()); // 使用Mersenne Twister算法生成随机数
+		std::uniform_int_distribution<> distr(1, 10); // 定义分布规则
+
+		btime += distr(gen); // 生成在min和max之间的随机整数
+
+		if(btime > 1000)
+		{
+			btime = 0;
+			return new Crab(main_world);
+		}
+		else
+		{
+			return nullptr;
 		}
 	}
 
@@ -84,4 +108,5 @@ class Crab : public Character
 
 private:
 
+	int btime = 0;
 };

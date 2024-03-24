@@ -182,6 +182,7 @@ class Library
 		IMAGE img;
 		loadimage(&img, "./KH_EX_SakanaM_T/Material/hitbox/hitbox16.png");
 		crab_hitbox.Write(GetImageBuffer(&img), img.getwidth(), img.getheight());
+		crab_hitbox.Clear_shape(100);
 		crab_hitbox.Align();
 	}
 

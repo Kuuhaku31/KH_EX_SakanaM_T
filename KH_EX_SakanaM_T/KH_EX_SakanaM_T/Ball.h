@@ -12,10 +12,9 @@ class Ball:
 	public Object
 {	public:
 	Ball(World* world, int x, int y, IMAGE* img = nullptr)
-		: Object(&world->main_map, x, y)
-		, main_world(world)
-		, renderer(img, this)
-		, break_animate(this)
+		: Object(world, x, y)
+		, renderer(img, static_cast<Object*>(this))
+		, break_animate(static_cast<Object*>(this))
 	{}
 
 	bool
@@ -23,8 +22,12 @@ class Ball:
 	{
 		if (is_alive)
 		{
-			Object::Update();
-			if (main_world->wall_map.Is_in_area(pos_x, pos_y) || main_world->coll_area.Is_in_area(pos_x, pos_y))
+			Update_mov();
+			if 
+			(
+				main_world->wall_map.Is_in_area(static_cast<Object*>(this)) 
+			 || main_world->coll_area.Is_in_area(static_cast<Object*>(this))
+			)
 			{
 				is_alive = false;
 				main_world->Add_new_boom(Explode());
@@ -41,7 +44,7 @@ class Ball:
 	Boom*
 	Explode()
 	{
-		return new Boom(&main_world->hurt_area, pos_x, pos_y, 20, 10);
+		return new Boom(&main_world->hurt_area, Position::Get_x(), Position::Get_y(), 20, 10);
 	}
 
 	Renderer*
@@ -62,8 +65,6 @@ class Ball:
 	Animate break_animate;
 
 private:
-
-	World* main_world;
 
 	bool is_alive = true;
 };

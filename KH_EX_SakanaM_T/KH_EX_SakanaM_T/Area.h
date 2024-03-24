@@ -22,6 +22,14 @@ class Area
 		if (!is_use_local) { x -= Get_x(); y -= Get_y(); }
 		return Is_in_shape(x, y);
 	}
+	unsigned long
+	Is_in_area(Position* pos, bool is_use_local = false) const
+	{
+		int x = pos->Get_x();
+		int y = pos->Get_y();
+		if (!is_use_local) { x -= Get_x(); y -= Get_y(); }
+		return Is_in_shape(x, y);
+	}
 
 	void
 	Add_area(Area* area, bool is_neg = false)

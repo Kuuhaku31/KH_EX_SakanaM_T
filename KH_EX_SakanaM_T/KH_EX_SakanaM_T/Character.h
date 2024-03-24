@@ -52,13 +52,11 @@ class Character
 	bool
 	Update()
 	{
-		Collision::Update(this, this, &main_world->wall_map, &main_world->coll_area);
-		Movement::Update(this, main_world->main_map.Is_in_area(pos_x, pos_y));
-
+		
 		HP -= main_world->hurt_area.Is_in_area(pos_x, pos_y);
 
 		if (HP < 0) { HP = 0; }
-		if (HP >= 0 && HP < MAX_HP) { HP += 1000; }
+		//if (HP >= 0 && HP < MAX_HP) { HP += 1000; }
 		if (HP > MAX_HP) { HP = MAX_HP; }
 
 		bar.Update();
