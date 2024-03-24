@@ -98,8 +98,14 @@ class Animate : public Position
 		cuts[n].Set_position(x, y);
 	}
 
-	bool is_roop = false;
-	bool is_playing = false;
+	void
+		Align_cuts()
+	{
+		for (int i = 0; i < cut_num; i++)
+		{
+			cuts[i].Align();
+		}
+	}
 
 	void
 	Copy(Animate* a)
@@ -121,6 +127,9 @@ class Animate : public Position
 			cuts[i].Set_position(this);
 		}
 	}
+
+	bool is_roop = false;
+	bool is_playing = false;
 
 private:
 
