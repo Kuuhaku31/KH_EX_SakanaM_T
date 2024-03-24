@@ -90,8 +90,8 @@ GameScene::Update()
 	int camera_man_w_x = camera_man.Position::Get_x();
 	int camera_man_w_y = camera_man.Position::Get_y();
 
-	int sakana_w_x = sakana->Get_x();
-	int sakana_w_y = sakana->Get_y();
+	int sakana_w_x = sakana->Object::Position::Get_x();
+	int sakana_w_y = sakana->Object::Position::Get_y();
 
 	float x0 = sakana_w_x - camera_man_w_x;
 	float y0 = sakana_w_y - camera_man_w_y;
@@ -130,7 +130,7 @@ GameScene::Update()
 		R = false;
 
 		crabs[crab_count] = new Crab(&main_world);
-		crabs[crab_count]->Move_to(sakana);
+		crabs[crab_count]->Object::Position::Move_to(static_cast<Object*>(sakana));
 
 		crab_count++;
 	}
@@ -145,8 +145,8 @@ GameScene::Update()
 		if (100 > crab_count && c)
 		{
 			crabs[crab_count] = new Crab(&main_world);
-			crabs[crab_count]->Move_to(crabs[i]);
-			crabs[crab_count]->Move(0, 10);
+			crabs[crab_count]->Object::Position::Move_to(static_cast<Object*>(crabs[i]));
+			crabs[crab_count]->Object::Position::Move(0, 10);
 			crab_count++;
 		}
 		else
@@ -168,7 +168,7 @@ GameScene::Update()
 
 	for (int i = 0; i < crab_count; i++)
 	{
-		crabs[i]->Update(sakana);
+		crabs[i]->Update(static_cast<Object*>(sakana));
 	}
 
 	camera_man.Update();
@@ -230,7 +230,7 @@ GameScene::init_character()
 	sakana = new Fish(&main_world);
 	sakana->Set_mov_m(10.0);
 
-	sakana->Move_to(spawn_point_2_x, spawn_point_2_y);
+	sakana->Object::Position::Move_to(spawn_point_2_x, spawn_point_2_y);
 	sakana->Set_drag(friction, friction_m, restitution, restitution_m);
 	sakana->Collision::Set(24, 18);
 	sakana->Set_MAX_HP(200000);
@@ -242,10 +242,10 @@ GameScene::init_character()
 	sakana->animate_skin_L.Set_cuts(library->animate_skin_for_sakana_left, library->num_of_animate_skin_for_sakana);
 	sakana->animate_skin_L.Set(30, true, true);
 	sakana->main_hitbox.Copy(&library->crab_hitbox);
-	sakana->main_hitbox.Set_position(sakana);
+	sakana->main_hitbox.Set_position(static_cast<Object*>(sakana));
 	//sakana->main_hitbox.Align();
 
-	camera->Set_position(sakana);
+	camera->Set_position(static_cast<Object*>(sakana));
 
 	//ikacyann = new Crab(&main_world);
 	//ikacyann->Object::Move_to(spawn_point_1_x, spawn_point_1_y);
@@ -295,10 +295,10 @@ GameScene::update_screen()
 
 	ui->Rending(&ui_mouse->ren_target);
 
-	sakana_wp_x.Set_num(sakana->Get_x());
+	sakana_wp_x.Set_num(sakana->Object::Position::Get_x());
 	sakana_wp_x.Print();
 
-	sakana_wp_y.Set_num(sakana->Get_y());
+	sakana_wp_y.Set_num(sakana->Object::Position::Get_y());
 	sakana_wp_y.Print();
 
 	end___time = clock();

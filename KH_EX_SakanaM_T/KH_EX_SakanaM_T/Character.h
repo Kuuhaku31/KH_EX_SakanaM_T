@@ -3,33 +3,19 @@
 
 #include "World.h"
 
-#include "AI.h"
-#include "Collision.h"
+#include "Object.h"
+
 #include "Bar.h"
 #include "Animate.h"
-#include "Hitbox.h"
-
 #include "Ball.h"
 
-#include "Movement.h"
-
-class Character
-	: public Position
-	, public Movement
-	, public Collision 
+class Character : public Object
 {	public:
-	Character(World* world)
-		: Position()
-		, Movement()
-		, Collision()
+	Character(World* world): Object(world)
 
-		, main_world(world)
-
-		, main_hitbox(this)
-
-		, bar(&MAX_HP, &HP, this)
-		, animate_skin_R(this)
-		, animate_skin_L(this)
+		, bar(&MAX_HP, &HP, static_cast<Object*>(this))
+		, animate_skin_R(static_cast<Object*>(this))
+		, animate_skin_L(static_cast<Object*>(this))
 	{}
 
 	int GetHP() const { return HP; }
@@ -53,7 +39,7 @@ class Character
 	Update()
 	{
 		
-		HP -= main_world->hurt_area.Is_in_area(pos_x, pos_y);
+		HP -= main_world->hurt_area.Is_in_area(static_cast<Object*>(this));
 
 		if (HP < 0) { HP = 0; }
 		//if (HP >= 0 && HP < MAX_HP) { HP += 1000; }
@@ -81,8 +67,6 @@ class Character
 
 protected:
 	//AI ai;
-
-	World* main_world;
 
 	bool is_alive = true;
 	int MAX_HP = 1;
