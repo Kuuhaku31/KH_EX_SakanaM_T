@@ -10,7 +10,7 @@ class Movement
 	Movement() {}
 
 	void
-	Update(float f)
+	Update(Position* pos, float f = 0)
 	{
 		update_drag(f);
 
@@ -69,10 +69,16 @@ class Movement
 	void Reset_mov_v(float vx, float vy) { mov_vx = vx; mov_vy = vy; }
 
 	void Set_mov_m(float m) { mov__m = m; }
-	void Set_pos(Position* p) { pos = p; }
+	void Set_drag(float u = 0.0, float f = 0.0, float c = 0.0, float r = 0.0)
+	{
+		drag_u = u;
+		drag_f = f;
+		drag_c = c;
+		drag_r = r;
+	}
 
 	void
-	Copy_value(Movement* m)
+	Copy(Movement* m)
 	{
 		DT____ = m->DT____; 
 		mov__m = m->mov__m; 
@@ -92,8 +98,7 @@ class Movement
 	}
 
 private:
-	Position* pos = nullptr;
-
+	
 	float DT____ = 0.1;
 	float mov__m = 0;
 

@@ -68,6 +68,11 @@ class Position
 		pos_x = parent_pos ? x - Get_x() : x;
 		pos_y = parent_pos ? y - Get_y() : y;
 	}
+	void Move_to(Position* pos)
+	{
+		pos_x = pos->Get_x();
+		pos_y = pos->Get_y();
+	}
 
 	void
 	Copy(Position* p)

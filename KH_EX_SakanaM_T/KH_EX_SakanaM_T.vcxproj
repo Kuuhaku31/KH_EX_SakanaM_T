@@ -57,6 +57,9 @@
     <ClCompile Include="KH_EX_SakanaM_T\Movement.h" />
     <ClCompile Include="KH_EX_SakanaM_T\Slideboard.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

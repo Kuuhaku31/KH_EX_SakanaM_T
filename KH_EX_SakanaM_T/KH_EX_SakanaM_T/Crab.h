@@ -8,12 +8,12 @@ class Crab : public Character
 	Crab(World* world) : Character(world) 
 	{
 		animate_skin_L.Copy(&crab_animate_skin_R);
-		animate_skin_L.Set_position(static_cast<Object*>(this));
+		animate_skin_L.Set_position(this);
 		animate_skin_R.Copy(&crab_animate_skin_L);
-		animate_skin_R.Set_position(static_cast<Object*>(this));
+		animate_skin_R.Set_position(this);
 
 		main_hitbox.Copy(&crab_hitbox);
-		main_hitbox.Set_position(static_cast<Object*>(this));
+		main_hitbox.Set_position(this);
 
 		Collision::Set(24, 18);
 		Set_MAX_HP(200000);
@@ -21,9 +21,9 @@ class Crab : public Character
 
 		bar.ren_bar.Set_position(-25, -30);
 
-		Set_obj_m(20.0);
+		Set_mov_m(20.0);
 
-		Object::Set_drag(50, 0.1, 0.1, 0.1);
+		Set_drag(50, 0.1, 0.1, 0.1);
 	};
 
 	void
@@ -38,8 +38,8 @@ class Crab : public Character
 	{
 		if (pos)
 		{
-			int this_x = Object::Get_x();
-			int this_y = Object::Get_y();
+			int this_x = pos_x;
+			int this_y = pos_y;
 
 			int pos_x = pos->Get_x();
 			int pos_y = pos->Get_y();
@@ -72,7 +72,7 @@ class Crab : public Character
 			}
 			if (b)
 			{
-				Force(dx * 50, dy * 50);
+				Movement::Force(dx * 50, dy * 50);
 			}
 		}
 	}

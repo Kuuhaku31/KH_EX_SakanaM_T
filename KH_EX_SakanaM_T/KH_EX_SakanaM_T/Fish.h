@@ -9,9 +9,7 @@ class Fish : public Character
 {	public:
 	Fish(World* world) :Character(world) {}
 
-	//Ball* Fire_water_ball() { return new Ball(main_world, Object::pos_x, Object::pos_y); }
-
-//	Position* pos = nullptr;
+	Ball* Fire() { return new Ball(main_world, pos_x, pos_y); }
 
 	
 

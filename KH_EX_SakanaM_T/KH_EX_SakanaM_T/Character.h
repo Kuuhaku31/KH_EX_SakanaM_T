@@ -1,8 +1,6 @@
 
 #pragma once
 
-#include "Object.h"
-
 #include "World.h"
 
 #include "AI.h"
@@ -13,26 +11,25 @@
 
 #include "Ball.h"
 
+#include "Movement.h"
+
 class Character
-	: public Object
+	: public Position
+	, public Movement
 	, public Collision 
 {	public:
-	Character
-	(
-		  World* world
-	)
-		: Object(&world->main_map)
-		, Collision(static_cast<Object*>(this), &world->wall_map, &world->coll_area)
+	Character(World* world)
+		: Position()
+		, Movement()
+		, Collision()
 
 		, main_world(world)
 
-		, main_hitbox(static_cast<Object*>(this))
+		, main_hitbox(this)
 
-		, bar(&MAX_HP, &HP, static_cast<Object*>(this))
-		, animate_skin_R(static_cast<Object*>(this))
-		, animate_skin_L(static_cast<Object*>(this))
-
-		//, ai(this)
+		, bar(&MAX_HP, &HP, this)
+		, animate_skin_R(this)
+		, animate_skin_L(this)
 	{}
 
 	int GetHP() const { return HP; }
@@ -52,15 +49,13 @@ class Character
 		is_alive = false;
 	}
 
-	Ball* Fire() { return new Ball(main_world, Object::pos_x, Object::pos_y); }
-
 	bool
 	Update()
 	{
-		Collision::Update();
-		Object::Update();
+		Collision::Update(this, this, &main_world->wall_map, &main_world->coll_area);
+		Movement::Update(this, main_world->main_map.Is_in_area(pos_x, pos_y));
 
-		HP -= main_world->hurt_area.Is_in_area(Object::pos_x, Object::pos_y);
+		HP -= main_world->hurt_area.Is_in_area(pos_x, pos_y);
 
 		if (HP < 0) { HP = 0; }
 		if (HP >= 0 && HP < MAX_HP) { HP += 1000; }

@@ -1,29 +1,19 @@
 
 #pragma once
 
-#include "Object.h"
+#include "Position.h"
+#include "Movement.h"
 #include "Area.h"
 
 class Collision
-	: public Position
 {	public:
-	Collision
-	(
-		  Object* obj
-		, Area* wall_area
-		, Area* coll_area
-	)
-		: Position(obj)
-		, obj(obj)
-		, wall_area(wall_area)
-		, coll_area(coll_area)
-	{}
+	Collision() {}
 
 	bool
-	Update()
+	Update(Position* pos, Movement* mov, Area* wall_area, Area* coll_area)
 	{
-		update_test_points();
-		return test_area();
+		update_test_points(pos);
+		return test_area(pos, mov, wall_area, coll_area);
 	}
 
 	void
@@ -72,10 +62,6 @@ class Collision
 	}
 
 private:
-
-	Object* obj;
-	Area* wall_area;
-	Area* coll_area;
 
 	int _tp_01_dx = 0;
 	int _tp_01_dy = 0;
@@ -150,10 +136,10 @@ private:
 	int test_point_12_y = 0;
 
 	inline void
-	update_test_points()
+	update_test_points(Position* pos)
 	{
-		int x = Get_x();
-		int y = Get_y();
+		int x = pos->Get_x();
+		int y = pos->Get_y();
 
 		test_point_01_x = x + _tp_01_dx;
 		test_point_01_y = y + _tp_01_dy;
@@ -193,7 +179,7 @@ private:
 	}
 
 	inline bool
-	test_area()
+	test_area(Position* pos, Movement* mov, Area* wall_area, Area* coll_area)
 	{
 		float F_1 = 200;
 		float F_2 = 500;
@@ -291,11 +277,11 @@ private:
 
 		bool b = false;
 
-		if (move_x) { obj->Stop_obj_x(); b = 1; }
-		if (move_y) { obj->Stop_obj_y(); b = 1; }
+		if (move_x) { mov->Stop_mov_x(); b = 1; }
+		if (move_y) { mov->Stop_mov_y(); b = 1; }
 
-		obj->Force(force_x, force_y);
-		obj->Move(move_x, move_y);
+		mov->Force(force_x, force_y);
+		pos->Move(move_x, move_y);
 
 		return b;
 	}
