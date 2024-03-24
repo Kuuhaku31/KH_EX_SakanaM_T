@@ -74,5 +74,8 @@ private:
 
 	static void
 	fun(unsigned long* a, unsigned long* b)
-	{ *a = *b; }
+	{ 
+		*a = *b;
+		*a &= 0x88ffffff;
+	}
 };

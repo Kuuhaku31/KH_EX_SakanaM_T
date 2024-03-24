@@ -63,11 +63,8 @@ class Character : public Object
 	Animate animate_skin_R;
 	Animate animate_skin_L;
 
-	Hitbox main_hitbox;
-
 protected:
-	//AI ai;
-
+	
 	bool is_alive = true;
 	int MAX_HP = 1;
 	int HP = 1;

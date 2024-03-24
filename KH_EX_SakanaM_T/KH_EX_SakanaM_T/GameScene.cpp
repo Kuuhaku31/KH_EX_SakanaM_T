@@ -155,11 +155,11 @@ GameScene::Update()
 		}
 	}
 
-	sakana->main_hitbox.Add_hit_box_to_area(&main_world.coll_area);
+	sakana->Add_hit_box_to_area(&main_world.coll_area);
 
 	for (int i = 0; i < crab_count; i++)
 	{
-		crabs[i]->main_hitbox.Add_hit_box_to_area(&main_world.coll_area);
+		crabs[i]->Add_hit_box_to_area(&main_world.coll_area);
 	}
 
 	main_world.Update_booms();
@@ -188,10 +188,10 @@ GameScene::Update()
 
 	camera_man.Position::Move_to(sakana_w_x, sakana_w_y);
 
-	sakana->main_hitbox.Delete_hitbox_from_area(&main_world.coll_area);
+	sakana->Delete_hitbox_from_area(&main_world.coll_area);
 	for (int i = 0; i < crab_count; i++)
 	{
-		crabs[i]->main_hitbox.Delete_hitbox_from_area(&main_world.coll_area);
+		crabs[i]->Delete_hitbox_from_area(&main_world.coll_area);
 	}
 	for (int i = 0; i < crab_count; i++)
 	{
@@ -241,8 +241,8 @@ GameScene::init_character()
 	sakana->animate_skin_R.Set(30, true, true);
 	sakana->animate_skin_L.Set_cuts(library->animate_skin_for_sakana_left, library->num_of_animate_skin_for_sakana);
 	sakana->animate_skin_L.Set(30, true, true);
-	sakana->main_hitbox.Copy(&library->crab_hitbox);
-	sakana->main_hitbox.Set_position(static_cast<Object*>(sakana));
+	sakana->Hitbox::Copy(&library->crab_hitbox);
+	sakana->Hitbox::Set_position(static_cast<Object*>(sakana));
 	//sakana->main_hitbox.Align();
 
 	camera->Set_position(static_cast<Object*>(sakana));
@@ -262,15 +262,21 @@ GameScene::update_screen()
 	camera->Rending(main_world.wall_map.Get_ren(1));
 
 	
+	
+
+
+	
+
+	camera->Rending(main_world.wall_map.Get_ren(2));
+
+	
+
 	for (int i = 0; i < crab_count; i++)
 	{
 		camera->Rending(crabs[i]->Get_skin_renderer());
 	}
 
-
 	camera->Rending(sakana->Get_skin_renderer());
-
-	camera->Rending(main_world.wall_map.Get_ren(2));
 
 	camera->Rending_A(&main_world.hurt_area);
 	camera->Rending_A(&main_world.coll_area);

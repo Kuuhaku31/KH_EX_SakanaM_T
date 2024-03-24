@@ -14,8 +14,8 @@ class Crab : public Character
 		animate_skin_R.Copy(&crab_animate_skin_L);
 		animate_skin_R.Set_position(static_cast<Object*>(this));
 
-		main_hitbox.Copy(&crab_hitbox);
-		main_hitbox.Set_position(static_cast<Object*>(this));
+		Hitbox::Copy(&crab_hitbox);
+		Hitbox::Set_position(static_cast<Object*>(this));
 
 		Collision::Set(24, 18);
 		Set_MAX_HP(200000);
