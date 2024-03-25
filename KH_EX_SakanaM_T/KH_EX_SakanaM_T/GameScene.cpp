@@ -9,7 +9,7 @@ GameScene::GameScene(Library* library, Input* input, Camera* camera, UI* ui)
 	, sakana_wp_x(ui)
 	, sakana_wp_y(ui)
 {
-	Slideboard::Init_nums(library->char_size0_num);
+	Slideboard::Init_nums(library->ui.char_size0_num);
 	World::Load_static_resource(&library->world);
 	Fish::Load_static_resource(&library->fish);
 	Crab::Load_static_resource(&library->crab);
@@ -24,8 +24,12 @@ GameScene::GameScene(Library* library, Input* input, Camera* camera, UI* ui)
 	camera_man.Set_mov_m(100.0);
 	camera_man.Set_drag(friction, friction_m, restitution, restitution_m);
 
-	mouse = new Mouse(&library->_skin_target);
-	ui_mouse = new Target(&library->_skin_target);
+	mouse = new Mouse();
+	mouse->ren_target.Copy_shape(&library->ui.renderer_for_mouse);
+	mouse->ren_target.Align();
+	ui_mouse = new Target();
+	ui_mouse->ren_target.Copy_shape(&library->ui.renderer_for_mouse);
+	ui_mouse->ren_target.Align();
 
 	sakana_wp_x.Move_to(15, 50);
 	sakana_wp_x.Set_bits(4);
@@ -53,10 +57,10 @@ GameScene::Update()
 	if (input->key_J) { x2--; }
 	if (input->key_L) { x2++; }
 
-	if (-20 <= camera->Get_dy() && input->arr_U) { y3--; }
-	if (+20 >= camera->Get_dy() && input->arr_D) { y3++; }
-	if (-20 <= camera->Get_dx() && input->arr_L) { x3--; }
-	if (+20 >= camera->Get_dx() && input->arr_R) { x3++; }
+	if (input->arr_U) { y3--; }
+	if (input->arr_D) { y3++; }
+	if (input->arr_L) { x3--; }
+	if (input->arr_R) { x3++; }
 
 	if (input->key_F)
 	{

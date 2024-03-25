@@ -84,8 +84,6 @@ private:
 	inline void
 	over()
 	{
-		library.Delete();
-
 		delete camera;
 		delete ui;
 

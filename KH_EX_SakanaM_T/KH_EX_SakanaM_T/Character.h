@@ -32,7 +32,7 @@ class Character : public Object
 	void
 	Dead()
 	{
-		is_alive = false;
+		HP = 0;
 	}
 
 	bool

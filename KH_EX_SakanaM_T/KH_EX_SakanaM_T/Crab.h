@@ -36,7 +36,9 @@ class Crab : public Character
 	Update(Position* pos)
 	{
 		See(pos);
-		Collision::Update(static_cast<Object*>(this), this, &main_world->wall_map, &main_world->coll_area);
+		bool l = 1;
+		l = Collision::Update(static_cast<Object*>(this), this, &main_world->wall_map, &main_world->coll_area);
+		if (!l) { Dead(); return; }
 		Movement::Update(static_cast<Object*>(this), main_world->main_map.Is_in_area(static_cast<Object*>(this)));
 		Character::Update();
 	}

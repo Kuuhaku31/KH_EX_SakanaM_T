@@ -45,7 +45,7 @@ private:
 
 	World main_world;
 
-	Crab* crabs[100] = { nullptr };
+	Crab* crabs[10000] = { nullptr };
 	int crab_count = 0;
 
 	Fish* sakana = nullptr;

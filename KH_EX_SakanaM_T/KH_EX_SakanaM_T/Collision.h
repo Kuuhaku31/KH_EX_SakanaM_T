@@ -190,6 +190,7 @@ private:
 		int move_x = 0;
 		int move_y = 0;
 
+		int w = 0;
 		if(wall_area)
 		{
 			if
@@ -201,6 +202,7 @@ private:
 			{
 				force_y += F_2;
 				move_y += 1;
+				w++;
 			}
 
 			if
@@ -212,6 +214,7 @@ private:
 			{
 				force_x -= F_2;
 				move_x -= 1;
+				w++;
 			}
 
 			if
@@ -223,6 +226,7 @@ private:
 			{
 				force_y -= F_2;
 				move_y -= 1;
+				w++;
 			}
 
 			if
@@ -234,7 +238,10 @@ private:
 			{
 				force_x += F_2;
 				move_x += 1;
+				w++;
 			}
+
+			if (4 <= w) { return 0; }
 		}
 
 		
@@ -291,6 +298,6 @@ private:
 		mov->Force(force_x, force_y);
 		pos->Move(move_x, move_y);
 
-		return b;
+		return 1;
 	}
 };

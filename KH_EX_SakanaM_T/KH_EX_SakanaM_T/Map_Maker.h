@@ -13,7 +13,7 @@ class Map_Maker
 		Library lib;
 		lib.Init();
 
-		_unit_skin = lib._unit_skin_wall_02;
+		//_unit_skin = lib._unit_skin_wall_02;
 
 		_unit_wide = _unit_skin.getwidth();
 		_unit_high = _unit_skin.getheight();
