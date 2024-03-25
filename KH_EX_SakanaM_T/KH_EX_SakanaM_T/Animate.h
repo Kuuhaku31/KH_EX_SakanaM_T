@@ -78,8 +78,8 @@ class Animate : public Position
 		cut_num = n;
 		for (int i = 0; i < cut_num; i++)
 		{
-			cuts[i].Copy(&rens[i]);
-			cuts[i].Set_position(this);
+			cuts[i].Copy_shape(&rens[i]);
+			cuts[i].Set_position(this, &rens[i]);
 		}
 	}
 
@@ -123,8 +123,8 @@ class Animate : public Position
 		cuts = new Renderer[cut_num];
 		for (int i = 0; i < cut_num; i++)
 		{
-			cuts[i].Copy(&a->cuts[i]);
-			cuts[i].Set_position(this);
+			cuts[i].Copy_shape(&a->cuts[i]);
+			cuts[i].Set_position(this, &a->cuts[i]);
 		}
 	}
 

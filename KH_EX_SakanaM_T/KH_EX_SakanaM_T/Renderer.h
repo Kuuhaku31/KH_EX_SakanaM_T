@@ -26,16 +26,6 @@ class Renderer
 	void Align_x() { Set_position_x(-shape_wide >> 1); }
 	void Align_y() { Set_position_y(-shape_high >> 1); }
 
-	void
-	Copy(Renderer* r)
-	{
-		parent_pos = r->parent_pos;
-		pos_x = r->pos_x;
-		pos_y = r->pos_y;
-
-		Shape::Copy(r);
-	}
-
 private:
 
 };

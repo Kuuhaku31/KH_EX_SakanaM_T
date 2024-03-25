@@ -206,7 +206,7 @@ public:
 	}
 
 	void
-	Copy(Shape* s)
+	Copy_shape(Shape* s)
 	{
 		shape_wide = s->shape_wide;
 		shape_high = s->shape_high;

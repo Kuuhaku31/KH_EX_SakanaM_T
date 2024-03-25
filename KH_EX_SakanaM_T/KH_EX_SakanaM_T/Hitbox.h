@@ -21,14 +21,6 @@ class Hitbox : public Area
 		area->Add_shape(this, x, y, true);
 	}
 
-	void
-	Copy(Hitbox* h)
-	{
-		x = h->x;
-		y = h->y;
-		Area::Copy(h);
-	}
-
 private:
 
 	int x = 0;

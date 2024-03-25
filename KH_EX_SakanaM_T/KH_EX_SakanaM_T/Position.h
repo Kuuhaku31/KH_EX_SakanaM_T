@@ -45,6 +45,14 @@ class Position
 		pos_y = y;
 	}
 
+	void
+	Set_position(Position* pos1, Position* pos2)
+	{
+		parent_pos = pos1;
+		pos_x = pos2->pos_x;
+		pos_y = pos2->pos_y;
+	}
+
 	int Get_dx() const { return pos_x; }
 	int Get_dy() const { return pos_y; }
 	void Get_dxy(int* dx, int* dy) const { *dx = pos_x; *dy = pos_y; }
@@ -70,16 +78,11 @@ class Position
 	}
 	void Move_to(Position* pos)
 	{
-		pos_x = pos->Get_x();
-		pos_y = pos->Get_y();
-	}
-
-	void
-	Copy(Position* p)
-	{
-		parent_pos = p->parent_pos;
-		pos_x = p->pos_x;
-		pos_y = p->pos_y;
+		if (pos)
+		{
+			pos_x = parent_pos ? pos->Get_x() - Get_x() : pos->Get_x();
+			pos_y = parent_pos ? pos->Get_y() - Get_y() : pos->Get_y();
+		}
 	}
 
 protected:

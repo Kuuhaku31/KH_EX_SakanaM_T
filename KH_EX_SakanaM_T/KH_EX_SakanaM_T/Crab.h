@@ -14,7 +14,8 @@ class Crab : public Character
 		animate_skin_R.Copy(&crab_animate_skin_L);
 		animate_skin_R.Set_position(static_cast<Object*>(this));
 
-		Hitbox::Copy(&crab_hitbox);
+		Hitbox::Copy_shape(&crab_hitbox);
+		Hitbox::Align();
 		Hitbox::Set_position(static_cast<Object*>(this));
 
 		Collision::Set(24, 18);
