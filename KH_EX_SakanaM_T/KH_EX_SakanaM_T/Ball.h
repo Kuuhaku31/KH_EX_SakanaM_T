@@ -67,5 +67,9 @@ class Ball:
 private:
 
 	bool is_alive = true;
+
+	static Animate animate_for_ball;
+	static Animate animate_for_ball_break;
+	static Hitbox  hitbox_ball;
 };
 

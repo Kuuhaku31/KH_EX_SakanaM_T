@@ -14,7 +14,7 @@ GameScene::GameScene(Library* library, Input* input, Camera* camera, UI* ui)
 	Crab::crab_animate_skin_R.Set(60, 1, 1);
 	Crab::crab_animate_skin_L.Copy(&library->animate_for_ikacyann);
 	Crab::crab_animate_skin_L.Set(60, 1, 1);
-	Crab::crab_hitbox.Copy(&library->crab_hitbox);
+	Crab::crab_hitbox.Copy(&library->crab.hitbox_crab);
 
 	init_area();
 	init_character();
@@ -241,7 +241,7 @@ GameScene::init_character()
 	sakana->animate_skin_R.Set(30, true, true);
 	sakana->animate_skin_L.Set_cuts(library->animate_skin_for_sakana_left, library->num_of_animate_skin_for_sakana);
 	sakana->animate_skin_L.Set(30, true, true);
-	sakana->Hitbox::Copy(&library->crab_hitbox);
+	sakana->Hitbox::Copy(&library->fish.hitbox_fish);
 	sakana->Hitbox::Set_position(static_cast<Object*>(sakana));
 	//sakana->main_hitbox.Align();
 

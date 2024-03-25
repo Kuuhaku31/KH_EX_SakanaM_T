@@ -67,7 +67,7 @@ public:
 
 	static_resource_UI ui;
 	inline void
-		load_static_resource_numbers()
+	load_static_resource_numbers()
 	{
 		for (int i = 0; i < 10; i++)
 		{
@@ -85,7 +85,7 @@ public:
 
 	static_resource_world world;
 	inline void
-		load_static_resource_world()
+	load_static_resource_world()
 	{
 		IMAGE img;
 
@@ -120,7 +120,7 @@ public:
 
 	static_resource_crab crab;
 	inline void
-		load_static_resource_crab()
+	load_static_resource_crab()
 	{
 		IMAGE img[3];
 		loadimage(&img[0], "./KH_EX_SakanaM_T/Material/skin_ikacyann.png", 0, 0, true);
@@ -128,63 +128,73 @@ public:
 		loadimage(&img[2], "./KH_EX_SakanaM_T/Material/skin_target.png", 0, 0, true);
 		crab.animate_for_crab_R.Set_cuts(img, 3);
 		crab.animate_for_crab_R.Align_cuts();
+		crab.animate_for_crab_R.Set(60, 1, 1);
 
 		img[0] = Reverse_img(&img[0]);
 		img[1] = Reverse_img(&img[1]);
 		img[2] = Reverse_img(&img[2]);
 		crab.animate_for_crab_L.Set_cuts(img, 3);
 		crab.animate_for_crab_L.Align_cuts();
+		crab.animate_for_crab_L.Set(60, 1, 1);
 
 		loadimage(&img[0], "./KH_EX_SakanaM_T/Material/skins/skin_ball.png", 0, 0, true);
 		loadimage(&img[1], "./KH_EX_SakanaM_T/Material/skins/skin_ball_break_1.png", 0, 0, true);
 		loadimage(&img[2], "./KH_EX_SakanaM_T/Material/skins/skin_ball_break_2.png", 0, 0, true);
 		crab.animate_for_crab_dead_R.Set_cuts(img, 3);
 		crab.animate_for_crab_dead_R.Align_cuts();
+		crab.animate_for_crab_dead_R.Set(60, 1, 1);
 
 		img[0] = Reverse_img(&img[0]);
 		img[1] = Reverse_img(&img[1]);
 		img[2] = Reverse_img(&img[2]);
 		crab.animate_for_crab_dead_L.Set_cuts(img, 3);
 		crab.animate_for_crab_dead_L.Align_cuts();
+		crab.animate_for_crab_dead_L.Set(60, 1, 1);
 
 		loadimage(&img[0], "./KH_EX_SakanaM_T/Material/hitbox/hitbox16.png", 0, 0, true);
 		crab.hitbox_crab.Write(GetImageBuffer(&img[0]), img[0].getwidth(), img[0].getheight());
+		crab.hitbox_crab.Clear_shape(100);
 		crab.hitbox_crab.Align();
 	}
 
 	static_resource_fish fish;
 	inline void
-		load_static_resource_fish()
+	load_static_resource_fish()
 	{
 		IMAGE img[2];
 		loadimage(&img[0], "./KH_EX_SakanaM_T/Material/skins/skin_sakana_01.png", 0, 0, true);
 		loadimage(&img[1], "./KH_EX_SakanaM_T/Material/skins/skin_sakana_02.png", 0, 0, true);
 		fish.animate_for_fish_R.Set_cuts(img, 2);
 		fish.animate_for_fish_R.Align_cuts();
+		fish.animate_for_fish_R.Set(60, 1, 1);
 
 		img[0] = Reverse_img(&img[0]);
 		img[1] = Reverse_img(&img[1]);
 		fish.animate_for_fish_L.Set_cuts(img, 2);
 		fish.animate_for_fish_L.Align_cuts();
+		fish.animate_for_fish_L.Set(60, 1, 1);
 
 		loadimage(&img[0], "./KH_EX_SakanaM_T/Material/skins/skin_ball.png", 0, 0, true);
 		loadimage(&img[1], "./KH_EX_SakanaM_T/Material/skins/skin_ball_break_1.png", 0, 0, true);
 		fish.animate_for_fish_dead_R.Set_cuts(img, 2);
 		fish.animate_for_fish_dead_R.Align_cuts();
+		fish.animate_for_fish_dead_R.Set(60, 1, 1);
 
 		img[0] = Reverse_img(&img[0]);
 		img[1] = Reverse_img(&img[1]);
 		fish.animate_for_fish_dead_L.Set_cuts(img, 2);
 		fish.animate_for_fish_dead_L.Align_cuts();
+		fish.animate_for_fish_dead_L.Set(60, 1, 1);
 
 		loadimage(&img[0], "./KH_EX_SakanaM_T/Material/hitbox/hitbox16.png", 0, 0, true);
 		fish.hitbox_fish.Write(GetImageBuffer(&img[0]), img[0].getwidth(), img[0].getheight());
+		fish.hitbox_fish.Clear_shape(100);
 		fish.hitbox_fish.Align();
 	}
 
 	static_resource_ball ball;
 	inline void
-		load_static_resource_ball()
+	load_static_resource_ball()
 	{
 		IMAGE img[3];
 
@@ -193,12 +203,14 @@ public:
 		loadimage(&img[2], "./KH_EX_SakanaM_T/Material/skins/skin_ball.png", 0, 0, true);
 		ball.animate_for_ball.Set_cuts(img, 3);
 		ball.animate_for_ball.Align_cuts();
+		ball.animate_for_ball.Set(60, 1, 1);
 
 		loadimage(&img[0], "./KH_EX_SakanaM_T/Material/skins/skin_ball.png", 0, 0, true);
 		loadimage(&img[1], "./KH_EX_SakanaM_T/Material/skins/skin_ball_break_1.png", 0, 0, true);
 		loadimage(&img[2], "./KH_EX_SakanaM_T/Material/skins/skin_ball_break_2.png", 0, 0, true);
 		ball.animate_for_ball_break.Set_cuts(img, 3);
 		ball.animate_for_ball_break.Align_cuts();
+		ball.animate_for_ball_break.Set(60, 1, 1);
 
 		loadimage(&img[0], "./KH_EX_SakanaM_T/Material/hitbox/hitbox8.png", 0, 0, true);
 		ball.hitbox_ball.Write(GetImageBuffer(&img[0]), img[0].getwidth(), img[0].getheight());
@@ -210,6 +222,7 @@ public:
 	std::string _path_skin_main = "./KH_EX_SakanaM_T/Material/skin_main.png";
 	IMAGE _skin_main;
 	Renderer ren_main_map;
+
 	void init_ren_main_map()
 	{
 
@@ -318,6 +331,11 @@ public:
 		Init_animate_skin_for_ball_break();
 
 		init_crab_hitbox();
+
+		load_static_resource_world();
+		load_static_resource_crab();
+		load_static_resource_fish();
+		load_static_resource_ball();
 	}
 
 	void

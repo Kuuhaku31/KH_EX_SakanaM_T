@@ -125,6 +125,9 @@
     <ClCompile Include="KH_EX_SakanaM_T\Movement.h">
       <Filter>code</Filter>
     </ClCompile>
+    <ClCompile Include="KH_EX_SakanaM_T\Ball.cpp">
+      <Filter>code</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

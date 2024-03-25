@@ -51,6 +51,7 @@
     <ClInclude Include="KH_EX_SakanaM_T\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="KH_EX_SakanaM_T\Ball.cpp" />
     <ClCompile Include="KH_EX_SakanaM_T\Crab.cpp" />
     <ClCompile Include="KH_EX_SakanaM_T\GameScene.cpp" />
     <ClCompile Include="KH_EX_SakanaM_T\main.cpp" />
