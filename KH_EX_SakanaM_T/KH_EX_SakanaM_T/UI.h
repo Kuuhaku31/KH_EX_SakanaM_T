@@ -3,6 +3,8 @@
 
 #include <graphics.h>
 
+#include "struct_static.h"
+
 #include "Renderer.h"
 
 class UI

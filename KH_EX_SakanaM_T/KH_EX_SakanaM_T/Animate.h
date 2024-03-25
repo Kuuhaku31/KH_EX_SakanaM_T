@@ -108,16 +108,11 @@ class Animate : public Position
 	}
 
 	void
-	Copy(Animate* a)
+	Copy_cuts(Animate* a)
 	{
-		is_roop = a->is_roop;
-		is_playing = a->is_playing;
-
 		cut_num = a->cut_num;
-		cut_now = a->cut_now;
-
-		cut_timer_max = a->cut_timer_max;
-		cut_timer = a->cut_timer;
+		cut_now = 0;
+		cut_timer = 0;
 
 		delete[] cuts;
 		cuts = new Renderer[cut_num];
@@ -126,6 +121,16 @@ class Animate : public Position
 			cuts[i].Copy_shape(&a->cuts[i]);
 			cuts[i].Set_position(this, &a->cuts[i]);
 		}
+	}
+
+	void
+	Copy_stat(Animate* a)
+	{
+		is_roop = a->is_roop;
+		is_playing = a->is_playing;
+
+		cut_timer_max = a->cut_timer_max;
+		cut_timer = 0;
 	}
 
 	bool is_roop = false;

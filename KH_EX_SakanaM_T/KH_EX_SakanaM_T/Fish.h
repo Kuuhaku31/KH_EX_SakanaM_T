@@ -1,13 +1,36 @@
 
 #pragma once
 
+#include "struct_static.h"
+
 #include "Character.h"
 
 #include "Ball.h"
 
 class Fish : public Character
 {	public:
-	Fish(World* world) :Character(world) {}
+	Fish(World* world) : Character(world) 
+	{
+		animate_skin_R.Copy_cuts(&static_resource.animate_for_fish_R);
+		animate_skin_R.Copy_stat(&static_resource.animate_for_fish_R);
+		animate_skin_R.Set_position(static_cast<Object*>(this), &static_resource.animate_for_fish_R);
+		animate_skin_L.Copy_cuts(&static_resource.animate_for_fish_L);
+		animate_skin_L.Copy_stat(&static_resource.animate_for_fish_L);
+		animate_skin_L.Set_position(static_cast<Object*>(this), &static_resource.animate_for_fish_L);
+
+		Hitbox::Copy_shape(&static_resource.hitbox_fish);
+		Hitbox::Set_position(static_cast<Object*>(this), &static_resource.hitbox_fish);
+
+		Collision::Set(24, 18);
+		Set_MAX_HP(200000);
+		Heal_full();
+
+		bar.ren_bar.Set_position(-25, -30);
+
+		Set_mov_m(10.0);
+
+		Set_drag(50, 0.1, 0.1, 0.1);
+	}
 
 	Ball* Fire() { return new Ball(main_world, Object::Position::Get_x(), Object::Position::Get_y()); }
 
@@ -19,6 +42,23 @@ class Fish : public Character
 		Character::Update();
 	}
 
+	static void
+	Load_static_resource(static_resource_fish* res)
+	{
+		static_resource.animate_for_fish_R.Copy_cuts(&res->animate_for_fish_R);
+		static_resource.animate_for_fish_R.Copy_stat(&res->animate_for_fish_R);
+		static_resource.animate_for_fish_L.Copy_cuts(&res->animate_for_fish_L);
+		static_resource.animate_for_fish_L.Copy_stat(&res->animate_for_fish_L);
+		static_resource.animate_for_fish_dead_R.Copy_cuts(&res->animate_for_fish_dead_R);
+		static_resource.animate_for_fish_dead_R.Copy_stat(&res->animate_for_fish_dead_R);
+		static_resource.animate_for_fish_dead_L.Copy_cuts(&res->animate_for_fish_dead_L);
+		static_resource.animate_for_fish_dead_L.Copy_stat(&res->animate_for_fish_dead_L);
+		static_resource.hitbox_fish.Copy_shape(&res->hitbox_fish);
+		static_resource.hitbox_fish.Set_position(&res->hitbox_fish, &res->hitbox_fish);
+	}
+
 private:
+
+	static static_resource_fish static_resource;
 
 };

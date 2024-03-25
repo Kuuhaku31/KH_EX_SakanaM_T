@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "struct_static.h"
+
 #include "Object.h"
 
 #include "Boom.h"
@@ -11,11 +13,18 @@
 class Ball:
 	public Object
 {	public:
-	Ball(World* world, int x, int y, IMAGE* img = nullptr)
-		: Object(world, x, y)
-		, renderer(img, static_cast<Object*>(this))
-		, break_animate(static_cast<Object*>(this))
-	{}
+	Ball(World* world, int x, int y) : Object(world, x, y)
+	{
+		move__animate.Copy_cuts(&static_resource.animate_for_ball);
+		move__animate.Copy_stat(&static_resource.animate_for_ball);
+		move__animate.Set_position(static_cast<Object*>(this), &static_resource.animate_for_ball);
+		break_animate.Copy_cuts(&static_resource.animate_for_ball_break);
+		break_animate.Copy_stat(&static_resource.animate_for_ball_break);
+		break_animate.Set_position(static_cast<Object*>(this), &static_resource.animate_for_ball_break);
+
+		Hitbox::Copy_shape(&static_resource.hitbox_ball);
+		Hitbox::Set_position(static_cast<Object*>(this), &static_resource.hitbox_ball);
+	}
 
 	bool
 	Update()
@@ -52,7 +61,7 @@ class Ball:
 	{
 		if (is_alive)
 		{
-			return &renderer;
+			return move__animate.Get_renderer();
 		}
 		else
 		{
@@ -60,16 +69,25 @@ class Ball:
 		}
 	}
 
-	Renderer renderer;
-
+	Animate move__animate;
 	Animate break_animate;
+
+	static void
+	Load_static_resource(static_resource_ball* res)
+	{
+		static_resource.animate_for_ball.Copy_cuts(&res->animate_for_ball);
+		static_resource.animate_for_ball.Copy_stat(&res->animate_for_ball);
+		static_resource.animate_for_ball_break.Copy_cuts(&res->animate_for_ball_break);
+		static_resource.animate_for_ball_break.Copy_stat(&res->animate_for_ball_break);
+
+		static_resource.hitbox_ball.Copy_shape(&res->hitbox_ball);
+		static_resource.hitbox_ball.Set_position(&res->hitbox_ball, &res->hitbox_ball);
+	}
 
 private:
 
 	bool is_alive = true;
 
-	static Animate animate_for_ball;
-	static Animate animate_for_ball_break;
-	static Hitbox  hitbox_ball;
+	static static_resource_ball static_resource;
 };
 

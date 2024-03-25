@@ -3,20 +3,23 @@
 
 #include <random>
 
+#include "struct_static.h"
+
 #include "Character.h"
 
 class Crab : public Character
 {	public:
 	Crab(World* world) : Character(world) 
 	{
-		animate_skin_L.Copy(&crab_animate_skin_R);
-		animate_skin_L.Set_position(static_cast<Object*>(this));
-		animate_skin_R.Copy(&crab_animate_skin_L);
-		animate_skin_R.Set_position(static_cast<Object*>(this));
+		animate_skin_R.Copy_cuts(&static_resource.animate_for_crab_R);
+		animate_skin_R.Copy_stat(&static_resource.animate_for_crab_R);
+		animate_skin_R.Set_position(static_cast<Object*>(this), &static_resource.animate_for_crab_R);
+		animate_skin_L.Copy_cuts(&static_resource.animate_for_crab_L);
+		animate_skin_L.Copy_stat(&static_resource.animate_for_crab_L);
+		animate_skin_L.Set_position(static_cast<Object*>(this), &static_resource.animate_for_crab_L);
 
-		Hitbox::Copy_shape(&crab_hitbox);
-		Hitbox::Align();
-		Hitbox::Set_position(static_cast<Object*>(this));
+		Hitbox::Copy_shape(&static_resource.hitbox_crab);
+		Hitbox::Set_position(static_cast<Object*>(this), &static_resource.hitbox_crab);
 
 		Collision::Set(24, 18);
 		Set_MAX_HP(200000);
@@ -102,12 +105,24 @@ class Crab : public Character
 		}
 	}
 
-	static Animate crab_animate_skin_R;
-	static Animate crab_animate_skin_L;
-
-	static Hitbox crab_hitbox;
+	static void
+	Load_static_resource(static_resource_crab* res)
+	{
+		static_resource.animate_for_crab_R.Copy_cuts(&res->animate_for_crab_R);
+		static_resource.animate_for_crab_R.Copy_stat(&res->animate_for_crab_R);
+		static_resource.animate_for_crab_L.Copy_cuts(&res->animate_for_crab_L);
+		static_resource.animate_for_crab_L.Copy_stat(&res->animate_for_crab_L);
+		static_resource.animate_for_crab_dead_R.Copy_cuts(&res->animate_for_crab_dead_R);
+		static_resource.animate_for_crab_dead_R.Copy_stat(&res->animate_for_crab_dead_R);
+		static_resource.animate_for_crab_dead_L.Copy_cuts(&res->animate_for_crab_dead_L);
+		static_resource.animate_for_crab_dead_L.Copy_stat(&res->animate_for_crab_dead_L);
+		static_resource.hitbox_crab.Copy_shape(&res->hitbox_crab);
+		static_resource.hitbox_crab.Set_position(&res->hitbox_crab, &res->hitbox_crab);
+	}
 
 private:
 
 	int btime = 0;
+
+	static static_resource_crab static_resource;
 };

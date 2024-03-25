@@ -3,22 +3,22 @@
 
 GameScene::GameScene(Library* library, Input* input, Camera* camera, UI* ui)
 	: Scene(library, input, camera, ui)
-	, main_world(1600, 1280)
+	, main_world()
 	, camera_man(&main_world)
 	, frame_board(ui)
 	, sakana_wp_x(ui)
 	, sakana_wp_y(ui)
 {
 	Slideboard::Init_nums(library->char_size0_num);
-	Crab::crab_animate_skin_R.Copy(&library->animate_for_ikacyann);
-	Crab::crab_animate_skin_R.Set(60, 1, 1);
-	Crab::crab_animate_skin_L.Copy(&library->animate_for_ikacyann);
-	Crab::crab_animate_skin_L.Set(60, 1, 1);
-	Crab::crab_hitbox.Copy_shape(&library->crab.hitbox_crab);
-	Crab::crab_hitbox.Align();
+	World::Load_static_resource(&library->world);
+	Fish::Load_static_resource(&library->fish);
+	Crab::Load_static_resource(&library->crab);
+	Ball::Load_static_resource(&library->ball);
 
-	init_area();
-	init_character();
+	main_world.Init_world();
+	
+	sakana = new Fish(&main_world);
+	sakana->Object::Position::Move_to(spawn_point_2_x, spawn_point_2_y);
 
 	camera->Set_position(&camera_man);
 	camera_man.Set_mov_m(100.0);
@@ -101,10 +101,6 @@ GameScene::Update()
 	{
 		space = false;
 		balls[ball_num] = sakana->Fire();
-		balls[ball_num]->renderer.Reset_skin(&library->_skin_ball);
-		balls[ball_num]->renderer.Align();
-		balls[ball_num]->break_animate.Set_cuts(library->animate_skin_for_ball_break, library->num_of_animate_skin_for_ball_break);
-		balls[ball_num]->break_animate.Set(3, false, true);
 
 		float x = mouse_w_x - sakana_w_x;
 		float y = mouse_w_y - sakana_w_y;
@@ -206,51 +202,6 @@ GameScene::Update()
 	}
 
 	return true;
-}
-
-void 
-GameScene::init_area()
-{
-	main_world.main_map.Resize_shape(MAINWORLDWIDE, MAINWORLDHIGH);
-	main_world.main_map.Clear(20000);
-	main_world.wall_map.Write(GetImageBuffer(&library->_area_wall_01), MAINWORLDWIDE, MAINWORLDHIGH);
-	main_world.coll_area.Resize_shape(MAINWORLDWIDE, MAINWORLDHIGH);
-	main_world.coll_area.Clear();
-	main_world.hurt_area.Resize_shape(MAINWORLDWIDE, MAINWORLDHIGH);
-	main_world.hurt_area.Clear();
-
-	main_world.main_map.INIT_skin(&library->_skin_main);
-	main_world.wall_map.INIT_skin(&library->_skin_wall_01);
-	main_world.wall_map.INIT_skin(&library->_skin_wall_02, 0, 0, 2);
-	main_world.fire_map.INIT_skin();
-}
-
-void 
-GameScene::init_character()
-{
-	sakana = new Fish(&main_world);
-	sakana->Set_mov_m(10.0);
-
-	sakana->Object::Position::Move_to(spawn_point_2_x, spawn_point_2_y);
-	sakana->Set_drag(friction, friction_m, restitution, restitution_m);
-	sakana->Collision::Set(24, 18);
-	sakana->Set_MAX_HP(200000);
-	sakana->Heal_full();
-	//sakana->Collision::Move_to(0, 4);
-	sakana->bar.ren_bar.Set_position(-25, -15);
-	sakana->animate_skin_R.Set_cuts(library->animate_skin_for_sakana_right, library->num_of_animate_skin_for_sakana);
-	sakana->animate_skin_R.Set(30, true, true);
-	sakana->animate_skin_L.Set_cuts(library->animate_skin_for_sakana_left, library->num_of_animate_skin_for_sakana);
-	sakana->animate_skin_L.Set(30, true, true);
-	sakana->Hitbox::Copy_shape(&library->fish.hitbox_fish);
-	sakana->Hitbox::Align();
-	sakana->Hitbox::Set_position(static_cast<Object*>(sakana));
-	//sakana->main_hitbox.Align();
-
-	camera->Set_position(static_cast<Object*>(sakana));
-
-	//ikacyann = new Crab(&main_world);
-	//ikacyann->Object::Move_to(spawn_point_1_x, spawn_point_1_y);
 }
 
 void 

@@ -53,10 +53,13 @@
   <ItemGroup>
     <ClCompile Include="KH_EX_SakanaM_T\Ball.cpp" />
     <ClCompile Include="KH_EX_SakanaM_T\Crab.cpp" />
+    <ClCompile Include="KH_EX_SakanaM_T\Fish.cpp" />
     <ClCompile Include="KH_EX_SakanaM_T\GameScene.cpp" />
     <ClCompile Include="KH_EX_SakanaM_T\main.cpp" />
     <ClCompile Include="KH_EX_SakanaM_T\Movement.h" />
     <ClCompile Include="KH_EX_SakanaM_T\Slideboard.cpp" />
+    <ClCompile Include="KH_EX_SakanaM_T\struct_static.h" />
+    <ClCompile Include="KH_EX_SakanaM_T\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

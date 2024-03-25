@@ -42,11 +42,10 @@ class Map :
 		}
 	}
 
-
-private:
-
 	Renderer ren_skin_01;
 	Renderer ren_skin_02;
 	Renderer ren_skin_03;
+
+private:
 
 };

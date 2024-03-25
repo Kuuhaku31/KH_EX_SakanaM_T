@@ -75,7 +75,5 @@ private:
 	const float restitution = 0.1;
 	const float restitution_m = 0.1;
 
-	void init_area();
-	void init_character();
-	void update_screen();
+	inline void update_screen();
 };
