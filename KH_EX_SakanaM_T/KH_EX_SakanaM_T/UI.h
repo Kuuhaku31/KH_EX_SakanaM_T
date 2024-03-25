@@ -5,10 +5,13 @@
 
 #include "struct_static.h"
 
+//#include "Slideboard.h"
+
 #include "Renderer.h"
 
 class UI
 {	public:
+	UI() {}
 	~UI() { delete[] ui_buffer; }
 
 	void
@@ -55,6 +58,12 @@ class UI
 			ui_buffer[i] = 0;
 		}
 	}
+
+	/*static void
+	Load_static_resource(static_resource_UI* res)
+	{
+		Slideboard::Init_nums(res->char_size0_num);
+	}*/
 
 private:
 

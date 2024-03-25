@@ -1,13 +1,13 @@
 
 #include "GameScene.h"
 
-GameScene::GameScene(Library* library, Input* input, Camera* camera, UI* ui)
-	: Scene(library, input, camera, ui)
+GameScene::GameScene(Library* library, Input* input, Camera* camera)
+	: Scene(library, input, camera)
 	, main_world()
 	, camera_man(&main_world)
-	, frame_board(ui)
-	, sakana_wp_x(ui)
-	, sakana_wp_y(ui)
+	, frame_board(camera)
+	, sakana_wp_x(camera)
+	, sakana_wp_y(camera)
 {
 	Slideboard::Init_nums(library->ui.char_size0_num);
 	World::Load_static_resource(&library->world);
@@ -254,9 +254,9 @@ GameScene::update_screen()
 
 	camera->Rending(&mouse->ren_target);
 
-	camera->Photographed();
+	
 
-	ui->Rending(&ui_mouse->ren_target);
+	camera->Photographed();
 
 	sakana_wp_x.Set_num(sakana->Object::Position::Get_x());
 	sakana_wp_x.Print();
@@ -269,4 +269,6 @@ GameScene::update_screen()
 	start_time = clock();
 	frame_board.Set_num(1000 / delta_time);
 	frame_board.Print();
+
+	//camera->Rending(&ui_mouse->ren_target);
 }

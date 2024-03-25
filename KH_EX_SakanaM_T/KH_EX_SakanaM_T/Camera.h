@@ -14,10 +14,15 @@ class Camera
 	New_graph(int w, int h, int l)
 	{
 		graph_HDC = GetImageHDC();
+		graph_buffer = GetImageBuffer();
 
 		graph_wide = w;
 		graph_high = h;
 		graph_long = l;
+
+		ui.Resize_shape(graph_wide, graph_high);
+		ui.Clear();
+		ui_buffer = ui.Get_buffer();
 	}
 
 	void
@@ -61,6 +66,29 @@ class Camera
 
 					, ren->Get_x() - Get_x() + half_sight_wide
 					, ren->Get_y() - Get_y() + half_sight_high
+
+					, mix_color
+				);
+		}
+	}
+
+	void
+	Rending_UI(Renderer* ren)
+	{
+		if (ren)
+		{
+			Matrix::Write<unsigned long>
+				(
+					graph_buffer
+					, graph_wide
+					, graph_high
+
+					, ren->Get_buffer()
+					, ren->Get_wide()
+					, ren->Get_high()
+
+					, ren->Get_x()
+					, ren->Get_y()
 
 					, mix_color
 				);
@@ -132,6 +160,11 @@ class Camera
 			, sight_high
 			, SRCCOPY
 		);
+
+		for (int i = 0; i < graph_long; i++)
+		{
+			mix_color(&graph_buffer[i], &ui_buffer[i]);
+		}
 	}
 
 	void 
@@ -154,9 +187,13 @@ class Camera
 private:
 
 	HDC graph_HDC = nullptr;
+	unsigned long* graph_buffer = nullptr;
 	int graph_wide = 0;
 	int graph_high = 0;
 	int graph_long = 0;
+
+	Shape ui;
+	unsigned long* ui_buffer = nullptr;
 
 	IMAGE sight;
 	unsigned long* sight_buffer = nullptr;

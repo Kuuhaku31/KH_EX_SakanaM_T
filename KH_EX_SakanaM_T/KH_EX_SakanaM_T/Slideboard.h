@@ -2,11 +2,12 @@
 #pragma once
 
 #include "UI.h"
+#include "Camera.h"
 #include "Renderer.h"
 
 class Slideboard : public Position
 {	public:
-	Slideboard(UI* u, Position* pos = nullptr, int x = 0, int y = 0)
+	Slideboard(Camera* u, Position* pos = nullptr, int x = 0, int y = 0)
 		: Position(pos, x, y)
 		, ui(u)
 	{}
@@ -51,13 +52,13 @@ class Slideboard : public Position
 	{
 		for (int i = 0; i < bit_count; i++)
 		{
-			ui->Rending(&bits[i]);
+			ui->Rending_UI(&bits[i]);
 		}
 	}
 	
 private:
 
-	UI* ui;
+	Camera* ui;
 
 	Renderer* bits = nullptr;
 	int bit_count = 0;

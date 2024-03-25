@@ -13,7 +13,7 @@
 class GameScene 
 	: public Scene
 {	public:
-	GameScene(Library* library, Input* input, Camera* camera, UI* ui);
+	GameScene(Library* library, Input* input, Camera* camera);
 		
 
 	~GameScene()

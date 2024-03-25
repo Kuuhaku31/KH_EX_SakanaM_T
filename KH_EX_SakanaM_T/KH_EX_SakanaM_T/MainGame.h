@@ -39,7 +39,7 @@ private:
 	Input input;
 
 	Camera* camera = nullptr;
-	UI* ui = nullptr;
+	//UI* ui = nullptr;
 
 	GameScene* main_game_scene = nullptr;
 
@@ -67,10 +67,11 @@ private:
 		camera->New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
 		camera->Reset_sight(GRAPHWIDE * k, GRAPHHIGH * k);
 
-		ui = new UI();
-		ui->New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
+		//ui = new UI();
+		//ui->Load_static_resource(&library.ui);
+		//ui->New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
 
-		main_game_scene = new GameScene(&library, &input, camera, ui);
+		main_game_scene = new GameScene(&library, &input, camera);
 	}
 
 	inline bool
@@ -85,7 +86,7 @@ private:
 	over()
 	{
 		delete camera;
-		delete ui;
+		//delete ui;
 
 		delete main_game_scene;
 

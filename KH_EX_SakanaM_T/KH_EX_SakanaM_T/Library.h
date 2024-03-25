@@ -9,11 +9,27 @@
 #include "struct_static.h"
 
 class Library
-{
-public:
+{	public:
 	Library() {}
 
+	void
+	Init()
+	{
+		load_static_resource_ui();
+		load_static_resource_world();
+		load_static_resource_crab();
+		load_static_resource_fish();
+		load_static_resource_ball();
+	}
+
 	static_resource_UI ui;
+	static_resource_world world;
+	static_resource_crab crab;
+	static_resource_fish fish;
+	static_resource_ball ball;
+
+private:
+
 	inline void
 	load_static_resource_ui()
 	{
@@ -31,7 +47,6 @@ public:
 		ui.renderer_for_mouse.Align();
 	}
 
-	static_resource_world world;
 	inline void
 	load_static_resource_world()
 	{
@@ -68,7 +83,6 @@ public:
 		world.area_for_hurt.Clear();
 	}
 
-	static_resource_crab crab;
 	inline void
 	load_static_resource_crab()
 	{
@@ -80,9 +94,9 @@ public:
 		crab.animate_for_crab_R.Align_cuts();
 		crab.animate_for_crab_R.Set(20, 1, 1);
 
-		img[0] = Reverse_img(&img[0]);
-		img[1] = Reverse_img(&img[1]);
-		img[2] = Reverse_img(&img[2]);
+		img[0] = reverse_img(&img[0]);
+		img[1] = reverse_img(&img[1]);
+		img[2] = reverse_img(&img[2]);
 		crab.animate_for_crab_L.Set_cuts(img, 3);
 		crab.animate_for_crab_L.Align_cuts();
 		crab.animate_for_crab_L.Set(60, 1, 1);
@@ -94,9 +108,9 @@ public:
 		crab.animate_for_crab_dead_R.Align_cuts();
 		crab.animate_for_crab_dead_R.Set(60, 1, 1);
 
-		img[0] = Reverse_img(&img[0]);
-		img[1] = Reverse_img(&img[1]);
-		img[2] = Reverse_img(&img[2]);
+		img[0] = reverse_img(&img[0]);
+		img[1] = reverse_img(&img[1]);
+		img[2] = reverse_img(&img[2]);
 		crab.animate_for_crab_dead_L.Set_cuts(img, 3);
 		crab.animate_for_crab_dead_L.Align_cuts();
 		crab.animate_for_crab_dead_L.Set(60, 1, 1);
@@ -106,8 +120,7 @@ public:
 		crab.hitbox_crab.Clear_shape(100);
 		crab.hitbox_crab.Align();
 	}
-
-	static_resource_fish fish;
+	
 	inline void
 	load_static_resource_fish()
 	{
@@ -118,8 +131,8 @@ public:
 		fish.animate_for_fish_R.Align_cuts();
 		fish.animate_for_fish_R.Set(60, 1, 1);
 
-		img[0] = Reverse_img(&img[0]);
-		img[1] = Reverse_img(&img[1]);
+		img[0] = reverse_img(&img[0]);
+		img[1] = reverse_img(&img[1]);
 		fish.animate_for_fish_L.Set_cuts(img, 2);
 		fish.animate_for_fish_L.Align_cuts();
 		fish.animate_for_fish_L.Set(60, 1, 1);
@@ -130,8 +143,8 @@ public:
 		fish.animate_for_fish_dead_R.Align_cuts();
 		fish.animate_for_fish_dead_R.Set(60, 1, 1);
 
-		img[0] = Reverse_img(&img[0]);
-		img[1] = Reverse_img(&img[1]);
+		img[0] = reverse_img(&img[0]);
+		img[1] = reverse_img(&img[1]);
 		fish.animate_for_fish_dead_L.Set_cuts(img, 2);
 		fish.animate_for_fish_dead_L.Align_cuts();
 		fish.animate_for_fish_dead_L.Set(60, 1, 1);
@@ -141,8 +154,7 @@ public:
 		fish.hitbox_fish.Clear_shape(100);
 		fish.hitbox_fish.Align();
 	}
-
-	static_resource_ball ball;
+	
 	inline void
 	load_static_resource_ball()
 	{
@@ -167,18 +179,8 @@ public:
 		ball.hitbox_ball.Align();
 	}
 
-	void
-	Init()
-	{
-		load_static_resource_ui();
-		load_static_resource_world();
-		load_static_resource_crab();
-		load_static_resource_fish();
-		load_static_resource_ball();
-	}
-
 	static inline IMAGE
-		Reverse_img(IMAGE* img)
+	reverse_img(IMAGE* img)
 	{
 		unsigned long* input_buffer = GetImageBuffer(img);
 		int wigh = img->getwidth();

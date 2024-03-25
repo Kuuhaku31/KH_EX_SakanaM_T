@@ -15,12 +15,10 @@ class Scene
 		   Library* lib
 		, Input* inp
 		, Camera* cam
-		, UI* u
 	)
 		: library(lib)
 		, input(inp)
 		, camera(cam)
-		, ui(u)
 	{}
 
 	virtual void 
@@ -52,5 +50,4 @@ protected:
 	Library* library = nullptr;
 	Input* input = nullptr;
 	Camera* camera = nullptr;
-	UI* ui = nullptr;
 };
