@@ -47,7 +47,7 @@ public:
 			{
 				if (getpixel(i, j) != 0x000000)
 				{
-					output->Draw(x, y, k, k, 0xffffffff);
+				//	output->Draw(x, y, k, k, 0xffffffff);
 				}
 			}
 		}

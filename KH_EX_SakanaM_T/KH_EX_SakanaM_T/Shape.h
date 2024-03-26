@@ -101,7 +101,7 @@ public:
 	}
 
 	void
-	Draw(int x, int y, int wide, int high, unsigned long b)
+	Write_on(int x, int y, int wide, int high, unsigned long b)
 	{
 		if (x < 0) { x = 0; }
 		if (y < 0) { y = 0; }

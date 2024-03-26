@@ -3,7 +3,7 @@
 
 GameScene::GameScene(Library* library, Input* input, Camera* camera)
 	: Scene(library, input, camera)
-	, main_world()
+	, main_world(camera)
 	, camera_man(&main_world)
 	, frame_board(camera)
 	, sakana_wp_x(camera)
@@ -187,8 +187,8 @@ GameScene::Update()
 	//
 	camera->Clear();
 
-	camera->Rending(main_world.main_map.Get_ren(1));
-	camera->Rending(main_world.wall_map.Get_ren(1));
+	main_world.main_map.Draw_skin_01();
+	main_world.wall_map.Draw_skin_01();
 
 	for (int i = 0; i < crab_count; i++)
 	{
@@ -206,8 +206,8 @@ GameScene::Update()
 		balls[i]->Draw();
 	}
 
-	camera->Rending(main_world.wall_map.Get_ren(2));
-	camera->Rending(main_world.fire_map.Get_ren(1));
+	main_world.wall_map.Draw_skin_02();
+	main_world.fire_map.Draw_skin_01();
 
 	for (int i = 0; i < crab_count; i++) 
 	{

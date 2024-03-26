@@ -3,12 +3,17 @@
 
 #include "struct_static.h"
 
+#include "Camera.h"
 #include "Map.h"
 #include "Boom.h"
 
 class World
 {	public:
-	World() {}
+	World(Camera* camera)
+		: main_map(camera)
+		, wall_map(camera)
+		, fire_map(camera)
+	{}
 
 	void
 	Init_world()

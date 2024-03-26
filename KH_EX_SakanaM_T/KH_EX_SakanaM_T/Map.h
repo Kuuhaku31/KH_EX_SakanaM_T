@@ -1,13 +1,14 @@
 
 #pragma once
 
+#include "Camera.h"
 #include "Area.h"
 #include "Renderer.h"		 
 
 class Map :
     public Area
-{   public:
-	Map() : Area() {}
+{   public: friend class World;
+	Map(Camera* camera) : Area(), main_camera(camera) {}
 
 	void 
 	INIT_skin
@@ -31,21 +32,15 @@ class Map :
 		ren->Set_position(this, skin_x, skin_y);
 	}
 
-	Renderer*
-	Get_ren(int n)
-	{
-		switch (n)
-		{
-		case 1: return &ren_skin_01;
-		case 2: return &ren_skin_02;
-		case 3: return &ren_skin_03;
-		}
-	}
+	void Draw_skin_01() { main_camera->Rending(&ren_skin_01); }
+	void Draw_skin_02() { main_camera->Rending(&ren_skin_02); }
+	void Draw_skin_03() { main_camera->Rending(&ren_skin_03); }
+
+private:
+
+	Camera* main_camera = nullptr;
 
 	Renderer ren_skin_01;
 	Renderer ren_skin_02;
 	Renderer ren_skin_03;
-
-private:
-
 };
