@@ -64,16 +64,12 @@ GameScene::Update()
 
 	if (input->key_F)
 	{
-		int w = camera->Get_sight_wide();
-		int h = camera->Get_sight_high();
-		camera->Reset_sight(w + 16, h + 9);
+		camera->Tweaks_sight(16, 9);
 	}
 
 	if (input->key_E)
 	{
-		int w = camera->Get_sight_wide();
-		int h = camera->Get_sight_high();
-		camera->Reset_sight(w - 16, h - 9);
+		camera->Tweaks_sight(-16, -9);
 	}
 
 	float FORCE_01 = 500;
@@ -217,10 +213,6 @@ GameScene::update_screen()
 
 	camera->Rending(main_world.fire_map.Get_ren(1));
 	camera->Rending(main_world.wall_map.Get_ren(1));
-
-	
-	
-
 
 	
 

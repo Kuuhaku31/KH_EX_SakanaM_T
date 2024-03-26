@@ -7,9 +7,10 @@
 
 #include "Matrix.h"
 
-class Camera 
-	: public Position
+class Camera : public Position
 {	public:
+	Camera() {}
+
 	void
 	New_graph(int w, int h, int l)
 	{
@@ -19,27 +20,32 @@ class Camera
 		graph_wide = w;
 		graph_high = h;
 		graph_long = l;
+	}
 
-		ui.Resize_shape(graph_wide, graph_high);
-		ui.Clear();
-		ui_buffer = ui.Get_buffer();
+	void
+	Tweaks_sight(int dw, int dy)
+	{
+		Reset_sight(sight_wide + dw, sight_high + dy);
 	}
 
 	void
 	Reset_sight(int w, int h)
 	{
-		sight.Resize(w, h);
-		sight_buffer = GetImageBuffer(&sight);
-		sight_HDC = GetImageHDC(&sight);
+		if (0 < w && 0 < h)
+		{
+			sight.Resize(w, h);
+			sight_buffer = GetImageBuffer(&sight);
+			sight_HDC = GetImageHDC(&sight);
 
-		sight_wide = w;
-		sight_high = h;
-		sight_long = sight_wide * sight_high;
-		half_sight_wide = sight_wide / 2;
-		half_sight_high = sight_high / 2;
+			sight_wide = w;
+			sight_high = h;
+			sight_long = sight_wide * sight_high;
+			half_sight_wide = sight_wide / 2;
+			half_sight_high = sight_high / 2;
 
-		kx = sight_wide / 1.0 / graph_wide;
-		ky = sight_high / 1.0 / graph_high;
+			kx = sight_wide / 1.0 / graph_wide;
+			ky = sight_high / 1.0 / graph_high;
+		}
 	}
 
 	void
@@ -126,21 +132,24 @@ class Camera
 	void
 	Rending_A(Area* area)
 	{
-		Matrix::Write<unsigned long>
-			(
-				sight_buffer
-				, sight_wide
-				, sight_high
+		if (area)
+		{
+			Matrix::Write<unsigned long>
+				(
+					sight_buffer
+					, sight_wide
+					, sight_high
 
-				, area->Get_buffer()
-				, area->Get_shape_wide()
-				, area->Get_shape_high()
+					, area->Get_buffer()
+					, area->Get_shape_wide()
+					, area->Get_shape_high()
 
-				, area->Get_x() - Get_x() + half_sight_wide
-				, area->Get_y() - Get_y() + half_sight_high
+					, area->Get_x() - Get_x() + half_sight_wide
+					, area->Get_y() - Get_y() + half_sight_high
 
-				, fun_add_A
-			);
+					, fun_add_A
+				);
+		}
 	}
 
 	void
@@ -160,11 +169,6 @@ class Camera
 			, sight_high
 			, SRCCOPY
 		);
-
-		for (int i = 0; i < graph_long; i++)
-		{
-			mix_color(&graph_buffer[i], &ui_buffer[i]);
-		}
 	}
 
 	void 
@@ -176,13 +180,8 @@ class Camera
 		*y += Get_y() - half_sight_high;
 	}
 
-	int
-	Get_sight_wide()
-	{ return sight.getwidth(); }
-
-	int
-	Get_sight_high()
-	{ return sight.getheight(); }
+	int Get_sight_wide() { return sight_wide; }
+	int Get_sight_high() { return sight_high; }
 
 private:
 
@@ -192,12 +191,9 @@ private:
 	int graph_high = 0;
 	int graph_long = 0;
 
-	Shape ui;
-	unsigned long* ui_buffer = nullptr;
-
 	IMAGE sight;
-	unsigned long* sight_buffer = nullptr;
 	HDC sight_HDC = nullptr;
+	unsigned long* sight_buffer = nullptr;
 	int sight_wide = 0;
 	int sight_high = 0;
 	int sight_long = 0;
