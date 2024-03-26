@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "MenuScene.h"
 #include "GameScene.h"
 
 class MainGame
@@ -39,6 +40,7 @@ private:
 
 	Camera camera;
 
+	MenuScene* main_menu_scene = nullptr;
 	GameScene* main_game_scene = nullptr;
 
 	const int FRAME_RATE = 60;
@@ -52,7 +54,7 @@ private:
 	init()
 	{
 		graph_HWND = initgraph(GRAPHWIDE, GRAPHHIGH, 1);
-		SetWindowPos(graph_HWND, nullptr, 1000, 1500, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		SetWindowPos(graph_HWND, nullptr, 1176, 1569, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		SetWindowText(graph_HWND, "Sakana");
 
 		library.Init();
@@ -61,6 +63,7 @@ private:
 		camera.New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
 		camera.Reset_sight(GRAPHWIDE * k, GRAPHHIGH * k);
 
+		main_menu_scene = new MenuScene(&library, &input, &camera);
 		main_game_scene = new GameScene(&library, &input, &camera);
 	}
 

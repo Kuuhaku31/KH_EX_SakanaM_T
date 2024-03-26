@@ -38,6 +38,7 @@
     <ClInclude Include="KH_EX_SakanaM_T\Map.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Map_Maker.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Matrix.h" />
+    <ClInclude Include="KH_EX_SakanaM_T\MenuScene.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Object.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Position.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Renderer.h" />

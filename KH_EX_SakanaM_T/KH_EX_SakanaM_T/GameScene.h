@@ -258,6 +258,10 @@ class GameScene
 			crabs[i]->Del_coll();
 		}
 
+		putpixel(0, 0, RED);
+		putpixel(1, 1, RED);
+		putpixel(2, 2, RED);
+
 		return true;
 	}
 
