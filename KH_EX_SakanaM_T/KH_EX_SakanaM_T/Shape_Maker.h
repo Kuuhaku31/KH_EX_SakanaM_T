@@ -38,7 +38,7 @@ public:
 		int input_wide = input.getwidth();
 		int input_high = input.getheight();
 
-		Shape* output = new Shape(input_wide * k, input_high * k);
+		Shape* output = nullptr;//new Shape(input_wide * k, input_high * k);
 
 		SetWorkingImage(&input);
 		for (int i = 0, x = 0; i < input_wide; i++, x += k)

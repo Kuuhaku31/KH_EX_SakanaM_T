@@ -7,23 +7,6 @@ class Shape
 {
 public:
 	Shape() {}
-	Shape(unsigned long* b, int w, int h)
-	{
-		if (!b) { return; }
-		shape_buffer = new unsigned long[w * h];
-		shape_wide = w;
-		shape_high = h;
-		shape_long = w * h;
-		for (int i = 0; i < shape_long; i++) { shape_buffer[i] = b[i]; }
-	}
-	Shape(int w, int h, unsigned long v = 0x00000000)
-	{
-		shape_buffer = new unsigned long[w * h];
-		shape_wide = w;
-		shape_high = h;
-		shape_long = w * h;
-		Clear(v);
-	}
 	~Shape() { delete[] shape_buffer; }
 
 	int	Get_shape_wide() const { return shape_wide; }

@@ -179,7 +179,7 @@ private:
 	}
 
 	inline bool
-	test_area(Position* pos, Movement* mov, Area* wall_area, Area* coll_area)
+		test_area(Position* pos, Movement* mov, Area* wall_area, Area* coll_area)
 	{
 		float F_1 = 200;
 		float F_2 = 500;
@@ -191,7 +191,7 @@ private:
 		int move_y = 0;
 
 		int w = 0;
-		if(wall_area)
+		if (wall_area)
 		{
 			if
 				(
@@ -244,11 +244,17 @@ private:
 			if (4 <= w) { return 0; }
 		}
 
-		
-		force_y += coll_area->Is_in_area(test_point_01_x, test_point_01_y) + coll_area->Is_in_area(test_point_02_x, test_point_02_y) + coll_area->Is_in_area(test_point_03_x, test_point_03_y);
-		force_x -= coll_area->Is_in_area(test_point_04_x, test_point_04_y) + coll_area->Is_in_area(test_point_05_x, test_point_05_y) + coll_area->Is_in_area(test_point_06_x, test_point_06_y);
-		force_y -= coll_area->Is_in_area(test_point_07_x, test_point_07_y) + coll_area->Is_in_area(test_point_08_x, test_point_08_y) + coll_area->Is_in_area(test_point_09_x, test_point_09_y);
-		force_x += coll_area->Is_in_area(test_point_10_x, test_point_10_y) + coll_area->Is_in_area(test_point_11_x, test_point_11_y) + coll_area->Is_in_area(test_point_12_x, test_point_12_y);
+		int a = coll_area->Is_in_area(test_point_01_x, test_point_01_y) + coll_area->Is_in_area(test_point_02_x, test_point_02_y) + coll_area->Is_in_area(test_point_03_x, test_point_03_y);
+		int b1 = coll_area->Is_in_area(test_point_04_x, test_point_04_y) + coll_area->Is_in_area(test_point_05_x, test_point_05_y) + coll_area->Is_in_area(test_point_06_x, test_point_06_y);
+		int c = coll_area->Is_in_area(test_point_07_x, test_point_07_y) + coll_area->Is_in_area(test_point_08_x, test_point_08_y) + coll_area->Is_in_area(test_point_09_x, test_point_09_y);
+		int d = coll_area->Is_in_area(test_point_10_x, test_point_10_y) + coll_area->Is_in_area(test_point_11_x, test_point_11_y) + coll_area->Is_in_area(test_point_12_x, test_point_12_y);
+
+		if (1500 <= a + b1 + c + d) { return 0; }
+
+		force_y += a;
+		force_x -=b1;
+		force_y -=c;
+		force_x +=d;
 
 		/*if
 		(

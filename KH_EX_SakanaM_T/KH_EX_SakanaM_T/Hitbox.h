@@ -5,7 +5,7 @@
 
 class Hitbox : public Area
 {	public:
-	Hitbox(Position* pos = nullptr) : Area(pos) {}
+	Hitbox() : Area() {}
 
 	void
 	Add_hit_box_to_area(Area* area)

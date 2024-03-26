@@ -9,7 +9,7 @@
 
 class Crab : public Character
 {	public:
-	Crab(World* world) : Character(world) 
+	Crab(World* world, Camera* camera) : Character(world, camera)
 	{
 		animate_skin_R.Copy_cuts(&static_resource.animate_for_crab_R);
 		animate_skin_R.Copy_stat(&static_resource.animate_for_crab_R);
@@ -92,14 +92,14 @@ class Crab : public Character
 	{
 		std::random_device rd;  // 用于获取种子数据
 		std::mt19937 gen(rd()); // 使用Mersenne Twister算法生成随机数
-		std::uniform_int_distribution<> distr(1, 10); // 定义分布规则
+		std::uniform_int_distribution<> distr(1, 100); // 定义分布规则
 
 		btime += distr(gen); // 生成在min和max之间的随机整数
 
-		if(btime > 1000)
+		if(btime > 10000)
 		{
 			btime = 0;
-			return new Crab(main_world);
+			return new Crab(main_world, main_camera);
 		}
 		else
 		{

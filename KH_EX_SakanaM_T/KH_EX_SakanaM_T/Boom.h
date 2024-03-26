@@ -6,10 +6,11 @@
 class Boom : public Area
 {	public:
 	Boom(Area* area, int x, int y, int r, int t)
-		: Area(r * 2 + 1, r * 2 + 1)
+		: Area()
 		, hurt_area(area)
 		, time(t)
 	{
+		Resize_shape(r * 2 + 1, r * 2 + 1);
 		Clear();
 		Fill_circle(r, r, r, 2000, true);
 		Set_position(x - r, y - r);

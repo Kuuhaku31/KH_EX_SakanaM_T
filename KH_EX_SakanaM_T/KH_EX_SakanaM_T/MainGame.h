@@ -44,7 +44,7 @@ private:
 	GameScene* main_game_scene = nullptr;
 
 	const int FRAME_RATE = 60;
-	const int SLEEP = 1000 / FRAME_RATE;
+	const int SLEEP = 21;//1000 / FRAME_RATE;
 
 	const int GRAPHWIDE = 1600;
 	const int GRAPHHIGH = 900;

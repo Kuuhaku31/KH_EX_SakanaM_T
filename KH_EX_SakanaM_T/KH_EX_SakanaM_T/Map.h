@@ -7,7 +7,7 @@
 class Map :
     public Area
 {   public:
-	Map(int w = 0, int h = 0) : Area(w, h) {}
+	Map() : Area() {}
 
 	void 
 	INIT_skin

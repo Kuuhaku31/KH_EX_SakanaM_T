@@ -19,9 +19,11 @@ class Object
 		: Position(x, y)
 		, Movement()
 		, Collision()
-		, Hitbox(this)
+		, Hitbox()
 		, main_world(main_world)
-	{}
+	{
+		Hitbox::Set_position(this);
+	}
 
 	void
 	Update()

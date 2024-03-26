@@ -17,7 +17,7 @@ GameScene::GameScene(Library* library, Input* input, Camera* camera)
 
 	main_world.Init_world();
 	
-	sakana = new Fish(&main_world);
+	sakana = new Fish(&main_world, camera);
 	sakana->Object::Position::Move_to(spawn_point_2_x, spawn_point_2_y);
 
 	camera->Set_position(&camera_man);
@@ -126,7 +126,7 @@ GameScene::Update()
 	{
 		R = false;
 
-		crabs[crab_count] = new Crab(&main_world);
+		crabs[crab_count] = new Crab(&main_world, camera);
 		crabs[crab_count]->Object::Position::Move_to(static_cast<Object*>(sakana));
 
 		crab_count++;
@@ -141,7 +141,7 @@ GameScene::Update()
 		Crab* c = crabs[i]->Bron();
 		if (100 > crab_count && c)
 		{
-			crabs[crab_count] = new Crab(&main_world);
+			crabs[crab_count] = new Crab(&main_world, camera);
 			crabs[crab_count]->Object::Position::Move_to(static_cast<Object*>(crabs[i]));
 			crabs[crab_count]->Object::Position::Move(0, 10);
 			crab_count++;
@@ -181,9 +181,58 @@ GameScene::Update()
 		}
 	}
 
-	update_screen();
-
 	camera_man.Position::Move_to(sakana_w_x, sakana_w_y);
+
+	//
+	//
+	camera->Clear();
+
+	camera->Rending(main_world.main_map.Get_ren(1));
+	camera->Rending(main_world.wall_map.Get_ren(1));
+
+	for (int i = 0; i < crab_count; i++)
+	{
+		crabs[i]->Draw_skin();
+	}
+
+	//camera->Rending(sakana->Get_skin_renderer());
+	sakana->Draw_skin();
+
+	camera->Rending_A(&main_world.hurt_area);
+	camera->Rending_A(&main_world.coll_area);
+
+	for (int i = 0; i < ball_num; i++)
+	{
+		balls[i]->Draw();
+	}
+
+	camera->Rending(main_world.wall_map.Get_ren(2));
+	camera->Rending(main_world.fire_map.Get_ren(1));
+
+	for (int i = 0; i < crab_count; i++) 
+	{
+		crabs[i]->Draw_bar();
+	}
+	sakana->Draw_bar();
+	camera->Rending(&mouse->ren_target);
+
+	camera->Photographed();
+
+	//
+	sakana_wp_x.Set_num(sakana->Object::Position::Get_x());
+	sakana_wp_x.Print();
+
+	sakana_wp_y.Set_num(sakana->Object::Position::Get_y());
+	sakana_wp_y.Print();
+
+	end___time = clock();
+	delta_time = end___time - start_time;
+	start_time = clock();
+	frame_board.Set_num(1000 / delta_time);
+	frame_board.Print();
+	//
+	//
+	//
 
 	sakana->Delete_hitbox_from_area(&main_world.coll_area);
 	for (int i = 0; i < crab_count; i++)
@@ -202,65 +251,4 @@ GameScene::Update()
 	}
 
 	return true;
-}
-
-void 
-GameScene::update_screen()
-{
-	camera->Clear();
-
-	camera->Rending(main_world.main_map.Get_ren(1));
-
-	camera->Rending(main_world.fire_map.Get_ren(1));
-	camera->Rending(main_world.wall_map.Get_ren(1));
-
-	
-
-	camera->Rending(main_world.wall_map.Get_ren(2));
-
-	
-
-	for (int i = 0; i < crab_count; i++)
-	{
-		camera->Rending(crabs[i]->Get_skin_renderer());
-	}
-
-	camera->Rending(sakana->Get_skin_renderer());
-
-	camera->Rending_A(&main_world.hurt_area);
-	camera->Rending_A(&main_world.coll_area);
-
-	for (int i = 0; i < ball_num; i++)
-	{
-		camera->Rending(balls[i]->Get_renderer());
-	}
-
-
-	
-	for (int i = 0; i < crab_count; i++)
-	{
-		camera->Rending(&crabs[i]->bar.ren_bar);
-	}
-
-	camera->Rending(&sakana->bar.ren_bar);
-
-	camera->Rending(&mouse->ren_target);
-
-	
-
-	camera->Photographed();
-
-	sakana_wp_x.Set_num(sakana->Object::Position::Get_x());
-	sakana_wp_x.Print();
-
-	sakana_wp_y.Set_num(sakana->Object::Position::Get_y());
-	sakana_wp_y.Print();
-
-	end___time = clock();
-	delta_time = end___time - start_time;
-	start_time = clock();
-	frame_board.Set_num(1000 / delta_time);
-	frame_board.Print();
-
-	//camera->Rending(&ui_mouse->ren_target);
 }

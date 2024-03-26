@@ -10,11 +10,7 @@ class Area
 	: public Position
 	, public Shape
 {	public:
-	Area(Position* pos = nullptr) : Position(pos) {}
-	Area(int w, int h, Position* pos = nullptr)
-		: Position(pos)
-		, Shape(w, h)
-	{}
+	Area() : Position(), Shape() {}
 
 	unsigned long
 	Is_in_area(int x, int y, bool is_use_local = false) const

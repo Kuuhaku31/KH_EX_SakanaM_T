@@ -3,6 +3,7 @@
 
 #include "struct_static.h"
 
+#include "Camera.h"
 #include "Object.h"
 
 #include "Boom.h"
@@ -13,7 +14,7 @@
 class Ball:
 	public Object
 {	public:
-	Ball(World* world, int x, int y) : Object(world, x, y)
+	Ball(World* world, Camera* camera, int x, int y) : Object(world, x, y), main_camera(camera)
 	{
 		move__animate.Copy_cuts(&static_resource.animate_for_ball);
 		move__animate.Copy_stat(&static_resource.animate_for_ball);
@@ -56,21 +57,18 @@ class Ball:
 		return new Boom(&main_world->hurt_area, Position::Get_x(), Position::Get_y(), 20, 10);
 	}
 
-	Renderer*
-	Get_renderer()
+	void
+	Draw()
 	{
 		if (is_alive)
 		{
-			return move__animate.Get_renderer();
+			main_camera->Rending(move__animate.Get_renderer());
 		}
 		else
 		{
-			return break_animate.Get_renderer();
+			main_camera->Rending(move__animate.Get_renderer());
 		}
 	}
-
-	Animate move__animate;
-	Animate break_animate;
 
 	static void
 	Load_static_resource(static_resource_ball* res)
@@ -86,7 +84,12 @@ class Ball:
 
 private:
 
+	Camera* main_camera = nullptr;
+
 	bool is_alive = true;
+
+	Animate move__animate;
+	Animate break_animate;
 
 	static static_resource_ball static_resource;
 };

@@ -15,7 +15,6 @@ class GameScene
 {	public:
 	GameScene(Library* library, Input* input, Camera* camera);
 		
-
 	~GameScene()
 	{
 		delete sakana;
@@ -74,6 +73,4 @@ private:
 	const float friction_m = 0.1;
 	const float restitution = 0.1;
 	const float restitution_m = 0.1;
-
-	inline void update_screen();
 };

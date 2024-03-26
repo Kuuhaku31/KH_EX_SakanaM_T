@@ -9,7 +9,7 @@
 
 class Fish : public Character
 {	public:
-	Fish(World* world) : Character(world) 
+	Fish(World* world, Camera* camera) : Character(world, camera)
 	{
 		animate_skin_R.Copy_cuts(&static_resource.animate_for_fish_R);
 		animate_skin_R.Copy_stat(&static_resource.animate_for_fish_R);
@@ -32,7 +32,7 @@ class Fish : public Character
 		Set_drag(50, 0.1, 0.1, 0.1);
 	}
 
-	Ball* Fire() { return new Ball(main_world, Object::Position::Get_x(), Object::Position::Get_y()); }
+	Ball* Fire() { return new Ball(main_world, main_camera, Object::Position::Get_x(), Object::Position::Get_y()); }
 
 	void 
 	Update()

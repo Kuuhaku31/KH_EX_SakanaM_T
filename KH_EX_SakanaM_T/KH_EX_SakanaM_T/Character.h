@@ -2,6 +2,7 @@
 #pragma once
 
 #include "World.h"
+#include "Camera.h"
 
 #include "Object.h"
 
@@ -11,8 +12,9 @@
 
 class Character : public Object
 {	public:
-	Character(World* world): Object(world)
-
+	Character(World* world,Camera*camera)
+		: Object(world)
+		, main_camera(camera)
 		, bar(&MAX_HP, &HP, static_cast<Object*>(this))
 		, animate_skin_R(static_cast<Object*>(this))
 		, animate_skin_L(static_cast<Object*>(this))
@@ -38,7 +40,6 @@ class Character : public Object
 	bool
 	Update()
 	{
-		
 		HP -= main_world->hurt_area.Is_in_area(static_cast<Object*>(this));
 
 		if (HP < 0) { HP = 0; }
@@ -52,22 +53,36 @@ class Character : public Object
 		return is_alive;
 	}
 
-	Renderer*
-	Get_skin_renderer()
+	void
+	Draw_skin()
 	{
-		if (facing_right) { return animate_skin_R.Get_renderer(); }
-		else { return animate_skin_L.Get_renderer(); }
+		if (facing_right)
+		{
+			main_camera->Rending(animate_skin_R.Get_renderer()); 
+		}
+		else
+		{ 
+			main_camera->Rending(animate_skin_L.Get_renderer()); 
+		}
 	}
 
-	Bar bar;
-	Animate animate_skin_R;
-	Animate animate_skin_L;
+	void
+	Draw_bar()
+	{
+		main_camera->Rending(&bar.ren_bar);
+	}
 
 protected:
+
+	Camera* main_camera = nullptr;
 	
 	bool is_alive = true;
 	int MAX_HP = 1;
 	int HP = 1;
 
 	bool facing_right = true;
+
+	Bar bar;
+	Animate animate_skin_R;
+	Animate animate_skin_L;
 };
