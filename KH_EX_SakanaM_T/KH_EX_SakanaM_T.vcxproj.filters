@@ -57,9 +57,6 @@
     <ClInclude Include="KH_EX_SakanaM_T\Matrix.h">
       <Filter>code</Filter>
     </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\Mouse.h">
-      <Filter>code</Filter>
-    </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Object.h">
       <Filter>code</Filter>
     </ClInclude>
@@ -70,12 +67,6 @@
       <Filter>code</Filter>
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Shape_Maker.h">
-      <Filter>code</Filter>
-    </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\Target.h">
-      <Filter>code</Filter>
-    </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\UI.h">
       <Filter>code</Filter>
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\World.h">

@@ -5,9 +5,8 @@
 #include "Area.h"
 #include "Renderer.h"		 
 
-class Map :
-    public Area
-{   public: friend class World;
+class Map : public Area
+{	public: friend class World;
 	Map(Camera* camera) : Area(), main_camera(camera) {}
 
 	void 

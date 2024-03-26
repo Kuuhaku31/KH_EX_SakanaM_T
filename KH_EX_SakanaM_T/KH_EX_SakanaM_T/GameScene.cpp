@@ -24,12 +24,7 @@ GameScene::GameScene(Library* library, Input* input, Camera* camera)
 	camera_man.Set_mov_m(100.0);
 	camera_man.Set_drag(friction, friction_m, restitution, restitution_m);
 
-	mouse = new Mouse();
-	mouse->ren_target.Copy_shape(&library->ui.renderer_for_mouse);
-	mouse->ren_target.Align();
-	ui_mouse = new Target();
-	ui_mouse->ren_target.Copy_shape(&library->ui.renderer_for_mouse);
-	ui_mouse->ren_target.Align();
+	mouse.Copy_shape(&library->ui.renderer_for_mouse);
 
 	sakana_wp_x.Move_to(15, 50);
 	sakana_wp_x.Set_bits(4);
@@ -84,9 +79,8 @@ GameScene::Update()
 
 	int mouse_w_x = input->mouse_X;
 	int mouse_w_y = input->mouse_Y;
-	ui_mouse->Move_to(mouse_w_x, mouse_w_y);
 	camera->Get_mouse_point(&mouse_w_x, &mouse_w_y);
-	mouse->Move_to(mouse_w_x, mouse_w_y);
+	mouse.Move_to(mouse_w_x - 10, mouse_w_y - 10);
 
 	int camera_man_w_x = camera_man.Position::Get_x();
 	int camera_man_w_y = camera_man.Position::Get_y();
@@ -195,11 +189,7 @@ GameScene::Update()
 		crabs[i]->Draw_skin();
 	}
 
-	//camera->Rending(sakana->Get_skin_renderer());
 	sakana->Draw_skin();
-
-	camera->Rending_A(&main_world.hurt_area);
-	camera->Rending_A(&main_world.coll_area);
 
 	for (int i = 0; i < ball_num; i++)
 	{
@@ -209,15 +199,20 @@ GameScene::Update()
 	main_world.wall_map.Draw_skin_02();
 	main_world.fire_map.Draw_skin_01();
 
+	camera->Rending_A(&main_world.hurt_area);
+	camera->Rending_A(&main_world.coll_area);
+
 	for (int i = 0; i < crab_count; i++) 
 	{
 		crabs[i]->Draw_bar();
 	}
+
 	sakana->Draw_bar();
-	camera->Rending(&mouse->ren_target);
+	camera->Rending(&mouse);
 
 	camera->Photographed();
 
+	//
 	//
 	sakana_wp_x.Set_num(sakana->Object::Position::Get_x());
 	sakana_wp_x.Print();

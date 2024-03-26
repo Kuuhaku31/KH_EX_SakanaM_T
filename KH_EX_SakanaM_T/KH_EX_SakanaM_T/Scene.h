@@ -6,7 +6,6 @@
 #include "Library.h"
 #include "Input.h"
 #include "Camera.h"
-#include "UI.h"
 
 class Scene
 {	public:

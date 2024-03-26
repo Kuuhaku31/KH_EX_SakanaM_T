@@ -5,7 +5,6 @@
 
 #include "Fish.h"
 #include "Crab.h"
-#include "Mouse.h"
 #include "Ball.h"
 #include "World.h"
 #include "Slideboard.h"
@@ -18,8 +17,6 @@ class GameScene
 	~GameScene()
 	{
 		delete sakana;
-		delete mouse;
-		delete ui_mouse;
 
 		for (int i = 0; i < ball_num; i++)
 		{ delete balls[i]; }
@@ -51,8 +48,7 @@ private:
 
 	Object camera_man;
 
-	Mouse* mouse = nullptr;
-	Target* ui_mouse = nullptr;
+	Renderer mouse;
 
 	Ball* balls[100] = { nullptr };
 	int ball_num = 0;

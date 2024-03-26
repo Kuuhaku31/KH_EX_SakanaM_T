@@ -38,7 +38,6 @@
     <ClInclude Include="KH_EX_SakanaM_T\Map.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Map_Maker.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Matrix.h" />
-    <ClInclude Include="KH_EX_SakanaM_T\Mouse.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Object.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Position.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Renderer.h" />
@@ -46,8 +45,6 @@
     <ClInclude Include="KH_EX_SakanaM_T\Shape.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Shape_Maker.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Slideboard.h" />
-    <ClInclude Include="KH_EX_SakanaM_T\Target.h" />
-    <ClInclude Include="KH_EX_SakanaM_T\UI.h" />
     <ClInclude Include="KH_EX_SakanaM_T\World.h" />
   </ItemGroup>
   <ItemGroup>

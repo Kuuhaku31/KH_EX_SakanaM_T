@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "UI.h"
 #include "Camera.h"
 #include "Renderer.h"
 
