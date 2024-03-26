@@ -153,6 +153,29 @@ class Camera : public Position
 	}
 
 	void
+		Rending_AC(Area* area)
+	{
+		if (area)
+		{
+			Matrix::Write<unsigned long>
+				(
+					sight_buffer
+					, sight_wide
+					, sight_high
+
+					, area->Get_buffer()
+					, area->Get_shape_wide()
+					, area->Get_shape_high()
+
+					, area->Get_x() - Get_x() + half_sight_wide
+					, area->Get_y() - Get_y() + half_sight_high
+
+					, fun_add_AC
+				);
+		}
+	}
+
+	void
 	Photographed()
 	{
 		StretchBlt
@@ -209,6 +232,17 @@ private:
 		if (*b)
 		{
 			unsigned long d = ((*b * 0xff )/ 20000) << 24;
+			unsigned long c = 0x00000000 | d;
+			mix_color(a, &c);
+		}
+	}
+
+	static void
+	fun_add_AC(unsigned long* a, unsigned long* b)
+	{
+		if (*b)
+		{
+			unsigned long d = ((*b * 0xff) / 800) << 24;
 			unsigned long c = 0x00000000 | d;
 			mix_color(a, &c);
 		}

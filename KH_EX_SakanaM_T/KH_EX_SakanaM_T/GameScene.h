@@ -63,6 +63,7 @@ class GameScene
 	Update()
 	{
 		input->GetInput();
+
 		if (input->enter) { return false; }
 
 		float x1 = 0, y1 = 0, x2 = 0, y2 = 0, x3 = 0, y3 = 0;
@@ -91,7 +92,7 @@ class GameScene
 			camera->Tweaks_sight(-16, -9);
 		}
 
-		float FORCE_01 = 150;
+		float FORCE_01 = 950;
 		float FORCE_02 = 1000;
 
 		float V_01 = 100;
@@ -104,9 +105,6 @@ class GameScene
 		int mouse_w_y = input->mouse_Y;
 		camera->Get_mouse_point(&mouse_w_x, &mouse_w_y);
 		mouse.Move_to(mouse_w_x - 10, mouse_w_y - 10);
-
-		int camera_man_w_x = camera_man.Position::Get_x();
-		int camera_man_w_y = camera_man.Position::Get_y();
 
 		int sakana_w_x = sakana->Position::Get_x();
 		int sakana_w_y = sakana->Position::Get_y();
@@ -132,7 +130,7 @@ class GameScene
 
 			ball_num++;
 		}
-		if (!input->space)
+		if (input->space)
 		{
 			space = true;
 		}
@@ -165,11 +163,12 @@ class GameScene
 			crabs[i]->Update(static_cast<Object*>(sakana));
 
 			Crab* c = crabs[i]->Bron();
-			if (100 > crab_count && c)
+			if (10000 > crab_count && c)
 			{
 				crabs[crab_count] = new Crab(&main_world, camera);
 				crabs[crab_count]->Object::Position::Move_to(static_cast<Object*>(crabs[i]));
-				crabs[crab_count]->Object::Position::Move(0, 10);
+				crabs[crab_count]->Object::Position::Move(-10, 10);
+				crabs[crab_count]->Add_coll();
 				crab_count++;
 			}
 			else
@@ -198,7 +197,6 @@ class GameScene
 			}
 		}
 
-
 		camera_man.Update();
 		camera_man.Position::Move_to(sakana_w_x, sakana_w_y);
 
@@ -225,11 +223,11 @@ class GameScene
 		main_world.fire_map.Draw_skin_01();
 
 		camera->Rending_A(&main_world.hurt_area);
-		camera->Rending_A(&main_world.coll_area);
+		//camera->Rending_AC(&main_world.coll_area);
 
 		for (int i = 0; i < crab_count; i++)
 		{
-			crabs[i]->Draw_bar();
+			//crabs[i]->Draw_bar();
 		}
 
 		sakana->Draw_bar();

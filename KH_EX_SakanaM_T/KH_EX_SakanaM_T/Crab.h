@@ -57,7 +57,7 @@ class Crab : public Character
 			float dx = pos_x - this_x;
 			float dy = pos_y - this_y;
 			int t = sqrt(dx * dx + dy * dy);
-			if (10000 < t)
+			if (100 < t)
 			{
 				return;
 			}

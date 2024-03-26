@@ -33,13 +33,11 @@ class MainGame
 private:
 
 	HWND graph_HWND = nullptr;
-	HDC graph_HDC = nullptr;
 
 	Library library;
 	Input input;
 
-	Camera* camera = nullptr;
-	//UI* ui = nullptr;
+	Camera camera;
 
 	GameScene* main_game_scene = nullptr;
 
@@ -54,40 +52,27 @@ private:
 	init()
 	{
 		graph_HWND = initgraph(GRAPHWIDE, GRAPHHIGH, 1);
-		graph_HDC = GetImageHDC();
-
+		SetWindowPos(graph_HWND, nullptr, 1000, 1500, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		SetWindowText(graph_HWND, "Sakana");
-		setbkcolor(DARKGRAY);
-		cleardevice();
 
 		library.Init();
 
 		float k = 1.0 / 4.0;
-		camera = new Camera();
-		camera->New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
-		camera->Reset_sight(GRAPHWIDE * k, GRAPHHIGH * k);
+		camera.New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
+		camera.Reset_sight(GRAPHWIDE * k, GRAPHHIGH * k);
 
-		//ui = new UI();
-		//ui->Load_static_resource(&library.ui);
-		//ui->New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
-
-		main_game_scene = new GameScene(&library, &input, camera);
+		main_game_scene = new GameScene(&library, &input, &camera);
 	}
 
 	inline bool
 	update()
 	{
-		//camera->Photographed();
-		//ui->Photographed();
 		return main_game_scene->Update();
 	}
 
 	inline void
 	over()
 	{
-		delete camera;
-		//delete ui;
-
 		delete main_game_scene;
 
 		closegraph();
