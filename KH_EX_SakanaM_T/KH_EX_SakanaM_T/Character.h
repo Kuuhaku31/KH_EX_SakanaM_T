@@ -72,6 +72,18 @@ class Character : public Object
 		main_camera->Rending(&bar.ren_bar);
 	}
 
+	void
+	Add_coll()
+	{
+		Add_hit_box_to_area(&main_world->coll_area);
+	}
+
+	void
+	Del_coll()
+	{
+		Delete_hitbox_from_area(&main_world->coll_area);
+	}
+
 protected:
 
 	Camera* main_camera = nullptr;
