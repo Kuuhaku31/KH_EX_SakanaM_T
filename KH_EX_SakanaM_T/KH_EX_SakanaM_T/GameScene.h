@@ -8,6 +8,7 @@
 #include "Ball.h"
 #include "World.h"
 #include "Slideboard.h"
+#include "Shake.h"
 
 class GameScene 
 	: public Scene
@@ -265,7 +266,6 @@ class GameScene
 		return true;
 	}
 
-
 private:
 
 	unsigned long start_time = 0;
@@ -289,6 +289,12 @@ private:
 
 	Ball* balls[100] = { nullptr };
 	int ball_num = 0;
+
+	Shake* shakes = nullptr;
+	void shake_camera()
+	{
+
+	}
 
 	bool space = false;
 	bool R = false;

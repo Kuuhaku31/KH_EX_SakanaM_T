@@ -43,6 +43,7 @@
     <ClInclude Include="KH_EX_SakanaM_T\Position.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Renderer.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Scene.h" />
+    <ClInclude Include="KH_EX_SakanaM_T\Shake.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Shape.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Shape_Maker.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Slideboard.h" />
