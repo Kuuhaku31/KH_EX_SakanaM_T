@@ -6,10 +6,13 @@
 #include "struct_static.h"
 
 #include "Character.h"
+#include "Ring.h"
 
 class Crab : public Character
 {	public:
-	Crab(World* world, Camera* camera) : Character(world, camera)
+	Crab(World* world, Camera* camera, Ring<Crab>* crab_ring_buffer) 
+		: Character(world, camera)
+		, crab_ring_buffer(crab_ring_buffer)
 	{
 		animate_skin_R.Copy_cuts(&static_resource.animate_for_crab_R);
 		animate_skin_R.Copy_stat(&static_resource.animate_for_crab_R);
@@ -33,14 +36,17 @@ class Crab : public Character
 	};
 
 	void
-	Update(Position* pos)
+	Update(/*Position* pos*/)
 	{
-		See(pos);
+		Position pos(0, 0);
+		See(&pos);
 		bool l = 1;
 		l = Collision::Update(static_cast<Object*>(this), this, &main_world->wall_map, &main_world->coll_area);
 		if (!l) { Dead(); return; }
 		Movement::Update(static_cast<Object*>(this), main_world->main_map.Is_in_area(static_cast<Object*>(this)));
 		Character::Update();
+
+		Bron();
 	}
 
 	void
@@ -87,7 +93,7 @@ class Crab : public Character
 		}
 	}
 
-	Crab* 
+	void
 	Bron()
 	{
 		std::random_device rd;  // 用于获取种子数据
@@ -99,11 +105,12 @@ class Crab : public Character
 		if(btime > 10000)
 		{
 			btime = 0;
-			return new Crab(main_world, main_camera);
-		}
-		else
-		{
-			return nullptr;
+			Crab* c = new Crab(main_world, main_camera, crab_ring_buffer);
+
+			c->Object::Position::Move_to(static_cast<Object*>(this));
+			c->Object::Position::Move(-10, -10);
+			
+			crab_ring_buffer->Add_new_node(c);
 		}
 	}
 
@@ -123,6 +130,8 @@ class Crab : public Character
 	}
 
 private:
+
+	Ring<Crab>* crab_ring_buffer;
 
 	int btime = 0;
 

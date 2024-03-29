@@ -54,11 +54,7 @@ class GameScene
 		delete sakana;
 
 		ball_ring.Delete_all_but_this();
-
-		for (int i = 0; i < crab_count; i++)
-		{
-			delete crabs[i];
-		}
+		crab_ring.Delete_all_but_this();
 	}
 
 	bool 
@@ -138,58 +134,37 @@ class GameScene
 			space = true;
 		}
 
-		if (100 > crab_count && R && input->key_R)
+		if (R && input->key_R)
 		{
 			R = false;
 
-			crabs[crab_count] = new Crab(&main_world, camera);
-			crabs[crab_count]->Object::Position::Move_to(static_cast<Object*>(sakana));
-
-			crab_count++;
+			Crab* c = new Crab(&main_world, camera, &crab_ring_buffer);
+			c->Object::Position::Move_to(static_cast<Object*>(sakana));
+			crab_ring_buffer.Add_new_node(c);
 		}
 		if (!input->key_R)
 		{
 			R = true;
 		}
 
+
+
+
 		main_world.Update_booms();
 
+
+		crab_ring.Add_ring_but_head(&crab_ring_buffer);
+
 		sakana->Add_coll();
-		for (int i = 0; i < crab_count; i++)
-		{
-			crabs[i]->Add_coll();
-		}
+		crab_ring.Run_all_but_this_to_do(&Crab::Add_coll);
 
 		sakana->Update();
-		for (int i = 0; i < crab_count; i++)
-		{
-			crabs[i]->Update(static_cast<Object*>(sakana));
 
-			Crab* c = crabs[i]->Bron();
-			if (10000 > crab_count && c)
-			{
-				crabs[crab_count] = new Crab(&main_world, camera);
-				crabs[crab_count]->Object::Position::Move_to(static_cast<Object*>(crabs[i]));
-				crabs[crab_count]->Object::Position::Move(-10, 10);
-				crabs[crab_count]->Add_coll();
-				crab_count++;
-			}
-			else
-			{
-				delete c;
-			}
+		crab_ring.Run_all_but_this_to_do(&Crab::Update);
+		crab_ring.Run_all_but_this_to_delete(&Crab::Is_alive, &Crab::Del_coll);
 
-			if (0 >= crabs[i]->GetHP())
-			{
-				crabs[i]->Del_coll();
-				delete crabs[i];
-				crabs[i] = crabs[crab_count - 1];
-				crabs[crab_count - 1] = nullptr;
-				crab_count--;
-			}
-		}
 
-		ball_ring.Run_all_but_this_to_delete(&Ball::Update);
+		ball_ring.Run_all_but_this_to_delete(&Ball::Update, &Ball::del);
 
 		camera_man.Update();
 		camera_man.Position::Move_to(sakana_w_x, sakana_w_y);
@@ -201,10 +176,7 @@ class GameScene
 		main_world.main_map.Draw_skin_01();
 		main_world.wall_map.Draw_skin_01();
 
-		for (int i = 0; i < crab_count; i++)
-		{
-			crabs[i]->Draw_skin();
-		}
+		crab_ring.Run_all_but_this_to_do(&Crab::Draw_skin);
 
 		sakana->Draw_skin();
 
@@ -216,10 +188,7 @@ class GameScene
 		camera->Rending_A(&main_world.hurt_area);
 		//camera->Rending_AC(&main_world.coll_area);
 
-		for (int i = 0; i < crab_count; i++)
-		{
-			//crabs[i]->Draw_bar();
-		}
+		//crab_ring.Run_all_but_this_to_do(&Crab::Draw_bar);
 
 		sakana->Draw_bar();
 		camera->Rending(&mouse);
@@ -244,10 +213,8 @@ class GameScene
 		//
 
 		sakana->Del_coll();
-		for (int i = 0; i < crab_count; i++)
-		{
-			crabs[i]->Del_coll();
-		}
+
+		crab_ring.Run_all_but_this_to_do(&Crab::Del_coll);
 
 		putpixel(0, 0, RED);
 		putpixel(1, 1, RED);
@@ -268,8 +235,8 @@ private:
 
 	World main_world;
 
-	Crab* crabs[10000] = { nullptr };
-	int crab_count = 0;
+	Ring<Crab> crab_ring;
+	Ring<Crab> crab_ring_buffer;
 
 	Fish* sakana = nullptr;
 

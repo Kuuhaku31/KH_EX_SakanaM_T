@@ -21,6 +21,7 @@ class Character : public Object
 	{}
 
 	int GetHP() const { return HP; }
+	bool Is_alive() { return 0 >= HP ? false : true; }
 
 	void Set_MAX_HP(int h) { MAX_HP = h; }
 

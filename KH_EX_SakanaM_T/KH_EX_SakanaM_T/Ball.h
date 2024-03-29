@@ -51,6 +51,8 @@ class Ball:
 		}
 	}
 
+	void del(){}
+
 	Boom*
 	Explode()
 	{
