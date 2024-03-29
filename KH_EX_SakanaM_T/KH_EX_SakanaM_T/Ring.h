@@ -32,32 +32,49 @@ class Ring
 
 	T* Get_data() { return data; }
 
-	inline static void
-	Delete_all_but(Ring* r)
+	void
+	Delete_all_but_this()
 	{
-		Ring* nn = nullptr;
-		Ring* n = r->next;
-		while (n != r)
+		Ring* lst = nullptr;
+		Ring* now = this->next;
+		while (now != this)
 		{
-			nn = n->next;
-			delete n->data;
-			delete n;
-			n = nn;
+			lst = now;
+			now = now->next;
+			delete lst->data;
+			delete lst;
 		}
 	}
 
-	inline static void
-	Run_all(Ring* ring, bool(T::*f)())
+	void
+	Run_all_but_this_to_do(void(T::* f)())
 	{
 		Ring* lst = nullptr;
-		Ring* now = ring->Get_next();
-		while (now != ring)
+		Ring* now = this->next;
+		while (now != this)
+		{
+			lst = now;
+			now = now->next;
+			(lst->data->*f)();
+		}
+	}
+
+	void
+	Run_all_but_this_to_delete(bool(T::* f)())
+	{
+		Ring* lst = nullptr;
+		Ring* now = this->next;
+		while (now != this)
 		{
 			lst = now;
 			now = now->next;
 			if (!(lst->data->*f)())
 			{
-				lst->Out_and_delete_this();
+				lst->next->last = lst->last;
+				lst->last->next = lst->next;
+
+				delete data;
+				delete lst;
 			}
 		}
 	}

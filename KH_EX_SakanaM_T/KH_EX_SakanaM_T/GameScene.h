@@ -53,7 +53,7 @@ class GameScene
 	{
 		delete sakana;
 
-		Ring<Ball>::Delete_all_but(&ball_ring);
+		ball_ring.Delete_all_but_this();
 
 		for (int i = 0; i < crab_count; i++)
 		{
@@ -189,19 +189,7 @@ class GameScene
 			}
 		}
 
-		/*Ring<Ball>* lst_ball = nullptr;
-		Ring<Ball>* now_ball = ball_ring.Get_next();
-		while (now_ball != &ball_ring)
-		{
-			lst_ball = now_ball;
-			now_ball = now_ball->Get_next();
-			if (!lst_ball->Get_data()->Update())
-			{
-				lst_ball->Out_and_delete_this();
-			}
-		}*/
-
-		Ring<Ball>::Run_all(&ball_ring, &Ball::Update);
+		ball_ring.Run_all_but_this_to_delete(&Ball::Update);
 
 		camera_man.Update();
 		camera_man.Position::Move_to(sakana_w_x, sakana_w_y);
@@ -220,7 +208,7 @@ class GameScene
 
 		sakana->Draw_skin();
 
-		Ring<Ball>::Run_all(&ball_ring, &Ball::Draw);
+		ball_ring.Run_all_but_this_to_do(&Ball::Draw);
 
 		main_world.wall_map.Draw_skin_02();
 		main_world.fire_map.Draw_skin_01();
