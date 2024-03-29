@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Map.h"
 #include "Boom.h"
+#include "Ring.h"
 
 class World
 {	public:
@@ -35,31 +36,15 @@ class World
 	void 
 	Update_booms()
 	{
-		Boom* prev_boom = nullptr;
-		Boom* now_boom = booms;
-
-		while (now_boom)
+		Ring<Boom>* lst_boom = nullptr;
+		Ring<Boom>* now_boom = booms.Get_next();
+		while (now_boom != &booms)
 		{
-			if (!now_boom->Update())
+			lst_boom = now_boom;
+			now_boom = now_boom->Get_next();
+			if (!lst_boom->Get_data()->Update())
 			{
-				if (now_boom == booms)
-				{
-					booms = now_boom->next_boom;
-				}
-				else
-				{
-					prev_boom->next_boom = now_boom->next_boom;
-				}
-
-				Boom* temp_boom = now_boom;
-				now_boom = now_boom->next_boom;
-
-				delete temp_boom;
-			}
-			else
-			{
-				prev_boom = now_boom;
-				now_boom = now_boom->next_boom;
+				lst_boom->Out_and_delete_this();
 			}
 		}
 	}
@@ -68,15 +53,7 @@ class World
 	void
 	Add_new_boom(Boom* b)
 	{
-		if (booms)
-		{
-			b->next_boom = booms;
-			booms = b;
-		}
-		else
-		{
-			booms = b;
-		}
+		booms.Add_new_node(b);
 	}
 
 	Map main_map;
@@ -106,7 +83,7 @@ class World
 
 private:
 
-	Boom* booms = nullptr;
+	Ring<Boom> booms;
 
 	static static_resource_world static_resource;
 };

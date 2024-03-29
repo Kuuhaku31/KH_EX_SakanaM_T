@@ -57,7 +57,7 @@ class Ball:
 		return new Boom(&main_world->hurt_area, Position::Get_x(), Position::Get_y(), 20, 10);
 	}
 
-	void
+	bool
 	Draw()
 	{
 		if (is_alive)
@@ -68,6 +68,7 @@ class Ball:
 		{
 			main_camera->Rending(break_animate.Get_renderer());
 		}
+		return 1;
 	}
 
 	static void

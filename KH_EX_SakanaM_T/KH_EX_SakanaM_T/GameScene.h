@@ -10,6 +10,8 @@
 #include "Slideboard.h"
 #include "Shake.h"
 
+#include "Ring.h"
+
 class GameScene 
 	: public Scene
 {	public:
@@ -51,8 +53,7 @@ class GameScene
 	{
 		delete sakana;
 
-		for (int i = 0; i < ball_num; i++)
-		{ delete balls[i]; }
+		Ring<Ball>::Delete_all_but(&ball_ring);
 
 		for (int i = 0; i < crab_count; i++)
 		{
@@ -110,26 +111,27 @@ class GameScene
 		int sakana_w_x = sakana->Position::Get_x();
 		int sakana_w_y = sakana->Position::Get_y();
 
-		if (ball_num < 100 && space && (input->space || input->mouse_L))//================================================================00000000000000000
+		if (space && (input->space || input->mouse_L))//================================================================00000000000000000
 		{
 			space = false;
-			balls[ball_num] = sakana->Fire();
+
+			Ball* b = sakana->Fire();
 
 			float x = mouse_w_x - sakana_w_x;
 			float y = mouse_w_y - sakana_w_y;
 
 			if (Matrix::to_unit(&x, &y))
 			{
-				balls[ball_num]->Reset_mov_v(x * V_01, y * V_01);
-				balls[ball_num]->Position::Move(x * V_02, y * V_02);
+				b->Reset_mov_v(x * V_01, y * V_01);
+				b->Position::Move(x * V_02, y * V_02);
 			}
 			else
 			{
-				balls[ball_num]->Reset_mov_v(0, -V_01);
-				balls[ball_num]->Position::Move(0, -V_02); balls[ball_num]->Position::Move(x * V_02, y * V_02);
+				b->Reset_mov_v(0, -V_01);
+				b->Position::Move(0, -V_02);
 			}
 
-			ball_num++;
+			ball_ring.Add_new_node(b);
 		}
 		if (!input->space)
 		{
@@ -187,16 +189,19 @@ class GameScene
 			}
 		}
 
-		for (int i = 0; i < ball_num; i++)
+		/*Ring<Ball>* lst_ball = nullptr;
+		Ring<Ball>* now_ball = ball_ring.Get_next();
+		while (now_ball != &ball_ring)
 		{
-			if (!balls[i]->Update())
+			lst_ball = now_ball;
+			now_ball = now_ball->Get_next();
+			if (!lst_ball->Get_data()->Update())
 			{
-				ball_num--;
-				delete balls[i];
-				balls[i] = balls[ball_num];
-				balls[ball_num] = nullptr;
+				lst_ball->Out_and_delete_this();
 			}
-		}
+		}*/
+
+		Ring<Ball>::Run_all(&ball_ring, &Ball::Update);
 
 		camera_man.Update();
 		camera_man.Position::Move_to(sakana_w_x, sakana_w_y);
@@ -215,10 +220,7 @@ class GameScene
 
 		sakana->Draw_skin();
 
-		for (int i = 0; i < ball_num; i++)
-		{
-			balls[i]->Draw();
-		}
+		Ring<Ball>::Run_all(&ball_ring, &Ball::Draw);
 
 		main_world.wall_map.Draw_skin_02();
 		main_world.fire_map.Draw_skin_01();
@@ -287,8 +289,7 @@ private:
 
 	Renderer mouse;
 
-	Ball* balls[100] = { nullptr };
-	int ball_num = 0;
+	Ring<Ball> ball_ring;
 
 	Shake* shakes = nullptr;
 	void shake_camera()

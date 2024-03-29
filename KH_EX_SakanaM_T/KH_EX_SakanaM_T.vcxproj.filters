@@ -16,6 +16,9 @@
     <Filter Include="code\main">
       <UniqueIdentifier>{756f2d78-86f8-428b-8c6d-4297fb5b86c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="code\Ring">
+      <UniqueIdentifier>{37cee4eb-cbcd-4eaa-89c3-057f52d6d3dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KH_EX_SakanaM_T\Animate.h">
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Shake.h">
       <Filter>code</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Ring.h">
+      <Filter>code\Ring</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
