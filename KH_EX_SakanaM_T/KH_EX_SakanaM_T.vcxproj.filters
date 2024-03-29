@@ -102,6 +102,9 @@
     <ClInclude Include="KH_EX_SakanaM_T\MenuScene.h">
       <Filter>code\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Timer.h">
+      <Filter>code</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KH_EX_SakanaM_T\GameScene.cpp">

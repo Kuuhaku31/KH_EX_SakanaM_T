@@ -46,6 +46,7 @@
     <ClInclude Include="KH_EX_SakanaM_T\Shape.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Shape_Maker.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Slideboard.h" />
+    <ClInclude Include="KH_EX_SakanaM_T\Timer.h" />
     <ClInclude Include="KH_EX_SakanaM_T\World.h" />
   </ItemGroup>
   <ItemGroup>

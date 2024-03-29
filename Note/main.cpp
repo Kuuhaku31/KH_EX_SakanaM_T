@@ -6,8 +6,9 @@
 void 
 Fun_0()
 {
-	//MainGame game;
-	//game.RUN();
+	int v = 12;
+	v += v -= v * v;
+	printf("%d\n", v);
 }
 
 void
@@ -21,8 +22,8 @@ Fun_2()
 {
 	IMAGE img1;
 	IMAGE img2;
-	loadimage(&img1, "./Material/input1.png");
-	loadimage(&img2, "./Material/input2.png");
+	//loadimage(&img1, "./Material/input1.png");
+	//loadimage(&img2, "./Material/input2.png");
 
 	Shape* shape1 = Shape_Maker::Make(img1, 1);
 	Shape* shape2 = Shape_Maker::Make(img2, 1);
@@ -78,7 +79,7 @@ void
 main()
 {
 	std::cout << "GAME START" << std::endl;
-	Fun_2();
+	Fun_0();
 	std::cout << "GAME OVER!" << std::endl;
 	//return 0;
 }

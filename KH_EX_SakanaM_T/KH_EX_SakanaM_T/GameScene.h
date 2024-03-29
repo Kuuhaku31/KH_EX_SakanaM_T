@@ -109,7 +109,7 @@ class GameScene
 		int sakana_w_x = sakana->Position::Get_x();
 		int sakana_w_y = sakana->Position::Get_y();
 
-		if (ball_num < 100 && space && (input->space || input->mouse_L))
+		if (ball_num < 100 && space && (input->space || input->mouse_L))//================================================================00000000000000000
 		{
 			space = false;
 			balls[ball_num] = sakana->Fire();
@@ -130,7 +130,7 @@ class GameScene
 
 			ball_num++;
 		}
-		if (input->space)
+		if (!input->space)
 		{
 			space = true;
 		}

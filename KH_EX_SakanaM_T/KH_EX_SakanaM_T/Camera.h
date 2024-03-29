@@ -153,7 +153,7 @@ class Camera : public Position
 	}
 
 	void
-		Rending_AC(Area* area)
+	Rending_AC(Area* area)
 	{
 		if (area)
 		{

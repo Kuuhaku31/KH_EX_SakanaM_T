@@ -66,7 +66,7 @@ class Ball:
 		}
 		else
 		{
-			main_camera->Rending(move__animate.Get_renderer());
+			main_camera->Rending(break_animate.Get_renderer());
 		}
 	}
 

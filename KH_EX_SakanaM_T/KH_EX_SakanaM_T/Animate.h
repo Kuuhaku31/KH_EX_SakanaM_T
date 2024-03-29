@@ -3,6 +3,8 @@
 
 #include "Renderer.h"
 
+#include "Timer.h"
+
 class Animate : public Position
 {	public:
 	Animate(Position* pos = nullptr) : Position(pos) {}
@@ -12,7 +14,7 @@ class Animate : public Position
 	Restart()
 	{
 		cut_now = 0;
-		cut_timer = 0;
+		timer_sec.Rstart();
 	}
 
 	void Stop() { is_playing = false; }
@@ -21,16 +23,17 @@ class Animate : public Position
 	void
 	Update()
 	{
-		if(!is_playing) { return; }
-		if (cut_timer < cut_timer_max) { cut_timer++; }
-		else
+		if(is_playing)
 		{
-			cut_timer = 0;
-			cut_now++;
-			if(cut_now >= cut_num)
+			timer_sec.Update();
+			if (!timer_sec.Get_now_time())
 			{
-				if (is_roop) { cut_now = 0; }
-				else { cut_now = cut_num - 1; is_playing = false; }
+				cut_now++;
+				if (cut_now >= cut_num)
+				{
+					if (is_roop) { cut_now = 0; }
+					else { cut_now = cut_num - 1; is_playing = false; }
+				}
 			}
 		}
 	}
@@ -52,7 +55,7 @@ class Animate : public Position
 	void
 	Set(int tm, bool b, bool b2)
 	{
-		cut_timer_max = tm;
+		timer_sec.Set_timer_maxt(tm);
 		is_roop = b;
 		is_playing = b2;
 	}
@@ -99,7 +102,7 @@ class Animate : public Position
 	}
 
 	void
-		Align_cuts()
+	Align_cuts()
 	{
 		for (int i = 0; i < cut_num; i++)
 		{
@@ -112,7 +115,7 @@ class Animate : public Position
 	{
 		cut_num = a->cut_num;
 		cut_now = 0;
-		cut_timer = 0;
+		timer_sec.Rstart();
 
 		delete[] cuts;
 		cuts = new Renderer[cut_num];
@@ -129,8 +132,9 @@ class Animate : public Position
 		is_roop = a->is_roop;
 		is_playing = a->is_playing;
 
-		cut_timer_max = a->cut_timer_max;
-		cut_timer = 0;
+		timer_sec.Set_timer(&a->timer_sec);
+		timer_sec.Set_timer_rung(1);
+		timer_sec.Set_timer_roop(1);
 	}
 
 	bool is_roop = false;
@@ -140,9 +144,8 @@ private:
 
 	Renderer* cuts = nullptr;
 
+	Timer timer_sec;
+
 	int cut_num = 0;
 	int cut_now = 0;
-
-	int cut_timer_max = 0;
-	int cut_timer = 0;
 };
