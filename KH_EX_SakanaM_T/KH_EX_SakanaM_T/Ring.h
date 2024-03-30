@@ -16,9 +16,10 @@ class Ring
 	Add_new_node(T* d)
 	{
 		Ring* r = new Ring;
-		r->data = d;
 		r->next = next;
 		r->last = this;
+		r->data = d;
+
 		next->last = r;
 		next = r;
 	}
@@ -59,6 +60,25 @@ class Ring
 			now = now->next;
 			delete lst->data;
 			delete lst;
+		}
+	}
+
+	void
+	Run_all_but_this_to_update()
+	{
+		Ring* lst = nullptr;
+		Ring* now = this->next;
+		while (now != this)
+		{
+			lst = now;
+			now = now->next;
+			if (!lst->data->T::Update())
+			{
+				lst->last->next = now;
+				now->last = lst->last;
+				delete lst->data;
+				delete lst;
+			}
 		}
 	}
 

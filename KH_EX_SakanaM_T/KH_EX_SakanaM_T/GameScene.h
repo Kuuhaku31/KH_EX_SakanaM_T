@@ -150,7 +150,7 @@ class GameScene
 
 
 
-		main_world.Update_booms();
+  		main_world.Update_hurt_area();
 
 
 		crab_ring.Add_ring_but_head(&crab_ring_buffer);
@@ -164,7 +164,7 @@ class GameScene
 		crab_ring.Run_all_but_this_to_delete(&Crab::Is_alive, &Crab::Del_coll);
 
 
-		ball_ring.Run_all_but_this_to_delete(&Ball::Update, &Ball::del);
+		ball_ring.Run_all_but_this_to_update();
 
 		camera_man.Update();
 		camera_man.Position::Move_to(sakana_w_x, sakana_w_y);

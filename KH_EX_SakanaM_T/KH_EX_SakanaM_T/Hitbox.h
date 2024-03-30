@@ -2,6 +2,7 @@
 #pragma once
 
 #include "Area.h"
+#include "Ring.h"
 
 class Hitbox : public Area
 {	public:
@@ -21,7 +22,11 @@ class Hitbox : public Area
 		area->Add_shape(this, x, y, true);
 	}
 
+	void Bind_node(Ring<Hitbox>* r) { node = r; }
+
 private:
+
+	Ring<Hitbox>* node = nullptr;
 
 	int x = 0;
 	int y = 0;

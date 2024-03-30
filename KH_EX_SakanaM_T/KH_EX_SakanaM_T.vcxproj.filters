@@ -33,9 +33,6 @@
     <ClInclude Include="KH_EX_SakanaM_T\Bar.h">
       <Filter>code</Filter>
     </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\Boom.h">
-      <Filter>code</Filter>
-    </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Camera.h">
       <Filter>code</Filter>
     </ClInclude>
@@ -113,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\Ring.h">
       <Filter>code\Ring</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\AreaManager.h">
+      <Filter>code\Shape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

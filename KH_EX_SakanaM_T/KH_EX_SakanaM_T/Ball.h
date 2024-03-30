@@ -6,8 +6,11 @@
 #include "Camera.h"
 #include "Object.h"
 
-#include "Boom.h"
+#include "AreaManager.h"
+//#include "Boom.h"
 #include "Animate.h"
+
+#include "Ring.h"
 
 #include "World.h"
 
@@ -40,23 +43,40 @@ class Ball:
 			)
 			{
 				is_alive = false;
-				main_world->Add_new_boom(Explode());
+				main_world->Hurt_area_add(Explode());
 			}
 			return true;
 		}
 		else
 		{
 			break_animate.Update();
-			return break_animate.is_playing;
+			if (!break_animate.is_playing)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
 		}
 	}
 
 	void del(){}
 
-	Boom*
+	AreaManager*
 	Explode()
 	{
-		return new Boom(&main_world->hurt_area, Position::Get_x(), Position::Get_y(), 20, 10);
+		int r = 20;
+
+		AreaManager* a = new AreaManager(&main_world->hurt_area);
+		a->Resize_shape(r * 2 + 1, r * 2 + 1);
+		a->Clear();
+		a->Fill_circle(r, r, r, 2000, true);
+		a->Set_position(Position::Get_x() - r, Position::Get_y() - r);
+
+		a->Set_timer(10, true, false);
+
+		return a;
 	}
 
 	void

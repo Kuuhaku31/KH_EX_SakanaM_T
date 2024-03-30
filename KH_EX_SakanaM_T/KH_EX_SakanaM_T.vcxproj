@@ -22,9 +22,9 @@
     <ClInclude Include="KH_EX_SakanaM_T\AI.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Animate.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Area.h" />
+    <ClInclude Include="KH_EX_SakanaM_T\AreaManager.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Ball.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Bar.h" />
-    <ClInclude Include="KH_EX_SakanaM_T\Boom.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Camera.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Character.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Collision.h" />

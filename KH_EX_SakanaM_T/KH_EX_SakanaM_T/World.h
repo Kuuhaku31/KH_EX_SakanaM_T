@@ -5,8 +5,9 @@
 
 #include "Camera.h"
 #include "Map.h"
-#include "Boom.h"
+//#include "Boom.h"
 #include "Ring.h"
+#include "AreaManager.h"
 
 class World
 {	public:
@@ -33,7 +34,7 @@ class World
 		hurt_area.Copy_shape(&static_resource.area_for_hurt);
 	}
 
-	void 
+	/*void 
 	Update_booms()
 	{
 		Ring<Boom>* lst_boom = nullptr;
@@ -47,13 +48,31 @@ class World
 				lst_boom->Out_and_delete_this();
 			}
 		}
+	}*/
+
+	void
+		Update_hurt_area()
+	{
+		hurt_areas.Run_all_but_this_to_update();
 	}
 
 
-	void
+	/*void
 	Add_new_boom(Boom* b)
 	{
 		booms.Add_new_node(b);
+	}*/
+
+	void
+	Add_new_hitbox(Hitbox* h)
+	{
+		hitboxes.Add_new_node(h);
+	}
+
+	void
+	Hurt_area_add(AreaManager* a)
+	{
+		hurt_areas.Add_new_node(a);
 	}
 
 	Map main_map;
@@ -83,7 +102,9 @@ class World
 
 private:
 
-	Ring<Boom> booms;
+	Ring<Hitbox> hitboxes;
+
+	Ring<AreaManager> hurt_areas;
 
 	static static_resource_world static_resource;
 };
