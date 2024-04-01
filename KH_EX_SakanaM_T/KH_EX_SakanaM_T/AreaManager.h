@@ -3,7 +3,6 @@
 
 #include "Area.h"
 #include "Timer.h"
-#include "Ring.h"
 
 class AreaManager
 	: public Area
@@ -32,5 +31,4 @@ private:
 
 	bool is_not_added = true;
 	Area* target_area;
-
 };

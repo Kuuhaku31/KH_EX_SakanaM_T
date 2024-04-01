@@ -51,9 +51,27 @@ class World
 	}*/
 
 	void
-		Update_hurt_area()
+	Hurt_area_add(AreaManager* a)
+	{
+		hurt_areas.Add_new_node(a);
+	}
+
+	void
+	Coll_area_add(AreaManager* a)
+	{
+		coll_areas.Add_new_node(a);
+	}
+
+	void
+	Update_hurt_area()
 	{
 		hurt_areas.Run_all_but_this_to_update();
+	}
+
+	void
+	Update_coll_area()
+	{
+		coll_areas.Run_all_but_this_to_update();
 	}
 
 
@@ -69,11 +87,9 @@ class World
 		hitboxes.Add_new_node(h);
 	}
 
-	void
-	Hurt_area_add(AreaManager* a)
-	{
-		hurt_areas.Add_new_node(a);
-	}
+	
+
+	
 
 	Map main_map;
 	Map wall_map;
@@ -105,6 +121,7 @@ private:
 	Ring<Hitbox> hitboxes;
 
 	Ring<AreaManager> hurt_areas;
+	Ring<AreaManager> coll_areas;
 
 	static static_resource_world static_resource;
 };

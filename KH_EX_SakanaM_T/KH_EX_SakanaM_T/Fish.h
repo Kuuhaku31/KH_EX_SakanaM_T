@@ -18,8 +18,8 @@ class Fish : public Character
 		animate_skin_L.Copy_stat(&static_resource.animate_for_fish_L);
 		animate_skin_L.Set_position(static_cast<Object*>(this), &static_resource.animate_for_fish_L);
 
-		Hitbox::Copy_shape(&static_resource.hitbox_fish);
-		Hitbox::Set_position(static_cast<Object*>(this), &static_resource.hitbox_fish);
+		main_hit_box.Copy_shape(&static_resource.hitbox_fish);
+		main_hit_box.Set_position(static_cast<Object*>(this), &static_resource.hitbox_fish);
 
 		Collision::Set(24, 18);
 		Set_MAX_HP(200000);

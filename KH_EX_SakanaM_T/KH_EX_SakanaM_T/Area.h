@@ -11,6 +11,7 @@ class Area
 	, public Shape
 {	public:
 	Area() : Position(), Shape() {}
+	Area(Position* pos) : Position(pos), Shape() {}
 
 	unsigned long
 	Is_in_area(int x, int y, bool is_use_local = false) const

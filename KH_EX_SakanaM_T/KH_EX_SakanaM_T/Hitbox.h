@@ -7,6 +7,7 @@
 class Hitbox : public Area
 {	public:
 	Hitbox() : Area() {}
+	Hitbox(Position* pos) : Area(pos) {}
 
 	void
 	Add_hit_box_to_area(Area* area)

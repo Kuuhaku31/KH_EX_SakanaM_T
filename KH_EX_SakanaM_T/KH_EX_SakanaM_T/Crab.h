@@ -21,8 +21,8 @@ class Crab : public Character
 		animate_skin_L.Copy_stat(&static_resource.animate_for_crab_L);
 		animate_skin_L.Set_position(static_cast<Object*>(this), &static_resource.animate_for_crab_L);
 
-		Hitbox::Copy_shape(&static_resource.hitbox_crab);
-		Hitbox::Set_position(static_cast<Object*>(this), &static_resource.hitbox_crab);
+		main_hit_box.Copy_shape(&static_resource.hitbox_crab);
+		main_hit_box.Set_position(static_cast<Object*>(this), &static_resource.hitbox_crab);
 
 		Collision::Set(24, 18);
 		Set_MAX_HP(200000);
@@ -35,18 +35,19 @@ class Crab : public Character
 		Set_drag(50, 0.1, 0.1, 0.1);
 	};
 
-	void
+	bool
 	Update(/*Position* pos*/)
 	{
-		Position pos(0, 0);
-		See(&pos);
 		bool l = 1;
 		l = Collision::Update(static_cast<Object*>(this), this, &main_world->wall_map, &main_world->coll_area);
-		if (!l) { Dead(); return; }
 		Movement::Update(static_cast<Object*>(this), main_world->main_map.Is_in_area(static_cast<Object*>(this)));
+		Position pos(0, 0);
+		See(&pos);
+		if (!l || HP <= 0) { Dead(); return false; }
 		Character::Update();
 
 		Bron();
+		return true;
 	}
 
 	void

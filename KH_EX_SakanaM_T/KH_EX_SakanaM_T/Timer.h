@@ -40,7 +40,7 @@ class Timer
 	void Set_timer_maxt(int mt) { max_time = mt; }
 	void Set_timer_rung(bool rung) { is_rung = rung; }
 	void Set_timer_roop(bool roop) { is_roop = roop; }
-	void Set_timer(int mt, bool rung,bool roop)
+	void Set_timer(int mt, bool rung, bool roop)
 	{
 		max_time = mt;
 		now_time = mt;

@@ -138,9 +138,9 @@ class GameScene
 		{
 			R = false;
 
-			Crab* c = new Crab(&main_world, camera, &crab_ring_buffer);
+			Crab* c = new Crab(&main_world, camera, &crab_ring);
 			c->Object::Position::Move_to(static_cast<Object*>(sakana));
-			crab_ring_buffer.Add_new_node(c);
+			crab_ring.Add_new_node(c);
 		}
 		if (!input->key_R)
 		{
@@ -148,26 +148,20 @@ class GameScene
 		}
 
 
-
-
-  		main_world.Update_hurt_area();
-
-
-		crab_ring.Add_ring_but_head(&crab_ring_buffer);
-
-		sakana->Add_coll();
-		crab_ring.Run_all_but_this_to_do(&Crab::Add_coll);
-
 		sakana->Update();
-
-		crab_ring.Run_all_but_this_to_do(&Crab::Update);
-		crab_ring.Run_all_but_this_to_delete(&Crab::Is_alive, &Crab::Del_coll);
-
-
+		crab_ring.Run_all_but_this_to_update();
 		ball_ring.Run_all_but_this_to_update();
+
+		sakana->Add_new_coll_area_manager_to_world();
+		crab_ring.Run_all_but_this_to_do(&Crab::Add_new_coll_area_manager_to_world);
+
+		main_world.Update_hurt_area();
+		main_world.Update_coll_area();
+
 
 		camera_man.Update();
 		camera_man.Position::Move_to(sakana_w_x, sakana_w_y);
+
 
 		//
 		//
@@ -186,7 +180,7 @@ class GameScene
 		main_world.fire_map.Draw_skin_01();
 
 		camera->Rending_A(&main_world.hurt_area);
-		//camera->Rending_AC(&main_world.coll_area);
+		camera->Rending_AC(&main_world.coll_area);
 
 		//crab_ring.Run_all_but_this_to_do(&Crab::Draw_bar);
 
@@ -212,9 +206,9 @@ class GameScene
 		//
 		//
 
-		sakana->Del_coll();
+		//sakana->Del_coll();
 
-		crab_ring.Run_all_but_this_to_do(&Crab::Del_coll);
+		//crab_ring.Run_all_but_this_to_do(&Crab::Del_coll);
 
 		putpixel(0, 0, RED);
 		putpixel(1, 1, RED);
@@ -236,7 +230,7 @@ private:
 	World main_world;
 
 	Ring<Crab> crab_ring;
-	Ring<Crab> crab_ring_buffer;
+	//Ring<Crab> crab_ring_buffer;
 
 	Fish* sakana = nullptr;
 

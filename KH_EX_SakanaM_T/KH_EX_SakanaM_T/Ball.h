@@ -26,8 +26,8 @@ class Ball:
 		break_animate.Copy_stat(&static_resource.animate_for_ball_break);
 		break_animate.Set_position(static_cast<Object*>(this), &static_resource.animate_for_ball_break);
 
-		Hitbox::Copy_shape(&static_resource.hitbox_ball);
-		Hitbox::Set_position(static_cast<Object*>(this), &static_resource.hitbox_ball);
+		main_hit_box.Copy_shape(&static_resource.hitbox_ball);
+		main_hit_box.Set_position(static_cast<Object*>(this), &static_resource.hitbox_ball);
 	}
 
 	bool
