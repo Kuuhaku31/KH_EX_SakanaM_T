@@ -95,6 +95,19 @@ class Ring
 		}
 	}
 
+	template<class D> void
+	Run_all_but_this_to_do(void(T::* f)(D*), D* d)
+	{
+		Ring* lst = nullptr;
+		Ring* now = this->next;
+		while (now != this)
+		{
+			lst = now;
+			now = now->next;
+			(lst->data->*f)(d);
+		}
+	}
+
 	void
 	Run_all_but_this_to_add(T* (T::* f)())
 	{

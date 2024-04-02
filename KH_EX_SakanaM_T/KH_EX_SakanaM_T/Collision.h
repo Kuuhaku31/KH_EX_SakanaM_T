@@ -182,7 +182,7 @@ private:
 		test_area(Position* pos, Movement* mov, Area* wall_area, Area* coll_area)
 	{
 		float F_1 = 200;
-		float F_2 = 500;
+		float F_2 = 1000;
 
 		float force_x = 0.0;
 		float force_y = 0.0;

@@ -177,7 +177,7 @@ private:
 	//void (*fun)(T* a, T* b);
 };
 
-namespace Matrix
+namespace Toolf
 {
 	inline static float 
 	Q_rsqrt(float number)

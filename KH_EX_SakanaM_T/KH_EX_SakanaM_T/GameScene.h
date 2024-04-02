@@ -101,8 +101,8 @@ class GameScene
 		float V_01 = 100;
 		float V_02 = 10;
 
-		if (Matrix::to_unit(&x1, &y1)) { sakana->Force(x1 * FORCE_01, y1 * FORCE_01); }
-		if (Matrix::to_unit(&x3, &y3)) { main_camera.Move(x3 * 10, y3 * 10); }
+		if (Toolf::to_unit(&x1, &y1)) { sakana->Force(x1 * FORCE_01, y1 * FORCE_01); }
+		if (Toolf::to_unit(&x3, &y3)) { main_camera.Move(x3 * 10, y3 * 10); }
 		
 		int mouse_w_x = main_input.mouse_X;
 		int mouse_w_y = main_input.mouse_Y;
@@ -112,7 +112,7 @@ class GameScene
 		int sakana_w_x = sakana->Get_x();
 		int sakana_w_y = sakana->Get_y();
 
-		if (space && (main_input.space || main_input.mouse_L))//================================================================00000000000000000
+		if (space && (main_input.space || main_input.mouse_L))
 		{
 			space = false;
 
@@ -121,7 +121,7 @@ class GameScene
 			float x = mouse_w_x - sakana_w_x;
 			float y = mouse_w_y - sakana_w_y;
 
-			if (Matrix::to_unit(&x, &y))
+			if (Toolf::to_unit(&x, &y))
 			{
 				b->Reset_mov_v(x * V_01, y * V_01);
 				b->Move(x * V_02, y * V_02);
@@ -156,6 +156,7 @@ class GameScene
 
 
 		sakana->Update();
+		crab_ring.Run_all_but_this_to_do<Position>(&Crab::See, sakana);
 		crab_ring.Run_all_but_this_to_update();
 		ball_ring.Run_all_but_this_to_update();
 

@@ -54,7 +54,7 @@ private:
 		for (int i = 0; i < p_s; i++)
 		{ p[i] = fill_color; }
 
-		Matrix::Write
+		Toolf::Write
 		(
 			  ren_bar.Get_buffer()
 			, ren_bar.Get_wide()

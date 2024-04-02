@@ -62,7 +62,7 @@ class Camera : public Position
 	{
 		if (ren)
 		{
-			Matrix::Write<unsigned long>
+			Toolf::Write<unsigned long>
 				(
 					sight_buffer
 					, sight_wide
@@ -85,7 +85,7 @@ class Camera : public Position
 	{
 		if (ren)
 		{
-			Matrix::Write<unsigned long>
+			Toolf::Write<unsigned long>
 				(
 					graph_buffer
 					, graph_wide
@@ -136,7 +136,7 @@ class Camera : public Position
 	{
 		if (area)
 		{
-			Matrix::Write<unsigned long>
+			Toolf::Write<unsigned long>
 				(
 					sight_buffer
 					, sight_wide
@@ -159,7 +159,7 @@ class Camera : public Position
 	{
 		if (area)
 		{
-			Matrix::Write<unsigned long>
+			Toolf::Write<unsigned long>
 				(
 					sight_buffer
 					, sight_wide

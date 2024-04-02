@@ -54,7 +54,7 @@ public:
 	{
 		if (is_neg)
 		{
-			Matrix::Write<unsigned long>
+			Toolf::Write<unsigned long>
 				(
 					shape_buffer
 					, shape_wide
@@ -72,7 +72,7 @@ public:
 		}
 		else
 		{
-			Matrix::Write<unsigned long>
+			Toolf::Write<unsigned long>
 				(
 					shape_buffer
 					, shape_wide
