@@ -12,7 +12,7 @@
 
 class Fish : public Character
 {	public:
-	Fish(World* world, Camera* camera, Ring<Shake>* s) : Character(world, camera),shake_ring(s)
+	Fish(World* world, Ring<Shake>* s) : Character(world), shake_ring(s)
 	{
 		animate_skin_R.Copy_cuts(&static_resource.animate_for_fish_R);
 		animate_skin_R.Copy_stat(&static_resource.animate_for_fish_R);
@@ -35,7 +35,7 @@ class Fish : public Character
 		Set_drag(50, 0.1, 0.1, 0.1);
 	}
 
-	Ball* Fire() { return new Ball(main_world, main_camera,shake_ring, Object::Position::Get_x(), Object::Position::Get_y()); }
+	Ball* Fire() { return new Ball(main_world, shake_ring, Object::Position::Get_x(), Object::Position::Get_y()); }
 
 	void 
 	Update()

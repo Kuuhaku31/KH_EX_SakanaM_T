@@ -11,11 +11,7 @@
 
 class World
 {	public:
-	World(Camera* camera)
-		: main_map(camera)
-		, wall_map(camera)
-		, fire_map(camera)
-	{}
+	World() {}
 
 	void
 	Init_world()

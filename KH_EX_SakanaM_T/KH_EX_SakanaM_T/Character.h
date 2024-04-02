@@ -10,11 +10,12 @@
 #include "Animate.h"
 #include "Ball.h"
 
+extern Camera main_camera;
+
 class Character : public Object
 {	public:
-	Character(World* world,Camera*camera)
+	Character(World* world)
 		: Object(world)
-		, main_camera(camera)
 		, bar(&MAX_HP, &HP, static_cast<Object*>(this))
 		, animate_skin_R(static_cast<Object*>(this))
 		, animate_skin_L(static_cast<Object*>(this))
@@ -59,23 +60,21 @@ class Character : public Object
 	{
 		if (facing_right)
 		{
-			main_camera->Rending(animate_skin_R.Get_renderer()); 
+			main_camera.Rending(animate_skin_R.Get_renderer()); 
 		}
 		else
 		{ 
-			main_camera->Rending(animate_skin_L.Get_renderer()); 
+			main_camera.Rending(animate_skin_L.Get_renderer()); 
 		}
 	}
 
 	void
 	Draw_bar()
 	{
-		main_camera->Rending(&bar.ren_bar);
+		main_camera.Rending(&bar.ren_bar);
 	}
 
 protected:
-
-	Camera* main_camera = nullptr;
 	
 	bool is_alive = true;
 	int MAX_HP = 1;

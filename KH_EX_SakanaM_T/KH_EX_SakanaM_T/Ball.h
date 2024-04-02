@@ -14,12 +14,13 @@
 
 #include "World.h"
 
+extern Camera* main_camra;
+
 class Ball:
 	public Object
 {	public:
-	Ball(World* world, Camera* camera, Ring<Shake>* shake_ring, int x, int y)
+	Ball(World* world, Ring<Shake>* shake_ring, int x, int y)
 		: Object(world, x, y)
-		, main_camera(camera)
 		, shake_ring(shake_ring)
 	{
 		move__animate.Copy_cuts(&static_resource.animate_for_ball);
@@ -47,7 +48,7 @@ class Ball:
 			{
 				is_alive = false;
 				main_world->Hurt_area_add(Explode());
-				shake_ring->Add_new_node(new Shake(main_camera, 5, 5));
+				shake_ring->Add_new_node(new Shake(5, 5));
 			}
 			return true;
 		}
@@ -88,11 +89,11 @@ class Ball:
 	{
 		if (is_alive)
 		{
-			main_camera->Rending(move__animate.Get_renderer());
+			main_camera.Rending(move__animate.Get_renderer());
 		}
 		else
 		{
-			main_camera->Rending(break_animate.Get_renderer());
+			main_camera.Rending(break_animate.Get_renderer());
 		}
 	}
 
@@ -109,8 +110,6 @@ class Ball:
 	}
 
 private:
-
-	Camera* main_camera = nullptr;
 
 	Ring<Shake>* shake_ring = nullptr;
 

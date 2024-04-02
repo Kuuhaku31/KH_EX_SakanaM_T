@@ -1,11 +1,11 @@
 
 #pragma once
 
-#include "Scene.h"
+//#include "Scene.h"
 
-class MenuScene : public Scene
+class MenuScene
 {	public:
-	MenuScene(Library* library, Input* input, Camera* camera) : Scene(library, input, camera) {}
+	MenuScene() {}
 
 
 private:

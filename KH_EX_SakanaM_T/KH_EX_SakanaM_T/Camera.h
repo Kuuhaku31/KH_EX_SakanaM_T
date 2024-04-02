@@ -132,7 +132,7 @@ class Camera : public Position
 	}
 
 	void
-	Rending_A(Area* area)
+	Rending_AH(Area* area)
 	{
 		if (area)
 		{
@@ -149,7 +149,7 @@ class Camera : public Position
 					, area->Get_x() - Get_x() + half_sight_wide
 					, area->Get_y() - Get_y() + half_sight_high
 
-					, fun_add_A
+					, fun_add_AH
 				);
 		}
 	}
@@ -277,13 +277,12 @@ private:
 	int shake_radius = 0;
 
 	static void
-	fun_add_A(unsigned long* a, unsigned long* b)
+	fun_add_AH(unsigned long* a, unsigned long* b)
 	{
 		if (*b)
 		{
-			unsigned long d = ((*b * 0xff )/ 20000) << 24;
-			unsigned long c = 0x00000000 | d;
-			mix_color(a, &c);
+			unsigned long d = ((*b * 0xff )/ 40000) << 24;
+			mix_color(a, &d);
 		}
 	}
 

@@ -4,12 +4,11 @@
 #include "Camera.h"
 #include "Renderer.h"
 
+extern Camera main_camera;
+
 class Slideboard : public Position
 {	public:
-	Slideboard(Camera* u, Position* pos = nullptr, int x = 0, int y = 0)
-		: Position(pos, x, y)
-		, ui(u)
-	{}
+	Slideboard() : Position() {}
 	~Slideboard() { delete[] bits; }
 
 	static void
@@ -51,13 +50,11 @@ class Slideboard : public Position
 	{
 		for (int i = 0; i < bit_count; i++)
 		{
-			ui->Rending_UI(&bits[i]);
+			main_camera.Rending_UI(&bits[i]);
 		}
 	}
 	
 private:
-
-	Camera* ui;
 
 	Renderer* bits = nullptr;
 	int bit_count = 0;

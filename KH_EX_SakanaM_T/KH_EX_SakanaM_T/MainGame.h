@@ -6,8 +6,13 @@
 #include "MenuScene.h"
 #include "GameScene.h"
 
+Library main_library;
+Input   main_input;
+Camera  main_camera;
+
 class MainGame
-{	public:
+{	public: 
+	MainGame() {}
 
 	void 
 	RUN()
@@ -35,13 +40,8 @@ private:
 
 	HWND graph_HWND = nullptr;
 
-	Library library;
-	Input input;
-
-	Camera camera;
-
-	MenuScene* main_menu_scene = nullptr;
-	GameScene* main_game_scene = nullptr;
+	MenuScene main_menu_scene;
+	GameScene main_game_scene;
 
 	const int FRAME_RATE = 60;
 	const int SLEEP = 1000 / FRAME_RATE;
@@ -56,31 +56,29 @@ private:
 	inline void 
 	init()
 	{
+
 		graph_HWND = initgraph(GRAPHWIDE, GRAPHHIGH, 1);
 		SetWindowPos(graph_HWND, nullptr, 1176, 1569, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		SetWindowText(graph_HWND, "Sakana");
 
-		library.Init();
+		main_library.Init();
 
 		float k = 1.0 / 4.0;
-		camera.New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
-		camera.Reset_sight(GRAPHWIDE * k, GRAPHHIGH * k);
+		main_camera.New_graph(GRAPHWIDE, GRAPHHIGH, GRAPHLONG);
+		main_camera.Reset_sight(GRAPHWIDE * k, GRAPHHIGH * k);
 
-		main_menu_scene = new MenuScene(&library, &input, &camera);
-		main_game_scene = new GameScene(&library, &input, &camera);
+		main_game_scene.Init();
 	}
 
 	inline bool
 	update()
 	{
-		return main_game_scene->Update();
+		return main_game_scene.Update();
 	}
 
 	inline void
 	over()
 	{
-		delete main_game_scene;
-
 		closegraph();
 	}
 };

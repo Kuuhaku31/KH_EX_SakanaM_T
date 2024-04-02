@@ -6,9 +6,11 @@
 #include "Camera.h"
 #include "Timer.h"
 
+extern Camera main_camera;
+
 class Shake
 {	public:
-	Shake(Camera* camera, int r, int t) : camera(camera), radius(r), now_time(t) {}
+	Shake(int r, int t) : radius(r), now_time(t) {}
 
 	bool
 	Update() 
@@ -17,7 +19,7 @@ class Shake
 		{
 			now_time--;
 
-			camera->Add_shake(radius);
+			main_camera.Add_shake(radius);
 
 			return true;
 		}
@@ -28,8 +30,6 @@ class Shake
 	}
 
 private:
-
-	Camera* camera;
 
 	int radius;
 	int now_time;

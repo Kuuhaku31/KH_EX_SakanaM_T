@@ -5,9 +5,11 @@
 #include "Area.h"
 #include "Renderer.h"		 
 
+extern Camera main_camera;
+
 class Map : public Area
 {	public: friend class World;
-	Map(Camera* camera) : Area(), main_camera(camera) {}
+	Map() : Area() {}
 
 	void 
 	INIT_skin
@@ -31,13 +33,11 @@ class Map : public Area
 		ren->Set_position(this, skin_x, skin_y);
 	}
 
-	void Draw_skin_01() { main_camera->Rending(&ren_skin_01); }
-	void Draw_skin_02() { main_camera->Rending(&ren_skin_02); }
-	void Draw_skin_03() { main_camera->Rending(&ren_skin_03); }
+	void Draw_skin_01() { main_camera.Rending(&ren_skin_01); }
+	void Draw_skin_02() { main_camera.Rending(&ren_skin_02); }
+	void Draw_skin_03() { main_camera.Rending(&ren_skin_03); }
 
 private:
-
-	Camera* main_camera = nullptr;
 
 	Renderer ren_skin_01;
 	Renderer ren_skin_02;

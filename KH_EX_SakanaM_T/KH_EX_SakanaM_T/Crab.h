@@ -10,8 +10,8 @@
 
 class Crab : public Character
 {	public:
-	Crab(World* world, Camera* camera, Ring<Crab>* crab_ring) 
-		: Character(world, camera)
+	Crab(World* world, Ring<Crab>* crab_ring) 
+		: Character(world)
 		, crab_ring(crab_ring)
 	{
 		animate_skin_R.Copy_cuts(&static_resource.animate_for_crab_R);
@@ -36,17 +36,18 @@ class Crab : public Character
 	};
 
 	bool
-	Update(/*Position* pos*/)
+	Update()
 	{
 		bool l = 1;
-		l = Collision::Update(static_cast<Object*>(this), this, &main_world->wall_map, &main_world->coll_area);
-		Movement::Update(static_cast<Object*>(this), main_world->main_map.Is_in_area(static_cast<Object*>(this)));
+		l = Collision::Update(this, this, &main_world->wall_map, &main_world->coll_area);
+		Movement::Update(this, main_world->main_map.Is_in_area(this));
 		Position pos(0, 0);
 		See(&pos);
-		if (!l || HP <= 0) { Dead(); return false; }
+		if (!l || HP <= 0) { return false; }
 		Character::Update();
 
 		Bron();
+
 		return true;
 	}
 
@@ -106,7 +107,7 @@ class Crab : public Character
 		if(btime > 10000)
 		{
 			btime = 0;
-			Crab* c = new Crab(main_world, main_camera, crab_ring);
+			Crab* c = new Crab(main_world, crab_ring);
 
 			c->Object::Position::Move_to(static_cast<Object*>(this));
 			c->Object::Position::Move(-10, -10);
