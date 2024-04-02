@@ -6,8 +6,9 @@
 void 
 Fun_0()
 {
-	int v = 12;
-	v += v -= v * v;
+	int v;
+	float a=4.5, b=6.9;
+	v = (int)(a + b);
 	printf("%d\n", v);
 }
 

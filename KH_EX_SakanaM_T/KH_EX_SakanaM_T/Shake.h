@@ -1,28 +1,36 @@
 
 #pragma once
 
+#include <random>
+
+#include "Camera.h"
 #include "Timer.h"
 
 class Shake
 {	public:
-	Shake(int r, int t) : radius(r), timer(t, true, false) {}
+	Shake(Camera* camera, int r, int t) : camera(camera), radius(r), now_time(t) {}
 
-	int 
-	Get_radius_and_update() 
+	bool
+	Update() 
 	{ 
-		if (timer.Get_now_time())
+		if (0 < now_time)
 		{
-			timer.Update();
-			return radius;
+			now_time--;
+
+			camera->Add_shake(radius);
+
+			return true;
 		}
 		else
 		{
-			return 0;
+			return false;
 		}
 	}
 
 private:
 
-	const int radius;
-	Timer timer;
+	Camera* camera;
+
+	int radius;
+	int now_time;
 };

@@ -23,6 +23,20 @@ class GameScene
 		, sakana_wp_x(camera)
 		, sakana_wp_y(camera)
 	{
+		Init();
+	}
+		
+	~GameScene()
+	{
+		delete sakana;
+
+		ball_ring.Delete_all_but_this();
+		crab_ring.Delete_all_but_this();
+	}
+
+	void
+	Init()
+	{
 		Slideboard::Init_nums(library->ui.char_size0_num);
 		World::Load_static_resource(&library->world);
 		Fish::Load_static_resource(&library->fish);
@@ -31,8 +45,8 @@ class GameScene
 
 		main_world.Init_world();
 
-		sakana = new Fish(&main_world, camera);
-		sakana->Object::Position::Move_to(spawn_point_2_x, spawn_point_2_y);
+		sakana = new Fish(&main_world, camera, &shake_ring);
+		sakana->Move_to(spawn_point_2_x, spawn_point_2_y);
 
 		camera->Set_position(&camera_man);
 		camera_man.Set_mov_m(100.0);
@@ -47,14 +61,6 @@ class GameScene
 
 		frame_board.Move_to(15, 20);
 		frame_board.Set_bits(3);
-	}
-		
-	~GameScene()
-	{
-		delete sakana;
-
-		ball_ring.Delete_all_but_this();
-		crab_ring.Delete_all_but_this();
 	}
 
 	bool 
@@ -96,16 +102,16 @@ class GameScene
 		float V_01 = 100;
 		float V_02 = 10;
 
-		if (Matrix::to_unit(&x1, &y1)) { sakana->Movement::Force(x1 * FORCE_01, y1 * FORCE_01); }
+		if (Matrix::to_unit(&x1, &y1)) { sakana->Force(x1 * FORCE_01, y1 * FORCE_01); }
 		if (Matrix::to_unit(&x3, &y3)) { camera->Move(x3 * 10, y3 * 10); }
-
+		
 		int mouse_w_x = input->mouse_X;
 		int mouse_w_y = input->mouse_Y;
 		camera->Get_mouse_point(&mouse_w_x, &mouse_w_y);
 		mouse.Move_to(mouse_w_x - 10, mouse_w_y - 10);
 
-		int sakana_w_x = sakana->Position::Get_x();
-		int sakana_w_y = sakana->Position::Get_y();
+		int sakana_w_x = sakana->Get_x();
+		int sakana_w_y = sakana->Get_y();
 
 		if (space && (input->space || input->mouse_L))//================================================================00000000000000000
 		{
@@ -119,15 +125,17 @@ class GameScene
 			if (Matrix::to_unit(&x, &y))
 			{
 				b->Reset_mov_v(x * V_01, y * V_01);
-				b->Position::Move(x * V_02, y * V_02);
+				b->Move(x * V_02, y * V_02);
 			}
 			else
 			{
 				b->Reset_mov_v(0, -V_01);
-				b->Position::Move(0, -V_02);
+				b->Move(0, -V_02);
 			}
 
 			ball_ring.Add_new_node(b);
+
+			shake_ring.Add_new_node(new Shake(camera, 2, 5));
 		}
 		if (!input->space)
 		{
@@ -139,7 +147,7 @@ class GameScene
 			R = false;
 
 			Crab* c = new Crab(&main_world, camera, &crab_ring);
-			c->Object::Position::Move_to(static_cast<Object*>(sakana));
+			c->Move_to(static_cast<Object*>(sakana));
 			crab_ring.Add_new_node(c);
 		}
 		if (!input->key_R)
@@ -158,10 +166,10 @@ class GameScene
 		main_world.Update_hurt_area();
 		main_world.Update_coll_area();
 
-
 		camera_man.Update();
-		camera_man.Position::Move_to(sakana_w_x, sakana_w_y);
+		camera_man.Move_to(sakana_w_x, sakana_w_y);
 
+		shake_ring.Run_all_but_this_to_update();
 
 		//
 		//
@@ -182,7 +190,6 @@ class GameScene
 		camera->Rending_A(&main_world.hurt_area);
 		camera->Rending_AC(&main_world.coll_area);
 
-		//crab_ring.Run_all_but_this_to_do(&Crab::Draw_bar);
 
 		sakana->Draw_bar();
 		camera->Rending(&mouse);
@@ -202,17 +209,13 @@ class GameScene
 		start_time = clock();
 		frame_board.Set_num(1000 / delta_time);
 		frame_board.Print();
-		//
-		//
-		//
-
-		//sakana->Del_coll();
-
-		//crab_ring.Run_all_but_this_to_do(&Crab::Del_coll);
 
 		putpixel(0, 0, RED);
 		putpixel(1, 1, RED);
 		putpixel(2, 2, RED);
+		//
+		//
+
 
 		return true;
 	}
@@ -230,7 +233,6 @@ private:
 	World main_world;
 
 	Ring<Crab> crab_ring;
-	//Ring<Crab> crab_ring_buffer;
 
 	Fish* sakana = nullptr;
 
@@ -240,11 +242,7 @@ private:
 
 	Ring<Ball> ball_ring;
 
-	Shake* shakes = nullptr;
-	void shake_camera()
-	{
-
-	}
+	Ring<Shake> shake_ring;
 
 	bool space = false;
 	bool R = false;

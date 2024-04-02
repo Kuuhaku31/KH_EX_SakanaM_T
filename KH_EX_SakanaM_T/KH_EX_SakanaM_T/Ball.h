@@ -7,9 +7,9 @@
 #include "Object.h"
 
 #include "AreaManager.h"
-//#include "Boom.h"
 #include "Animate.h"
 
+#include "Shake.h"
 #include "Ring.h"
 
 #include "World.h"
@@ -17,7 +17,10 @@
 class Ball:
 	public Object
 {	public:
-	Ball(World* world, Camera* camera, int x, int y) : Object(world, x, y), main_camera(camera)
+	Ball(World* world, Camera* camera, Ring<Shake>* shake_ring, int x, int y)
+		: Object(world, x, y)
+		, main_camera(camera)
+		, shake_ring(shake_ring)
 	{
 		move__animate.Copy_cuts(&static_resource.animate_for_ball);
 		move__animate.Copy_stat(&static_resource.animate_for_ball);
@@ -44,6 +47,7 @@ class Ball:
 			{
 				is_alive = false;
 				main_world->Hurt_area_add(Explode());
+				shake_ring->Add_new_node(new Shake(main_camera, 5, 5));
 			}
 			return true;
 		}
@@ -107,6 +111,8 @@ class Ball:
 private:
 
 	Camera* main_camera = nullptr;
+
+	Ring<Shake>* shake_ring = nullptr;
 
 	bool is_alive = true;
 

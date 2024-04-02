@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <random>
+
 #include "Position.h"
 #include "Renderer.h"
 #include "Area.h"
@@ -178,20 +180,31 @@ class Camera : public Position
 	void
 	Photographed()
 	{
+		std::random_device rd;  // 用于获取种子数据
+		std::mt19937 gen(rd()); // 使用Mersenne Twister算法生成随机数
+		std::uniform_int_distribution<> distr(-shake_radius, +shake_radius); // 定义分布规则
+
+		int x = distr(gen);
+		int y = distr(gen);
+
 		StretchBlt
 		(
 			  graph_HDC
-			, 0
-			, 0
-			, graph_wide
-			, graph_high
+			, x - 16
+			, y - 9
+			, graph_wide + x + 32
+			, graph_high + y + 18
+
 			, sight_HDC
 			, 0
 			, 0
 			, sight_wide
 			, sight_high
+			
 			, SRCCOPY
 		);
+
+		shake_radius = 0;
 	}
 
 	void 
@@ -205,6 +218,41 @@ class Camera : public Position
 
 	int Get_sight_wide() { return sight_wide; }
 	int Get_sight_high() { return sight_high; }
+
+	void Add_shake(int r) { shake_radius += r; }
+	void Set_shake(int r) { shake_radius = r; }
+	void 
+	Shake_camera()
+	{
+		Position::Set_position(0, 0);
+
+		std::random_device rd;  // 用于获取种子数据
+		std::mt19937 gen(rd()); // 使用Mersenne Twister算法生成随机数
+		std::uniform_int_distribution<> distr(0, 1); // 定义分布规则
+
+		int x = 0;
+		int y = 0;
+		if (distr(gen)) // 生成在min和max之间的随机整数
+		{
+			x = shake_radius;
+		}
+		else
+		{
+			x = -shake_radius;
+		}
+
+		if (distr(gen)) // 生成在min和max之间的随机整数
+		{
+			y = shake_radius;
+		}
+		else
+		{
+			y = -shake_radius;
+		}
+
+		Position::Move(x, y);
+		shake_radius = 0;
+	}
 
 private:
 
@@ -225,6 +273,8 @@ private:
 
 	float kx = 1.0;
 	float ky = 1.0;
+
+	int shake_radius = 0;
 
 	static void
 	fun_add_A(unsigned long* a, unsigned long* b)

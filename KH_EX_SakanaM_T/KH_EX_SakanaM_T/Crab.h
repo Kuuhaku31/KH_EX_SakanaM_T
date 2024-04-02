@@ -10,9 +10,9 @@
 
 class Crab : public Character
 {	public:
-	Crab(World* world, Camera* camera, Ring<Crab>* crab_ring_buffer) 
+	Crab(World* world, Camera* camera, Ring<Crab>* crab_ring) 
 		: Character(world, camera)
-		, crab_ring_buffer(crab_ring_buffer)
+		, crab_ring(crab_ring)
 	{
 		animate_skin_R.Copy_cuts(&static_resource.animate_for_crab_R);
 		animate_skin_R.Copy_stat(&static_resource.animate_for_crab_R);
@@ -106,12 +106,12 @@ class Crab : public Character
 		if(btime > 10000)
 		{
 			btime = 0;
-			Crab* c = new Crab(main_world, main_camera, crab_ring_buffer);
+			Crab* c = new Crab(main_world, main_camera, crab_ring);
 
 			c->Object::Position::Move_to(static_cast<Object*>(this));
 			c->Object::Position::Move(-10, -10);
 			
-			crab_ring_buffer->Add_new_node(c);
+			crab_ring->Add_new_node(c);
 		}
 	}
 
@@ -132,7 +132,7 @@ class Crab : public Character
 
 private:
 
-	Ring<Crab>* crab_ring_buffer;
+	Ring<Crab>* crab_ring;
 
 	int btime = 0;
 

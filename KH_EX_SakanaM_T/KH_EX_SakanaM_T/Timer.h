@@ -58,6 +58,16 @@ class Timer
 		is_roop = t->is_roop;
 	}
 
+	void 
+	Add_time(int t) 
+	{
+		now_time += t; 
+		if(now_time > max_time)
+		{
+			now_time = max_time;
+		}
+	}
+
 protected:
 
 	int max_time = 0;
