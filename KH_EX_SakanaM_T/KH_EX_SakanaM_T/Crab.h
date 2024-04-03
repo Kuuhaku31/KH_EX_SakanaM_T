@@ -41,8 +41,6 @@ class Crab : public Character
 		bool l = 1;
 		l = Collision::Update(this, this, &main_world->wall_map, &main_world->coll_area);
 		Movement::Update(this, main_world->main_map.Is_in_area(this));
-		//Position pos(0, 0);
-		//See(&pos);
 		if (!l || HP <= 0) { return false; }
 		Character::Update();
 

@@ -104,34 +104,6 @@ class Camera : public Position
 	}
 
 	void
-	Rending_(Renderer* ren)
-	{
-		SMatrix<unsigned long> S
-			(
-				sight_buffer
-				, sight_wide
-				, sight_high
-
-				, ren->Get_buffer()
-				, ren->Get_wide()
-				, ren->Get_high()
-
-				, ren->Get_x() - Get_x() + half_sight_wide
-				, ren->Get_y() - Get_y() + half_sight_high
-
-				//, mix_color
-			);
-
-		//S.DO();
-		unsigned long* a = nullptr;
-		unsigned long* b = nullptr;
-		if (S.Update(&a, &b))
-		{
-			mix_color(a, b);
-		}
-	}
-
-	void
 	Rending_AH(Area* area)
 	{
 		if (area)

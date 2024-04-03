@@ -4,8 +4,7 @@
 #include "Matrix.h"
 
 class Shape
-{
-public:
+{	public:
 	Shape() {}
 	~Shape() { delete[] shape_buffer; }
 

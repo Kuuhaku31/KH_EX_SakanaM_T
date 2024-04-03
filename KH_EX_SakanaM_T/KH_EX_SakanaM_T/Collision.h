@@ -245,61 +245,19 @@ private:
 		}
 
 		int a = coll_area->Is_in_area(test_point_01_x, test_point_01_y) + coll_area->Is_in_area(test_point_02_x, test_point_02_y) + coll_area->Is_in_area(test_point_03_x, test_point_03_y);
-		int b1 = coll_area->Is_in_area(test_point_04_x, test_point_04_y) + coll_area->Is_in_area(test_point_05_x, test_point_05_y) + coll_area->Is_in_area(test_point_06_x, test_point_06_y);
+		int b = coll_area->Is_in_area(test_point_04_x, test_point_04_y) + coll_area->Is_in_area(test_point_05_x, test_point_05_y) + coll_area->Is_in_area(test_point_06_x, test_point_06_y);
 		int c = coll_area->Is_in_area(test_point_07_x, test_point_07_y) + coll_area->Is_in_area(test_point_08_x, test_point_08_y) + coll_area->Is_in_area(test_point_09_x, test_point_09_y);
 		int d = coll_area->Is_in_area(test_point_10_x, test_point_10_y) + coll_area->Is_in_area(test_point_11_x, test_point_11_y) + coll_area->Is_in_area(test_point_12_x, test_point_12_y);
 
-		if (1500 <= a + b1 + c + d) { return 0; }
+		if (1500 <= a + b + c + d) { return 0; }
 
 		force_y += a;
-		force_x -=b1;
-		force_y -=c;
-		force_x +=d;
+		force_x -= b;
+		force_y -= c;
+		force_x += d;
 
-		/*if
-		(
-			   coll_area->Is_in_area(test_point_01_x, test_point_01_y)
-			|| coll_area->Is_in_area(test_point_02_x, test_point_02_y)
-			|| coll_area->Is_in_area(test_point_03_x, test_point_03_y)
-		)
-		{
-			force_y += F_1;
-		}
-
-		if
-		(
-			   coll_area->Is_in_area(test_point_04_x, test_point_04_y)
-			|| coll_area->Is_in_area(test_point_05_x, test_point_05_y)
-			|| coll_area->Is_in_area(test_point_06_x, test_point_06_y)
-		)
-		{
-			force_x -= F_1;
-		}
-
-		if
-		(
-			   coll_area->Is_in_area(test_point_07_x, test_point_07_y)
-			|| coll_area->Is_in_area(test_point_08_x, test_point_08_y)
-			|| coll_area->Is_in_area(test_point_09_x, test_point_09_y)
-		)
-		{
-			force_y -= F_1;
-		}
-
-		if
-		(
-			   coll_area->Is_in_area(test_point_10_x, test_point_10_y)
-			|| coll_area->Is_in_area(test_point_11_x, test_point_11_y)
-			|| coll_area->Is_in_area(test_point_12_x, test_point_12_y)
-		)
-		{
-			force_x += F_1;
-		}*/
-
-		bool b = false;
-
-		if (move_x) { mov->Stop_mov_x(); b = 1; }
-		if (move_y) { mov->Stop_mov_y(); b = 1; }
+		if (move_x) { mov->Stop_mov_x(); }
+		if (move_y) { mov->Stop_mov_y(); }
 
 		mov->Force(force_x, force_y);
 		pos->Move(move_x, move_y);

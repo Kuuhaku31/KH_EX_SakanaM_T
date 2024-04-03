@@ -58,7 +58,7 @@ private:
 	{
 
 		graph_HWND = initgraph(GRAPHWIDE, GRAPHHIGH, 1);
-		SetWindowPos(graph_HWND, nullptr, 1176, 1569, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		SetWindowPos(graph_HWND, nullptr, -1374, 793, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		SetWindowText(graph_HWND, "Sakana");
 
 		main_library.Init();
