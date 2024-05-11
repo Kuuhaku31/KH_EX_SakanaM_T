@@ -3,10 +3,6 @@
 
 #include <cmath>
 
-
-
-
-
 //=======================================================//
 namespace Toolf
 {
@@ -232,54 +228,26 @@ class Matrix
 
 
 
-	void
-		Add_matrix(Matrix* matrix, int x, int y, bool is_neg = false)
+    void
+    Add_matrix(Matrix* matrix, int x, int y, bool is_neg = false)
 	{
 		if (is_neg)
 		{
-			Toolf::Write<unsigned long>
-				(
-					matrix_buffer
-					, matrix_wide
-					, matrix_high
-
-					, matrix->matrix_buffer
-					, matrix->matrix_wide
-					, matrix->matrix_high
-
-					, x
-					, y
-
-					, fun_2
-				);
+            Toolf::Write<unsigned long> (matrix_buffer, matrix_wide, matrix_high, matrix->matrix_buffer, matrix->matrix_wide, matrix->matrix_high, x, y, fun_2);
 		}
 		else
 		{
-			Toolf::Write<unsigned long>
-				(
-					matrix_buffer
-					, matrix_wide
-					, matrix_high
-
-					, matrix->matrix_buffer
-					, matrix->matrix_wide
-					, matrix->matrix_high
-
-					, x
-					, y
-
-					, fun_1
-				);
+            Toolf::Write<unsigned long>	(matrix_buffer, matrix_wide, matrix_high, matrix->matrix_buffer, matrix->matrix_wide, matrix->matrix_high, x, y, fun_1);
 		}
 	}
 
-	void
-		Write_on(int x, int y, int wide, int high, unsigned long b)
+    void
+    Write_on(int x, int y, int wide, int high, unsigned long b)
 	{
-		if (x < 0) { x = 0; }
-		if (y < 0) { y = 0; }
-		if (x + wide > matrix_wide) { wide = matrix_wide - x; }
-		if (y + high > matrix_high) { high = matrix_high - y; }
+        if(x < 0) { x = 0; }
+        if(y < 0) { y = 0; }
+        if(x + wide > matrix_wide) { wide = matrix_wide - x; }
+        if(y + high > matrix_high) { high = matrix_high - y; }
 
 		int start = y * matrix_wide + x;
 		int skip = matrix_wide - wide;
@@ -294,15 +262,15 @@ class Matrix
 		}
 	}
 
-	void
-		Resize_matrix(int w, int h)
+    void 
+    Resize_matrix(int w, int h)
 	{
-		if (0 >= w || 0 >= h)
+		if(0 >= w || 0 >= h)
 		{
 			delete[] matrix_buffer;
 			matrix_buffer = nullptr;
 			matrix_wide = 0;
-			matrix_high = 0;
+            matrix_high = 0;
 			matrix_long = 0;
 		}
 		else
@@ -315,23 +283,22 @@ class Matrix
 		}
 	}
 
-	void
-		Copy_matrix(Matrix* s)
+    void
+    Copy_matrix(Matrix* s)
 	{
-		matrix_wide = s->matrix_wide;
-		matrix_high = s->matrix_high;
+        matrix_wide = s->matrix_wide;
+		matrix_high = s->matrix_high; 
 		matrix_long = s->matrix_long;
 		delete[] matrix_buffer;
 		matrix_buffer = new T[matrix_long];
-		for (int i = 0; i < matrix_long; i++)
+		for(int i = 0; i < matrix_long; i++)
 		{
 			matrix_buffer[i] = s->matrix_buffer[i];
 		}
 	}
 
 protected:
-
-	T* matrix_buffer = nullptr;
+    T* matrix_buffer = nullptr;
 	int matrix_wide = 0;
 	int matrix_high = 0;
 	int matrix_long = 0;
@@ -340,5 +307,3 @@ private:
 	inline static void fun_1(unsigned long* a, unsigned long* b) { *a += *b; }
 	inline static void fun_2(unsigned long* a, unsigned long* b) { *a -= *b; }
 };
-
-

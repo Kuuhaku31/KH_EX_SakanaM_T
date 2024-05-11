@@ -19,6 +19,9 @@
     <Filter Include="code\Ring">
       <UniqueIdentifier>{37cee4eb-cbcd-4eaa-89c3-057f52d6d3dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="code\Button">
+      <UniqueIdentifier>{39e27ff3-d2fa-4f07-9696-726d7cf4c3fe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KH_EX_SakanaM_T\Animate.h">
@@ -96,9 +99,6 @@
     <ClInclude Include="KH_EX_SakanaM_T\MainGame.h">
       <Filter>code\main</Filter>
     </ClInclude>
-    <ClInclude Include="KH_EX_SakanaM_T\AI.h">
-      <Filter>code</Filter>
-    </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\MenuScene.h">
       <Filter>code\Scene</Filter>
     </ClInclude>
@@ -113,6 +113,9 @@
     </ClInclude>
     <ClInclude Include="KH_EX_SakanaM_T\AreaManager.h">
       <Filter>code\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="KH_EX_SakanaM_T\Button.h">
+      <Filter>code\Button</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -143,8 +146,5 @@
     <ClCompile Include="KH_EX_SakanaM_T\Fish.cpp">
       <Filter>code\Character</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -56,7 +56,6 @@ private:
 	inline void 
 	init()
 	{
-
 		graph_HWND = initgraph(GRAPHWIDE, GRAPHHIGH, 1);
 		SetWindowPos(graph_HWND, nullptr, -1374, 793, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		SetWindowText(graph_HWND, "Sakana");

@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="KH_EX_SakanaM_T\AI.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Animate.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Area.h" />
     <ClInclude Include="KH_EX_SakanaM_T\AreaManager.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Ball.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Bar.h" />
+    <ClInclude Include="KH_EX_SakanaM_T\Button.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Camera.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Character.h" />
     <ClInclude Include="KH_EX_SakanaM_T\Collision.h" />
@@ -61,9 +61,6 @@
     <ClCompile Include="KH_EX_SakanaM_T\Slideboard.cpp" />
     <ClCompile Include="KH_EX_SakanaM_T\struct_static.h" />
     <ClCompile Include="KH_EX_SakanaM_T\World.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

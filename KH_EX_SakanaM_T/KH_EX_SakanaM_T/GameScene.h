@@ -12,6 +12,8 @@
 
 #include "Ring.h"
 
+#include "Button.h"
+
 #include "Library.h"
 #include "Input.h"
 #include "Camera.h"
@@ -60,6 +62,10 @@ class GameScene
 
 		frame_board.Move_to(15, 20);
 		frame_board.Set_bits(3);
+
+        //
+        test_button = new Button(100, 100);
+
 	}
 
 	bool 
@@ -194,6 +200,9 @@ class GameScene
 
 
 		sakana->Draw_bar();
+
+        main_camera.Rending(test_button->Get_renderer());
+
 		main_camera.Rending(&mouse);
 
 		main_camera.Photographed();
@@ -244,6 +253,8 @@ private:
 	Ring<Ball> ball_ring;
 
 	Ring<Shake> shake_ring;
+
+    Button* test_button;
 
 	bool space = false;
 	bool R = false;
