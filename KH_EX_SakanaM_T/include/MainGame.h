@@ -10,7 +10,8 @@ Library main_library;
 Input   main_input;
 Camera  main_camera;
 
-class MainGame
+class 
+MainGame
 {	public: 
 	MainGame() {}
 
@@ -58,7 +59,7 @@ private:
 	{
 		graph_HWND = initgraph(GRAPHWIDE, GRAPHHIGH, 1);
 		SetWindowPos(graph_HWND, nullptr, -1374, 793, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-		SetWindowText(graph_HWND, "Sakana");
+		SetWindowText(graph_HWND, _T("Sakana"));
 
 		main_library.Init();
 
