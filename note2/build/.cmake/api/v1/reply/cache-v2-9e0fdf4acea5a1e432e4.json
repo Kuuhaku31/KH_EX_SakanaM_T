@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "d:/Project/VS Code/KH_EX_SakanaM_T/note1/build"
+			"value" : "d:/Project/VS Code/KH_EX_SakanaM_T/note2/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -587,7 +587,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note1/build/CMakeFiles/pkgRedirects"
+			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note2/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -659,7 +659,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note1"
+			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note2"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -671,7 +671,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Program Files (x86)/Project"
+			"value" : "C:/Program Files (x86)/MyProject"
 		},
 		{
 			"name" : "CMAKE_LINKER",
@@ -891,7 +891,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "CMakeProject"
+			"value" : "MyProject"
 		},
 		{
 			"name" : "CMAKE_RANLIB",
@@ -1286,7 +1286,7 @@
 			"value" : "FALSE"
 		},
 		{
-			"name" : "CMakeProject_BINARY_DIR",
+			"name" : "MyProject_BINARY_DIR",
 			"properties" : 
 			[
 				{
@@ -1295,10 +1295,10 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note1/build"
+			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note2/build"
 		},
 		{
-			"name" : "CMakeProject_IS_TOP_LEVEL",
+			"name" : "MyProject_IS_TOP_LEVEL",
 			"properties" : 
 			[
 				{
@@ -1310,7 +1310,7 @@
 			"value" : "ON"
 		},
 		{
-			"name" : "CMakeProject_SOURCE_DIR",
+			"name" : "MyProject_SOURCE_DIR",
 			"properties" : 
 			[
 				{
@@ -1319,79 +1319,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note1"
-		},
-		{
-			"name" : "HelloWorld_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note1/build"
-		},
-		{
-			"name" : "HelloWorld_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "ON"
-		},
-		{
-			"name" : "HelloWorld_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note1"
-		},
-		{
-			"name" : "Project_BINARY_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note1/build"
-		},
-		{
-			"name" : "Project_IS_TOP_LEVEL",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "ON"
-		},
-		{
-			"name" : "Project_SOURCE_DIR",
-			"properties" : 
-			[
-				{
-					"name" : "HELPSTRING",
-					"value" : "Value Computed by CMake"
-				}
-			],
-			"type" : "STATIC",
-			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note1"
+			"value" : "D:/Project/VS Code/KH_EX_SakanaM_T/note2"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",

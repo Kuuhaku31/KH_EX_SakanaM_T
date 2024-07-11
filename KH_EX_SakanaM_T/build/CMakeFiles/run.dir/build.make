@@ -68,26 +68,11 @@ include CMakeFiles/run.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/run.dir/flags.make
 
-CMakeFiles/run.dir/main.cpp.obj: CMakeFiles/run.dir/flags.make
-CMakeFiles/run.dir/main.cpp.obj: CMakeFiles/run.dir/includes_CXX.rsp
-CMakeFiles/run.dir/main.cpp.obj: D:/Project/VS\ Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/main.cpp
-CMakeFiles/run.dir/main.cpp.obj: CMakeFiles/run.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/run.dir/main.cpp.obj"
-	E:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/run.dir/main.cpp.obj -MF CMakeFiles\run.dir\main.cpp.obj.d -o CMakeFiles\run.dir\main.cpp.obj -c "D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\main.cpp"
-
-CMakeFiles/run.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/run.dir/main.cpp.i"
-	E:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\main.cpp" > CMakeFiles\run.dir\main.cpp.i
-
-CMakeFiles/run.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/run.dir/main.cpp.s"
-	E:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\main.cpp" -o CMakeFiles\run.dir\main.cpp.s
-
 CMakeFiles/run.dir/src/GameManager.cpp.obj: CMakeFiles/run.dir/flags.make
 CMakeFiles/run.dir/src/GameManager.cpp.obj: CMakeFiles/run.dir/includes_CXX.rsp
 CMakeFiles/run.dir/src/GameManager.cpp.obj: D:/Project/VS\ Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/src/GameManager.cpp
 CMakeFiles/run.dir/src/GameManager.cpp.obj: CMakeFiles/run.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/run.dir/src/GameManager.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/run.dir/src/GameManager.cpp.obj"
 	E:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/run.dir/src/GameManager.cpp.obj -MF CMakeFiles\run.dir\src\GameManager.cpp.obj.d -o CMakeFiles\run.dir\src\GameManager.cpp.obj -c "D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\src\GameManager.cpp"
 
 CMakeFiles/run.dir/src/GameManager.cpp.i: cmake_force
@@ -98,16 +83,31 @@ CMakeFiles/run.dir/src/GameManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/run.dir/src/GameManager.cpp.s"
 	E:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\src\GameManager.cpp" -o CMakeFiles\run.dir\src\GameManager.cpp.s
 
+CMakeFiles/run.dir/main.cpp.obj: CMakeFiles/run.dir/flags.make
+CMakeFiles/run.dir/main.cpp.obj: CMakeFiles/run.dir/includes_CXX.rsp
+CMakeFiles/run.dir/main.cpp.obj: D:/Project/VS\ Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/main.cpp
+CMakeFiles/run.dir/main.cpp.obj: CMakeFiles/run.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\build\CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/run.dir/main.cpp.obj"
+	E:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/run.dir/main.cpp.obj -MF CMakeFiles\run.dir\main.cpp.obj.d -o CMakeFiles\run.dir\main.cpp.obj -c "D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\main.cpp"
+
+CMakeFiles/run.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/run.dir/main.cpp.i"
+	E:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\main.cpp" > CMakeFiles\run.dir\main.cpp.i
+
+CMakeFiles/run.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/run.dir/main.cpp.s"
+	E:\MinGW\bin\c++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\main.cpp" -o CMakeFiles\run.dir\main.cpp.s
+
 # Object files for target run
 run_OBJECTS = \
-"CMakeFiles/run.dir/main.cpp.obj" \
-"CMakeFiles/run.dir/src/GameManager.cpp.obj"
+"CMakeFiles/run.dir/src/GameManager.cpp.obj" \
+"CMakeFiles/run.dir/main.cpp.obj"
 
 # External object files for target run
 run_EXTERNAL_OBJECTS =
 
-run.exe: CMakeFiles/run.dir/main.cpp.obj
 run.exe: CMakeFiles/run.dir/src/GameManager.cpp.obj
+run.exe: CMakeFiles/run.dir/main.cpp.obj
 run.exe: CMakeFiles/run.dir/build.make
 run.exe: CMakeFiles/run.dir/linkLibs.rsp
 run.exe: CMakeFiles/run.dir/objects1.rsp

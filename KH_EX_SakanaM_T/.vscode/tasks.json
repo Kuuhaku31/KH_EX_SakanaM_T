@@ -8,7 +8,7 @@
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
-				"**/*.cpp", // 匹配当前目录下所有的.cpp文件
+				"**.cpp", // 匹配当前目录下所有的.cpp文件
 				"-o",
 				"${workspaceFolder}\\build\\run.exe", //
 				"-leasyx" //

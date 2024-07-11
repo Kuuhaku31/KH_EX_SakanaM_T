@@ -27,7 +27,7 @@
 					[
 						0
 					],
-					"name" : "Sakana",
+					"name" : "MyProject",
 					"targetIndexes" : 
 					[
 						0
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "run::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-run-Debug-ca7c4bd42964bbda69d0.json",
+					"jsonFile" : "target-run-Debug-f7425640343f1eb16578.json",
 					"name" : "run",
 					"projectIndex" : 0
 				}

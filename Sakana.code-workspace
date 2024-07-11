@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "note1"
+		},
+		{
+			"path": "note2"
 		}
 	],
 	"settings": {}
