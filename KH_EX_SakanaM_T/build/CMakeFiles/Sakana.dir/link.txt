@@ -1,0 +1,3 @@
+"E:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\Sakana.dir/objects.a
+E:\MinGW\bin\ar.exe qc CMakeFiles\Sakana.dir/objects.a @CMakeFiles\Sakana.dir\objects1.rsp
+E:\MinGW\bin\c++.exe -g -Wl,--whole-archive CMakeFiles\Sakana.dir/objects.a -Wl,--no-whole-archive -o Sakana.exe -Wl,--out-implib,libSakana.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\Sakana.dir\linkLibs.rsp

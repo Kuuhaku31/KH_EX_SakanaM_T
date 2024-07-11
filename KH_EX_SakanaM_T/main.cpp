@@ -1,18 +1,16 @@
 
-#include "include/MainGame.h"
+#include "include/GameManager.h"
 
-void 
-Fun_0()
+void Fun_0()
 {
-	MainGame game;
-	game.RUN();
+	GameManager g;
+	g.RUN();
 }
 
-int 
-main()
+int main()
 {
 	std::cout << "GAME START" << std::endl;
-	//Fun_0();
+	Fun_0();
 	std::cout << "GAME OVER!" << std::endl;
 	return 0;
 }

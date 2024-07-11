@@ -8,7 +8,7 @@
 			"args": [
 				"-fdiagnostics-color=always",
 				"-g",
-				"${workspaceFolder}\\src\\*.cpp",
+				"**.cpp",
 				"-o",
 				"${workspaceFolder}\\build\\run.exe",
 				"-leasyx"
@@ -16,9 +16,7 @@
 			"options": {
 				"cwd": "${fileDirname}"
 			},
-			"problemMatcher": [
-				"$gcc"
-			],
+			"problemMatcher": ["$gcc"],
 			"group": "build",
 			"detail": "编译器: E:\\MinGW\\bin\\g++.exe"
 		}
