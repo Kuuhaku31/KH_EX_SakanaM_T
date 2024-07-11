@@ -131,8 +131,8 @@ CMakeFiles/run.dir/src/GameManager.cpp.obj: \
  E:/MinGW/x86_64-w64-mingw32/include/time.h \
  E:/MinGW/x86_64-w64-mingw32/include/_timeval.h \
  E:/MinGW/x86_64-w64-mingw32/include/pthread_time.h \
- E:/MinGW/x86_64-w64-mingw32/include/graphics.h \
- E:/MinGW/x86_64-w64-mingw32/include/easyx.h \
+ D:/Project/VS\ Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/lib/graphics.h \
+ D:/Project/VS\ Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/lib/easyx.h \
  E:/MinGW/x86_64-w64-mingw32/include/windows.h \
  E:/MinGW/x86_64-w64-mingw32/include/sdkddkver.h \
  E:/MinGW/x86_64-w64-mingw32/include/excpt.h \

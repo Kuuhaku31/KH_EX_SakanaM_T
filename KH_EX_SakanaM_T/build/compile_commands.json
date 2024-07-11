@@ -1,13 +1,13 @@
 [
 {
   "directory": "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/build",
-  "command": "E:\\MinGW\\bin\\c++.exe  @CMakeFiles/run.dir/includes_CXX.rsp -g -o CMakeFiles\\run.dir\\src\\GameManager.cpp.obj -c \"D:\\Project\\VS Code\\KH_EX_SakanaM_T\\KH_EX_SakanaM_T\\src\\GameManager.cpp\"",
+  "command": "E:\\MinGW\\bin\\c++.exe  @CMakeFiles/run.dir/includes_CXX.rsp -g -Wno-conversion-null -o CMakeFiles\\run.dir\\src\\GameManager.cpp.obj -c \"D:\\Project\\VS Code\\KH_EX_SakanaM_T\\KH_EX_SakanaM_T\\src\\GameManager.cpp\"",
   "file": "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/src/GameManager.cpp",
   "output": "CMakeFiles/run.dir/src/GameManager.cpp.obj"
 },
 {
   "directory": "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/build",
-  "command": "E:\\MinGW\\bin\\c++.exe  @CMakeFiles/run.dir/includes_CXX.rsp -g -o CMakeFiles\\run.dir\\main.cpp.obj -c \"D:\\Project\\VS Code\\KH_EX_SakanaM_T\\KH_EX_SakanaM_T\\main.cpp\"",
+  "command": "E:\\MinGW\\bin\\c++.exe  @CMakeFiles/run.dir/includes_CXX.rsp -g -Wno-conversion-null -o CMakeFiles\\run.dir\\main.cpp.obj -c \"D:\\Project\\VS Code\\KH_EX_SakanaM_T\\KH_EX_SakanaM_T\\main.cpp\"",
   "file": "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/main.cpp",
   "output": "CMakeFiles/run.dir/main.cpp.obj"
 }

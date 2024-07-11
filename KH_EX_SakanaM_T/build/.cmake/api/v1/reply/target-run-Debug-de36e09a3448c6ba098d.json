@@ -15,6 +15,7 @@
 		[
 			"add_executable",
 			"target_link_libraries",
+			"target_compile_options",
 			"include_directories"
 		],
 		"files" : 
@@ -35,13 +36,25 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 19,
+				"line" : 28,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
+				"line" : 18,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
 				"line" : 12,
+				"parent" : 0
+			},
+			{
+				"command" : 3,
+				"file" : 0,
+				"line" : 21,
 				"parent" : 0
 			}
 		]
@@ -53,13 +66,21 @@
 			[
 				{
 					"fragment" : "-g"
+				},
+				{
+					"backtrace" : 3,
+					"fragment" : "-Wno-conversion-null"
 				}
 			],
 			"includes" : 
 			[
 				{
-					"backtrace" : 3,
+					"backtrace" : 4,
 					"path" : "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/./include"
+				},
+				{
+					"backtrace" : 5,
+					"path" : "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/./lib"
 				}
 			],
 			"language" : "CXX",
@@ -84,16 +105,8 @@
 				"role" : "flags"
 			},
 			{
-				"fragment" : "-Wl,-Bstatic",
-				"role" : "libraries"
-			},
-			{
 				"backtrace" : 2,
-				"fragment" : "-leasyx",
-				"role" : "libraries"
-			},
-			{
-				"fragment" : "-Wl,-Bdynamic",
+				"fragment" : "\"D:\\Project\\VS Code\\KH_EX_SakanaM_T\\KH_EX_SakanaM_T\\lib\\libeasyx.a\"",
 				"role" : "libraries"
 			},
 			{

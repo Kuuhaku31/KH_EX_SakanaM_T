@@ -109,6 +109,7 @@ run_EXTERNAL_OBJECTS =
 run.exe: CMakeFiles/run.dir/src/GameManager.cpp.obj
 run.exe: CMakeFiles/run.dir/main.cpp.obj
 run.exe: CMakeFiles/run.dir/build.make
+run.exe: D:/Project/VS\ Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/lib/libeasyx.a
 run.exe: CMakeFiles/run.dir/linkLibs.rsp
 run.exe: CMakeFiles/run.dir/objects1.rsp
 run.exe: CMakeFiles/run.dir/link.txt
