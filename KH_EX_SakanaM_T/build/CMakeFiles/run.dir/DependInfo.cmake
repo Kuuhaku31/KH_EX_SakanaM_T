@@ -9,7 +9,9 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/main.cpp" "CMakeFiles/run.dir/main.cpp.obj" "gcc" "CMakeFiles/run.dir/main.cpp.obj.d"
-  "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/src/GameManager.cpp" "CMakeFiles/run.dir/src/GameManager.cpp.obj" "gcc" "CMakeFiles/run.dir/src/GameManager.cpp.obj.d"
+  "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/src/system/Game.cpp" "CMakeFiles/run.dir/src/system/Game.cpp.obj" "gcc" "CMakeFiles/run.dir/src/system/Game.cpp.obj.d"
+  "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/src/system/GameManager.cpp" "CMakeFiles/run.dir/src/system/GameManager.cpp.obj" "gcc" "CMakeFiles/run.dir/src/system/GameManager.cpp.obj.d"
+  "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/src/system/MessageSystem.cpp" "CMakeFiles/run.dir/src/system/MessageSystem.cpp.obj" "gcc" "CMakeFiles/run.dir/src/system/MessageSystem.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

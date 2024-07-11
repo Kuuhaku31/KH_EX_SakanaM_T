@@ -1,34 +1,20 @@
 
 #pragma once
 
-#include <iostream>
-#include <ctime>
-
-#include "Input.h"
-#include "Library.h"
-#include "SceneMangaer.h"
-
 class Game
 {
 public:
-	Game() = default;
-	~Game() = default;
+	Game();
+	~Game();
 
 	// 初始化
-	short
-	Init()
-	{
-		return 0;
-	}
+	short Init();
 
-	// 循环
-	short
-	Update()
-	{
-		return 0;
-	}
-	
+	// 更新,需要每次循环调用
+	short Update();
+
+	// 退出
+	short Exit();
+
 private:
-	
-	
 };

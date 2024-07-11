@@ -5,14 +5,14 @@ cmake_minimum_required(VERSION 3.5.0)
 project(MyProject)
 
 # 添加源文件
-aux_source_directory(./src SRC_SUB)
-aux_source_directory(. SRC_CUR)
+aux_source_directory(./src/system SYS)
+set(SRC_FILES ./main.cpp)
 
 # 添加头文件
 include_directories(./include)
 
 # 生成可执行文件
-add_executable(run ${SRC_SUB} ${SRC_CUR}) 
+add_executable(run ${SRC_FILES} ${SYS})
 
 # 忽略特定的编译器警告
 target_compile_options(run PRIVATE -Wno-conversion-null)

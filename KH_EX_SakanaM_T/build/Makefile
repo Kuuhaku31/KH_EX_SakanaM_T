@@ -152,29 +152,77 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-src/GameManager.obj: src/GameManager.cpp.obj
-.PHONY : src/GameManager.obj
+src/system/Game.obj: src/system/Game.cpp.obj
+.PHONY : src/system/Game.obj
 
 # target to build an object file
-src/GameManager.cpp.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/GameManager.cpp.obj
-.PHONY : src/GameManager.cpp.obj
+src/system/Game.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/system/Game.cpp.obj
+.PHONY : src/system/Game.cpp.obj
 
-src/GameManager.i: src/GameManager.cpp.i
-.PHONY : src/GameManager.i
+src/system/Game.i: src/system/Game.cpp.i
+.PHONY : src/system/Game.i
 
 # target to preprocess a source file
-src/GameManager.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/GameManager.cpp.i
-.PHONY : src/GameManager.cpp.i
+src/system/Game.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/system/Game.cpp.i
+.PHONY : src/system/Game.cpp.i
 
-src/GameManager.s: src/GameManager.cpp.s
-.PHONY : src/GameManager.s
+src/system/Game.s: src/system/Game.cpp.s
+.PHONY : src/system/Game.s
 
 # target to generate assembly for a file
-src/GameManager.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/GameManager.cpp.s
-.PHONY : src/GameManager.cpp.s
+src/system/Game.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/system/Game.cpp.s
+.PHONY : src/system/Game.cpp.s
+
+src/system/GameManager.obj: src/system/GameManager.cpp.obj
+.PHONY : src/system/GameManager.obj
+
+# target to build an object file
+src/system/GameManager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/system/GameManager.cpp.obj
+.PHONY : src/system/GameManager.cpp.obj
+
+src/system/GameManager.i: src/system/GameManager.cpp.i
+.PHONY : src/system/GameManager.i
+
+# target to preprocess a source file
+src/system/GameManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/system/GameManager.cpp.i
+.PHONY : src/system/GameManager.cpp.i
+
+src/system/GameManager.s: src/system/GameManager.cpp.s
+.PHONY : src/system/GameManager.s
+
+# target to generate assembly for a file
+src/system/GameManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/system/GameManager.cpp.s
+.PHONY : src/system/GameManager.cpp.s
+
+src/system/MessageSystem.obj: src/system/MessageSystem.cpp.obj
+.PHONY : src/system/MessageSystem.obj
+
+# target to build an object file
+src/system/MessageSystem.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/system/MessageSystem.cpp.obj
+.PHONY : src/system/MessageSystem.cpp.obj
+
+src/system/MessageSystem.i: src/system/MessageSystem.cpp.i
+.PHONY : src/system/MessageSystem.i
+
+# target to preprocess a source file
+src/system/MessageSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/system/MessageSystem.cpp.i
+.PHONY : src/system/MessageSystem.cpp.i
+
+src/system/MessageSystem.s: src/system/MessageSystem.cpp.s
+.PHONY : src/system/MessageSystem.s
+
+# target to generate assembly for a file
+src/system/MessageSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\run.dir\build.make CMakeFiles/run.dir/src/system/MessageSystem.cpp.s
+.PHONY : src/system/MessageSystem.cpp.s
 
 # Help Target
 help:
@@ -188,9 +236,15 @@ help:
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
-	@echo ... src/GameManager.obj
-	@echo ... src/GameManager.i
-	@echo ... src/GameManager.s
+	@echo ... src/system/Game.obj
+	@echo ... src/system/Game.i
+	@echo ... src/system/Game.s
+	@echo ... src/system/GameManager.obj
+	@echo ... src/system/GameManager.i
+	@echo ... src/system/GameManager.s
+	@echo ... src/system/MessageSystem.obj
+	@echo ... src/system/MessageSystem.i
+	@echo ... src/system/MessageSystem.s
 .PHONY : help
 
 
