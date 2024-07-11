@@ -1,1 +1,0 @@
- "D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/lib/libeasyx.a" -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 
