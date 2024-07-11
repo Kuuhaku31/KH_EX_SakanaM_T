@@ -16,10 +16,11 @@ MessageSystem::~MessageSystem()
 }
 
 // 发送消息
-int MessageSystem::SendMessage()
+int MessageSystem::Send_Message()
 {
     if (message_count == 0)
     {
+        std::cout << "No Message" << std::endl;
         return 0;
     }
     else
@@ -27,20 +28,25 @@ int MessageSystem::SendMessage()
         int msg = message_queue[message_count];
         message_queue[message_count] = 0;
         message_count--;
+
+        std::cout << "Message Sent:" << msg << std::endl;
         return msg;
     }
 }
 
 // 接收消息
-void MessageSystem::ReceiveMessage(int message)
+void MessageSystem::Receive_Message(int message)
 {
     if (message_count >= MESSAGE_MAX)
     {
+        std::cout << "Message Queue Full" << std::endl;
         return;
     }
     else
     {
         message_count++;
         message_queue[message_count] = message;
+
+        std::cout << "Message Received:" << message << std::endl;
     }
 }

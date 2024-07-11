@@ -4,6 +4,7 @@
 #include "Game.h"
 #include "Input.h"
 #include "Library.h"
+#include "MessageSystem.h"
 
 #define GAME_RATE 60
 #define RATE_SLEEP 1000 / GAME_RATE
@@ -31,4 +32,5 @@ private:
     Game game;
     Input input;
     Library library;
+    MessageSystem message_system;
 };

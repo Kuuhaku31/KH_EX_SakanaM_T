@@ -13,10 +13,10 @@ public:
     ~MessageSystem();
 
     // 发送消息
-    int SendMessage();
+    int Send_Message();
 
     // 接收消息
-    void ReceiveMessage(int message);
+    void Receive_Message(int message);
 
 private:
     // 消息队列

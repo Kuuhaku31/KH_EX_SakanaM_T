@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "MessageSystem.h"
+
 class Game
 {
 public:
@@ -8,7 +10,7 @@ public:
 	~Game();
 
 	// 初始化
-	short Init();
+	short Init(MessageSystem *);
 
 	// 更新,需要每次循环调用
 	short Update();
@@ -17,4 +19,5 @@ public:
 	short Exit();
 
 private:
+	MessageSystem *message_system = nullptr;
 };

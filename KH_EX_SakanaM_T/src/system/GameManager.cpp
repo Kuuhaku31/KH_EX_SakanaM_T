@@ -35,7 +35,7 @@ short GameManager::RUN()
         library.Init();
 
         // 初始化game
-        game.Init();
+        game.Init(&message_system);
     }
     catch (const std::exception &e)
     {
