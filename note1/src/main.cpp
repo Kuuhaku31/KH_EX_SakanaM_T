@@ -1,6 +1,5 @@
 
 #include "Shape_Maker.h"
-
 #include "Matrix.h"
 
 void 
@@ -23,8 +22,11 @@ Fun_2()
 {
 	IMAGE img1;
 	IMAGE img2;
-	//loadimage(&img1, "./Material/input1.png");
-	//loadimage(&img2, "./Material/input2.png");
+	// loadimage(&img1, _T("D:\\Project\\VS Code\\KH_EX_SakanaM_T\\note1\\mat\\input1.png"));
+	// loadimage(&img2, _T("D:\\Project\\VS Code\\KH_EX_SakanaM_T\\note1\\mat\\input2.png"));
+
+	loadimage(&img1, _T("..\\mat\\input1.png"));
+	loadimage(&img2, _T("..\\mat\\input2.png"));
 
 	Shape* shape1 = Shape_Maker::Make(img1, 1);
 	Shape* shape2 = Shape_Maker::Make(img2, 1);
@@ -76,11 +78,11 @@ Fun_3()
 	//Matrix::Write(b1, 5, 5, 25, b2, 5, 5, 25, 1, 1);
 }
 
-void
+int
 main()
 {
 	std::cout << "GAME START" << std::endl;
-	Fun_0();
+	Fun_2();
 	std::cout << "GAME OVER!" << std::endl;
-	//return 0;
+	return 0;
 }

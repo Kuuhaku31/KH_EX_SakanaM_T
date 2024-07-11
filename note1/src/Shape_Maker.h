@@ -65,11 +65,11 @@ class Shape_Maker
 			{
 				if (shape->Shape::Is_in_shape(n))
 				{
-					std::cout << "¡ö ";
+					std::cout << "ğŸ˜…";
 				}
 				else
 				{
-					std::cout << "¡õ ";
+					std::cout << "ğŸ˜„";
 				}
 			}
 			std::cout << std::endl;

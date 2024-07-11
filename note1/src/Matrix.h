@@ -3,17 +3,17 @@
 
 namespace Matrix
 {
-	template <class T>
+	template <class Tem>
 
 	void 
 	Write
 	(
-		  T* paper
+		  Tem* paper
 		, int paper_wide
 		, int paper_high
 		, int paper_size
 
-		, T* from
+		, Tem* from
 		, int from_wide
 		, int from_high
 		, int from_size
@@ -21,14 +21,14 @@ namespace Matrix
 		, int from_x
 		, int from_y
 
-		, void (*fun)(T* a, T* b)
+		, void (*fun)(Tem* a, Tem* b)
 	)
 	{
-		T* skin_buffer = from;
+		Tem* skin_buffer = from;
 		int skin_w = from_wide;
 		int skin_h = from_high;
 
-		T* sight_buffer = paper;
+		Tem* sight_buffer = paper;
 		int sight_w = paper_wide;
 		int sight_h = paper_high;
 
@@ -42,7 +42,7 @@ namespace Matrix
 
 		int R = from_x + from_wide - paper_wide;
 		int L = from_x;
-		int T = from_y;
+		int top = from_y;
 		int B = from_y + from_high - paper_high;
 
 		if (R > 0)
@@ -69,14 +69,14 @@ namespace Matrix
 		{
 			h -= B;
 		}
-		if (T > 0)
+		if (top > 0)
 		{
-			sight_start += sight_w * T;
+			sight_start += sight_w * top;
 		}
-		if (T < 0)
+		if (top < 0)
 		{
-			h += T;
-			skin_start += skin_w * (-T);
+			h += top;
+			skin_start += skin_w * (-top);
 		}
 
 		skin_skip--;
