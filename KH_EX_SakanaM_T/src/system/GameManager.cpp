@@ -9,19 +9,19 @@
 GameManager::GameManager()
 {
     // Initialize the game
-    std::cout << "Game Manager Created" << std::endl;
+    mss.Say("Game Manager Created", WIN_COLOR_GRAY);
 }
 
 GameManager::~GameManager()
 {
     // Destroy the game
-    std::cout << "Game Manager Destroyed" << std::endl;
+    mss.Say("Game Manager Destroyed", WIN_COLOR_GRAY);
 }
 
 // 返回值：0正常退出，1初始化失败，2运行失败，3退出失败
 short GameManager::RUN()
 {
-    std::cout << "Game Manager Running" << std::endl;
+    mss.Say("Game Manager Running", WIN_COLOR_GRAY);
 
     // 初始化
     try
@@ -32,39 +32,38 @@ short GameManager::RUN()
         SetWindowText(h, _T(GAME_NAME));
 
         // 初始化资源
-        library.Init();
+        lib.Init();
 
         // 初始化game
-        game.Init(&message_system);
+        game.Init(&mss);
     }
     catch (const std::exception &e)
     {
         std::cerr << e.what() << std::endl;
-        std::cout << "Game Manager Init Failed" << std::endl;
+        mss.Say("Game Manager Init Failed", WIN_COLOR_RED);
 
         return 1;
     }
-    std::cout << "Game Manager Init Success" << std::endl;
+    mss.Say("Game Manager Init Success", WIN_COLOR_GRAY);
 
     unsigned long str_time = clock();
     unsigned long end_time = 0;
     unsigned long del_time = 0;
 
     BeginBatchDraw();
-    std::cout << "Game Manager Running" << std::endl;
+    mss.Say("Game Manager Running", WIN_COLOR_GREEN);
     do
     { // 开始游戏主循环
         FlushBatchDraw();
         end_time = clock();
         del_time = end_time - str_time;
-        std::cout << del_time << std::endl; // 输出帧间隔时间，用于调试
         if (del_time < RATE_SLEEP)
         {
             Sleep(RATE_SLEEP - del_time);
         }
         str_time = clock();
     } while (game.Update() == 0);
-    std::cout << "Game Manager Stop" << std::endl;
+    mss.Say("Game Manager Stop", WIN_COLOR_GREEN);
     EndBatchDraw();
 
     // 退出，释放资源
@@ -73,6 +72,6 @@ short GameManager::RUN()
         closegraph();
     }
 
-    std::cout << "Game Manager Over" << std::endl;
+    mss.Say("Game Manager Over", WIN_COLOR_GRAY);
     return 0;
 }

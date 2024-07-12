@@ -30,7 +30,7 @@ public:
 
 private:
     Game game;
-    Input input;
-    Library library;
-    MessageSystem message_system;
+    Input inp;
+    Library lib;
+    MessageSystem mss;
 };

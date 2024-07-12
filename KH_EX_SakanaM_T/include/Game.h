@@ -19,5 +19,5 @@ public:
 	short Exit();
 
 private:
-	MessageSystem *message_system = nullptr;
+	MessageSystem *mss = nullptr;
 };
