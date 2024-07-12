@@ -1,5 +1,5 @@
 
-#include "GameManager.h"
+#include "GameManager.hpp"
 
 #include <iostream>
 #include <ctime>
@@ -24,27 +24,16 @@ short GameManager::RUN()
     mss.Say("Game Manager Running", WIN_COLOR_GRAY);
 
     // 初始化
-    try
-    {
-        // 初始化窗口
-        HWND h = initgraph(GRAPHWIDE, GRAPHHIGH, 1);
-        SetWindowPos(h, nullptr, GRAPH_X, GRAPH_Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-        SetWindowText(h, _T(GAME_NAME));
+    // 初始化窗口
+    HWND h = initgraph(GRAPHWIDE, GRAPHHIGH, 1);
+    SetWindowPos(h, nullptr, GRAPH_X, GRAPH_Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    SetWindowText(h, _T(GAME_NAME));
 
-        // 初始化资源
-        lib.Init();
+    // 初始化资源
+    lib.Init();
 
-        // 初始化game
-        game.Init(&mss);
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << e.what() << std::endl;
-        mss.Say("Game Manager Init Failed", WIN_COLOR_RED);
-
-        return 1;
-    }
-    mss.Say("Game Manager Init Success", WIN_COLOR_GRAY);
+    // 初始化game
+    game.Init(&mss);
 
     unsigned long str_time = clock();
     unsigned long end_time = 0;

@@ -1,11 +1,9 @@
 
-#include "Game.h"
+#include "Game.hpp"
 
 #include <windows.h>
 #include <iostream>
 #include <conio.h>
-
-#include "MessageSystem.h"
 
 // 设置控制台文字颜色的函数
 void SetConsoleColor(WORD color)
@@ -17,24 +15,21 @@ void SetConsoleColor(WORD color)
 Game::Game()
 {
     // Initialize the game
-    std::cout << "Game Created" << std::endl;
+    std::cout << "\nGame Created";
 }
 
 Game::~Game()
 {
     // Destroy the game
-    std::cout << "Game Destroyed" << std::endl;
+    std::cout << "\nGame Destroyed";
 }
 
 short Game::Init(MessageSystem *ms)
 {
-    // Initialize the game
-    std::cout << "Game Init" << std::endl;
-
     // Initialize Game...
     mss = ms;
 
-    std::cout << "Game Init Success" << std::endl;
+    mss->Say("\nGame Init Success", WIN_COLOR_GRAY);
     return 0;
 }
 
@@ -49,11 +44,8 @@ short Game::Exit()
     return 0;
 }
 
-// 只有返回值为0时才会继续运行，为1时正常退出，其他情况表示运行失败
-short Game::Update()
+short game_update_01(MessageSystem *mss)
 {
-    // Update the game
-    // std::cout << "Game Update..." << std::endl;
     mss->Say("\nGame Update...", WIN_COLOR_WHITE);
     mss->Say("Enter a command: ", WIN_COLOR_WHITE);
 
@@ -62,8 +54,6 @@ short Game::Update()
     std::string str = "";
     short flag = 0;
 
-    // 设置文字颜色为亮绿色
-    SetConsoleColor(FOREGROUND_GREEN | FOREGROUND_INTENSITY);
     switch (ch)
     {
     case 'q':
@@ -85,8 +75,35 @@ short Game::Update()
         mss->Receive_Message(ch);
         break;
     }
-    // 重置为默认颜色
-    SetConsoleColor(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
     return flag;
+}
+
+short game_update_02(MessageSystem *mss)
+{
+    short flag = 0;
+    mss->input.GetInput();
+
+    if (mss->KEY_Q)
+    {
+        mss->Say("You Pressed Q", WIN_COLOR_WHITE);
+    }
+    if (mss->KEY_R)
+    {
+        mss->Say("You Pressed R", WIN_COLOR_WHITE);
+    }
+    if (mss->ENTER)
+    {
+        mss->Say("Game Exit", WIN_COLOR_WHITE);
+        flag = 1;
+    }
+
+    return flag;
+}
+
+// 只有返回值为0时才会继续运行，为1时正常退出，其他情况表示运行失败
+short Game::Update()
+{
+    // Update the game
+    return game_update_02(mss);
 }

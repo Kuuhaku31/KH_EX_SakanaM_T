@@ -1,7 +1,8 @@
 
 #pragma once
 
-#include "MessageSystem.h"
+#include "MessageSystem.hpp"
+#include "Camera.hpp"
 
 class Game
 {

@@ -1,10 +1,9 @@
 
 #pragma once
 
-#include "Game.h"
-#include "Input.h"
-#include "Library.h"
-#include "MessageSystem.h"
+#include "Game.hpp"
+#include "Library.hpp"
+#include "MessageSystem.hpp"
 
 #define GAME_RATE 60
 #define RATE_SLEEP 1000 / GAME_RATE
@@ -13,8 +12,8 @@
 #define GRAPHHIGH 900
 #define GRAPHLONG 1600 * 900
 
-#define GRAPH_X 1176
-#define GRAPH_Y 1569
+#define GRAPH_X 40
+#define GRAPH_Y 30
 
 #define GAME_NAME "Sakana"
 
@@ -30,7 +29,6 @@ public:
 
 private:
     Game game;
-    Input inp;
     Library lib;
     MessageSystem mss;
 };

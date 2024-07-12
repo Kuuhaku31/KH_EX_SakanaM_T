@@ -1,5 +1,5 @@
 
-#include "MessageSystem.h"
+#include "MessageSystem.hpp"
 
 MessageSystem::MessageSystem()
 {

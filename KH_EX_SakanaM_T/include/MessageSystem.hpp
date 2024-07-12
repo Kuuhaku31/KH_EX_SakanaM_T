@@ -8,6 +8,8 @@
 #include <string>
 #include <windows.h>
 
+#include "Input.hpp"
+
 #define MESSAGE_MAX 100
 #define GAME_MESSAGE_MAX 100
 #define SYSTEM_MESSAGE_MAX 100
@@ -50,6 +52,38 @@ BACKGROUND_INTENSITY（增加背景颜色的亮度）
 
 同样的规则也适用于背景颜色，只是使用BACKGROUND_*常量而不是FOREGROUND_*常量。通过这种方式，可以在Windows控制台中表示多种颜色组合。
 
+void test_output()
+    {
+        Say("Test Output:\n", WIN_COLOR_LIGHT_WHITE);
+
+        Say("Red", WIN_COLOR_RED);
+        Say("Yellow", WIN_COLOR_YELLOW);
+        Say("Green", WIN_COLOR_GREEN);
+        Say("Cyan", WIN_COLOR_CYAN);
+        Say("Blue", WIN_COLOR_BLUE);
+        Say("Pink", WIN_COLOR_PINK);
+        Say("Black", WIN_COLOR_BLACK);
+        Say("White", WIN_COLOR_WHITE);
+        Say("Gray", WIN_COLOR_GRAY);
+
+        Say("Light Red", WIN_COLOR_LIGHT_RED);
+        Say("Light Yellow", WIN_COLOR_LIGHT_YELLOW);
+        Say("Light Green", WIN_COLOR_LIGHT_GREEN);
+        Say("Light Cyan", WIN_COLOR_LIGHT_CYAN);
+        Say("Light Blue", WIN_COLOR_LIGHT_BLUE, WIN_COLOR_RED);
+        Say("Light Pink", WIN_COLOR_LIGHT_PINK);
+        Say("Light White", WIN_COLOR_LIGHT_WHITE);
+
+        Say("Test Output End\n", WIN_COLOR_LIGHT_WHITE);
+
+        for (int k = 1; k < 255; k++)
+        {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), k);
+            std::cout << "\n  " << std::hex << k << " -- I want to be nice today!";
+        }
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+    }
+
 */
 
 #define WIN_COLOR_BLACK 0x0
@@ -68,6 +102,42 @@ BACKGROUND_INTENSITY（增加背景颜色的亮度）
 #define WIN_COLOR_LIGHT_PINK 0xD
 #define WIN_COLOR_LIGHT_YELLOW 0xE
 #define WIN_COLOR_LIGHT_WHITE 0xF
+
+// 消息系统
+#define KEY_W input.key_W
+#define KEY_S input.key_S
+#define KEY_A input.key_A
+#define KEY_D input.key_D
+
+#define KEY_I input.key_I
+#define KEY_K input.key_K
+#define KEY_J input.key_J
+#define KEY_L input.key_L
+
+#define KEY_Q input.key_Q
+#define KEY_E input.key_E
+#define KEY_R input.key_R
+#define KEY_F input.key_F
+
+#define ARR_U input.arr_U
+#define ARR_D input.arr_D
+#define ARR_L input.arr_L
+#define ARR_R input.arr_R
+
+#define SPACE input.space
+#define SHIFT input.shift
+#define ESC__ input.esc__
+#define ENTER input.enter
+
+#define MOUSE_X input.mouse_X
+#define MOUSE_Y input.mouse_Y
+#define MOUSE_DX input.mouseDX
+#define MOUSE_DY input.mouseDY
+#define MOUSE_V input.mouse_V
+#define MOUSE_L input.mouse_L
+#define MOUSE_R input.mouse_R
+#define MOUSE_M input.mouse_M
+#define MOUSE_W input.mouse_W
 
 class MessageSystem
 {
@@ -103,37 +173,7 @@ public:
     void Disable_Message_to_Game();
     void Disable_Message_to_GameManager();
 
-    void test_output()
-    {
-        Say("Test Output:\n", WIN_COLOR_LIGHT_WHITE);
-
-        Say("Red", WIN_COLOR_RED);
-        Say("Yellow", WIN_COLOR_YELLOW);
-        Say("Green", WIN_COLOR_GREEN);
-        Say("Cyan", WIN_COLOR_CYAN);
-        Say("Blue", WIN_COLOR_BLUE);
-        Say("Pink", WIN_COLOR_PINK);
-        Say("Black", WIN_COLOR_BLACK);
-        Say("White", WIN_COLOR_WHITE);
-        Say("Gray", WIN_COLOR_GRAY);
-
-        Say("Light Red", WIN_COLOR_LIGHT_RED);
-        Say("Light Yellow", WIN_COLOR_LIGHT_YELLOW);
-        Say("Light Green", WIN_COLOR_LIGHT_GREEN);
-        Say("Light Cyan", WIN_COLOR_LIGHT_CYAN);
-        Say("Light Blue", WIN_COLOR_LIGHT_BLUE, WIN_COLOR_RED);
-        Say("Light Pink", WIN_COLOR_LIGHT_PINK);
-        Say("Light White", WIN_COLOR_LIGHT_WHITE);
-
-        Say("Test Output End\n", WIN_COLOR_LIGHT_WHITE);
-
-        for (int k = 1; k < 255; k++)
-        {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), k);
-            std::cout << "\n  " << std::hex << k << " -- I want to be nice today!";
-        }
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-    }
+    Input input;
 
 private:
     // 消息队列

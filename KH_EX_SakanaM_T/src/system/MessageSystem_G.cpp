@@ -1,5 +1,5 @@
 
-#include "MessageSystem.h"
+#include "MessageSystem.hpp"
 
 int MessageSystem::Send_Message_to_Game()
 {

@@ -1,7 +1,7 @@
 
 #include <iostream>
 
-#include "GameManager.h"
+#include "GameManager.hpp"
 
 void Fun_0()
 {
