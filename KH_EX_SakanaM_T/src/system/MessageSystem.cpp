@@ -41,6 +41,14 @@ void MessageSystem::ClearGraph()
     cleardevice();
 }
 
+void MessageSystem::ClearScreen()
+{
+    SetWorkingImage(&screen);
+    setbkcolor(LIGHTGRAY);
+    cleardevice();
+    SetWorkingImage();
+}
+
 void MessageSystem::Photographed()
 {
     StretchBlt(

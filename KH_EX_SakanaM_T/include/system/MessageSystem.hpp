@@ -169,6 +169,7 @@ public:
 
     // 清屏
     void ClearGraph();
+    void ClearScreen();
     // 用于在窗口中打印消息
     void Photographed();
     // 设置输出格式

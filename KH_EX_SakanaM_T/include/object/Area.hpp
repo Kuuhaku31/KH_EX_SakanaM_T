@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <graphics.h>
+
 #include "Shape.hpp"
 #include "Position.hpp"
 
@@ -21,4 +23,9 @@ public:
 	void Align();
 	void Align_x();
 	void Align_y();
+
+	// 重置皮肤
+	void Reset_skin(IMAGE * = nullptr);
+	// 映射到IMAGE
+	void To_IMAGE(IMAGE *);
 };

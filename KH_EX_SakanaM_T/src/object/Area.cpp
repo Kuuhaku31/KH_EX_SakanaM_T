@@ -25,6 +25,21 @@ void Area::Compute(Area *area, void f(unsigned int *, unsigned int *))
 	Shape::Shape_compute(area, dx, dy, f);
 }
 
+void Area::To_IMAGE(IMAGE *img)
+{
+	img->Resize(shape_wide, shape_high);
+	DWORD *b = GetImageBuffer(img);
+	for (int i = 0; i < shape_long; i++)
+	{
+		b[i] = shape_buffer[i];
+	}
+}
+
+void Area::Reset_skin(IMAGE *img)
+{
+	Shape_reset((unsigned int *)GetImageBuffer(img), img->getwidth(), img->getheight());
+}
+
 void Area::Align() { Set_position(-shape_wide / 2, -shape_high / 2); }
 void Area::Align_x() { Set_position_x(-shape_wide / 2); }
 void Area::Align_y() { Set_position_y(-shape_high / 2); }
