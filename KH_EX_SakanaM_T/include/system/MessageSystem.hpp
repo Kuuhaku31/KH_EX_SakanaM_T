@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
+#include <conio.h>
 
 #include "Input.hpp"
 
@@ -139,6 +140,19 @@ void test_output()
 #define MOUSE_M input.mouse_M
 #define MOUSE_W input.mouse_W
 
+struct graph_data
+{
+    HWND graph_HWND = nullptr;
+    HDC graph_HDC = nullptr;
+    unsigned int *graph_buffer = nullptr;
+    int graph_wide = 0;
+    int graph_high = 0;
+    int graph_long = 0;
+
+    int graph_half_wide = 0;
+    int graph_half_high = 0;
+};
+
 class MessageSystem
 {
 public:
@@ -152,6 +166,8 @@ public:
     // 用于在控制台打印消息
     // 第二个参数表示消息的颜色
     void Say(std::string, int = WIN_COLOR_WHITE, int = WIN_COLOR_BLACK);
+
+    void Photographed(IMAGE *);
 
     // 发送消息
     int Send_Message();
@@ -173,9 +189,17 @@ public:
     void Disable_Message_to_Game();
     void Disable_Message_to_GameManager();
 
+    void Set_graph_data(graph_data);
+
     Input input;
 
 private:
+    // 窗口信息
+    graph_data gd;
+
+    // 要输出的图像
+    IMAGE screen;
+
     // 消息队列
     // 不同的消息类型分别存储
     int message_count = 0;

@@ -1,6 +1,6 @@
 
 // Input.h
-// 管理所有输入
+// 管理输入
 
 #pragma once
 

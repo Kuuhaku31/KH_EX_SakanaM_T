@@ -11,7 +11,7 @@ Position::Position(int x, int y)
 {
 }
 
-Position::Position(Position *pos, int x = 0, int y = 0)
+Position::Position(Position *pos, int x, int y)
 	: parent_pos(pos), pos_x(x), pos_y(y)
 {
 }

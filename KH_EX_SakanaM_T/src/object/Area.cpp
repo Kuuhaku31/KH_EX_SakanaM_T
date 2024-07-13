@@ -1,29 +1,28 @@
 
-#pragma once
-
 #include "Area.hpp"
 
 Area::Area() : Position(), Shape() {}
 Area::Area(Position *pos) : Position(pos), Shape() {}
+Area::~Area() {}
 
 int Area::Local_x(int x) const { return x - Get_x(); }
 int Area::Local_y(int y) const { return y - Get_y(); }
 
 unsigned int Area::In_area(int x, int y) const
 {
-	return In_shape(Local_x(x), Local_y(y));
+	return Shape_in(Local_x(x), Local_y(y));
 }
 
 unsigned int Area::In_area(Position *pos) const
 {
-	return In_shape(Local_x(pos->Get_x()), Local_y(pos->Get_y()));
+	return Shape_in(Local_x(pos->Get_x()), Local_y(pos->Get_y()));
 }
 
 void Area::Compute(Area *area, void f(unsigned int *, unsigned int *))
 {
 	int dx = area->Get_x() - Get_x();
 	int dy = area->Get_y() - Get_y();
-	Shape::Compute(area, dx, dy, f);
+	Shape::Shape_compute(area, dx, dy, f);
 }
 
 void Area::Align() { Set_position(-shape_wide / 2, -shape_high / 2); }

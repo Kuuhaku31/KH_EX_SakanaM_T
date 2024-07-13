@@ -1,17 +1,6 @@
 
 #include "Game.hpp"
 
-#include <windows.h>
-#include <iostream>
-#include <conio.h>
-
-// 设置控制台文字颜色的函数
-void SetConsoleColor(WORD color)
-{
-    HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE); // 获取控制台输出的句柄
-    SetConsoleTextAttribute(hConsoleOutput, color);          // 设置文字和背景颜色
-}
-
 Game::Game()
 {
     // Initialize the game
@@ -29,6 +18,10 @@ short Game::Init(MessageSystem *ms)
     // Initialize Game...
     mss = ms;
 
+    // 初始化camera 0
+    cameras[0] = new Camera();
+    cameras[0]->Shape_reset(800, 450);
+
     mss->Say("\nGame Init Success", WIN_COLOR_GRAY);
     return 0;
 }
@@ -39,6 +32,16 @@ short Game::Exit()
     std::cout << "Game Exit" << std::endl;
 
     // Exit Game...
+
+    // 释放cameras
+    for (int i = 0; i < 10; i++)
+    {
+        if (cameras[i] != nullptr)
+        {
+            delete cameras[i];
+            cameras[i] = nullptr;
+        }
+    }
 
     std::cout << "Game Exit Success" << std::endl;
     return 0;

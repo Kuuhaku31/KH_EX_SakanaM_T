@@ -6,13 +6,18 @@ project(MyProject)
 
 # 添加源文件
 aux_source_directory(./src/system SYS)
+aux_source_directory(./src/base BASE)
+aux_source_directory(./src/object OBJ)
+
 set(SRC_FILES ./main.cpp)
 
 # 添加头文件
-include_directories(./include)
+include_directories(${PROJECT_SOURCE_DIR}./include/base/)
+include_directories(${PROJECT_SOURCE_DIR}./include/object/)
+include_directories(${PROJECT_SOURCE_DIR}./include/system/)
 
 # 生成可执行文件
-add_executable(run ${SRC_FILES} ${SYS})
+add_executable(run ${SRC_FILES} ${SYS} ${BASE} ${OBJ})
 
 # 忽略特定的编译器警告
 target_compile_options(run PRIVATE -Wno-conversion-null)

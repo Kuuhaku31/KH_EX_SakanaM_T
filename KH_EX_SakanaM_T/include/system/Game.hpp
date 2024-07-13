@@ -21,4 +21,6 @@ public:
 
 private:
 	MessageSystem *mss = nullptr;
+	Camera *cameras[10];
+	Position main_world;
 };

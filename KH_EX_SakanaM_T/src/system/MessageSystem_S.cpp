@@ -44,3 +44,8 @@ void MessageSystem::Enable_Message_to_GameManager()
 void MessageSystem::Disable_Message_to_GameManager()
 {
 }
+
+void MessageSystem::Set_graph_data(graph_data data)
+{
+    gd = data;
+}

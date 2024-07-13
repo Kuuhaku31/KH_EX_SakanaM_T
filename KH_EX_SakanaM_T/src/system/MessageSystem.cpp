@@ -34,6 +34,20 @@ void MessageSystem::Say(std::string str, int txtCode, int bakcgroudCode)
     SetConsoleTextAttribute(hConsoleOutput, WIN_COLOR_WHITE);
 }
 
+void MessageSystem::Photographed(IMAGE *screen)
+{
+    StretchBlt(
+        GetImageHDC(), // 目标DC
+        -16, -9,
+        gd.graph_wide + 32, gd.graph_high + 18,
+
+        GetImageHDC(screen), // 源DC
+        0, 0,
+        screen->getwidth(), screen->getheight(),
+
+        SRCCOPY);
+}
+
 // 发送消息
 int MessageSystem::Send_Message()
 {
