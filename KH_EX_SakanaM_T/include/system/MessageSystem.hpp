@@ -167,10 +167,17 @@ public:
     // 第二个参数表示消息的颜色
     void Say(std::string, int = WIN_COLOR_WHITE, int = WIN_COLOR_BLACK);
 
-    void Photographed(IMAGE *);
+    // 清屏
+    void ClearGraph();
+    // 用于在窗口中打印消息
+    void Photographed();
+    // 设置输出格式
+    void Photographed_format();
+    void Photographed_format(int, int, int, int);
 
     // 发送消息
-    int Send_Message();
+    int
+    Send_Message();
     int Send_Message_to_Game();
     int Send_Message_to_GameManager();
 
@@ -192,13 +199,21 @@ public:
     void Set_graph_data(graph_data);
 
     Input input;
+    // 要输出的图像
+    IMAGE screen;
 
 private:
     // 窗口信息
     graph_data gd;
 
-    // 要输出的图像
-    IMAGE screen;
+    // 输出格式
+    struct
+    {
+        int output_x1 = 0;
+        int output_y1 = 0;
+        int output_x2 = 0;
+        int output_y2 = 0;
+    };
 
     // 消息队列
     // 不同的消息类型分别存储

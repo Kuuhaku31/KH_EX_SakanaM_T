@@ -34,18 +34,45 @@ void MessageSystem::Say(std::string str, int txtCode, int bakcgroudCode)
     SetConsoleTextAttribute(hConsoleOutput, WIN_COLOR_WHITE);
 }
 
-void MessageSystem::Photographed(IMAGE *screen)
+void MessageSystem::ClearGraph()
+{
+    SetWorkingImage();
+    setbkcolor(BLACK);
+    cleardevice();
+}
+
+void MessageSystem::Photographed()
 {
     StretchBlt(
-        GetImageHDC(), // 目标DC
-        -16, -9,
-        gd.graph_wide + 32, gd.graph_high + 18,
+        gd.graph_HDC,
+        output_x1,
+        output_y1,
+        output_x2,
+        output_y2,
 
-        GetImageHDC(screen), // 源DC
-        0, 0,
-        screen->getwidth(), screen->getheight(),
+        GetImageHDC(&screen),
+        0,
+        0,
+        screen.getwidth(),
+        screen.getheight(),
 
         SRCCOPY);
+}
+
+void MessageSystem::Photographed_format()
+{
+    output_x1 = -16;
+    output_y1 = -9;
+    output_x2 = gd.graph_wide + 32;
+    output_y2 = gd.graph_high + 18;
+}
+
+void MessageSystem::Photographed_format(int x1, int y1, int x2, int y2)
+{
+    output_x1 = x1 - 16;
+    output_y1 = y1 - 9;
+    output_x2 = x2 + 32;
+    output_y2 = y2 + 18;
 }
 
 // 发送消息

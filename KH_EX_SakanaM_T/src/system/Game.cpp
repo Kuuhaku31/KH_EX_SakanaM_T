@@ -22,6 +22,9 @@ short Game::Init(MessageSystem *ms)
     cameras[0] = new Camera();
     cameras[0]->Shape_reset(800, 450);
 
+    // 设置graph输出格式
+    mss->Photographed_format(0, 0, 800, 450);
+
     mss->Say("\nGame Init Success", WIN_COLOR_GRAY);
     return 0;
 }
@@ -85,6 +88,8 @@ short game_update_01(MessageSystem *mss)
 short game_update_02(MessageSystem *mss)
 {
     short flag = 0;
+    mss->ClearGraph();
+
     mss->input.GetInput();
 
     if (mss->KEY_Q)
@@ -94,6 +99,11 @@ short game_update_02(MessageSystem *mss)
     if (mss->KEY_R)
     {
         mss->Say("You Pressed R", WIN_COLOR_WHITE);
+    }
+    if (mss->KEY_E)
+    {
+        loadimage(&(mss->screen), _T("../mat/skin_sakana.png"));
+        mss->Photographed();
     }
     if (mss->ENTER)
     {

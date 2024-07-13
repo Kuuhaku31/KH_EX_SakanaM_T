@@ -29,7 +29,7 @@ short GameManager::RUN()
     SetWindowPos(h, nullptr, GRAPH_X, GRAPH_Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
     SetWindowText(h, _T(GAME_NAME));
 
-    graph_data gd = {h, GetImageHDC(nullptr), (unsigned int *)GetImageBuffer(nullptr), GRAPHLONG, GRAPHWIDE, GRAPHHIGH, GRAPHWIDE / 2, GRAPHHIGH / 2};
+    graph_data gd = {h, GetImageHDC(nullptr), (unsigned int *)GetImageBuffer(nullptr), GRAPHWIDE, GRAPHHIGH, GRAPHLONG, GRAPHWIDE / 2, GRAPHHIGH / 2};
     mss.Set_graph_data(gd);
 
     // 初始化资源
