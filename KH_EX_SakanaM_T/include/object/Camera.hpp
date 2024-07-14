@@ -1,28 +1,28 @@
 
-// 用于处理摄像机的类
-// 不负责把图像渲染到窗口上（去找MessageSystem）
-// 负责处理摄像机的位置，视野大小，摄像机震动等
+// 摄像机的类
+// 不负责把图像渲染到窗口上
 
 #pragma once
 
-#include "Renderer.hpp"
+#include "Area.hpp"
 
-class Camera : public Area
+class Camera : public Position
 {
 public:
 	Camera();
+	Camera(int, int, uint = 0, uint = 0);
+	Camera(Point, uint = 0, uint = 0);
+	Camera(Position *, int = 0, int = 0, uint = 0, uint = 0);
+	Camera(Position *, Point, uint = 0, uint = 0);
 	~Camera();
 
-	// 调整视野大小
-	void Tweaks_sight(int dw, int dh);
+	// 渲染
+	void Rending(Area *);
 
-	void Rending(Renderer *ren);
-
-	int Mouse_X(int x);
-	int Mouse_Y(int y);
+	// 设置镜头参数
+	void Sight_size(uint = 0, uint = 0);
 
 private:
-	// 视野缩放系数
-	float kx = 1.0;
-	float ky = 1.0;
+	// 视野
+	Area sight;
 };

@@ -4,13 +4,11 @@
 MessageSystem::MessageSystem()
 {
     // Initialize the message system
-    std::cout << "Message System Created" << std::endl;
 }
 
 MessageSystem::~MessageSystem()
 {
     // Destroy the message system
-    std::cout << "Message System Destroyed" << std::endl;
 }
 
 short MessageSystem::Init()
@@ -21,66 +19,6 @@ short MessageSystem::Init()
 short MessageSystem::Exit()
 {
     return 0;
-}
-
-void MessageSystem::Say(std::string str, int txtCode, int bakcgroudCode)
-{
-    // 设置控制台文字颜色
-    int code = txtCode + (bakcgroudCode << 4);
-    HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsoleOutput, code);
-    std::cout << std::endl
-              << str;
-    SetConsoleTextAttribute(hConsoleOutput, WIN_COLOR_WHITE);
-}
-
-void MessageSystem::ClearGraph()
-{
-    SetWorkingImage();
-    setbkcolor(BLACK);
-    cleardevice();
-}
-
-void MessageSystem::ClearScreen()
-{
-    SetWorkingImage(&screen);
-    setbkcolor(LIGHTGRAY);
-    cleardevice();
-    SetWorkingImage();
-}
-
-void MessageSystem::Photographed()
-{
-    StretchBlt(
-        gd.graph_HDC,
-        output_x1,
-        output_y1,
-        output_x2,
-        output_y2,
-
-        GetImageHDC(&screen),
-        0,
-        0,
-        screen.getwidth(),
-        screen.getheight(),
-
-        SRCCOPY);
-}
-
-void MessageSystem::Photographed_format()
-{
-    output_x1 = -16;
-    output_y1 = -9;
-    output_x2 = gd.graph_wide + 32;
-    output_y2 = gd.graph_high + 18;
-}
-
-void MessageSystem::Photographed_format(int x1, int y1, int x2, int y2)
-{
-    output_x1 = x1 - 16;
-    output_y1 = y1 - 9;
-    output_x2 = x2 + 32;
-    output_y2 = y2 + 18;
 }
 
 // 发送消息

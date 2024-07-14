@@ -5,7 +5,6 @@ int MessageSystem::Send_Message_to_Game()
 {
     if (game_message_count == 0)
     {
-        std::cout << "No Message" << std::endl;
         return 0;
     }
     else
@@ -14,7 +13,6 @@ int MessageSystem::Send_Message_to_Game()
         game_message_queue[game_message_count] = 0;
         game_message_count--;
 
-        std::cout << "Message Sent to Game:" << msg << std::endl;
         return msg;
     }
 }
@@ -23,7 +21,6 @@ void MessageSystem::Receive_Message_from_Game(char msg)
 {
     if (game_message_count >= GAME_MESSAGE_MAX)
     {
-        std::cout << "Message Queue Full" << std::endl;
         return;
     }
     else
@@ -31,7 +28,6 @@ void MessageSystem::Receive_Message_from_Game(char msg)
         game_message_count++;
         game_message_queue[game_message_count] = msg;
 
-        std::cout << "Message Received from Game:" << msg << std::endl;
     }
 }
 

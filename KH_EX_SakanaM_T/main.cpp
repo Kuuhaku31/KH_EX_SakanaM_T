@@ -11,8 +11,8 @@ void Fun_0()
 
 int main()
 {
-	std::cout << "GAME START" << std::endl;
+	std::cout << "\nGAME START" << std::endl;
 	Fun_0();
-	std::cout << "GAME OVER!" << std::endl;
+	std::cout << "\nGAME OVER!" << std::endl;
 	return 0;
 }

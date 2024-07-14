@@ -1,31 +1,33 @@
 
 #include "Shape.hpp"
 
-Shape::Shape() {}
-Shape::Shape(const unsigned int *b, int w, int h) { Shape_reset(b, w, h); }
+Shape::Shape() : shape_buffer(nullptr), shape_wide(0), shape_high(0), shape_long(0) {}
+Shape::Shape(uint w, uint h) { Shape_reset(w, h); }
+Shape::Shape(const uint *b, uint w, uint h) { Shape_reset(b, w, h); }
 Shape::~Shape() { delete[] shape_buffer; }
 
-int Shape::Shape_wide() const { return shape_wide; }
-int Shape::Shape_high() const { return shape_high; }
-int Shape::Shape_long() const { return shape_long; }
+uint Shape::Shape_wide() const { return shape_wide; }
+uint Shape::Shape_high() const { return shape_high; }
+uint Shape::Shape_long() const { return shape_long; }
+uint *Shape::Shape_buffer() { return shape_buffer; }
 
-unsigned int Shape::Shape_in(int n) const
+uint Shape::Shape_in(uint n) const
 {
 	return n < 0 || n >= shape_long ? 0 : shape_buffer[n];
 }
 
-unsigned int Shape::Shape_in(int x, int y) const
+uint Shape::Shape_in(int x, int y) const
 {
 	int n = y * shape_wide + x;
 	return n < 0 || n >= shape_long ? 0 : shape_buffer[n];
 }
 
-void Shape::Shape_draw_point(int n, unsigned int v)
+void Shape::Shape_draw_point(int n, uint v)
 {
 	shape_buffer[n] = v;
 }
 
-void Shape::Shape_draw_point(int x, int y, unsigned int v)
+void Shape::Shape_draw_point(int x, int y, uint v)
 {
 	int n = y * shape_wide + x;
 	if (n >= 0 && n < shape_long)
@@ -46,7 +48,7 @@ inline void swap(int &a, int &b)
 	b = t;
 }
 
-void Shape::Shape_draw_line(int x1, int y1, int x2, int y2, unsigned int v)
+void Shape::Shape_draw_line(int x1, int y1, int x2, int y2, uint v)
 {
 	int dx = x2 - x1;
 	int dy = y2 - y1;
@@ -99,12 +101,12 @@ void Shape::Shape_draw_line(int x1, int y1, int x2, int y2, unsigned int v)
 	}
 }
 
-void Shape::Shape_draw_rectangle(int, int, int, int, unsigned int)
+void Shape::Shape_draw_rectangle(int, int, int, int, uint)
 {
 	// ...
 }
 
-void Shape::Shape_draw_circle(int centerX, int centerY, int radius, unsigned int value)
+void Shape::Shape_draw_circle(int centerX, int centerY, int radius, uint value)
 {
 	for (int y = -radius; y <= radius; y++)
 	{
@@ -125,13 +127,13 @@ void Shape::Shape_draw_circle(int centerX, int centerY, int radius, unsigned int
 }
 
 // --------- // shape1缓存区 // shape1宽度 // shape1高度 // shape2缓存区 // shape2宽度 // shape2高度 // shape2左上角x坐标 // shape2左上角y坐标 // 计算函数 //
-inline void write(unsigned int *A_b, int A_w, int A_h, unsigned int *B_b, int B_w, int B_h, int B_x, int B_y, void (*fun)(unsigned int *, unsigned int *))
+inline void write(uint *A_b, int A_w, int A_h, uint *B_b, int B_w, int B_h, int B_x, int B_y, void fun(uint &, uint &))
 {
-	unsigned int *A_buffer = A_b;
+	uint *A_buffer = A_b;
 	int A_wide = A_w;
 	int A_high = A_h;
 
-	unsigned int *B_buffer = B_b;
+	uint *B_buffer = B_b;
 	int B_wide = B_w;
 	int B_high = B_h;
 
@@ -189,32 +191,27 @@ inline void write(unsigned int *A_b, int A_w, int A_h, unsigned int *B_b, int B_
 	{
 		for (int j = 0; j < wide; j++, B_n++, A_n++)
 		{
-			fun(&A_buffer[A_n], &B_buffer[B_n]);
+			fun(A_buffer[A_n], B_buffer[B_n]);
 		}
 	}
 }
 
-void Shape::Shape_compute(const Shape *, int, int, unsigned int(const unsigned int, const unsigned int))
-{
-	// ...
-}
-
-void Shape::Shape_compute(Shape *s, int x, int y, void f(unsigned int *, unsigned int *))
+void Shape::Shape_compute(Shape *s, int x, int y, void f(uint &, uint &))
 {
 	int shape1_wide = shape_wide;
 	int shape1_high = shape_high;
 	int shape1_long = shape_long;
-	unsigned int *shape1_buffer = shape_buffer;
+	uint *shape1_buffer = shape_buffer;
 
 	int shape2_wide = s->shape_wide;
 	int shape2_high = s->shape_high;
 	int shape2_long = s->shape_long;
-	unsigned int *shape2_buffer = s->shape_buffer;
+	uint *shape2_buffer = s->shape_buffer;
 
 	write(shape1_buffer, shape1_wide, shape1_high, shape2_buffer, shape2_wide, shape2_high, x, y, f);
 }
 
-void Shape::Shape_reset(int w, int h, unsigned int v)
+void Shape::Shape_reset(uint w, uint h, uint v)
 {
 	if (0 >= w || 0 >= h)
 	{
@@ -227,7 +224,7 @@ void Shape::Shape_reset(int w, int h, unsigned int v)
 	else
 	{
 		delete[] shape_buffer;
-		shape_buffer = new unsigned int[w * h];
+		shape_buffer = new uint[w * h];
 		shape_wide = w;
 		shape_high = h;
 		shape_long = w * h;
@@ -239,7 +236,7 @@ void Shape::Shape_reset(int w, int h, unsigned int v)
 	}
 }
 
-void Shape::Shape_reset(const unsigned int *b, int w, int h)
+void Shape::Shape_reset(const uint *b, uint w, uint h)
 {
 	if (b || 0 >= w || 0 >= h)
 	{
@@ -252,7 +249,7 @@ void Shape::Shape_reset(const unsigned int *b, int w, int h)
 	else
 	{
 		delete[] shape_buffer;
-		shape_buffer = new unsigned int[w * h];
+		shape_buffer = new uint[w * h];
 		shape_wide = w;
 		shape_high = h;
 		shape_long = w * h;
@@ -270,14 +267,14 @@ void Shape::Shape_copy(Shape *s)
 	shape_high = s->shape_high;
 	shape_long = s->shape_long;
 	delete[] shape_buffer;
-	shape_buffer = new unsigned int[shape_long];
+	shape_buffer = new uint[shape_long];
 	for (int i = 0; i < shape_long; i++)
 	{
 		shape_buffer[i] = s->shape_buffer[i];
 	}
 }
 
-void Shape::Shape_clear(unsigned int v)
+void Shape::Shape_clear(uint v)
 {
 	for (int i = 0; i < shape_long; i++)
 	{
@@ -285,7 +282,7 @@ void Shape::Shape_clear(unsigned int v)
 	}
 }
 
-void Shape::Shape_clear(unsigned int t, unsigned int f)
+void Shape::Shape_clear(uint t, uint f)
 {
 	for (int i = 0; i < shape_long; i++)
 	{

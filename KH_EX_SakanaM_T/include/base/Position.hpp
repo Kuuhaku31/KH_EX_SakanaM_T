@@ -1,42 +1,56 @@
 
-// Position.hpp
-// 游戏对象的基本位置类
-
 #pragma once
 
+// 数对（点）
+struct Point
+{
+	int px;
+	int py;
+};
+
+// 游戏对象的基本位置类
 class Position
 {
 public:
+	// 构造、析构函数
 	Position();
 	Position(int, int);
+	Position(Point);
 	Position(Position *, int = 0, int = 0);
+	Position(Position *, Point);
 	~Position();
 
-	// 设置位置
-	void Set_position_x(int);
-	void Set_position_y(int);
+	// 获取信息
+	int Position_pos_x() const;
+	int Position_pos_y() const;
+	Position *Position_parent_pos() const;
 
-	void Set_position(int, int);
-	void Set_position(Position *);
-	void Set_position(Position *, int, int);
-	void Set_position(Position *, Position *);
+	// 递归查找到相对于根位置坐标
+	int Position_root_x() const;
+	int Position_root_y() const;
 
-	int Get_dx() const;
-	int Get_dy() const;
-	void Get_dxy(int *, int *) const;
+	// 设置
+	// 直接设置
+	void Position_set_x(int);
+	void Position_set_y(int);
+	void Position_set(int, int);
+	void Position_set(Point);
+	void Position_set(Position *);
+	void Position_set(Position *, int, int);
+	void Position_set(Position *, Point);
+	void Position_set(Position *, Position *);
 
-	int Get_x() const;
-	int Get_y() const;
-	void Get_xy(int *, int *) const;
+	// 移动
+	void Position_move_x(int);
+	void Position_move_y(int);
+	void Position_move(int, int);
+	void Position_move(Point);
 
-	void Move_x(int);
-	void Move_y(int);
-	void Move(int, int);
-
-	void Move_x_to(int);
-	void Move_y_to(int);
-	void Move_to(int, int);
-	void Move_to(Position *);
+	void Position_move_x_to(int);
+	void Position_move_y_to(int);
+	void Position_move_to(int, int);
+	void Position_move_to(Point);
+	void Position_move_to(Position *);
 
 protected:
 	Position *parent_pos;
