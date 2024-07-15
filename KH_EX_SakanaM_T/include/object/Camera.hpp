@@ -19,10 +19,16 @@ public:
 	// 渲染
 	void Rending(Area *);
 
+	// 清屏
+	void Clearsight();
+
 	// 设置镜头参数
 	void Sight_size(uint = 0, uint = 0);
+	void Sight_align(bool = true);
 
 private:
+	friend class GraphInterface;
+
 	// 视野
 	Area sight;
 };

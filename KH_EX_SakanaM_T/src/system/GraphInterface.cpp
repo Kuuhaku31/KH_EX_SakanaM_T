@@ -90,7 +90,7 @@ GraphInterface::~GraphInterface()
 void GraphInterface::ClearScreen()
 {
     SetWorkingImage(&screen);
-    setbkcolor(LIGHTGRAY);
+    setbkcolor(0);
     cleardevice();
     SetWorkingImage();
 }
@@ -98,4 +98,9 @@ void GraphInterface::ClearScreen()
 void GraphInterface::Photographed()
 {
     putimage(0, 0, &screen);
+}
+
+void GraphInterface::Receive(Camera *camera)
+{
+    conversion_IMAGE_Area(&screen, &camera->sight);
 }

@@ -19,6 +19,6 @@ uint Area::Area_in(Position *pos) const { return Shape_in(Area_local_x(pos->Posi
 
 void Area::Area_compute(Area *area, void f(uint &, uint &)) { Shape::Shape_compute(area, area->Position_root_x() - Position_root_x(), area->Position_root_y() - Position_root_y(), f); }
 
-void Area::Area_align() { Position_set(-shape_wide / 2, -shape_high / 2); }
+void Area::Area_align() { Position_set(-(int)shape_wide / 2, -(int)shape_high / 2); }
 void Area::Area_align_x() { Position_set_x(-shape_wide / 2); }
 void Area::Area_align_y() { Position_set_y(-shape_high / 2); }

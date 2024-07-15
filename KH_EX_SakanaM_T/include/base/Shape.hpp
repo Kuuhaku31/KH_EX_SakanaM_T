@@ -50,7 +50,7 @@ public:
 	// 设置所有单位的值
 	void Shape_clear(uint = 0);
 	// 根据单位的值是否为0设置值
-	void Shape_clear(uint = OXF, uint = 0);
+	void Shape_clear(uint, uint);
 	// 按bit位取反
 	void Shape_not();
 

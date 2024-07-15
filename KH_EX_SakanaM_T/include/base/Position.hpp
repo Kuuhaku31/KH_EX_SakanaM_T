@@ -4,8 +4,8 @@
 // 数对（点）
 struct Point
 {
-	int px;
-	int py;
+	int px = 0;
+	int py = 0;
 };
 
 // 游戏对象的基本位置类

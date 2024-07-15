@@ -39,7 +39,7 @@
 #include <ctime>
 
 #include <graphics.h>
-#include "Area.hpp"
+#include "Camera.hpp"
 
 // 用于在控制台打印消息
 // 第二个参数表示消息的颜色
@@ -117,6 +117,10 @@ public:
     // 清屏
     void ClearScreen();
     void Photographed();
+
+    // 从Camera获取图像
+    // 之后要改
+    void Receive(Camera *camera);
 
     // 设置输出格式，先不写
     void Photographed_format() {};
