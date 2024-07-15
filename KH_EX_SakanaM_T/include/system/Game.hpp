@@ -2,9 +2,9 @@
 #pragma once
 
 #include "Library.hpp"
-#include "MessageSystem.hpp"
 #include "Camera.hpp"
-#include "Vector.hpp"
+
+#include "GraphInterface.hpp"
 
 #define KEY_W graphInterface->Key_W()
 #define KEY_S graphInterface->Key_S()
@@ -45,20 +45,22 @@
 class Game
 {
 public:
-	Game(GraphInterface *, MessageSystem *);
+	Game(MessageSystem *, GraphInterface *, Library *);
 	~Game();
 
 	// 更新,需要每次循环调用
 	short Update();
 
 private:
-	GraphInterface *graphInterface;
+	// ^
 	MessageSystem *messageSystem;
+	GraphInterface *graphInterface;
+	Library *library;
 
 	Position main_origin;
 	Area main_world;
 
-	Camera main_camera;
+	Camera *main_camera;
 	Position *objects[10];
 	Area *areas[10];
 

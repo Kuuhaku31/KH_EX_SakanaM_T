@@ -1,0 +1,19 @@
+digraph G {
+    "Area.hpp" -> "Position.hpp";
+    "Area.hpp" -> "Shape.hpp";
+    "Collision.hpp" -> "Movement.hpp";
+    "Collision.hpp" -> "Area.hpp";
+    "Movement.hpp" -> "Vector.hpp";
+    "Vector.hpp" -> "Position.hpp";
+    "Camera.hpp" -> "Object.hpp";
+    "Object.hpp" -> "Collision.hpp";
+    "Object.hpp" -> "MessageSystem.hpp";
+    "Game.hpp" -> "Library.hpp";
+    "Game.hpp" -> "Camera.hpp";
+    "Game.hpp" -> "GraphInterface.hpp";
+    "GameManager.hpp" -> "Game.hpp";
+    "GraphInterface.hpp" -> "MessageSystem.hpp";
+    "Library.hpp" -> "Shape_Maker.h";
+    "Library.hpp" -> "struct_static.h";
+    "MessageSystem.hpp" -> "Shape.hpp";
+}

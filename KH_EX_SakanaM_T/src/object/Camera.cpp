@@ -50,62 +50,51 @@ fun_add_AC(uint &a, uint &b)
     }
 }
 
-Camera::Camera()
+// 构造、析构函数
+Camera::Camera(MessageSystem *mss, Position *pos, Point poi, uint w, uint h) : Object(mss, pos, poi)
 {
-    sight.Position_set(this);
-}
-
-Camera::Camera(int x, int y, uint w, uint h) : Position(x, y)
-{
-    sight.Position_set(this);
-    sight.Shape_reset(w, h);
-}
-
-Camera::Camera(Point p, uint w, uint h) : Position(p)
-{
-    sight.Position_set(this);
-    sight.Shape_reset(w, h);
-}
-
-Camera::Camera(Position *p, int x, int y, uint w, uint h) : Position(p, x, y)
-{
-    sight.Position_set(this);
-    sight.Shape_reset(w, h);
-}
-
-Camera::Camera(Position *pos, Point poi, uint w, uint h) : Position(pos, poi)
-{
-    sight.Position_set(this);
-    sight.Shape_reset(w, h);
+    sight = new Area(this, poi, w, h);
 }
 
 Camera::~Camera()
 {
+    delete sight;
 }
 
+//
 void Camera::Rending(Area *area)
 {
-    sight.Area_compute(area, mix_color);
+    sight->Area_compute(area, mix_color);
+}
+
+void Camera::RendingObject(Object *obj)
+{
+    sight->Area_compute(obj->main_skin, mix_color);
 }
 
 void Camera::Clearsight()
 {
-    sight.Shape_clear();
+    sight->Shape_clear();
 }
 
 void Camera::Sight_size(uint w, uint h)
 {
-    sight.Shape_reset(w, h);
+    sight->Shape_reset(w, h);
 }
 
 void Camera::Sight_align(bool b)
 {
     if (b)
     {
-        sight.Area_align();
+        sight->Area_align();
     }
     else
     {
-        sight.Position_set(0, 0);
+        sight->Position_set(0, 0);
     }
+}
+
+void Camera::SendToMessageSystem(ShapeType t)
+{
+    message_system->Receive_Shapes(sight, t);
 }

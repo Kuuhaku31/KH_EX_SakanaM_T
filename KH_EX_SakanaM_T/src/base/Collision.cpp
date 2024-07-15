@@ -1,13 +1,11 @@
 
-#include "Collision.h"
+#include "Collision.hpp"
 
 Collision::Collision(Movement *m) : movement(m) {}
-
 Collision::Collision(Movement *m, ushort w, ushort h) : movement(m) { Reset_test_points(w, h); }
-
 Collision::~Collision() {}
 
-void Collision::Update(Area *area)
+void Collision::CollUpdate(Area *area)
 {
     // 先将检测点值清零
     for (int i = 0; i < 8; i++)
@@ -20,7 +18,7 @@ void Collision::Update(Area *area)
     {
         for (int i = 0; i < 8; i++)
         {
-            test_points_value[i] = area->Area_in(test_points[i]);
+            test_points_value[i] = area->Area_in(&test_points[i]);
         }
     }
 
@@ -49,14 +47,14 @@ void Collision::Update(Area *area)
 
 void Collision::Reset_test_points(ushort w, ushort h)
 {
-    test_points[0].SetPosition(-w / 2, -h / 2);
-    test_points[1].SetPosition(0, -h / 2);
-    test_points[2].SetPosition(w / 2, -h / 2);
-    test_points[3].SetPosition(w / 2, 0);
-    test_points[4].SetPosition(w / 2, h / 2);
-    test_points[5].SetPosition(0, h / 2);
-    test_points[6].SetPosition(-w / 2, h / 2);
-    test_points[7].SetPosition(-w / 2, 0);
+    test_points[0].Position_set(-w / 2, -h / 2);
+    test_points[1].Position_set(0, -h / 2);
+    test_points[2].Position_set(w / 2, -h / 2);
+    test_points[3].Position_set(w / 2, 0);
+    test_points[4].Position_set(w / 2, h / 2);
+    test_points[5].Position_set(0, h / 2);
+    test_points[6].Position_set(-w / 2, h / 2);
+    test_points[7].Position_set(-w / 2, 0);
 }
 
 uint Collision::Get_test_points_value(short i)

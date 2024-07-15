@@ -1,16 +1,13 @@
 
 #include "Game.hpp"
 
-Game::Game(GraphInterface *gi, MessageSystem *mss)
+Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem(mss), graphInterface(gi), library(lib)
 {
     // Initialize Game...
-    graphInterface = gi;
-    messageSystem = mss;
 
-    // 初始化camera 0
-    main_camera.Position_set(&main_origin, 40, 30);
-    main_camera.Sight_size(GRAPHWIDE, GRAPHHIGH);
-    main_camera.Sight_align();
+    // 初始化camera
+    main_camera = new Camera(messageSystem, &main_origin, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
+    main_camera->Sight_align();
 
     // 初始化areas
     IMAGE img;
@@ -62,18 +59,20 @@ short Game::Update()
     }
 
     graphInterface->ClearScreen();
-    main_camera.Clearsight();
-    main_camera.Rending(&main_world);
+    main_camera->Clearsight();
+    main_camera->Rending(&main_world);
 
     sakana_move_vector = getMovement(graphInterface, KEY_W, KEY_S, KEY_A, KEY_D);
     camera_move_vector = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R);
 
-    main_camera.Position_move(camera_move_vector);
+    main_camera->Position_move(camera_move_vector);
     areas[0]->Position_move(sakana_move_vector);
 
-    main_camera.Rending(areas[0]);
-    graphInterface->Receive(&main_camera);
+    main_camera->Rending(areas[0]);
 
+    main_camera->SendToMessageSystem(SourceScreen01);
+
+    graphInterface->ReceiveFromMessageSystem();
     graphInterface->Photographed();
 
     return flag;

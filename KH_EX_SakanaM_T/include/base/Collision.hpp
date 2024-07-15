@@ -28,7 +28,7 @@ public:
 	~Collision();
 
 	// 检测碰撞、更新test_points_value、向Movement发出指令
-	void Update(Area *);
+	void CollUpdate(Area *);
 
 	// 重置检测点的坐标
 	void Reset_test_points(ushort, ushort);

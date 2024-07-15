@@ -16,7 +16,7 @@ public:
 private:
     Game *game;
 
-    Library *lib;
-    GraphInterface *gi;
     MessageSystem *mss;
+    GraphInterface *gi;
+    Library *lib;
 };

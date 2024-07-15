@@ -1,6 +1,8 @@
 
 #pragma once
 
+#define ZEROPOINT Point{0, 0}
+
 // 数对（点）
 struct Point
 {

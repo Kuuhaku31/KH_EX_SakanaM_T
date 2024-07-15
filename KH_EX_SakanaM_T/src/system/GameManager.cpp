@@ -7,10 +7,10 @@ GameManager::GameManager() : game(nullptr), lib(nullptr), gi(nullptr), mss(nullp
 
     // 初始化
     // 顺序不能变
-    gi = new GraphInterface();
     mss = new MessageSystem();
+    gi = new GraphInterface(mss);
     lib = new Library();
-    game = new Game(gi, mss);
+    game = new Game(mss, gi, lib);
 
     // Initialize the game
     Say("Game Manager Created", WIN_COLOR_GRAY);

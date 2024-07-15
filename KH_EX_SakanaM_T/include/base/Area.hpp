@@ -32,4 +32,7 @@ public:
 	void Area_align();
 	void Area_align_x();
 	void Area_align_y();
+
+	// Copy，但是不Copy ParentPosition
+	void Area_copy(Area *);
 };

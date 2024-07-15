@@ -22,3 +22,9 @@ void Area::Area_compute(Area *area, void f(uint &, uint &)) { Shape::Shape_compu
 void Area::Area_align() { Position_set(-(int)shape_wide / 2, -(int)shape_high / 2); }
 void Area::Area_align_x() { Position_set_x(-shape_wide / 2); }
 void Area::Area_align_y() { Position_set_y(-shape_high / 2); }
+
+void Area::Area_copy(Area *a)
+{
+    Shape_copy(a);
+    Position_set(a->Position_pos_x(), a->Position_pos_y());
+}

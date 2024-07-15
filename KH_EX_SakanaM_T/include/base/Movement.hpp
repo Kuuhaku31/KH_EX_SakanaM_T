@@ -23,7 +23,7 @@ class Movement
 {
 public:
 	Movement(Position *);
-	Movement(Position *, float = 0.0f, Vector = ZEROVECTOR);
+	Movement(Position *, float, Vector = ZEROVECTOR);
 	~Movement();
 
 	// 更新运动状态
