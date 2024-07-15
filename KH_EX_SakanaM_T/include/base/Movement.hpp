@@ -34,10 +34,15 @@ public:
 	void ResetMass(float = 0.0f);
 
 	void ResetVelocity(Vector = ZEROVECTOR);
+	void ResetVelocity_x(float = 0.0f);
+	void ResetVelocity_y(float = 0.0f);
 	void AddVelocity(Vector);
 
 	void ResetAcceleration(Vector = ZEROVECTOR);
-	void ResetForce(Vector = ZEROVECTOR);
+	void ResetAcceleration_x(float = 0.0f);
+	void ResetAcceleration_y(float = 0.0f);
+	void AddAcceleration(Vector);
+
 	void AddForce(Vector);
 
 	// 获取物体的运动参数
@@ -47,6 +52,7 @@ public:
 	Vector GetAcceleration();
 
 private:
+	friend class Collision;
 	// 附着的Position类
 	Position *position;
 

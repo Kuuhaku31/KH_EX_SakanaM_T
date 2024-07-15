@@ -88,11 +88,22 @@ void Movement::Update(drag_data dd)
 void Movement::ResetDT(float dt) { DT = dt; }
 void Movement::ResetMass(float m) { mass = m; }
 void Movement::ResetVelocity(Vector v) { mov_v = v; }
+void Movement::ResetVelocity_x(float vx) { mov_v.vx = vx; }
+void Movement::ResetVelocity_y(float vy) { mov_v.vy = vy; }
 void Movement::AddVelocity(Vector v) { mov_v += v; }
 
 void Movement::ResetAcceleration(Vector a) { mov_a = a; }
-void Movement::ResetForce(Vector f) { mov_a = f; }
-void Movement::AddForce(Vector f) { mov_a += f; }
+void Movement::ResetAcceleration_x(float ax) { mov_a.vx = ax; }
+void Movement::ResetAcceleration_y(float ay) { mov_a.vy = ay; }
+void Movement::AddAcceleration(Vector a) { mov_a += a; }
+
+void Movement::AddForce(Vector f)
+{
+    if (mass)
+    {
+        mov_a += f * (1.0 / mass);
+    }
+}
 
 float Movement::GetDT() { return DT; }
 float Movement::GetMass() { return mass; }
