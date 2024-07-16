@@ -1,5 +1,5 @@
 
-#include "Shape.hpp"
+#include "base.hpp"
 
 Shape::Shape() : shape_buffer(nullptr), shape_wide(0), shape_high(0), shape_long(0) {}
 Shape::Shape(uint w, uint h) { Shape_reset(w, h); }

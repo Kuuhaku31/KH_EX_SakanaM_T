@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Library.hpp"
-#include "Camera.hpp"
+#include "Object.hpp"
 
 #include "GraphInterface.hpp"
 

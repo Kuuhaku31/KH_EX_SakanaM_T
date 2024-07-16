@@ -1,5 +1,5 @@
 
-#include "Camera.hpp"
+#include "Object.hpp"
 
 // 用于混合两个颜色
 static inline void

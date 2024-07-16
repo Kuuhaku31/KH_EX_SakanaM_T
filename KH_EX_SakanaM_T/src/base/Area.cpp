@@ -1,5 +1,5 @@
 
-#include "Area.hpp"
+#include "base.hpp"
 
 Area::Area() : Position(), Shape() {}
 Area::Area(int x, int y, uint w, uint h) : Position(x, y), Shape(w, h) {}

@@ -8,8 +8,7 @@
 
 #pragma once
 
-#include <graphics.h>
-#include <string>
+#include "MessageSystem.hpp"
 
 // #include "Shape_Maker.h"
 

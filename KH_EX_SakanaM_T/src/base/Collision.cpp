@@ -1,5 +1,5 @@
 
-#include "Collision.hpp"
+#include "base.hpp"
 
 Collision::Collision(Movement *m) : movement(m) {}
 Collision::Collision(Movement *m, ushort w, ushort h) : movement(m) { Reset_test_points(w, h); }

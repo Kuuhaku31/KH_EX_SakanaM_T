@@ -4,11 +4,7 @@
 // 不负责游戏外的消息处理接口
 #pragma once
 
-#include "Shape.hpp"
-
-#include <iostream>
-#include <string>
-#include <ctime>
+#include "base.hpp"
 #include <graphics.h>
 
 #define GAME_RATE 60
@@ -22,25 +18,6 @@
 #define GRAPH_Y 30
 
 #define GAME_NAME "Sakana"
-
-#define WIN_COLOR_BLACK 0x0
-#define WIN_COLOR_BLUE 0x1
-#define WIN_COLOR_GREEN 0x2
-#define WIN_COLOR_CYAN 0x3
-#define WIN_COLOR_RED 0x4
-#define WIN_COLOR_PINK 0x5
-#define WIN_COLOR_YELLOW 0x6
-#define WIN_COLOR_WHITE 0x7
-#define WIN_COLOR_GRAY 0x8
-#define WIN_COLOR_LIGHT_BLUE 0x9
-#define WIN_COLOR_LIGHT_GREEN 0xA
-#define WIN_COLOR_LIGHT_CYAN 0xB
-#define WIN_COLOR_LIGHT_RED 0xC
-#define WIN_COLOR_LIGHT_PINK 0xD
-#define WIN_COLOR_LIGHT_YELLOW 0xE
-#define WIN_COLOR_LIGHT_WHITE 0xF
-
-#pragma once
 
 // 消息队列的最大长度
 #define MESSAGE_MAX 100
@@ -107,8 +84,6 @@ public:
     // 游戏画面
     Shape *Send_Shapes();
     void Receive_Shapes(Shape *, ShapeType);
-
-    
 
 private:
     // 消息队列

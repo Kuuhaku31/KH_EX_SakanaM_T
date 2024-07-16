@@ -1,5 +1,5 @@
 
-#include "Position.hpp"
+#include "base.hpp"
 
 // 构造、析构
 Position::Position() : parent_pos(nullptr), pos_x(0), pos_y(0) {}

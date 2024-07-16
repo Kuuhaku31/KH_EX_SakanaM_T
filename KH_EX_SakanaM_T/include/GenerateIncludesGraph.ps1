@@ -9,7 +9,7 @@ Get-ChildItem -Recurse -Include *.hpp | ForEach-Object {
     $currentFile = $_.FullName
     # 对于每个文件，查找 #include 指令
     Get-Content $currentFile | ForEach-Object {
-        if ($_ -match '#include "(.*)"') {
+        if ($_ -match '#include "(.*)"' -or $_ -match '#include <(.*)>') {
             # 提取被包含的文件名
             $include = $matches[1]
             # 写入 DOT 文件

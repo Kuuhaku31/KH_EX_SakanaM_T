@@ -1,15 +1,15 @@
 
-#include "Vector.hpp"
+#include "base.hpp"
 
 // 计算模长
 float moudle(Point p)
 {
-    return sqrt(p.px * p.px + p.py * p.py);
+    return kh::sqrt(p.px * p.px + p.py * p.py);
 }
 
 float module(Vector v)
 {
-    return sqrt(v.vx * v.vx + v.vy * v.vy);
+    return kh::sqrt(v.vx * v.vx + v.vy * v.vy);
 }
 
 Vector operator*(const Vector &v, float f)
