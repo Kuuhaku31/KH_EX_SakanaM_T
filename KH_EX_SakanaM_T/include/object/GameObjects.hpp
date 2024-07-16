@@ -14,7 +14,7 @@ public:
 	// 1、Area指针数组
 	// 2、Area指针数组的长度
 	// 3、阻力参数
-	void Update(Area **, ushort, drag_data);
+	void Update(Area **, ushort, Vector);
 
 protected:
 	MessageSystem *message_system;

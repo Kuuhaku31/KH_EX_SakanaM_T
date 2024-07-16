@@ -76,8 +76,13 @@ struct Vector
 float moudle(Point);
 float module(Vector);
 
+// 化为单位向量
+Vector unit(Point);
+Vector unit(Vector);
+
 // 数乘
 Vector operator*(const Vector &, float);
+Vector &operator*=(Vector &, float);
 
 // 重载==操作符
 bool operator==(const Vector &, const Vector &);
@@ -198,16 +203,12 @@ public:
 // Movement类
 // 用于指导物体的运动
 
-// 阻力参数
-struct drag_data
-{
-	// 阻力参数
-	float drag_u = 0.0;
-	float drag_f = 0.0;
-	float drag_c = 0.0;
-	float drag_r = 0.0;
+// 阻力参数：摩擦力、空气阻力
+// Frictional resistance, air resistance、
+// 直接用Vector表示
 
-	float area_drag = 0.0;
+class Zone
+{
 };
 
 class Movement
@@ -218,7 +219,7 @@ public:
 	~Movement();
 
 	// 更新运动状态
-	void MovementUpdate(drag_data);
+	void MovementUpdate(Vector = ZEROVECTOR);
 
 	// 更改物体的运动参数
 	void MovementResetDT(float = 0.1f);

@@ -20,39 +20,30 @@ Movement::Movement(Position *p, float m, Vector v)
 Movement::~Movement() {}
 
 // 更新运动状态
-void Movement::MovementUpdate(drag_data dd)
+void Movement::MovementUpdate(Vector resistance)
 {
-    if (mov_v != ZEROVECTOR)
+    if (mass && mov_v != ZEROVECTOR && resistance != ZEROVECTOR)
     {
         // 根据阻力参数改变运动状态
         float v_mod = module(mov_v);
-
-        float fforce_1 = dd.drag_u;
-        float fforce_2 = v_mod * v_mod * dd.drag_c;
-
-        if (mass > 0.0f)
-        {
-            fforce_1 *= (dd.drag_f / mass);
-            fforce_2 *= (dd.drag_r / mass);
-        }
-        float v_mod_ = v_mod - (fforce_1 + fforce_2) * dd.area_drag;
+        float v_mod_ = v_mod - (resistance.vx + v_mod * v_mod * resistance.vy) / mass;
 
         if (v_mod_ < 0.0f)
         {
-            mov_v.vx = 0;
-            mov_v.vy = 0;
+            mov_v = ZEROVECTOR;
         }
         else
         {
-            mov_v.vx *= v_mod_ / v_mod;
-            mov_v.vy *= v_mod_ / v_mod;
+            mov_v *= v_mod_ / v_mod;
         }
     }
 
+    // 更新速度、加速度
+    mov_v += mov_a * DT;
+    mov_a = {0.0f, 0.0f};
+
     Vector float_dp = mov_v * DT;
-
     Point int_dp = {(int)float_dp.vx, (int)float_dp.vy};
-
     buf_p += float_dp - int_dp;
 
     if (buf_p.vx > 1.0f)
@@ -79,10 +70,6 @@ void Movement::MovementUpdate(drag_data dd)
 
     // 更新位置
     position->Position_move(int_dp);
-
-    // 更新速度、加速度
-    mov_v += mov_a * DT;
-    mov_a = {0.0f, 0.0f};
 }
 
 void Movement::MovementResetDT(float dt) { DT = dt; }

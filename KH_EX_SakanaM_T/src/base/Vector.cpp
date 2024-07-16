@@ -12,12 +12,41 @@ float module(Vector v)
     return kh::sqrt(v.vx * v.vx + v.vy * v.vy);
 }
 
+// 化为单位向量
+Vector unit(Point p)
+{
+    float m = moudle(p);
+    Vector v;
+    v.vx = p.px / m;
+    v.vy = p.py / m;
+    return v;
+}
+
+Vector unit(Vector v)
+{
+    Vector v1;
+    if (v != Vector{0.0f, 0.0f})
+    {
+        float m = module(v);
+        v1.vx = v.vx / m;
+        v1.vy = v.vy / m;
+    }
+    return v1;
+}
+
 Vector operator*(const Vector &v, float f)
 {
     Vector res;
     res.vx = v.vx * f;
     res.vy = v.vy * f;
     return res;
+}
+
+Vector &operator*=(Vector &v, float f)
+{
+    v.vx *= f;
+    v.vy *= f;
+    return v;
 }
 
 bool operator==(const Vector &v1, const Vector &v2)
