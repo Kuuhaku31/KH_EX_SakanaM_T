@@ -1,8 +1,8 @@
 
-#include "Object.hpp"
+#include "GameObjects.hpp"
 
 // 用于混合两个颜色
-static inline void
+inline void
 mix_color(uint &c1, uint &c2)
 {
     int a2 = (c2 & 0xff000000) >> 24;
@@ -29,7 +29,7 @@ mix_color(uint &c1, uint &c2)
     c1 = (a << 24) | (r << 16) | (g << 8) | b;
 }
 
-static inline void
+inline void
 fun_add_AH(uint &a, uint &b)
 {
     if (b)
@@ -39,7 +39,7 @@ fun_add_AH(uint &a, uint &b)
     }
 }
 
-static inline void
+inline void
 fun_add_AC(uint &a, uint &b)
 {
     if (b)
@@ -50,51 +50,53 @@ fun_add_AC(uint &a, uint &b)
     }
 }
 
+// 定义一个宏，方便调用
+#define CAMERASIGHT Object::objectAreas[ObjectAreaType::skin01]
+
 // 构造、析构函数
-Camera::Camera(MessageSystem *mss, Position *pos, Point poi, uint w, uint h) : Object(mss, pos, poi)
+Camera::Camera(MessageSystem *mss, Position *pos, Point poi, uint w, uint h) : GameObject(mss, pos, poi)
 {
-    sight = new Area(this, poi, w, h);
+    CAMERASIGHT->Shape_reset(w, h);
 }
 
-Camera::~Camera()
-{
-    delete sight;
-}
+Camera::~Camera() {}
 
-//
 void Camera::Rending(Area *area)
 {
-    sight->Area_compute(area, mix_color);
+    CAMERASIGHT->Area_compute(area, mix_color);
 }
 
-void Camera::RendingObject(Object *obj)
+void Camera::RendingObject(Object *obj, ObjectAreaType t)
 {
-    sight->Area_compute(obj->main_skin, mix_color);
+    CAMERASIGHT->Area_compute(obj->ObjectGetArea(t), mix_color);
 }
 
 void Camera::Clearsight()
 {
-    sight->Shape_clear();
+    CAMERASIGHT->Shape_clear();
 }
 
 void Camera::Sight_size(uint w, uint h)
 {
-    sight->Shape_reset(w, h);
+    CAMERASIGHT->Shape_reset(w, h);
 }
 
 void Camera::Sight_align(bool b)
 {
     if (b)
     {
-        sight->Area_align();
+        CAMERASIGHT->Area_align();
     }
     else
     {
-        sight->Position_set(0, 0);
+        CAMERASIGHT->Position_set(ZEROPOINT);
     }
 }
 
 void Camera::SendToMessageSystem(ShapeType t)
 {
-    message_system->Receive_Shapes(sight, t);
+    message_system->Receive_Shapes(CAMERASIGHT, t);
 }
+
+// 取消宏
+#undef CAMERASIGHT

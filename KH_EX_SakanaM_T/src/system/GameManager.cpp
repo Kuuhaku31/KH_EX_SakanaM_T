@@ -1,13 +1,12 @@
 
 #include "GameManager.hpp"
 
-GameManager::GameManager() : game(nullptr), lib(nullptr), gi(nullptr), mss(nullptr)
+GameManager::GameManager()
 {
-    Say("Game Manager", WIN_COLOR_GRAY);
-
     // 初始化
     // 顺序不能变
     mss = new MessageSystem();
+
     gi = new GraphInterface(mss);
     lib = new Library();
     game = new Game(mss, gi, lib);
@@ -18,16 +17,14 @@ GameManager::GameManager() : game(nullptr), lib(nullptr), gi(nullptr), mss(nullp
 
 GameManager::~GameManager()
 {
-    Say("Game Manager Over", WIN_COLOR_GRAY);
     // 退出，释放资源
     // 顺序不能变
     delete game;
     delete lib;
-    delete mss;
     delete gi;
 
-    // Destroy the game
-    Say("Game Manager Destroyed", WIN_COLOR_GRAY);
+    delete mss;
+    Say("Game Manager Exit", WIN_COLOR_GRAY);
 }
 
 // 返回值：0正常退出，1初始化失败，2运行失败，3退出失败

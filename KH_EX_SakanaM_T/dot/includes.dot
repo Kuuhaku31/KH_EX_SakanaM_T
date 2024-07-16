@@ -4,9 +4,9 @@ digraph G {
     "include_base.hpp" -> "string";
     "include_base.hpp" -> "iostream";
     "include_base.hpp" -> "ctime";
-    "Object.hpp" -> "MessageSystem.hpp";
+    "GameObjects.hpp" -> "MessageSystem.hpp";
     "Game.hpp" -> "Library.hpp";
-    "Game.hpp" -> "Object.hpp";
+    "Game.hpp" -> "GameObjects.hpp";
     "Game.hpp" -> "GraphInterface.hpp";
     "GameManager.hpp" -> "Game.hpp";
     "GraphInterface.hpp" -> "MessageSystem.hpp";
@@ -15,4 +15,5 @@ digraph G {
     "Library.hpp" -> "struct_static.h";
     "MessageSystem.hpp" -> "base.hpp";
     "MessageSystem.hpp" -> "graphics.h";
+    "Input.hpp" -> "graphics.h";
 }

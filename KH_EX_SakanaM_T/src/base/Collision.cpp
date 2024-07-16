@@ -25,23 +25,23 @@ void Collision::CollUpdate(Area *area)
     // 碰撞处理
     if (test_points_value[1])
     {
-        movement->ResetVelocity_y();
-        movement->AddForce(Vector{0, -COLLFORCE});
+        movement->MovementResetVelocity_y();
+        movement->MovementAddForce(Vector{0, -COLLFORCE});
     }
     if (test_points_value[3])
     {
-        movement->ResetVelocity_x();
-        movement->AddForce(Vector{-COLLFORCE, 0});
+        movement->MovementResetVelocity_x();
+        movement->MovementAddForce(Vector{-COLLFORCE, 0});
     }
     if (test_points_value[5])
     {
-        movement->ResetVelocity_y();
-        movement->AddForce(Vector{0, COLLFORCE});
+        movement->MovementResetVelocity_y();
+        movement->MovementAddForce(Vector{0, COLLFORCE});
     }
     if (test_points_value[7])
     {
-        movement->ResetVelocity_x();
-        movement->AddForce(Vector{COLLFORCE, 0});
+        movement->MovementResetVelocity_x();
+        movement->MovementAddForce(Vector{COLLFORCE, 0});
     }
 }
 

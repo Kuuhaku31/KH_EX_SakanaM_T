@@ -4,8 +4,8 @@ $outputFile = "includes.dot"
 # 创建或清空输出文件，并写入初始内容
 Set-Content $outputFile "digraph G {"
 
-# 遍历当前目录及子目录下的所有 .hpp 和 .cpp 文件
-Get-ChildItem -Recurse -Include *.hpp | ForEach-Object {
+# 遍历上一级目录及子目录下的所有 .hpp 和 .cpp 文件
+Get-ChildItem -Path .. -Recurse -Include *.hpp | ForEach-Object {
     $currentFile = $_.FullName
     # 对于每个文件，查找 #include 指令
     Get-Content $currentFile | ForEach-Object {

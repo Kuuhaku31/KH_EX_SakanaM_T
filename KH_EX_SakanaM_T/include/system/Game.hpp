@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Library.hpp"
-#include "Object.hpp"
+#include "GameObjects.hpp"
 
 #include "GraphInterface.hpp"
 
@@ -61,8 +61,7 @@ private:
 	Area main_world;
 
 	Camera *main_camera;
-	Position *objects[10];
-	Area *areas[10];
+	GameObject *sakana;
 
 	Point sakana_move_vector;
 	Point camera_move_vector;

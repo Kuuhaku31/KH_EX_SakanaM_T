@@ -16,12 +16,13 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     main_world.Position_set(&main_origin, 0, 0);
 
     loadimage(&img, _T("../mat/skin_sakana.png"), 0, 0, true);
-    areas[0] = new Area(&main_origin);
-    conversion_IMAGE_Area(areas[0], &img);
-    areas[0]->Position_move_to(400, 225);
+    Area sakanaSkin;
+    conversion_IMAGE_Area(&sakanaSkin, &img);
 
-    Say("\nGame Init Success", WIN_COLOR_GRAY);
-    Say("Game Created", WIN_COLOR_GRAY);
+    sakana = new GameObject(mss, &main_origin, Point{400, 225});
+    sakana->ObjectSetArea(&sakanaSkin, skin01);
+
+    Say("Game Init Success", WIN_COLOR_GRAY);
 }
 
 inline Point
@@ -54,7 +55,7 @@ short Game::Update()
     short flag = 0;
     if (ENTER)
     {
-        Say("Game Exit", WIN_COLOR_WHITE);
+        Say("Game Exit...", WIN_COLOR_WHITE);
         flag = 1;
     }
 
@@ -66,9 +67,9 @@ short Game::Update()
     camera_move_vector = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R);
 
     main_camera->Position_move(camera_move_vector);
-    areas[0]->Position_move(sakana_move_vector);
+    sakana->Position_move(sakana_move_vector);
 
-    main_camera->Rending(areas[0]);
+    main_camera->RendingObject(sakana);
 
     main_camera->SendToMessageSystem(SourceScreen01);
 
@@ -80,42 +81,24 @@ short Game::Update()
 
 Game::~Game()
 {
-    // Destroy the game
-    // Exit the game
-    std::cout << "Game Exit" << std::endl;
-
     // Exit Game...
 
     // 释放cameras
-    // for (int i = 0; i < 10; i++)
-    // {
-    //     if (cameras[i] != nullptr)
-    //     {
-    //         delete cameras[i];
-    //         cameras[i] = nullptr;
-    //     }
-    // }
-
-    // 释放objects
     for (int i = 0; i < 10; i++)
     {
-        if (objects[i] != nullptr)
+        if (main_camera != nullptr)
         {
-            delete objects[i];
-            objects[i] = nullptr;
+            delete main_camera;
+            main_camera = nullptr;
         }
     }
 
-    // 释放areas
-    for (int i = 0; i < 10; i++)
+    // 释放sakana
+    if (sakana != nullptr)
     {
-        if (areas[i] != nullptr)
-        {
-            delete areas[i];
-            areas[i] = nullptr;
-        }
+        delete sakana;
+        sakana = nullptr;
     }
 
-    std::cout << "Game Exit Success" << std::endl;
     Say("Game Destroyed", WIN_COLOR_GRAY);
 }

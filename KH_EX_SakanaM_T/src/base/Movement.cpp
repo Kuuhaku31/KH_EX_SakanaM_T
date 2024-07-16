@@ -20,7 +20,7 @@ Movement::Movement(Position *p, float m, Vector v)
 Movement::~Movement() {}
 
 // 更新运动状态
-void Movement::Update(drag_data dd)
+void Movement::MovementUpdate(drag_data dd)
 {
     if (mov_v != ZEROVECTOR)
     {
@@ -85,19 +85,19 @@ void Movement::Update(drag_data dd)
     mov_a = {0.0f, 0.0f};
 }
 
-void Movement::ResetDT(float dt) { DT = dt; }
-void Movement::ResetMass(float m) { mass = m; }
-void Movement::ResetVelocity(Vector v) { mov_v = v; }
-void Movement::ResetVelocity_x(float vx) { mov_v.vx = vx; }
-void Movement::ResetVelocity_y(float vy) { mov_v.vy = vy; }
-void Movement::AddVelocity(Vector v) { mov_v += v; }
+void Movement::MovementResetDT(float dt) { DT = dt; }
+void Movement::MovementResetMass(float m) { mass = m; }
+void Movement::MovementResetVelocity(Vector v) { mov_v = v; }
+void Movement::MovementResetVelocity_x(float vx) { mov_v.vx = vx; }
+void Movement::MovementResetVelocity_y(float vy) { mov_v.vy = vy; }
+void Movement::MovementAddVelocity(Vector v) { mov_v += v; }
 
-void Movement::ResetAcceleration(Vector a) { mov_a = a; }
-void Movement::ResetAcceleration_x(float ax) { mov_a.vx = ax; }
-void Movement::ResetAcceleration_y(float ay) { mov_a.vy = ay; }
-void Movement::AddAcceleration(Vector a) { mov_a += a; }
+void Movement::MovementResetAcceleration(Vector a) { mov_a = a; }
+void Movement::MovementResetAcceleration_x(float ax) { mov_a.vx = ax; }
+void Movement::MovementResetAcceleration_y(float ay) { mov_a.vy = ay; }
+void Movement::MovementAddAcceleration(Vector a) { mov_a += a; }
 
-void Movement::AddForce(Vector f)
+void Movement::MovementAddForce(Vector f)
 {
     if (mass)
     {
@@ -105,7 +105,7 @@ void Movement::AddForce(Vector f)
     }
 }
 
-float Movement::GetDT() { return DT; }
-float Movement::GetMass() { return mass; }
-Vector Movement::GetVelocity() { return mov_v; }
-Vector Movement::GetAcceleration() { return mov_a; }
+float Movement::MovementDT() { return DT; }
+float Movement::MovementMass() { return mass; }
+Vector Movement::MovementVelocity() { return mov_v; }
+Vector Movement::MovementAcceleration() { return mov_a; }

@@ -47,8 +47,8 @@ enum ShapeType
     UIScreen04,
     UIScreen05,
 
-    NULL01,
-    NULL02,
+    SHapeNULL01,
+    SHapeNULL02,
 };
 
 class MessageSystem

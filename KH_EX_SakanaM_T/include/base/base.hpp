@@ -218,29 +218,29 @@ public:
 	~Movement();
 
 	// 更新运动状态
-	void Update(drag_data);
+	void MovementUpdate(drag_data);
 
 	// 更改物体的运动参数
-	void ResetDT(float = 0.1f);
-	void ResetMass(float = 0.0f);
+	void MovementResetDT(float = 0.1f);
+	void MovementResetMass(float = 0.0f);
 
-	void ResetVelocity(Vector = ZEROVECTOR);
-	void ResetVelocity_x(float = 0.0f);
-	void ResetVelocity_y(float = 0.0f);
-	void AddVelocity(Vector);
+	void MovementResetVelocity(Vector = ZEROVECTOR);
+	void MovementResetVelocity_x(float = 0.0f);
+	void MovementResetVelocity_y(float = 0.0f);
+	void MovementAddVelocity(Vector);
 
-	void ResetAcceleration(Vector = ZEROVECTOR);
-	void ResetAcceleration_x(float = 0.0f);
-	void ResetAcceleration_y(float = 0.0f);
-	void AddAcceleration(Vector);
+	void MovementResetAcceleration(Vector = ZEROVECTOR);
+	void MovementResetAcceleration_x(float = 0.0f);
+	void MovementResetAcceleration_y(float = 0.0f);
+	void MovementAddAcceleration(Vector);
 
-	void AddForce(Vector);
+	void MovementAddForce(Vector);
 
 	// 获取物体的运动参数
-	float GetDT();
-	float GetMass();
-	Vector GetVelocity();
-	Vector GetAcceleration();
+	float MovementDT();
+	float MovementMass();
+	Vector MovementVelocity();
+	Vector MovementAcceleration();
 
 private:
 	friend class Collision;
@@ -293,4 +293,56 @@ private:
 	// 	检测点
 	Position test_points[8];
 	uint test_points_value[8] = {0};
+};
+
+// 可能用到的类型
+enum ObjectAreaType
+{
+	skin01,
+	skin02,
+	widget01,
+	widget02,
+	widget03,
+	hitbox01,
+	hitbox02,
+	hitbox03,
+	NULL01,
+	NULL02
+};
+
+enum ObjectCollType
+{
+	coll01,
+	coll02,
+	coll03,
+	coll04,
+	NUll01
+};
+
+#define OBJECTAREASMAX 10
+#define OBJECTCOLLSMAX 5
+
+class Object : public Position, public Movement
+{
+public:
+	Object(Position *, Point = ZEROPOINT, float = 0.0f, Vector = ZEROVECTOR);
+	~Object();
+
+	// 设置skin、碰撞盒
+	void ObjectSetArea(Shape *, Point, ObjectAreaType);
+	void ObjectSetArea(Area *, ObjectAreaType);
+
+	// 设置碰撞检测
+	void ObjectSetColl(ushort, ushort, ObjectCollType);
+
+	// 返回skin、碰撞盒
+	Area *ObjectGetArea(ObjectAreaType);
+
+	// 返回碰撞检测
+	Collision *ObjectGetColl(ObjectCollType);
+
+protected:
+	// 皮肤、碰撞盒、碰撞检测
+	Area *objectAreas[OBJECTAREASMAX];
+	Collision *objectColls[OBJECTCOLLSMAX];
 };
