@@ -10,7 +10,7 @@
 
 #include "MessageSystem.hpp"
 
-inline Zone *Made(std::string *paths, int pathCount)
+inline Zone *new_ZoneMade(std::string *paths, int *bit, int count)
 {
 	IMAGE *img = new IMAGE;
 	loadimage(img, paths[0].c_str());
@@ -21,7 +21,7 @@ inline Zone *Made(std::string *paths, int pathCount)
 	uint *zongbuffer = z->Shape_buffer();
 	uint l = z->Shape_long();
 
-	for (int i = 0; i < pathCount; i++)
+	for (int i = 0; i < count; i++)
 	{
 		loadimage(img, paths[i].c_str(), 0, 0, true);
 		uint *imgbuffer = (uint *)GetImageBuffer(img);
@@ -30,7 +30,7 @@ inline Zone *Made(std::string *paths, int pathCount)
 		{
 			if (imgbuffer[j] & 0x00ffffff)
 			{
-				zongbuffer[j] |= (0x1 << i);
+				zongbuffer[j] |= (0x1 << bit[i]);
 			}
 		}
 	}
@@ -40,16 +40,14 @@ inline Zone *Made(std::string *paths, int pathCount)
 	return z;
 }
 
-inline void funt()
+inline Zone *Get_new_ZoneMade()
 {
-
 	std::string paths[20] = {
 		"D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/mat/area_main.png",
 		"D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/mat/area_wall_01.png"};
+	int bit[20] = {main_area, wall_area_01};
 
-	Zone *z = Made(paths, 2);
-
-	delete z;
+	return new_ZoneMade(paths, bit, 2);
 }
 
 // #include "Shape_Maker.h"

@@ -40,8 +40,11 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
 {
     // Initialize Game...
 
+    // 初始化zone
+    main_zone = Get_new_ZoneMade();
+
     // 初始化camera
-    main_camera = new Camera(messageSystem, &main_zone, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
+    main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
     main_camera->Sight_align();
 
     // 初始化areas
@@ -49,20 +52,14 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     loadimage(&img, _T("../mat/area_main.png"));
     // loadimage(&img, _T("../mat/0himesama.png"));
     conversion_IMAGE_Area(&main_world, &img);
-    main_world.Position_set(&main_zone, 40, 100);
+    main_world.Position_set(main_zone);
 
     loadimage(&img, _T("../mat/skin_sakana.png"), 0, 0, true);
     Area sakanaSkin;
     conversion_IMAGE_Area(&sakanaSkin, &img);
 
-    sakana = new GameObject(mss, &main_zone, Point{400, 225}, 1.0f);
+    sakana = new GameObject(mss, main_zone, Point{400, 225}, 1.0f);
     sakana->ObjectSetArea(&sakanaSkin, skin01);
-
-    // 初始化zone
-    Shape s(400, 300);
-    s.Shape_clear(0x00000001);
-    s.Shape_draw_circle(200, 150, 100, 0x00000000);
-    main_zone.Shape_copy(&s);
 
     Say("Game Init Success", WIN_COLOR_GRAY);
 }
@@ -138,7 +135,7 @@ short Game::Update()
     main_camera->Clearsight();
     main_camera->Rending(&main_world);
 
-    main_camera->RendingZone(&main_zone, main_area);
+    main_camera->RendingZone(main_zone, wall_area_01);
 
     main_camera->RendingObject(sakana);
 
@@ -153,6 +150,9 @@ short Game::Update()
 Game::~Game()
 {
     // Exit Game...
+
+    // 释放Zone
+    delete main_zone;
 
     // 释放cameras
     for (int i = 0; i < 10; i++)

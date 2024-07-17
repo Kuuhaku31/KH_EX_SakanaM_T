@@ -100,7 +100,7 @@ void Camera::RendingZone(Zone *zone, ZoneAreaType t)
         break;
 
     case wall_area_01:
-        fun = fun_rend_zone<wall_area_01, KHCOLOR_GREEN>;
+        fun = fun_rend_zone<wall_area_01, KHCOLOR_GREEN & 0x88ffffff>;
         break;
     case wall_area_02:
         fun = fun_rend_zone<wall_area_02, KHCOLOR_LIGHT_GREEN>;
