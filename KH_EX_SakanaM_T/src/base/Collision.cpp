@@ -1,63 +1,31 @@
 
 #include "base.hpp"
 
-Collision::Collision(Movement *m) : movement(m) {}
-Collision::Collision(Movement *m, ushort w, ushort h) : movement(m) { Reset_test_points(w, h); }
+Collision::Collision(ushort w, ushort h) { CollResetTestPoints(w, h); }
 Collision::~Collision() {}
 
-void Collision::CollUpdate(Area *area)
+void Collision::CollUpdate(Position *pos, Area *area, uint *b)
 {
-    // 先将检测点值清零
-    for (int i = 0; i < 8; i++)
+    if (pos && area && b)
     {
-        test_points_value[i] = 0;
-    }
+        parent_pos = pos;
 
-    // 赋值
-    if (area)
-    {
-        for (int i = 0; i < 8; i++)
+        // 赋值
+        for (int i = 0; i < TESTPOINTCOUNT; i++)
         {
-            test_points_value[i] = area->Area_in(&test_points[i]);
+            b[i] = area->Area_in(&test_points[i]);
         }
     }
-
-    // 碰撞处理
-    if (test_points_value[1])
-    {
-        movement->MovementResetVelocity_y();
-        movement->MovementAddForce(Vector{0, -COLLFORCE});
-    }
-    if (test_points_value[3])
-    {
-        movement->MovementResetVelocity_x();
-        movement->MovementAddForce(Vector{-COLLFORCE, 0});
-    }
-    if (test_points_value[5])
-    {
-        movement->MovementResetVelocity_y();
-        movement->MovementAddForce(Vector{0, COLLFORCE});
-    }
-    if (test_points_value[7])
-    {
-        movement->MovementResetVelocity_x();
-        movement->MovementAddForce(Vector{COLLFORCE, 0});
-    }
 }
 
-void Collision::Reset_test_points(ushort w, ushort h)
+void Collision::CollResetTestPoints(ushort w, ushort h)
 {
-    test_points[0].Position_set(-w / 2, -h / 2);
-    test_points[1].Position_set(0, -h / 2);
-    test_points[2].Position_set(w / 2, -h / 2);
-    test_points[3].Position_set(w / 2, 0);
-    test_points[4].Position_set(w / 2, h / 2);
-    test_points[5].Position_set(0, h / 2);
-    test_points[6].Position_set(-w / 2, h / 2);
-    test_points[7].Position_set(-w / 2, 0);
-}
-
-uint Collision::Get_test_points_value(short i)
-{
-    return test_points_value[i];
+    test_points[0].Position_set(-w, -h);
+    test_points[1].Position_set(+0, -h);
+    test_points[2].Position_set(+w, -h);
+    test_points[3].Position_set(+w, +0);
+    test_points[4].Position_set(+w, +h);
+    test_points[5].Position_set(+0, +h);
+    test_points[6].Position_set(-w, +h);
+    test_points[7].Position_set(-w, +0);
 }

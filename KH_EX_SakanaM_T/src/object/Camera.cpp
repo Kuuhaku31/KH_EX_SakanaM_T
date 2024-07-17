@@ -54,7 +54,7 @@ fun_add_AC(uint &a, uint &b)
 #define CAMERASIGHT Object::objectAreas[ObjectAreaType::skin01]
 
 // 构造、析构函数
-Camera::Camera(MessageSystem *mss, Position *pos, Point poi, uint w, uint h) : GameObject(mss, pos, poi)
+Camera::Camera(MessageSystem *mss, Zone *z, Point poi, uint w, uint h) : GameObject(mss, z, poi)
 {
     CAMERASIGHT->Shape_reset(w, h);
 }

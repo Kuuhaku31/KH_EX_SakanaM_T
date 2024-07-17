@@ -6,15 +6,11 @@
 class GameObject : public Object
 {
 public:
-	GameObject(MessageSystem *, Position *, Point = ZEROPOINT, float = 0.0f, Vector = ZEROVECTOR);
+	GameObject(MessageSystem *, Zone *, Point = ZEROPOINT, float = 0.0f, Vector = ZEROVECTOR);
 	~GameObject();
 
 	// 更新
-	// 传入参数说明：
-	// 1、Area指针数组
-	// 2、Area指针数组的长度
-	// 3、阻力参数
-	void Update(Area **, ushort, Vector);
+	void GameObjectUpdate();
 
 protected:
 	MessageSystem *message_system;
@@ -26,7 +22,7 @@ protected:
 class Camera : public GameObject
 {
 public:
-	Camera(MessageSystem *, Position *p = nullptr, Point = ZEROPOINT, uint = 0, uint = 0);
+	Camera(MessageSystem *, Zone *p, Point = ZEROPOINT, uint = 0, uint = 0);
 	~Camera();
 
 	// 渲染

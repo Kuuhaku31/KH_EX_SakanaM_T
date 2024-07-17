@@ -21,7 +21,7 @@ private:
 	GraphInterface *graphInterface;
 	Library *library;
 
-	Position main_origin;
+	Zone main_zone;
 	Area main_world;
 
 	Camera *main_camera;

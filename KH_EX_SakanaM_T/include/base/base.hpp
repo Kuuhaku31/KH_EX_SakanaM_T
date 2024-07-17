@@ -117,8 +117,7 @@ Vector &operator-=(Vector &, const Point &);
 class Shape
 {
 public:
-	Shape();
-	Shape(uint, uint);
+	Shape(uint = 0, uint = 0, uint = 0);
 	Shape(const uint *, uint, uint);
 	~Shape(); // **记得释放内存**
 
@@ -146,7 +145,7 @@ public:
 	void Shape_compute(Shape *, int, int, void f(uint &, uint &));
 
 	// 重新设置形状
-	void Shape_reset(uint = 0, uint = 0, uint = OXF);
+	void Shape_reset(uint = 0, uint = 0, uint = 0);
 	// **这个函数无法处理数组越界！**
 	void Shape_reset(const uint *, uint, uint);
 	// 复制形状
@@ -169,12 +168,9 @@ protected:
 class Area : public Position, public Shape
 {
 public:
-	Area();
-	Area(int, int, uint = 0, uint = 0);
-	Area(Point, uint = 0, uint = 0); // 坐标，宽高
-	Area(Position *);
-	Area(Position *, int, int, uint = 0, uint = 0);
-	Area(Position *, Point, uint = 0, uint = 0);
+	Area(Shape *);
+	Area(Point = ZEROPOINT, uint = 0, uint = 0); // 坐标，宽高
+	Area(Position *, Point = ZEROPOINT, uint = 0, uint = 0);
 	~Area();
 
 	// 转换到本地坐标
@@ -199,6 +195,98 @@ public:
 	void Area_copy(Area *);
 };
 
+// 天才！！！！
+// 一个Area的点有32位
+// 每一位表示不同的Area
+// Area[32]
+
+#define RELATIVE_AREA_START 2
+#define RELATIVE_AREA_COUNT 5
+
+#define WALL_AREA_START 7
+#define WALL_AREA_COUNT 5
+
+#define COLL_AREA_START 12
+#define COLL_AREA_COUNT 5
+
+#define DHP_AREA_START 17
+#define DHP_AREA_COUNT 5
+
+// 从低位到高位
+enum ZoneAreaType
+{
+	/*01*/ main_area, // main_area 为主要区域，用于判断是否在区域内（全部设置为1）
+	/*02*/ relative_area_01,
+	/*03*/ relative_area_02,
+	/*04*/ relative_area_03,
+	/*05*/ relative_area_04,
+	/*06*/ relative_area_05,
+	/*07*/ wall_area_01,
+	/*08*/ wall_area_02,
+	/*09*/ wall_area_03,
+	/*10*/ wall_area_04,
+	/*11*/ wall_area_05,
+	/*12*/ coll_area_01,
+	/*13*/ coll_area_02,
+	/*14*/ coll_area_03,
+	/*15*/ coll_area_04,
+	/*16*/ coll_area_05,
+	/*17*/ DHP_area_01,
+	/*18*/ DHP_area_02,
+	/*19*/ DHP_area_03,
+	/*20*/ DHP_area_04,
+	/*21*/ DHP_area_05,
+	/*22*/ area_22,
+	/*23*/ area_23,
+	/*24*/ area_24,
+	/*25*/ area_25,
+	/*26*/ area_26,
+	/*27*/ area_27,
+	/*28*/ area_28,
+	/*29*/ area_29,
+	/*30*/ area_30,
+	/*31*/ area_31,
+	/*32*/ area_32
+};
+
+// 一个Zone类可以存储32个Area信息
+
+class Zone : public Area
+{
+public:
+	Zone();
+	Zone(Shape *);
+	~Zone();
+
+	// 获取、设置
+	Vector ZoneGetRelative(ZoneAreaType);
+	float ZoneGetWallCollForce(ZoneAreaType);
+	float ZoneGetCollForce(ZoneAreaType);
+	int ZoneGetDHP(ZoneAreaType);
+
+	void ZoneSetRelative(ZoneAreaType, Vector);
+	void ZoneSetWallCollForce(ZoneAreaType, float);
+	void ZoneSetCollForce(ZoneAreaType, float);
+	void ZoneSetDHP(ZoneAreaType, int);
+
+private:
+	// 阻力参数：摩擦力、空气阻力float表示
+	Vector relatives[RELATIVE_AREA_COUNT];
+
+	// 墙体参数：是否碰撞、碰撞方向
+	float wall_coll_force[WALL_AREA_COUNT];
+
+	// 碰撞参数：碰撞力、碰撞方向
+	float coll_force[COLL_AREA_COUNT];
+
+	// 血量增减
+	int dHP[DHP_AREA_COUNT];
+};
+
+// =================================================================================================
+// =================================================================================================
+// =================================================================================================
+
 // Movement.hpp
 // Movement类
 // 用于指导物体的运动
@@ -206,10 +294,6 @@ public:
 // 阻力参数：摩擦力、空气阻力
 // Frictional resistance, air resistance、
 // 直接用Vector表示
-
-class Zone
-{
-};
 
 class Movement
 {
@@ -255,47 +339,6 @@ private:
 	Vector mov_a; // 加速度
 };
 
-// 碰撞检测类
-// 用于检测角色是否与墙体或其他角色发生碰撞
-// 有8个检测点，分别在角色的四个角和四个边的中点
-// 当角色的检测点与墙体或其他角色的检测点重合时，认为发生碰撞
-/*
-(-w/2,-h/2)------(0,-h/2)-------(w/2,-h/2)
-	|               |               |
-	|               |               |
-(-w/2,0)----------(0,0)-----------(w/2,0)
-	|               |               |
-	|               |               |
-(-w/2,h/2)-------(0,h/2)---------(w/2,h/2)
-*/
-
-#define COLLFORCE 1000.0f
-
-class Collision : public Position
-{
-public:
-	Collision(Movement *);
-	Collision(Movement *, ushort, ushort);
-	~Collision();
-
-	// 检测碰撞、更新test_points_value、向Movement发出指令
-	void CollUpdate(Area *);
-
-	// 重置检测点的坐标
-	void Reset_test_points(ushort, ushort);
-
-	// 获取检测点的值
-	uint Get_test_points_value(short i);
-
-private:
-	// Movement
-	Movement *movement;
-
-	// 	检测点
-	Position test_points[8];
-	uint test_points_value[8] = {0};
-};
-
 // 可能用到的类型
 enum ObjectAreaType
 {
@@ -311,17 +354,7 @@ enum ObjectAreaType
 	NULL02
 };
 
-enum ObjectCollType
-{
-	coll01,
-	coll02,
-	coll03,
-	coll04,
-	NUll01
-};
-
 #define OBJECTAREASMAX 10
-#define OBJECTCOLLSMAX 5
 
 class Object : public Position, public Movement
 {
@@ -333,17 +366,43 @@ public:
 	void ObjectSetArea(Shape *, Point, ObjectAreaType);
 	void ObjectSetArea(Area *, ObjectAreaType);
 
-	// 设置碰撞检测
-	void ObjectSetColl(ushort, ushort, ObjectCollType);
-
 	// 返回skin、碰撞盒
 	Area *ObjectGetArea(ObjectAreaType);
 
-	// 返回碰撞检测
-	Collision *ObjectGetColl(ObjectCollType);
-
 protected:
-	// 皮肤、碰撞盒、碰撞检测
+	// 皮肤、碰撞盒
 	Area *objectAreas[OBJECTAREASMAX];
-	Collision *objectColls[OBJECTCOLLSMAX];
+};
+
+// 碰撞检测类
+// 用于检测角色是否与墙体或其他角色发生碰撞
+// 有8个检测点，分别在角色的四个角和四个边的中点
+// 当角色的检测点与墙体或其他角色的检测点重合时，认为发生碰撞
+/*
+ (-w,-h)----------(0,-h)----------(w,-h)
+	|               |               |
+	|               |               |
+ (-w,0)-----------(0,0)-----------(w,0)
+	|               |               |
+	|               |               |
+ (-w,h)-----------(0,h)-----------(w,h)
+*/
+
+#define TESTPOINTCOUNT 8
+
+class Collision : public Position
+{
+public:
+	Collision(ushort, ushort);
+	~Collision();
+
+	// 检测碰撞、更新test_points_value、向Movement发出指令
+	void CollUpdate(Position *, Area *, uint *);
+
+	// 重置检测点的坐标
+	void CollResetTestPoints(ushort, ushort);
+
+private:
+	// 	检测点
+	Position test_points[8];
 };

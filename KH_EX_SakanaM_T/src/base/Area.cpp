@@ -1,11 +1,8 @@
 
 #include "base.hpp"
 
-Area::Area() : Position(), Shape() {}
-Area::Area(int x, int y, uint w, uint h) : Position(x, y), Shape(w, h) {}
+Area::Area(Shape *s) { Shape_copy(s); }
 Area::Area(Point xy, uint w, uint h) : Position(xy), Shape(w, h) {}
-Area::Area(Position *p) : Position(p), Shape() {}
-Area::Area(Position *p, int x, int y, uint w, uint h) : Position(p, x, y), Shape(w, h) {}
 Area::Area(Position *p, Point xy, uint w, uint h) : Position(p), Shape(w, h) {}
 Area::~Area() {}
 

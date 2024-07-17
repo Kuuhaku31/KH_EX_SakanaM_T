@@ -1,9 +1,52 @@
 
 #include "base.hpp"
 
-Shape::Shape() : shape_buffer(nullptr), shape_wide(0), shape_high(0), shape_long(0) {}
-Shape::Shape(uint w, uint h) { Shape_reset(w, h); }
-Shape::Shape(const uint *b, uint w, uint h) { Shape_reset(b, w, h); }
+Shape::Shape(uint w, uint h, uint v)
+{
+	if (0 >= w || 0 >= h)
+	{
+		shape_buffer = nullptr;
+		shape_wide = 0;
+		shape_high = 0;
+		shape_long = 0;
+	}
+	else
+	{
+		shape_buffer = new uint[w * h];
+		shape_wide = w;
+		shape_high = h;
+		shape_long = w * h;
+
+		for (int i = 0; i < shape_long; i++)
+		{
+			shape_buffer[i] = v;
+		}
+	}
+}
+
+Shape::Shape(const uint *b, uint w, uint h)
+{
+	if (!b || 0 >= w || 0 >= h)
+	{
+		shape_buffer = nullptr;
+		shape_wide = 0;
+		shape_high = 0;
+		shape_long = 0;
+	}
+	else
+	{
+		shape_buffer = new uint[w * h];
+		shape_wide = w;
+		shape_high = h;
+		shape_long = w * h;
+
+		for (int i = 0; i < shape_long; i++)
+		{
+			shape_buffer[i] = b[i];
+		}
+	}
+}
+
 Shape::~Shape() { delete[] shape_buffer; }
 
 uint Shape::Shape_wide() const { return shape_wide; }
@@ -238,7 +281,7 @@ void Shape::Shape_reset(uint w, uint h, uint v)
 
 void Shape::Shape_reset(const uint *b, uint w, uint h)
 {
-	if (b || 0 >= w || 0 >= h)
+	if (!b || 0 >= w || 0 >= h)
 	{
 		delete[] shape_buffer;
 		shape_buffer = nullptr;

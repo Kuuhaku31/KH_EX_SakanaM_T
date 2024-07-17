@@ -7,10 +7,6 @@ Object::Object(Position *pos, Point poi, float m, Vector v) : Position(pos, poi)
     {
         objectAreas[i] = new Area(this);
     }
-    for (ushort i = 0; i < OBJECTCOLLSMAX; i++)
-    {
-        objectColls[i] = new Collision(this);
-    }
 }
 
 Object::~Object()
@@ -19,10 +15,6 @@ Object::~Object()
     for (ushort i = 0; i < OBJECTAREASMAX; i++)
     {
         delete objectAreas[i];
-    }
-    for (ushort i = 0; i < OBJECTCOLLSMAX; i++)
-    {
-        delete objectColls[i];
     }
 }
 
@@ -37,12 +29,5 @@ void Object::ObjectSetArea(Area *s, ObjectAreaType t)
     objectAreas[t]->Area_copy(s);
 }
 
-// 设置碰撞检测
-void Object::ObjectSetColl(ushort w, ushort h, ObjectCollType t)
-{
-    objectColls[t]->Reset_test_points(w, h);
-}
-
 // 返回
 Area *Object::ObjectGetArea(ObjectAreaType t) { return objectAreas[t]; }
-Collision *Object::ObjectGetColl(ObjectCollType t) { return objectColls[t]; }

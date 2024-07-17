@@ -41,7 +41,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     // Initialize Game...
 
     // 初始化camera
-    main_camera = new Camera(messageSystem, &main_origin, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
+    main_camera = new Camera(messageSystem, &main_zone, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
     main_camera->Sight_align();
 
     // 初始化areas
@@ -49,13 +49,13 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     loadimage(&img, _T("../mat/area_main.png"));
     // loadimage(&img, _T("../mat/0himesama.png"));
     conversion_IMAGE_Area(&main_world, &img);
-    main_world.Position_set(&main_origin, 0, 0);
+    main_world.Position_set(&main_zone, 0, 0);
 
     loadimage(&img, _T("../mat/skin_sakana.png"), 0, 0, true);
     Area sakanaSkin;
     conversion_IMAGE_Area(&sakanaSkin, &img);
 
-    sakana = new GameObject(mss, &main_origin, Point{400, 225}, 1.0f);
+    sakana = new GameObject(mss, &main_zone, Point{400, 225}, 1.0f);
     sakana->ObjectSetArea(&sakanaSkin, skin01);
 
     Say("Game Init Success", WIN_COLOR_GRAY);
