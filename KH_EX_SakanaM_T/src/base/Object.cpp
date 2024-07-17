@@ -3,16 +3,21 @@
 
 Object::Object(Position *pos, Point poi, float m, Vector v) : Position(pos, poi), Movement(this, m, v)
 {
-    for (ushort i = 0; i < OBJECTAREASMAX; i++)
+    for (ushort i = 0; i < OBJECTAREASCOUNT; i++)
     {
         objectAreas[i] = new Area(this);
+    }
+
+    for (ushort i = 0; i < OBJECTCOLLCOUNT; i++)
+    {
+        objectColls[i] = new Collision(this);
     }
 }
 
 Object::~Object()
 {
     // 释放内存
-    for (ushort i = 0; i < OBJECTAREASMAX; i++)
+    for (ushort i = 0; i < OBJECTAREASCOUNT; i++)
     {
         delete objectAreas[i];
     }

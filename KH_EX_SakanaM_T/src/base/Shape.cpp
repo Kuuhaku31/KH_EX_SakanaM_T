@@ -61,21 +61,29 @@ uint Shape::Shape_in(uint n) const
 
 uint Shape::Shape_in(int x, int y) const
 {
-	int n = y * shape_wide + x;
-	return n < 0 || n >= shape_long ? 0 : shape_buffer[n];
+	if (x >= 0 && x < shape_wide && y >= 0 && y < shape_high)
+	{
+		return shape_buffer[y * shape_wide + x];
+	}
+	else
+	{
+		return 0;
+	}
 }
 
 void Shape::Shape_draw_point(int n, uint v)
 {
-	shape_buffer[n] = v;
+	if (n >= 0 && n < shape_long)
+	{
+		shape_buffer[n] = v;
+	}
 }
 
 void Shape::Shape_draw_point(int x, int y, uint v)
 {
-	int n = y * shape_wide + x;
-	if (n >= 0 && n < shape_long)
+	if (x >= 0 && x < shape_wide && y >= 0 && y < shape_high)
 	{
-		shape_buffer[n] = v;
+		shape_buffer[y * shape_wide + x] = v;
 	}
 }
 

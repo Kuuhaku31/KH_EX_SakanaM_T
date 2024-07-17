@@ -10,10 +10,12 @@ public:
 	~GameObject();
 
 	// 更新
-	void GameObjectUpdate();
+	// 返回值为0时表示需要摧毁这个对象
+	schar GameObjectUpdate();
 
 protected:
 	MessageSystem *message_system;
+	Zone *zone;
 };
 
 // 摄像机的类

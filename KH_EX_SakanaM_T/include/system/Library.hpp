@@ -44,10 +44,11 @@ inline Zone *Get_new_ZoneMade()
 {
 	std::string paths[20] = {
 		"D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/mat/area_main.png",
-		"D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/mat/area_wall_01.png"};
-	int bit[20] = {main_area, wall_area_01};
+		"D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/mat/area_wall_01.png",
+		"D:/Project/VS Code/KH_EX_SakanaM_T/KH_EX_SakanaM_T/mat/area_main.png"};
+	int bit[20] = {main_area, wall_area_01, relative_area_01};
 
-	return new_ZoneMade(paths, bit, 2);
+	return new_ZoneMade(paths, bit, 3);
 }
 
 // #include "Shape_Maker.h"

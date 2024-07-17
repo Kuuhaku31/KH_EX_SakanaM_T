@@ -42,6 +42,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
 
     // 初始化zone
     main_zone = Get_new_ZoneMade();
+    main_zone->ZoneSetRelative(relative_area_01, Vector{5, 0.001});
 
     // 初始化camera
     main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
@@ -57,6 +58,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     loadimage(&img, _T("../mat/skin_sakana.png"), 0, 0, true);
     Area sakanaSkin;
     conversion_IMAGE_Area(&sakanaSkin, &img);
+    sakanaSkin.Area_align();
 
     sakana = new GameObject(mss, main_zone, Point{400, 225}, 1.0f);
     sakana->ObjectSetArea(&sakanaSkin, skin01);
@@ -129,12 +131,12 @@ short Game::Update()
 
     main_camera->Position_move(camera_move_vector);
     sakana->MovementAddForce(sakana_force_vector);
-    sakana->MovementUpdate({1, 0.001});
+    sakana->GameObjectUpdate();
 
     graphInterface->ClearScreen();
     main_camera->Clearsight();
-    main_camera->Rending(&main_world);
 
+    main_camera->Rending(&main_world);
     main_camera->RendingZone(main_zone, wall_area_01);
 
     main_camera->RendingObject(sakana);

@@ -200,16 +200,16 @@ public:
 // 每一位表示不同的Area
 // Area[32]
 
-#define RELATIVE_AREA_START 2
+#define RELATIVE_AREA_START 1
 #define RELATIVE_AREA_COUNT 5
 
-#define WALL_AREA_START 7
+#define WALL_AREA_START 6
 #define WALL_AREA_COUNT 5
 
-#define COLL_AREA_START 12
+#define COLL_AREA_START 11
 #define COLL_AREA_COUNT 5
 
-#define DHP_AREA_START 17
+#define DHP_AREA_START 16
 #define DHP_AREA_COUNT 5
 
 // 从低位到高位
@@ -328,7 +328,6 @@ public:
 	Vector MovementAcceleration();
 
 private:
-	friend class Collision;
 	// 附着的Position类
 	Position *position;
 
@@ -337,6 +336,44 @@ private:
 	Vector buf_p; // 位置缓冲
 	Vector mov_v; // 速度
 	Vector mov_a; // 加速度
+};
+
+// 碰撞检测类
+// 用于检测角色是否与墙体或其他角色发生碰撞
+// 有8个检测点，分别在角色的四个角和四个边的中点
+// 当角色的检测点与墙体或其他角色的检测点重合时，认为发生碰撞
+/*
+ 
+(0,0)--------(w/3,0)----------(2w/3,0)-----------(w,0)
+  |              |                |                |
+  |              |                |                |
+(0,h/3)------(w/3,h/3)--------(2w/3,h/3)--------(w,h/3)
+  |              |                |                |
+  |              |                |                |
+(0,2h/3)----(w/3,2h/3)-------(2w/3,2h/3)-------(w,2h/3)
+  |              |                |                |
+  |              |                |                |
+(0,h)---------(w/3,h)---------(2w/3,h)-----------(w,h)
+
+*/
+
+#define TESTPOINTCOUNT 8
+
+class Collision : public Position
+{
+public:
+	Collision(Position *, ushort = 0, ushort = 0);
+	~Collision();
+
+	// 检测碰撞
+	void CollTest(Area *);
+
+	// 重置检测点的坐标
+	void CollResetTestPoints(ushort, ushort);
+
+	// 检测点以及检测点的值
+	Position test_points[TESTPOINTCOUNT];
+	uint test_points_value[TESTPOINTCOUNT];
 };
 
 // 可能用到的类型
@@ -354,7 +391,17 @@ enum ObjectAreaType
 	NULL02
 };
 
-#define OBJECTAREASMAX 10
+enum CollisionType
+{
+	object_coll_01,
+	object_coll_02,
+	object_coll_03,
+	object_coll_04,
+	object_coll_05
+};
+
+#define OBJECTAREASCOUNT 10
+#define OBJECTCOLLCOUNT 5
 
 class Object : public Position, public Movement
 {
@@ -362,47 +409,16 @@ public:
 	Object(Position *, Point = ZEROPOINT, float = 0.0f, Vector = ZEROVECTOR);
 	~Object();
 
-	// 设置skin、碰撞盒
+	// 设置area、碰撞检测
 	void ObjectSetArea(Shape *, Point, ObjectAreaType);
 	void ObjectSetArea(Area *, ObjectAreaType);
 
-	// 返回skin、碰撞盒
+	// 返回area、碰撞检测
 	Area *ObjectGetArea(ObjectAreaType);
+	Collision *ObjectGetCollision(CollisionType);
 
 protected:
-	// 皮肤、碰撞盒
-	Area *objectAreas[OBJECTAREASMAX];
-};
-
-// 碰撞检测类
-// 用于检测角色是否与墙体或其他角色发生碰撞
-// 有8个检测点，分别在角色的四个角和四个边的中点
-// 当角色的检测点与墙体或其他角色的检测点重合时，认为发生碰撞
-/*
- (-w,-h)----------(0,-h)----------(w,-h)
-	|               |               |
-	|               |               |
- (-w,0)-----------(0,0)-----------(w,0)
-	|               |               |
-	|               |               |
- (-w,h)-----------(0,h)-----------(w,h)
-*/
-
-#define TESTPOINTCOUNT 8
-
-class Collision : public Position
-{
-public:
-	Collision(ushort, ushort);
-	~Collision();
-
-	// 检测碰撞、更新test_points_value、向Movement发出指令
-	void CollUpdate(Position *, Area *, uint *);
-
-	// 重置检测点的坐标
-	void CollResetTestPoints(ushort, ushort);
-
-private:
-	// 	检测点
-	Position test_points[8];
+	// 皮肤、碰撞检测
+	Area *objectAreas[OBJECTAREASCOUNT];
+	Collision *objectColls[OBJECTCOLLCOUNT];
 };
