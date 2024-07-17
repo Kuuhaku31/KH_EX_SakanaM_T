@@ -1,72 +1,42 @@
 
-#include <iostream>
+#include "D:\Project\VS Code\KH_EX_SakanaM_T\KH_EX_SakanaM_T\include\system\MessageSystem.hpp"
 
-void Fun_0()
+class ZoneFactory
 {
-	int v;
-	float a = 4.5, b = 6.9;
-	v = (int)(a + b);
-	printf("%d\n", v);
-}
-
-void fun(unsigned long *a, unsigned long *b)
-{
-	*a = *a | *b;
-}
-
-void Fun_2()
-{
-	bool b1[25] =
-		{
-			0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0,
-			0, 0, 0, 0, 0};
-
-	bool b2[25] =
-		{
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1,
-			1, 1, 1, 1, 1};
-
-	// Matrix::Write(b1, 5, 5, 25, b2, 5, 5, 25, 1, 1);
-}
-
-float sqrt(float number)
-{
-	if (number < 0)
-		return -1; // 对于负数，返回-1
-	if (number == 0 || number == 1)
-		return number; // 0和1的平方根是它们自身
-	float start = 0, end = number, ans;
-	const float epsilon = 0.01; // 定义精度
-	while (end - start >= epsilon)
+public:
+	Zone *Made(std::string *paths, int pathCount)
 	{
-		float mid = (start + end) / 2;
-		if (mid * mid == number)
+		for (int i = 0; i < pathCount; i++)
 		{
-			return mid;
+			IMAGE img;
+			loadimage(&img, paths[i].c_str());
+
+			Shape s;
+			conversion_IMAGE_Area(&s, &img);
 		}
-		else if (mid * mid < number)
-		{
-			start = mid + epsilon;
-			ans = mid;
-		}
-		else
-		{
-			end = mid - epsilon;
-		}
+
+		Zone *z = new Zone;
+
+		return z;
 	}
-	return ans;
-}
+};
 
 int main()
 {
 	std::cout << "GAME START" << std::endl;
-	std::cout << sqrt(3);
+
+	ZoneFactory zf;
+	std::string paths[5] = {
+		"src/zone/zone01.txt",
+		"src/zone/zone02.txt",
+		"src/zone/zone03.txt",
+		"src/zone/zone04.txt",
+		"src/zone/zone05.txt"};
+
+	Zone *z = zf.Made(paths, 5);
+
+	delete z;
+
 	std::cout << "\nGAME OVER!" << std::endl;
 	return 0;
 }

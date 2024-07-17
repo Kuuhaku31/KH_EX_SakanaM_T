@@ -127,18 +127,18 @@ short Game::Update()
         flag = 1;
     }
 
-    graphInterface->ClearScreen();
-    main_camera->Clearsight();
-    main_camera->Rending(&main_world);
-
-    main_camera->RendingZone(&main_zone, main_area);
-
     camera_move_vector = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R, 20);
     sakana_force_vector = getForce(graphInterface, KEY_W, KEY_S, KEY_A, KEY_D, 100);
 
     main_camera->Position_move(camera_move_vector);
     sakana->MovementAddForce(sakana_force_vector);
     sakana->MovementUpdate({1, 0.001});
+
+    graphInterface->ClearScreen();
+    main_camera->Clearsight();
+    main_camera->Rending(&main_world);
+
+    main_camera->RendingZone(&main_zone, main_area);
 
     main_camera->RendingObject(sakana);
 

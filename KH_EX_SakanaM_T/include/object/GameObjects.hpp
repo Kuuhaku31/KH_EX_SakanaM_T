@@ -22,7 +22,7 @@ protected:
 class Camera : public GameObject
 {
 public:
-	Camera(MessageSystem *, Zone *p, Point = ZEROPOINT, uint = 0, uint = 0);
+	Camera(MessageSystem *, Zone *, Point = ZEROPOINT, uint = 0, uint = 0);
 	~Camera();
 
 	// 渲染
