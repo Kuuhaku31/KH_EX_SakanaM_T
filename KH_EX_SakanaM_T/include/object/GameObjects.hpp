@@ -28,6 +28,7 @@ public:
 	// 渲染
 	void Rending(Area *);
 	void RendingObject(Object *, ObjectAreaType = skin01);
+	void RendingZone(Zone *, ZoneAreaType = main_area);
 
 	// 清屏
 	void Clearsight();

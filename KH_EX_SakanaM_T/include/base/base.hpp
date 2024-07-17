@@ -215,7 +215,7 @@ public:
 // 从低位到高位
 enum ZoneAreaType
 {
-	/*01*/ main_area, // main_area 为主要区域，用于判断是否在区域内（全部设置为1）
+	/*01*/ main_area, // main_area 为主要区域，用于判断是否在区域内
 	/*02*/ relative_area_01,
 	/*03*/ relative_area_02,
 	/*04*/ relative_area_03,
@@ -254,7 +254,7 @@ enum ZoneAreaType
 class Zone : public Area
 {
 public:
-	Zone();
+	Zone(uint = 0, uint = 0);
 	Zone(Shape *);
 	~Zone();
 
@@ -271,16 +271,16 @@ public:
 
 private:
 	// 阻力参数：摩擦力、空气阻力float表示
-	Vector relatives[RELATIVE_AREA_COUNT];
+	Vector relatives[RELATIVE_AREA_COUNT] = {ZEROVECTOR, ZEROVECTOR, ZEROVECTOR, ZEROVECTOR, ZEROVECTOR};
 
 	// 墙体参数：是否碰撞、碰撞方向
-	float wall_coll_force[WALL_AREA_COUNT];
+	float wall_coll_force[WALL_AREA_COUNT] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
 	// 碰撞参数：碰撞力、碰撞方向
-	float coll_force[COLL_AREA_COUNT];
+	float coll_force[COLL_AREA_COUNT] = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
 	// 血量增减
-	int dHP[DHP_AREA_COUNT];
+	int dHP[DHP_AREA_COUNT] = {0, 0, 0, 0, 0};
 };
 
 // =================================================================================================

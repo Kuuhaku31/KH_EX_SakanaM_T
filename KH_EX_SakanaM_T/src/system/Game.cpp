@@ -49,7 +49,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     loadimage(&img, _T("../mat/area_main.png"));
     // loadimage(&img, _T("../mat/0himesama.png"));
     conversion_IMAGE_Area(&main_world, &img);
-    main_world.Position_set(&main_zone, 0, 0);
+    main_world.Position_set(&main_zone, 40, 100);
 
     loadimage(&img, _T("../mat/skin_sakana.png"), 0, 0, true);
     Area sakanaSkin;
@@ -57,6 +57,12 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
 
     sakana = new GameObject(mss, &main_zone, Point{400, 225}, 1.0f);
     sakana->ObjectSetArea(&sakanaSkin, skin01);
+
+    // 初始化zone
+    Shape s(400, 300);
+    s.Shape_clear(0x00000001);
+    s.Shape_draw_circle(200, 150, 100, 0x00000000);
+    main_zone.Shape_copy(&s);
 
     Say("Game Init Success", WIN_COLOR_GRAY);
 }
@@ -124,6 +130,8 @@ short Game::Update()
     graphInterface->ClearScreen();
     main_camera->Clearsight();
     main_camera->Rending(&main_world);
+
+    main_camera->RendingZone(&main_zone, main_area);
 
     camera_move_vector = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R, 20);
     sakana_force_vector = getForce(graphInterface, KEY_W, KEY_S, KEY_A, KEY_D, 100);

@@ -1,7 +1,7 @@
 
 #include "base.hpp"
 
-Zone::Zone() {}
+Zone::Zone(uint w, uint h) : Area(ZEROPOINT, w, h) {}
 Zone::Zone(Shape *s) : Area(s) {}
 Zone::~Zone() {}
 

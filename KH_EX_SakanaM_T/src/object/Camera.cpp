@@ -50,6 +50,16 @@ fun_add_AC(uint &a, uint &b)
     }
 }
 
+template <int bit, uint color>
+inline void
+fun_rend_zone(uint &a, uint &b)
+{
+    uint c = b >> bit;
+    (c & 0x1) ? c = color : c = 0x0;
+
+    mix_color(a, c);
+}
+
 // 定义一个宏，方便调用
 #define CAMERASIGHT Object::objectAreas[ObjectAreaType::skin01]
 
@@ -69,6 +79,52 @@ void Camera::Rending(Area *area)
 void Camera::RendingObject(Object *obj, ObjectAreaType t)
 {
     CAMERASIGHT->Area_compute(obj->ObjectGetArea(t), mix_color);
+}
+
+void Camera::RendingZone(Zone *zone, ZoneAreaType t)
+{
+    typedef void (*FunPtr)(unsigned int &, unsigned int &);
+    FunPtr fun = nullptr;
+
+    switch (t)
+    {
+    case main_area:
+        fun = fun_rend_zone<main_area, 0xffc0c0c0>;
+        break;
+
+    case relative_area_01:
+        fun = fun_rend_zone<relative_area_01, KHCOLOR_BROWN>;
+        break;
+    case relative_area_02:
+        fun = fun_rend_zone<relative_area_02, KHCOLOR_LIGHT_BROWN>;
+        break;
+
+    case wall_area_01:
+        fun = fun_rend_zone<wall_area_01, KHCOLOR_GREEN>;
+        break;
+    case wall_area_02:
+        fun = fun_rend_zone<wall_area_02, KHCOLOR_LIGHT_GREEN>;
+        break;
+
+    case coll_area_01:
+        fun = fun_rend_zone<coll_area_01, KHCOLOR_YELLOW>;
+        break;
+    case coll_area_02:
+        fun = fun_rend_zone<coll_area_02, KHCOLOR_LIGHT_YELLOW>;
+        break;
+
+    case DHP_area_01:
+        fun = fun_rend_zone<DHP_area_01, KHCOLOR_RED>;
+        break;
+    case DHP_area_02:
+        fun = fun_rend_zone<DHP_area_02, KHCOLOR_LIGHT_RED>;
+        break;
+
+    default:
+        break;
+    }
+
+    CAMERASIGHT->Area_compute(zone, fun);
 }
 
 void Camera::Clearsight()
