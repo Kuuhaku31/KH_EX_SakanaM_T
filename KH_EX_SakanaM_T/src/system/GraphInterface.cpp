@@ -9,7 +9,7 @@ GraphInterface::GraphInterface(MessageSystem *mss) : message_system(mss)
     SetWindowText(graph_HWND, _T(GAME_NAME));
 
     graph_HDC = GetImageHDC();
-    graph_buffer = (uint *)GetImageBuffer();
+    graph_buffer = (int *)GetImageBuffer();
     graph_wide = GRAPHWIDE;
     graph_high = GRAPHHIGH;
     graph_long = GRAPHLONG;

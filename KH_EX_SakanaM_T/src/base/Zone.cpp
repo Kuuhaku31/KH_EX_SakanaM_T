@@ -1,14 +1,14 @@
 
 #include "base.hpp"
 
-Zone::Zone(uint w, uint h) : Area(ZEROPOINT, w, h) {}
+Zone::Zone(int w, int h) : Area(ZEROPOINT, w, h) {}
 Zone::Zone(Shape *s) : Area(s) {}
 Zone::~Zone() {}
 
 void Zone::ZoneClear(ZoneAreaType t)
 {
-    uint tem = (0x1 << t) | 0xffffffff;
-    for (uint i = 0; i < shape_long; i++)
+    int tem = (0x1 << t) | 0xffffffff;
+    for (int i = 0; i < shape_long; i++)
     {
         shape_buffer[i] &= tem;
     }

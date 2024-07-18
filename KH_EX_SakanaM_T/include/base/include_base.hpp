@@ -9,11 +9,6 @@
 #include <ctime>
 
 // 宏定义
-//  定义了一些基本的数据类型
-#define uint unsigned int
-#define ushort unsigned short
-#define uchar unsigned char
-#define schar signed char
 
 #define OXF 0xffffffff
 

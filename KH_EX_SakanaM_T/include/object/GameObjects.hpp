@@ -11,7 +11,7 @@ public:
 
 	// 更新
 	// 返回值为0时表示需要摧毁这个对象
-	schar GameObjectUpdate();
+	char GameObjectUpdate();
 
 protected:
 	MessageSystem *message_system;
@@ -24,7 +24,7 @@ protected:
 class Camera : public GameObject
 {
 public:
-	Camera(MessageSystem *, Zone *, Point = ZEROPOINT, uint = 0, uint = 0);
+	Camera(MessageSystem *, Zone *, Point = ZEROPOINT, int = 0, int = 0);
 	~Camera();
 
 	// 渲染
@@ -36,7 +36,7 @@ public:
 	void Clearsight();
 
 	// 设置镜头参数
-	void Sight_size(uint = 0, uint = 0);
+	void Sight_size(int = 0, int = 0);
 	void Sight_align(bool = true);
 
 	// 把当前画面发送给MessageSystem

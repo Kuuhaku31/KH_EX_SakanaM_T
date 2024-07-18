@@ -132,7 +132,7 @@ private:
     {
         HWND graph_HWND;
         HDC graph_HDC;
-        uint *graph_buffer;
+        int *graph_buffer;
         int graph_wide;
         int graph_high;
         int graph_long;

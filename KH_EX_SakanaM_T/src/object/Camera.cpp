@@ -3,7 +3,7 @@
 
 // 用于混合两个颜色
 inline void
-mix_color(uint &c1, uint &c2)
+mix_color(int &c1, int &c2)
 {
     int a2 = (c2 & 0xff000000) >> 24;
     if (!a2)
@@ -30,31 +30,31 @@ mix_color(uint &c1, uint &c2)
 }
 
 inline void
-fun_add_AH(uint &a, uint &b)
+fun_add_AH(int &a, int &b)
 {
     if (b)
     {
-        uint d = ((b * 0xff) / 40000) << 24;
+        int d = ((b * 0xff) / 40000) << 24;
         mix_color(a, d);
     }
 }
 
 inline void
-fun_add_AC(uint &a, uint &b)
+fun_add_AC(int &a, int &b)
 {
     if (b)
     {
-        uint d = ((b * 0xff) / 800) << 24;
-        uint c = 0x00000000 | d;
+        int d = ((b * 0xff) / 800) << 24;
+        int c = 0x00000000 | d;
         mix_color(a, c);
     }
 }
 
-template <int bit, uint color>
+template <int bit, int color>
 inline void
-fun_rend_zone(uint &a, uint &b)
+fun_rend_zone(int &a, int &b)
 {
-    uint c = b >> bit;
+    int c = b >> bit;
     (c & 0x1) ? c = color : c = 0x0;
 
     mix_color(a, c);
@@ -64,7 +64,7 @@ fun_rend_zone(uint &a, uint &b)
 #define CAMERASIGHT Object::objectAreas[ObjectAreaType::skin01]
 
 // 构造、析构函数
-Camera::Camera(MessageSystem *mss, Zone *z, Point poi, uint w, uint h) : GameObject(mss, z, poi)
+Camera::Camera(MessageSystem *mss, Zone *z, Point poi, int w, int h) : GameObject(mss, z, poi)
 {
     CAMERASIGHT->Shape_reset(w, h);
 }
@@ -83,7 +83,7 @@ void Camera::RendingObject(Object *obj, ObjectAreaType t)
 
 void Camera::RendingZone(Zone *zone, ZoneAreaType t)
 {
-    typedef void (*FunPtr)(unsigned int &, unsigned int &);
+    typedef void (*FunPtr)(int &, int &);
     FunPtr fun = nullptr;
 
     switch (t)
@@ -132,7 +132,7 @@ void Camera::Clearsight()
     CAMERASIGHT->Shape_clear();
 }
 
-void Camera::Sight_size(uint w, uint h)
+void Camera::Sight_size(int w, int h)
 {
     CAMERASIGHT->Shape_reset(w, h);
 }

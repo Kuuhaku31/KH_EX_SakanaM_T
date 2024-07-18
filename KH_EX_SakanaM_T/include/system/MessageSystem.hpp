@@ -88,13 +88,13 @@ public:
 private:
     // 消息队列
     // 不同的消息类型分别存储
-    uint message_count = 0;
+    int message_count = 0;
     char message_queue[MESSAGE_MAX] = {0};
 
-    uint game_message_count = 0;
+    int game_message_count = 0;
     char game_message_queue[GAME_MESSAGE_MAX] = {0};
 
-    uint system_message_count = 0;
+    int system_message_count = 0;
     char system_message_queue[SYSTEM_MESSAGE_MAX] = {0};
 
     // 图像队列

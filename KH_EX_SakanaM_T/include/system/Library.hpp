@@ -18,15 +18,15 @@ inline Zone *new_ZoneMade(std::string *paths, int *bit, int count)
 	int w = img->getwidth(), h = img->getheight();
 
 	Zone *z = new Zone(w, h);
-	uint *zongbuffer = z->Shape_buffer();
-	uint l = z->Shape_long();
+	int *zongbuffer = z->Shape_buffer();
+	int l = z->Shape_long();
 
 	for (int i = 0; i < count; i++)
 	{
 		loadimage(img, paths[i].c_str(), 0, 0, true);
-		uint *imgbuffer = (uint *)GetImageBuffer(img);
+		int *imgbuffer = (int *)GetImageBuffer(img);
 
-		for (uint j = 0; j < l; j++)
+		for (int j = 0; j < l; j++)
 		{
 			if (imgbuffer[j] & 0x00ffffff)
 			{

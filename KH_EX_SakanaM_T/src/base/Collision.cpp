@@ -1,9 +1,9 @@
 
 #include "base.hpp"
 
-Collision::Collision(Position *p, ushort w, ushort h) : Position(p)
+Collision::Collision(Position *p, short w, short h) : Position(p)
 {
-    for (ushort i = 0; i < TESTPOINTCOUNT; i++)
+    for (short i = 0; i < TESTPOINTCOUNT; i++)
     {
         test_points[i] = new Position(this);
     }
@@ -12,7 +12,7 @@ Collision::Collision(Position *p, ushort w, ushort h) : Position(p)
 
 Collision::~Collision()
 {
-    for (ushort i = 0; i < TESTPOINTCOUNT; i++)
+    for (short i = 0; i < TESTPOINTCOUNT; i++)
     {
         delete test_points[i];
     }
@@ -27,7 +27,7 @@ void Collision::CollTest(Area *area)
     }
 }
 
-void Collision::CollResetTestPoints(ushort w, ushort h)
+void Collision::CollResetTestPoints(short w, short h)
 {
     test_points[0]->Position_set(w / 3, 0);
     test_points[1]->Position_set(2 * w / 3, 0);

@@ -14,15 +14,15 @@ void Say(std::string str, int txtCode, int bakcgroudCode)
 
 void conversion_IMAGE_Area(IMAGE *img, Shape *area)
 {
-    uint w = area->Shape_wide();
-    uint h = area->Shape_high();
-    uint l = area->Shape_long();
-    uint *areab = area->Shape_buffer();
+    int w = area->Shape_wide();
+    int h = area->Shape_high();
+    int l = area->Shape_long();
+    int *areab = area->Shape_buffer();
 
     img->Resize(w, h);
     DWORD *imgb = GetImageBuffer(img);
 
-    for (uint i = 0; i < l; i++)
+    for (int i = 0; i < l; i++)
     {
         imgb[i] = areab[i];
     }
@@ -30,15 +30,15 @@ void conversion_IMAGE_Area(IMAGE *img, Shape *area)
 
 void conversion_IMAGE_Area(Shape *area, IMAGE *img)
 {
-    uint w = img->getwidth();
-    uint h = img->getheight();
+    int w = img->getwidth();
+    int h = img->getheight();
     area->Shape_reset(w, h);
-    uint l = area->Shape_long();
-    uint *areab = area->Shape_buffer();
+    int l = area->Shape_long();
+    int *areab = area->Shape_buffer();
 
     DWORD *imgb = GetImageBuffer(img);
 
-    for (uint i = 0; i < l; i++)
+    for (int i = 0; i < l; i++)
     {
         areab[i] = imgb[i];
     }

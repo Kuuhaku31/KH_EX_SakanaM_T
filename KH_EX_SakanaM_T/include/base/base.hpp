@@ -115,63 +115,95 @@ Vector &operator-=(Vector &, const Point &);
 // 最基础的图形类，用四个字节的数组表示一个矩阵，每个字节表示一个像素点的颜色
 // **所用的宽高全部用无符号int**
 
+#define M0M2(m, action)                \
+	transformat(m);                    \
+	for (int i = 0; i < m[5]; i++)     \
+	{                                  \
+		for (int j = 0; j < m[4]; j++) \
+		{                              \
+			action;                    \
+			m[0]++;                    \
+			m[2]++;                    \
+		}                              \
+		m[0] += m[1];                  \
+		m[2] += m[3];                  \
+	}
+
+// 长度为6的数组int
+//
+// A的宽度
+// A的高度
+// B的宽度
+// B的高度
+// B的左上角相对于A的左上角的x坐标
+// B的左上角相对于A的左上角的y坐标
+// 	||
+// 	\/
+// A的起始点
+// A的间隔
+// B的起始点
+// B的间隔
+// 宽度
+// 次数
+inline void transformat(int *);
+
 class Shape
 {
 public:
-	Shape(uint = 0, uint = 0, uint = 0);
-	Shape(const uint *, uint, uint);
+	Shape(int = 0, int = 0, int = 0);
+	Shape(const int *, int, int);
 	~Shape(); // **记得释放内存**
 
 	// 获取形状的宽高、缓冲区大小
-	uint Shape_wide() const;
-	uint Shape_high() const;
-	uint Shape_long() const;
-	uint *Shape_buffer();
+	int Shape_wide() const;
+	int Shape_high() const;
+	int Shape_long() const;
+	int *Shape_buffer();
 
 	// 获取形状某个点的值
-	uint Shape_in(uint) const;
-	uint Shape_in(int, int) const;
+	int Shape_in(int) const;
+	int Shape_in(int, int) const;
 
 	// 绘制圆形
-	void Shape_draw_point(int, uint = OXF);
-	void Shape_draw_point(int, int, uint = OXF);
-	void Shape_draw_line(int, int, int, int, uint = OXF);
-	void Shape_draw_rectangle(int, int, int, int, uint = OXF);
-	void Shape_draw_circle(int, int, int, uint = OXF);
+	void Shape_draw_point(int, int = OXF);
+	void Shape_draw_point(int, int, int = OXF);
+	void Shape_draw_line(int, int, int, int, int = OXF);
+	void Shape_draw_rectangle(int, int, int, int, int = OXF);
+	void Shape_draw_circle(int, int, int, int = OXF);
 
 	// 用于两个形状的计算
 	// 2、3号参数为传入Shape的相对于本Shape的左上角坐标
 	// 4号参数为计算函数
 	// 这个可能会同时改变两个Shape
-	void Shape_compute(Shape *, int, int, void f(uint &, uint &));
+	void Shape_compute(Shape *, int, int, void f(int &, int &));
 
 	// 重新设置形状
-	void Shape_reset(uint = 0, uint = 0, uint = 0);
+	void Shape_reset(int = 0, int = 0, int = 0);
 	// **这个函数无法处理数组越界！**
-	void Shape_reset(const uint *, uint, uint);
+	void Shape_reset(const int *, int, int);
 	// 复制形状
 	void Shape_copy(Shape *);
 
 	// 设置所有单位的值
-	void Shape_clear(uint = 0);
+	void Shape_clear(int = 0);
 	// 根据单位的值是否为0设置值
-	void Shape_clear(uint, uint);
+	void Shape_clear(int, int);
 	// 按bit位取反
 	void Shape_not();
 
 protected:
-	uint *shape_buffer;
-	uint shape_wide;
-	uint shape_high;
-	uint shape_long;
+	int *shape_buffer;
+	int shape_wide;
+	int shape_high;
+	int shape_long;
 };
 
 class Area : public Position, public Shape
 {
 public:
 	Area(Shape *);
-	Area(Point = ZEROPOINT, uint = 0, uint = 0); // 坐标，宽高
-	Area(Position *, Point = ZEROPOINT, uint = 0, uint = 0);
+	Area(Point = ZEROPOINT, int = 0, int = 0); // 坐标，宽高
+	Area(Position *, Point = ZEROPOINT, int = 0, int = 0);
 	~Area();
 
 	// 转换到本地坐标
@@ -180,12 +212,12 @@ public:
 	Point Area_local(Point) const;
 
 	// 给坐标获取某个点的值
-	uint Area_in(int, int) const;
-	uint Area_in(Point) const;
-	uint Area_in(Position *) const;
+	int Area_in(int, int) const;
+	int Area_in(Point) const;
+	int Area_in(Position *) const;
 
 	// 计算
-	void Area_compute(Area *, void f(uint &, uint &));
+	void Area_compute(Area *, void f(int &, int &));
 
 	// 对齐
 	void Area_align();
@@ -255,7 +287,7 @@ enum ZoneAreaType
 class Zone : public Area
 {
 public:
-	Zone(uint = 0, uint = 0);
+	Zone(int = 0, int = 0);
 	Zone(Shape *);
 	~Zone();
 
@@ -366,18 +398,18 @@ private:
 class Collision : public Position
 {
 public:
-	Collision(Position *, ushort = 0, ushort = 0);
+	Collision(Position *, short = 0, short = 0);
 	~Collision();
 
 	// 检测碰撞
 	void CollTest(Area *);
 
 	// 重置检测点的坐标
-	void CollResetTestPoints(ushort, ushort);
+	void CollResetTestPoints(short, short);
 
 	// 检测点以及检测点的值
 	Position *test_points[TESTPOINTCOUNT];
-	uint test_points_value[TESTPOINTCOUNT];
+	int test_points_value[TESTPOINTCOUNT];
 };
 
 // 可能用到的类型

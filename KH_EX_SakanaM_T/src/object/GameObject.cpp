@@ -5,10 +5,10 @@ GameObject::GameObject(MessageSystem *mss, Zone *z, Point poi, float m, Vector v
 
 GameObject::~GameObject() {}
 
-schar GameObject::GameObjectUpdate()
+char GameObject::GameObjectUpdate()
 {
     // 先获取当前位置的值
-    uint now_point = zone->Area_in(this);
+    int now_point = zone->Area_in(this);
 
     // 如果在主区域内
     if (now_point & (0x1 << main_area))
