@@ -43,11 +43,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     // 初始化zone
     main_zone = Get_new_ZoneMade();
     main_zone->ZoneSetRelative(relative_area_01, Vector{5, 0.001});
-    main_zone->ZoneSetWallCollForce(wall_area_01, 300);
-
-    // 初始化camera
-    main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
-    main_camera->Sight_align();
+    main_zone->ZoneSetWallCollForce(wall_area_01, 100);
 
     // 初始化areas
     IMAGE img;
@@ -64,14 +60,41 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     wall_skin_02.Position_set(main_zone);
     conversion_IMAGE_Area(&wall_skin_02, &img);
 
+    // 初始化camera
+    main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
+    main_camera->Sight_align();
+
+    // 初始化sakana他们
     loadimage(&img, _T("../mat/skin_sakana.png"), 0, 0, true);
     Area sakanaSkin;
     conversion_IMAGE_Area(&sakanaSkin, &img);
     sakanaSkin.Area_align();
 
+    loadimage(&img, _T("../mat/hitbox16.png"), 0, 0, true);
+    Area hitbox16;
+    conversion_IMAGE_Area(&hitbox16, &img);
+    hitbox16.Area_align();
+
     sakana = new GameObject(mss, main_zone, Point{400, 225}, 1.0f);
     sakana->ObjectSetArea(&sakanaSkin, skin01);
+    sakana->ObjectSetArea(&hitbox16, hitbox01);
     sakana->ObjectGetCollision(object_coll_01)->CollResetTestPoints(10, 10);
+
+    sayarin = new GameObject(mss, main_zone, Point{500, 225}, 1.0f);
+    sayarin->ObjectSetArea(&sakanaSkin, skin01);
+    sakana->ObjectSetArea(&hitbox16, hitbox01);
+    sayarin->ObjectGetCollision(object_coll_01)->CollResetTestPoints(10, 10);
+
+    zaruto = new GameObject(mss, main_zone, Point{475, 270}, 1.0f);
+    zaruto->ObjectSetArea(&sakanaSkin, skin01);
+    sakana->ObjectSetArea(&hitbox16, hitbox01);
+    zaruto->ObjectGetCollision(object_coll_01)->CollResetTestPoints(10, 10);
+
+    // 初始化fishRing
+    ring_fish = new Ring<GameObject>();
+    ring_fish->Node_add(sakana);
+    ring_fish->Node_add(sayarin);
+    ring_fish->Node_add(zaruto);
 
     Say("Game Init Success", WIN_COLOR_GRAY);
 }
@@ -125,41 +148,58 @@ getForce(GraphInterface *graphInterface, int w, int s, int a, int d, float f)
     return force_vector;
 }
 
-// 只有返回值为0时才会继续运行，为1时正常退出，其他情况表示运行失败
-short Game::Update()
+// 只有返回值为true时才会继续运行
+bool Game::Update()
 {
-    graphInterface->GetInput();
-    short flag = 0;
-    if (ENTER)
+    bool flag = true;
+
+    // 获取输入
     {
-        Say("Game Exit...", WIN_COLOR_WHITE);
-        flag = 1;
+        graphInterface->GetInput();
+        if (ENTER)
+        {
+            Say("Game Exit...", WIN_COLOR_WHITE);
+            flag = false;
+        }
+
+        camera_move_vector = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R, 20);
+        sakana_force_vector = getForce(graphInterface, KEY_W, KEY_S, KEY_A, KEY_D, 100);
+        sayarin_force_vector = getForce(graphInterface, KEY_I, KEY_K, KEY_J, KEY_L, 100);
     }
 
-    camera_move_vector = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R, 20);
-    sakana_force_vector = getForce(graphInterface, KEY_W, KEY_S, KEY_A, KEY_D, 100);
+    // 更新
+    {
 
-    main_camera->Position_move(camera_move_vector);
-    sakana->MovementAddForce(sakana_force_vector);
-    sakana->GameObjectUpdate();
+        main_camera->Position_move(camera_move_vector);
+        sakana->MovementAddForce(sakana_force_vector);
+        sayarin->MovementAddForce(sayarin_force_vector);
+        sakana->GameObjectUpdate();
+        sayarin->GameObjectUpdate();
+    }
 
-    graphInterface->ClearScreen();
-    main_camera->Clearsight();
+    // 渲染
+    {
+        graphInterface->ClearScreen();
+        main_camera->Clearsight();
 
-    main_camera->Rending(&main_world);
+        main_camera->Rending(&main_world);
+        main_camera->Rending(&wall_skin_01);
 
-    main_camera->Rending(&wall_skin_01);
+        // 渲染ringfish所有对象
+        GameObject *temp = nullptr;
+        while (temp = ring_fish->Node_next())
+        {
+            main_camera->RendingObject(temp, skin01);
+        }
 
-    main_camera->RendingObject(sakana);
+        main_camera->Rending(&wall_skin_02);
+        main_camera->RendingZone(main_zone, wall_area_01);
 
-    main_camera->Rending(&wall_skin_02);
+        main_camera->SendToMessageSystem(SourceScreen01);
 
-    //main_camera->RendingZone(main_zone, wall_area_01);
-
-    main_camera->SendToMessageSystem(SourceScreen01);
-
-    graphInterface->ReceiveFromMessageSystem();
-    graphInterface->Photographed();
+        graphInterface->ReceiveFromMessageSystem();
+        graphInterface->Photographed();
+    }
 
     return flag;
 }
@@ -181,11 +221,11 @@ Game::~Game()
         }
     }
 
-    // 释放sakana
-    if (sakana != nullptr)
+    // 释放ringfish
+    if (ring_fish != nullptr)
     {
-        delete sakana;
-        sakana = nullptr;
+        delete ring_fish;
+        ring_fish = nullptr;
     }
 
     Say("Game Destroyed", WIN_COLOR_GRAY);

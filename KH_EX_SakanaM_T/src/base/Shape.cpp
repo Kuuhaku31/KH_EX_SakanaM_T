@@ -47,7 +47,13 @@ Shape::Shape(const uint *b, uint w, uint h)
 	}
 }
 
-Shape::~Shape() { delete[] shape_buffer; }
+Shape::~Shape()
+{
+	if (shape_buffer)
+	{
+		delete[] shape_buffer;
+	}
+}
 
 uint Shape::Shape_wide() const { return shape_wide; }
 uint Shape::Shape_high() const { return shape_high; }

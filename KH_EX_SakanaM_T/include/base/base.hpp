@@ -2,6 +2,7 @@
 #pragma once
 
 #include "include_base.hpp"
+#include "ring.hpp"
 
 #define ZEROPOINT \
 	Point { 0, 0 }
@@ -259,6 +260,9 @@ public:
 	~Zone();
 
 	// 获取、设置
+	void ZoneClear(ZoneAreaType);
+	void ZoneCompute(Area *, ZoneAreaType);
+
 	Vector ZoneGetRelative(ZoneAreaType);
 	float ZoneGetWallCollForce(ZoneAreaType);
 	float ZoneGetCollForce(ZoneAreaType);
@@ -343,7 +347,7 @@ private:
 // 有8个检测点，分别在角色的四个角和四个边的中点
 // 当角色的检测点与墙体或其他角色的检测点重合时，认为发生碰撞
 /*
- 
+
 (0,0)--------(w/3,0)----------(2w/3,0)-----------(w,0)
   |              |                |                |
   |              |                |                |
@@ -372,7 +376,7 @@ public:
 	void CollResetTestPoints(ushort, ushort);
 
 	// 检测点以及检测点的值
-	Position* test_points[TESTPOINTCOUNT];
+	Position *test_points[TESTPOINTCOUNT];
 	uint test_points_value[TESTPOINTCOUNT];
 };
 
@@ -422,3 +426,7 @@ protected:
 	Area *objectAreas[OBJECTAREASCOUNT];
 	Collision *objectColls[OBJECTCOLLCOUNT];
 };
+
+// =================================================================================================
+// =================================================================================================
+// =================================================================================================

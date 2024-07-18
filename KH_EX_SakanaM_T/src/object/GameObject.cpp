@@ -30,28 +30,48 @@ schar GameObject::GameObjectUpdate()
         }
 
         // 根据碰撞情况更新Movement
+        float force = zone->ZoneGetCollForce(collisioncode);
         Vector force_vector = ZEROVECTOR;
-        if (v[0] || v[1])
+        if (v[0])
         {
-            force_vector.vy += 1;
-            MovementResetVelocity_y();
+            force_vector.vy += force;
+            MovementResetAcceleration_y();
         }
-        if (v[2] || v[3])
+        if (v[1])
         {
-            force_vector.vx += -1;
-            MovementResetVelocity_x();
+            force_vector.vy += force;
+            MovementResetAcceleration_y();
         }
-        if (v[4] || v[5])
+        if (v[2])
         {
-            force_vector.vy += -1;
-            MovementResetVelocity_y();
+            force_vector.vx -= force;
+            MovementResetAcceleration_x();
         }
-        if (v[6] || v[7])
+        if (v[3])
         {
-            force_vector.vx += 1;
-            MovementResetVelocity_x();
+            force_vector.vx -= force;
+            MovementResetAcceleration_x();
         }
-        force_vector = unit(force_vector) * zone->ZoneGetCollForce(collisioncode);
+        if (v[4])
+        {
+            force_vector.vy -= force;
+            MovementResetAcceleration_y();
+        }
+        if (v[5])
+        {
+            force_vector.vy -= force;
+            MovementResetAcceleration_y();
+        }
+        if (v[6])
+        {
+            force_vector.vx += force;
+            MovementResetAcceleration_x();
+        }
+        if (v[7])
+        {
+            force_vector.vx += force;
+            MovementResetAcceleration_x();
+        }
 
         MovementAddForce(force_vector);
 

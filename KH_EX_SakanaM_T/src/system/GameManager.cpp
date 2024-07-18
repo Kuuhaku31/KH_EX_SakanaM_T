@@ -46,7 +46,7 @@ short GameManager::RUN()
             Sleep(RATE_SLEEP - del_time);
         }
         str_time = clock();
-    } while (game->Update() == 0);
+    } while (game->Update());
     Say("Game Manager Stop", WIN_COLOR_GREEN);
     EndBatchDraw();
 

@@ -22,6 +22,10 @@ Movement::~Movement() {}
 // 更新运动状态
 void Movement::MovementUpdate(Vector resistance)
 {
+    // 更新速度、加速度
+    mov_v += mov_a * DT;
+    mov_a = {0.0f, 0.0f};
+
     if (mass && mov_v != ZEROVECTOR && resistance != ZEROVECTOR)
     {
         // 根据阻力参数改变运动状态
@@ -37,10 +41,6 @@ void Movement::MovementUpdate(Vector resistance)
             mov_v *= v_mod_ / v_mod;
         }
     }
-
-    // 更新速度、加速度
-    mov_v += mov_a * DT;
-    mov_a = {0.0f, 0.0f};
 
     Vector float_dp = mov_v * DT;
     Point int_dp = {(int)float_dp.vx, (int)float_dp.vy};

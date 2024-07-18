@@ -5,6 +5,19 @@ Zone::Zone(uint w, uint h) : Area(ZEROPOINT, w, h) {}
 Zone::Zone(Shape *s) : Area(s) {}
 Zone::~Zone() {}
 
+void Zone::ZoneClear(ZoneAreaType t)
+{
+    uint tem = (0x1 << t) | 0xffffffff;
+    for (uint i = 0; i < shape_long; i++)
+    {
+        shape_buffer[i] &= tem;
+    }
+}
+
+void Zone::ZoneCompute(Area *, ZoneAreaType)
+{
+}
+
 Vector Zone::ZoneGetRelative(ZoneAreaType t) { return relatives[t - RELATIVE_AREA_START]; }
 float Zone::ZoneGetWallCollForce(ZoneAreaType t) { return wall_coll_force[t - WALL_AREA_START]; }
 float Zone::ZoneGetCollForce(ZoneAreaType t) { return coll_force[t - COLL_AREA_START]; }
