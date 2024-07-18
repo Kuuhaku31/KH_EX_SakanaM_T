@@ -14,8 +14,6 @@ int Area::Area_in(int x, int y) const { return Shape_in(Area_local_x(x), Area_lo
 int Area::Area_in(Point p) const { return Shape_in(Area_local_x(p.px), Area_local_y(p.py)); }
 int Area::Area_in(Position *pos) const { return Shape_in(Area_local_x(pos->Position_root_x()), Area_local_y(pos->Position_root_y())); }
 
-void Area::Area_compute(Area *area, void f(int &, int &)) { Shape::Shape_compute(area, area->Position_root_x() - Position_root_x(), area->Position_root_y() - Position_root_y(), f); }
-
 void Area::Area_align() { Position_set(-(int)shape_wide / 2, -(int)shape_high / 2); }
 void Area::Area_align_x() { Position_set_x(-shape_wide / 2); }
 void Area::Area_align_y() { Position_set_y(-shape_high / 2); }

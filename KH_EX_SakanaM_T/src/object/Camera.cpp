@@ -73,58 +73,23 @@ Camera::~Camera() {}
 
 void Camera::Rending(Area *area)
 {
-    CAMERASIGHT->Area_compute(area, mix_color);
+    AREA_COMPUTE(CAMERASIGHT, area, (mix_color(a, b)));
 }
 
 void Camera::RendingObject(Object *obj, ObjectAreaType t)
 {
-    CAMERASIGHT->Area_compute(obj->ObjectGetArea(t), mix_color);
+    AREA_COMPUTE(CAMERASIGHT, obj->ObjectGetArea(t), (mix_color(a, b)));
 }
 
 void Camera::RendingZone(Zone *zone, ZoneAreaType t)
 {
-    typedef void (*FunPtr)(int &, int &);
-    FunPtr fun = nullptr;
+    AREA_COMPUTE(CAMERASIGHT, zone,
+                 ({
+                     int c = b >> t;
+                     (c & 0x1) ? c = zone->ZoneGetColor(t) : c = 0x0;
 
-    switch (t)
-    {
-    case main_area:
-        fun = fun_rend_zone<main_area, 0xffc0c0c0>;
-        break;
-
-    case relative_area_01:
-        fun = fun_rend_zone<relative_area_01, KHCOLOR_BROWN>;
-        break;
-    case relative_area_02:
-        fun = fun_rend_zone<relative_area_02, KHCOLOR_LIGHT_BROWN>;
-        break;
-
-    case wall_area_01:
-        fun = fun_rend_zone<wall_area_01, KHCOLOR_GREEN & 0x88ffffff>;
-        break;
-    case wall_area_02:
-        fun = fun_rend_zone<wall_area_02, KHCOLOR_LIGHT_GREEN>;
-        break;
-
-    case coll_area_01:
-        fun = fun_rend_zone<coll_area_01, KHCOLOR_YELLOW>;
-        break;
-    case coll_area_02:
-        fun = fun_rend_zone<coll_area_02, KHCOLOR_LIGHT_YELLOW>;
-        break;
-
-    case DHP_area_01:
-        fun = fun_rend_zone<DHP_area_01, KHCOLOR_RED>;
-        break;
-    case DHP_area_02:
-        fun = fun_rend_zone<DHP_area_02, KHCOLOR_LIGHT_RED>;
-        break;
-
-    default:
-        break;
-    }
-
-    CAMERASIGHT->Area_compute(zone, fun);
+                     mix_color(a, c);
+                 }));
 }
 
 void Camera::Clearsight()

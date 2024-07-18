@@ -1,7 +1,7 @@
 
 #include "base.hpp"
 
-inline void transformat(int *m) // 长度为6
+void transformat(int *m) // 长度为6
 {
 	/*
 	A的宽度
@@ -257,12 +257,6 @@ void Shape::Shape_draw_circle(int centerX, int centerY, int radius, int value)
 			}
 		}
 	}
-}
-
-void Shape::Shape_compute(Shape *s, int x, int y, void f(int &, int &))
-{
-	int m[6] = {shape_wide, shape_high, s->shape_wide, s->shape_high, x, y};
-	M0M2(m, f(shape_buffer[m[0]], s->shape_buffer[m[2]]));
 }
 
 void Shape::Shape_reset(int w, int h, int v)

@@ -44,6 +44,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     main_zone = Get_new_ZoneMade();
     main_zone->ZoneSetRelative(relative_area_01, Vector{5, 0.001});
     main_zone->ZoneSetWallCollForce(wall_area_01, 100);
+    main_zone->ZoneSetColor(wall_area_01, 0x880000ff);
 
     // 初始化areas
     IMAGE img;

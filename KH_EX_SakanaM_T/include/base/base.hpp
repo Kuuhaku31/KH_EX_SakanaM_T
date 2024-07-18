@@ -115,38 +115,6 @@ Vector &operator-=(Vector &, const Point &);
 // 最基础的图形类，用四个字节的数组表示一个矩阵，每个字节表示一个像素点的颜色
 // **所用的宽高全部用无符号int**
 
-#define M0M2(m, action)                \
-	transformat(m);                    \
-	for (int i = 0; i < m[5]; i++)     \
-	{                                  \
-		for (int j = 0; j < m[4]; j++) \
-		{                              \
-			action;                    \
-			m[0]++;                    \
-			m[2]++;                    \
-		}                              \
-		m[0] += m[1];                  \
-		m[2] += m[3];                  \
-	}
-
-// 长度为6的数组int
-//
-// A的宽度
-// A的高度
-// B的宽度
-// B的高度
-// B的左上角相对于A的左上角的x坐标
-// B的左上角相对于A的左上角的y坐标
-// 	||
-// 	\/
-// A的起始点
-// A的间隔
-// B的起始点
-// B的间隔
-// 宽度
-// 次数
-inline void transformat(int *);
-
 class Shape
 {
 public:
@@ -171,12 +139,6 @@ public:
 	void Shape_draw_rectangle(int, int, int, int, int = OXF);
 	void Shape_draw_circle(int, int, int, int = OXF);
 
-	// 用于两个形状的计算
-	// 2、3号参数为传入Shape的相对于本Shape的左上角坐标
-	// 4号参数为计算函数
-	// 这个可能会同时改变两个Shape
-	void Shape_compute(Shape *, int, int, void f(int &, int &));
-
 	// 重新设置形状
 	void Shape_reset(int = 0, int = 0, int = 0);
 	// **这个函数无法处理数组越界！**
@@ -198,6 +160,30 @@ protected:
 	int shape_long;
 };
 
+#define M0M2(s1, s2, x, y, action)                                                                 \
+	{                                                                                              \
+		int m[6] = {s1->Shape_wide(), s1->Shape_high(), s2->Shape_wide(), s2->Shape_high(), x, y}; \
+		transformat(m);                                                                            \
+		int *b1 = s1->Shape_buffer();                                                              \
+		int *b2 = s2->Shape_buffer();                                                              \
+		for (int i = 0; i < m[5]; i++)                                                             \
+		{                                                                                          \
+			for (int j = 0; j < m[4]; j++)                                                         \
+			{                                                                                      \
+				int &a = b1[m[0]];                                                                 \
+				int &b = b2[m[2]];                                                                 \
+				action;                                                                            \
+				m[0]++;                                                                            \
+				m[2]++;                                                                            \
+			}                                                                                      \
+			m[0] += m[1];                                                                          \
+			m[2] += m[3];                                                                          \
+		}                                                                                          \
+	}
+
+// 数组长度为6用来储存输出
+void transformat(int *);
+
 class Area : public Position, public Shape
 {
 public:
@@ -216,9 +202,6 @@ public:
 	int Area_in(Point) const;
 	int Area_in(Position *) const;
 
-	// 计算
-	void Area_compute(Area *, void f(int &, int &));
-
 	// 对齐
 	void Area_align();
 	void Area_align_x();
@@ -227,6 +210,8 @@ public:
 	// Copy，但是不Copy ParentPosition
 	void Area_copy(Area *);
 };
+
+#define AREA_COMPUTE(a1, a2, action) M0M2(a1, a2, a2->Position_root_x() - a1->Position_root_x(), a2->Position_root_y() - a1->Position_root_y(), action);
 
 // 天才！！！！
 // 一个Area的点有32位
@@ -299,11 +284,13 @@ public:
 	float ZoneGetWallCollForce(ZoneAreaType);
 	float ZoneGetCollForce(ZoneAreaType);
 	int ZoneGetDHP(ZoneAreaType);
+	int ZoneGetColor(ZoneAreaType);
 
 	void ZoneSetRelative(ZoneAreaType, Vector);
 	void ZoneSetWallCollForce(ZoneAreaType, float);
 	void ZoneSetCollForce(ZoneAreaType, float);
 	void ZoneSetDHP(ZoneAreaType, int);
+	void ZoneSetColor(ZoneAreaType, int);
 
 private:
 	// 阻力参数：摩擦力、空气阻力float表示
@@ -317,6 +304,9 @@ private:
 
 	// 血量增减
 	int dHP[DHP_AREA_COUNT] = {0, 0, 0, 0, 0};
+
+	// 颜色
+	int colors[32] = {0};
 };
 
 // =================================================================================================
