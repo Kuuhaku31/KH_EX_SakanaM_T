@@ -36,3 +36,5 @@ void Object::ObjectSetArea(Area *s, ObjectAreaType t)
 
 // 返回
 Area *Object::ObjectGetArea(ObjectAreaType t) { return objectAreas[t]; }
+
+Collision *Object::ObjectGetCollision(CollisionType t) { return objectColls[t]; }

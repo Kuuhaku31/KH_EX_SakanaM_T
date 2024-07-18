@@ -372,7 +372,7 @@ public:
 	void CollResetTestPoints(ushort, ushort);
 
 	// 检测点以及检测点的值
-	Position test_points[TESTPOINTCOUNT];
+	Position* test_points[TESTPOINTCOUNT];
 	uint test_points_value[TESTPOINTCOUNT];
 };
 

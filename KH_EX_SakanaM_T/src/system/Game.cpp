@@ -43,6 +43,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     // 初始化zone
     main_zone = Get_new_ZoneMade();
     main_zone->ZoneSetRelative(relative_area_01, Vector{5, 0.001});
+    main_zone->ZoneSetWallCollForce(wall_area_01, 300);
 
     // 初始化camera
     main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
@@ -55,6 +56,14 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     conversion_IMAGE_Area(&main_world, &img);
     main_world.Position_set(main_zone);
 
+    // 初始化wallskin
+    loadimage(&img, _T("../mat/skin_wall_01.png"), 0, 0, true);
+    wall_skin_01.Position_set(main_zone);
+    conversion_IMAGE_Area(&wall_skin_01, &img);
+    loadimage(&img, _T("../mat/skin_wall_02.png"), 0, 0, true);
+    wall_skin_02.Position_set(main_zone);
+    conversion_IMAGE_Area(&wall_skin_02, &img);
+
     loadimage(&img, _T("../mat/skin_sakana.png"), 0, 0, true);
     Area sakanaSkin;
     conversion_IMAGE_Area(&sakanaSkin, &img);
@@ -62,6 +71,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
 
     sakana = new GameObject(mss, main_zone, Point{400, 225}, 1.0f);
     sakana->ObjectSetArea(&sakanaSkin, skin01);
+    sakana->ObjectGetCollision(object_coll_01)->CollResetTestPoints(10, 10);
 
     Say("Game Init Success", WIN_COLOR_GRAY);
 }
@@ -137,9 +147,14 @@ short Game::Update()
     main_camera->Clearsight();
 
     main_camera->Rending(&main_world);
-    main_camera->RendingZone(main_zone, wall_area_01);
+
+    main_camera->Rending(&wall_skin_01);
 
     main_camera->RendingObject(sakana);
+
+    main_camera->Rending(&wall_skin_02);
+
+    //main_camera->RendingZone(main_zone, wall_area_01);
 
     main_camera->SendToMessageSystem(SourceScreen01);
 

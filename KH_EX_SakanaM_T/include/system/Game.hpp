@@ -23,6 +23,8 @@ private:
 
 	Zone *main_zone;
 	Area main_world;
+	Area wall_skin_01;
+	Area wall_skin_02;
 
 	Camera *main_camera;
 	GameObject *sakana;
