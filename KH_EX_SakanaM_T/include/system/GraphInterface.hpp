@@ -7,20 +7,6 @@
 
 #include "MessageSystem.hpp"
 
-/*
-
-int Camera::Mouse_X(int x)
-{
-    return x * kx + Get_x() - shape_wide / 2;
-}
-
-int Camera::Mouse_Y(int y)
-{
-    return y * ky + Get_y() - shape_high / 2;
-}
-
-*/
-
 class GraphInterface
 {
 public:
