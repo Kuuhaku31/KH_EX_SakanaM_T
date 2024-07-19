@@ -82,7 +82,7 @@ public:
     void Disable_Message_to_GameManager();
 
     // 游戏画面
-    Shape *Send_Shapes();
+    Shape *Send_Shapes(ShapeType);
     void Receive_Shapes(Shape *, ShapeType);
 
 private:
@@ -97,6 +97,6 @@ private:
     int system_message_count = 0;
     char system_message_queue[SYSTEM_MESSAGE_MAX] = {0};
 
-    // 图像队列
-    Shape shape_queue[SHAPE_QUEUE_MAX];
+    // 需要处理的图像指针列表
+    Shape *shape_queue[SHAPE_QUEUE_MAX];
 };

@@ -52,6 +52,11 @@ public:
     int Mouse_M();
     int Mouse_W();
 
+    // 获取鼠标在世界坐标系中的位置
+    Point Mouse_World_Point();
+    // 获取鼠标在Shape坐标系中的位置
+    Point Mouse_Shape_Point();
+
     // 清屏
     void ClearScreen();
 
@@ -61,14 +66,14 @@ public:
     void Photographed();
 
     // 设置输出格式，先不写
-    void Photographed_format() {};
+    void Photographed_format();
 
 private:
     //^
     MessageSystem *message_system;
 
     // 需要处理的图像
-    Shape shapes[SHAPE_QUEUE_MAX + 1];
+    Shape shapes[SHAPE_QUEUE_MAX];
     // 要输出的图像
     IMAGE screen;
 
@@ -125,10 +130,22 @@ private:
 
         int graph_half_wide;
         int graph_half_high;
+
+        // 窗口输出参数
+        int output_x1;
+        int output_y1;
+        int output_x2;
+        int output_y2;
+
+        int output_wide;
+        int output_high;
     };
 };
 
 /*
+
+
+
 
 void MessageSystem::Photographed()
 {

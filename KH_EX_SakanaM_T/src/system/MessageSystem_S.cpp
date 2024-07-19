@@ -97,12 +97,12 @@ void MessageSystem::Disable_Message_to_GameManager()
 {
 }
 
-Shape *MessageSystem::Send_Shapes()
+Shape *MessageSystem::Send_Shapes(ShapeType t)
 {
-    return shape_queue;
+    return shape_queue[t];
 }
 
 void MessageSystem::Receive_Shapes(Shape *shape, ShapeType i)
 {
-    shape_queue[i].Shape_copy(shape);
+    shape_queue[i] = shape;
 }

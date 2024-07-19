@@ -18,6 +18,15 @@ GraphInterface::GraphInterface(MessageSystem *mss) : message_system(mss)
     graph_half_high = GRAPHHIGH / 2;
 
     screen.Resize(graph_wide, graph_high);
+
+    // 输出参数
+    output_x1 = 0;
+    output_y1 = 0;
+    output_x2 = GRAPHWIDE;
+    output_y2 = GRAPHHIGH;
+
+    output_wide = output_x2 - output_x1;
+    output_high = output_y2 - output_y1;
 }
 
 GraphInterface::~GraphInterface()
@@ -36,11 +45,34 @@ void GraphInterface::ClearScreen()
 
 void GraphInterface::ReceiveFromMessageSystem()
 {
-    Shape *shapeLists = message_system->Send_Shapes();
-    conversion_IMAGE_Area(&screen, &shapeLists[SourceScreen01]);
+    conversion_IMAGE_Area(&screen, message_system->Send_Shapes(SourceScreen01));
 }
 
 void GraphInterface::Photographed()
 {
-    putimage(0, 0, &screen);
+    // putimage(0, 0, &screen);
+    StretchBlt(
+        graph_HDC,
+        0,         // output_x1,
+        0,         // output_y1,
+        GRAPHWIDE, // output_x2,
+        GRAPHHIGH, // output_y2,
+
+        GetImageHDC(&screen),
+        0,
+        0,
+        screen.getwidth(),
+        screen.getheight(),
+
+        SRCCOPY);
 }
+
+// int Camera::Mouse_X(int x)
+// {
+//     return x * kx + Get_x() - shape_wide / 2;
+// }
+
+// int Camera::Mouse_Y(int y)
+// {
+//     return y * ky + Get_y() - shape_high / 2;
+// }

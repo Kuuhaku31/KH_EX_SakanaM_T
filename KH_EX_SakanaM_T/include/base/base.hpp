@@ -353,7 +353,7 @@ public:
 	Vector MovementVelocity();
 	Vector MovementAcceleration();
 
-private:
+protected:
 	// 附着的Position类
 	Position *position;
 

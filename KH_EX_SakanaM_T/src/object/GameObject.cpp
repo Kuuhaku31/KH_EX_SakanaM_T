@@ -5,7 +5,7 @@ GameObject::GameObject(MessageSystem *mss, Zone *z, Point poi, float m, Vector v
 
 GameObject::~GameObject() {}
 
-char GameObject::GameObjectUpdate()
+bool GameObject::GameObjectUpdate()
 {
     // 先获取当前位置的值
     int now_point = zone->Area_in(this);
@@ -17,6 +17,7 @@ char GameObject::GameObjectUpdate()
         ZoneAreaType collisioncode = wall_area_01;
         if (now_point & (0x1 << collisioncode))
         {
+            return false;
         }
 
         // 检测碰撞
@@ -35,42 +36,50 @@ char GameObject::GameObjectUpdate()
         if (v[0])
         {
             force_vector.vy += force;
+            pos_y += 1;
             MovementResetAcceleration_y();
         }
         if (v[1])
         {
             force_vector.vy += force;
             MovementResetAcceleration_y();
+            pos_y += 1;
         }
         if (v[2])
         {
             force_vector.vx -= force;
             MovementResetAcceleration_x();
+            pos_x -= 1;
         }
         if (v[3])
         {
             force_vector.vx -= force;
             MovementResetAcceleration_x();
+            pos_x -= 1;
         }
         if (v[4])
         {
             force_vector.vy -= force;
             MovementResetAcceleration_y();
+            pos_y -= 1;
         }
         if (v[5])
         {
             force_vector.vy -= force;
             MovementResetAcceleration_y();
+            pos_y -= 1;
         }
         if (v[6])
         {
             force_vector.vx += force;
             MovementResetAcceleration_x();
+            pos_x += 1;
         }
         if (v[7])
         {
             force_vector.vx += force;
             MovementResetAcceleration_x();
+            pos_x += 1;
         }
 
         MovementAddForce(force_vector);

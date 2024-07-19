@@ -42,7 +42,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
 
     // 初始化zone
     main_zone = Get_new_ZoneMade();
-    main_zone->ZoneSetRelative(relative_area_01, Vector{5, 0.001});
+    main_zone->ZoneSetRelative(relative_area_01, Vector{7.5f, 0.0007f});
     main_zone->ZoneSetWallCollForce(wall_area_01, 100);
     main_zone->ZoneSetColor(wall_area_01, 0x880000ff);
 
@@ -62,7 +62,7 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     conversion_IMAGE_Area(&wall_skin_02, &img);
 
     // 初始化camera
-    main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE, GRAPHHIGH);
+    main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE / 4, GRAPHHIGH / 4);
     main_camera->Sight_align();
 
     // 初始化sakana他们
@@ -163,7 +163,7 @@ bool Game::Update()
             flag = false;
         }
 
-        camera_move_vector = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R, 20);
+        camera_move_vector = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R, 10);
         sakana_force_vector = getForce(graphInterface, KEY_W, KEY_S, KEY_A, KEY_D, 100);
         sayarin_force_vector = getForce(graphInterface, KEY_I, KEY_K, KEY_J, KEY_L, 100);
     }
@@ -180,7 +180,7 @@ bool Game::Update()
 
     // 渲染
     {
-        graphInterface->ClearScreen();
+        // graphInterface->ClearScreen();
         main_camera->Clearsight();
 
         main_camera->Rending(&main_world);
@@ -194,7 +194,7 @@ bool Game::Update()
         }
 
         main_camera->Rending(&wall_skin_02);
-        main_camera->RendingZone(main_zone, wall_area_01);
+        // main_camera->RendingZone(main_zone, wall_area_01);
 
         main_camera->SendToMessageSystem(SourceScreen01);
 
