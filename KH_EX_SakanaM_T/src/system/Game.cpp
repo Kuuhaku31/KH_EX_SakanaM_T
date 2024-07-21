@@ -65,6 +65,9 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE / 4, GRAPHHIGH / 4);
     main_camera->Sight_align();
 
+    // 工厂
+    gameObjectFactory = new GameObjectFactory(mss);
+
     // 初始化sakana他们
     loadimage(&img, _T("../mat/skin_sakana.png"), 0, 0, true);
     Area sakanaSkin;
@@ -76,20 +79,19 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     conversion_IMAGE_Area(&hitbox16, &img);
     hitbox16.Area_align();
 
-    sakana = new GameObject(mss, main_zone, Point{400, 225}, 1.0f);
-    sakana->ObjectSetArea(&sakanaSkin, skin01);
-    sakana->ObjectSetArea(&hitbox16, hitbox01);
-    sakana->ObjectGetCollision(object_coll_01)->CollResetTestPoints(10, 10);
+    GameObjectData object_data =
+        {
+            Point{400, 225},
+            ZEROVECTOR,
+            1.0f,
+            main_zone,
+            &sakanaSkin,
+            &hitbox16,
+            Point{10, 10}};
 
-    sayarin = new GameObject(mss, main_zone, Point{500, 225}, 1.0f);
-    sayarin->ObjectSetArea(&sakanaSkin, skin01);
-    sakana->ObjectSetArea(&hitbox16, hitbox01);
-    sayarin->ObjectGetCollision(object_coll_01)->CollResetTestPoints(10, 10);
-
-    zaruto = new GameObject(mss, main_zone, Point{475, 270}, 1.0f);
-    zaruto->ObjectSetArea(&sakanaSkin, skin01);
-    sakana->ObjectSetArea(&hitbox16, hitbox01);
-    zaruto->ObjectGetCollision(object_coll_01)->CollResetTestPoints(10, 10);
+    sakana = gameObjectFactory->CreateGameObject(&object_data);
+    sayarin = gameObjectFactory->CreateGameObject(&object_data);
+    zaruto = gameObjectFactory->CreateGameObject(&object_data);
 
     // 初始化fishRing
     ring_fish = new Ring<GameObject>();
@@ -208,6 +210,9 @@ bool Game::Update()
 Game::~Game()
 {
     // Exit Game...
+
+    // 释放工厂
+    delete gameObjectFactory;
 
     // 释放Zone
     delete main_zone;

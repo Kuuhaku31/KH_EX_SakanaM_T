@@ -35,6 +35,25 @@ void conversion_IMAGE_Area(Shape *area, IMAGE *img);
 void get_resources(Shape *shape, std::string path);
 void clearGraph();
 
+struct GameObjectData
+{
+    // 位置
+    Point position;
+    // 速度
+    Vector velocity;
+    // 质量
+    float mass;
+    // Zone
+    Zone *zone;
+
+    // 皮肤
+    Area *skin;
+    // 碰撞箱
+    Area *hitbox;
+    // 碰撞检测参数
+    Point coll_test_points;
+};
+
 enum ShapeType
 {
     SourceScreen01,

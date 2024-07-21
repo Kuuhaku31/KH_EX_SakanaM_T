@@ -2,7 +2,7 @@
 #pragma once
 
 #include "Library.hpp"
-#include "GameObjects.hpp"
+#include "GameObjectFactory.hpp"
 #include "GraphInterface.hpp"
 
 // 游戏类
@@ -20,6 +20,8 @@ private:
 	MessageSystem *messageSystem;
 	GraphInterface *graphInterface;
 	Library *library;
+	// 工厂
+	GameObjectFactory *gameObjectFactory;
 
 	// 地图
 	Zone *main_zone;
