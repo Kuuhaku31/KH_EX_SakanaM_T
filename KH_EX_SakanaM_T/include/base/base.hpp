@@ -388,7 +388,7 @@ protected:
 class Collision : public Position
 {
 public:
-	Collision(Position *, short = 0, short = 0);
+	Collision(Position *p = nullptr, short = 0, short = 0);
 	~Collision();
 
 	// 检测碰撞
@@ -445,8 +445,8 @@ public:
 
 protected:
 	// 皮肤、碰撞检测
-	Area *objectAreas[OBJECTAREASCOUNT];
-	Collision *objectColls[OBJECTCOLLCOUNT];
+	Area objectAreas[OBJECTAREASCOUNT];
+	Collision objectColls[OBJECTCOLLCOUNT];
 };
 
 // =================================================================================================

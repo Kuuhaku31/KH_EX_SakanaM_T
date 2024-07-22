@@ -21,13 +21,13 @@ bool GameObject::GameObjectUpdate()
         }
 
         // 检测碰撞
-        objectColls[0]->CollTest(zone);
+        objectColls[0].CollTest(zone);
 
         // 获取碰撞情况
         bool v[TESTPOINTCOUNT] = {false};
         for (short i = 0; i < TESTPOINTCOUNT; i++)
         {
-            v[i] = (objectColls[0]->test_points_value[i]) >> collisioncode;
+            v[i] = (objectColls[0].test_points_value[i]) >> collisioncode;
         }
 
         // 根据碰撞情况更新Movement

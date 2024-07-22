@@ -39,59 +39,40 @@
 Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem(mss), graphInterface(gi), library(lib)
 {
     // Initialize Game...
+    library->InitMat();
 
     // 初始化zone
-    main_zone = Get_new_ZoneMade();
+    std::string paths[20] = {
+        MATPATH "/area_main.png",
+        MATPATH "/area_wall.png",
+        MATPATH "/area_main.png"};
+    int bit[20] = {main_area, wall_area_01, relative_area_01};
+
+    main_zone = new_ZoneMade(paths, bit, 3);
     main_zone->ZoneSetRelative(relative_area_01, Vector{7.5f, 0.0007f});
     main_zone->ZoneSetWallCollForce(wall_area_01, 100);
     main_zone->ZoneSetColor(wall_area_01, 0x880000ff);
 
     // 初始化areas
-    IMAGE img;
-    loadimage(&img, _T("../mat/area_main.png"));
-    // loadimage(&img, _T("../mat/0himesama.png"));
-    conversion_IMAGE_Area(&main_world, &img);
+    main_world.Shape_copy(library->LibMat(shape_img_world_ground));
     main_world.Position_set(main_zone);
 
     // 初始化wallskin
-    loadimage(&img, _T("../mat/skin_wall_01.png"), 0, 0, true);
     wall_skin_01.Position_set(main_zone);
-    conversion_IMAGE_Area(&wall_skin_01, &img);
-    loadimage(&img, _T("../mat/skin_wall_02.png"), 0, 0, true);
+    wall_skin_01.Shape_copy(library->LibMat(shape_img_wall_01));
     wall_skin_02.Position_set(main_zone);
-    conversion_IMAGE_Area(&wall_skin_02, &img);
+    wall_skin_02.Shape_copy(library->LibMat(shape_img_wall_02));
 
     // 初始化camera
     main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE / 4, GRAPHHIGH / 4);
     main_camera->Sight_align();
 
     // 工厂
-    gameObjectFactory = new GameObjectFactory(mss);
+    gameObjectFactory = new GameObjectFactory(mss, library);
 
-    // 初始化sakana他们
-    loadimage(&img, _T("../mat/skin_sakana.png"), 0, 0, true);
-    Area sakanaSkin;
-    conversion_IMAGE_Area(&sakanaSkin, &img);
-    sakanaSkin.Area_align();
-
-    loadimage(&img, _T("../mat/hitbox16.png"), 0, 0, true);
-    Area hitbox16;
-    conversion_IMAGE_Area(&hitbox16, &img);
-    hitbox16.Area_align();
-
-    GameObjectData object_data =
-        {
-            Point{400, 225},
-            ZEROVECTOR,
-            1.0f,
-            main_zone,
-            &sakanaSkin,
-            &hitbox16,
-            Point{10, 10}};
-
-    sakana = gameObjectFactory->CreateGameObject(&object_data);
-    sayarin = gameObjectFactory->CreateGameObject(&object_data);
-    zaruto = gameObjectFactory->CreateGameObject(&object_data);
+    sakana = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{410, 225});
+    sayarin = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{400, 250});
+    zaruto = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{420, 200});
 
     // 初始化fishRing
     ring_fish = new Ring<GameObject>();
