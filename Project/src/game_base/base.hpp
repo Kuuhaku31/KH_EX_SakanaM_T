@@ -10,7 +10,9 @@ struct Point
     int py = 0;
 };
 
-#define ZEROPOINT (Point{0, 0})
+#define ZEROPOINT \
+    Point { 0, 0 }
+//
 
 // 游戏对象的基本位置类
 struct Position : public Point
@@ -37,7 +39,9 @@ struct Vector
     float vy = 0.0f;
 };
 
-#define ZEROVECTOR (Vector{0.0f, 0.0f})
+#define ZEROVECTOR \
+    Vector { 0.0f, 0.0f }
+//
 
 float  moudle(Point);  // 计算模长
 float  module(Vector); //
@@ -138,7 +142,7 @@ protected:
 };
 
 // 数组长度为6用来储存输出
-inline void transformat(int*);
+void transformat(int*);
 
 // action为一个表达式，用来操作两个Shape的对应点
 #define M0M2(s1, s2, x, y, action) \

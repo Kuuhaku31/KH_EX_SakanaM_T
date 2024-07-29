@@ -62,7 +62,7 @@ Limit(Vector& value, Vector min, Vector max)
     return true;
 }
 
-inline void
+void
 transformat(int* m) // 长度为6
 {
     /*
