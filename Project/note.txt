@@ -1,0 +1,149 @@
+
+D:.
+│  CMakeLists.txt
+│  
+├─.vscode
+│      c_cpp_properties.json
+│      
+├─mat
+│  │  0himesama.png
+│  │  1111.png
+│  │  area_main.png
+│  │  area_wall.png
+│  │  hitbox16.png
+│  │  note.png
+│  │  skin_ikacyann.png
+│  │  skin_main.png
+│  │  skin_sakana.png
+│  │  skin_target.png
+│  │  skin_wall_01.png
+│  │  skin_wall_02.png
+│  │
+│  ├─Area
+│  │      input.png
+│  │
+│  ├─Chars
+│  │      char_size0_num_0.png
+│  │      char_size0_num_1.png
+│  │      char_size0_num_2.png
+│  │      char_size0_num_3.png
+│  │      char_size0_num_4.png
+│  │      char_size0_num_5.png
+│  │      char_size0_num_6.png
+│  │      char_size0_num_7.png
+│  │      char_size0_num_8.png
+│  │      char_size0_num_9.png
+│  │
+│  ├─collision
+│  │      collx16.png
+│  │      size16.png
+│  │      size32.png
+│  │      size64.png
+│  │
+│  ├─hitbox
+│  │      hitbox16.png
+│  │
+│  ├─Map
+│  │      area_wall_01.png
+│  │      input.png
+│  │      output_a.png
+│  │      skin_wall_01.png
+│  │      skin_wall_02.png
+│  │      unit_area_wall_01.png
+│  │      unit_skin_wall_01.png
+│  │      unit_skin_wall_02.png
+│  │
+│  └─skins
+│          skin_ball.png
+│          skin_ball_break_1.png
+│          skin_ball_break_2.png
+│          skin_sakana_01.png
+│          skin_sakana_02.png
+│
+├─src
+│  │  CMakeLists.txt
+│  │  main.cpp
+│  │
+│  ├─base
+│  │      Area.cpp
+│  │      base.hpp
+│  │      CMakeLists.txt
+│  │      Collision.cpp
+│  │      include_base.cpp
+│  │      include_base.hpp
+│  │      Movement.cpp
+│  │      Object.cpp
+│  │      Position.cpp
+│  │      ring.hpp
+│  │      Shape.cpp
+│  │      Vector.cpp
+│  │      Zone.cpp
+│  │
+│  ├─object
+│  │      Camera.cpp
+│  │      CMakeLists.txt
+│  │      Fish.cpp
+│  │      GameObject.cpp
+│  │      GameObjects.hpp
+│  │
+│  └─system
+│          CMakeLists.txt
+│          Game.cpp
+│          Game.hpp
+│          GameManager.cpp
+│          GameManager.hpp
+│          GameObjectFactory.cpp
+│          GameObjectFactory.hpp
+│          GraphInterface.cpp
+│          GraphInterface.hpp
+│          GraphInterface_Input.cpp
+│          Library.cpp
+│          Library.hpp
+│          MessageSystem.cpp
+│          MessageSystem.hpp
+│          MessageSystem_G.cpp
+│          MessageSystem_S.cpp
+│          SceneMangaer.hpp
+│
+└─test
+    │  CMakeLists.txt
+    │  Input.hpp
+    │  Shake.h
+    │  struct_static.h
+    │  Timer.h
+    │
+    ├─animate
+    │      Animate.h
+    │
+    ├─area
+    │      AreaManager.h
+    │      Map.h
+    │      Map_Maker.h
+    │      World.cpp
+    │      World.h
+    │
+    ├─object
+    │      Ball.cpp
+    │      Ball.h
+    │      Bar.h
+    │      Button.h
+    │      Character.h
+    │      Crab.cpp
+    │      Crab.h
+    │      Fish.cpp
+    │      Fish.h
+    │      Slideboard.cpp
+    │      Slideboard.h
+    │
+    ├─scene
+    │      GameScene.cpp
+    │      GameScene.h
+    │      MenuScene.h
+    │      Scene.h
+    │
+    ├─shape
+    │      Shape_Maker.h
+    │
+    └─tool
+            Matrix.h
+            

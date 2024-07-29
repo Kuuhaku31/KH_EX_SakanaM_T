@@ -1,3 +1,8 @@
-KH_EX_SakanaM_T/build/
-note1/build/
-note2/build/
+Project/build/
+Project/.vscode/
+Project/bin/
+
+note1/
+note2/
+
+mat/
