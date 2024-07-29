@@ -24,7 +24,7 @@ public:
     GameObject(Zone*, Point = ZEROPOINT);
     ~GameObject();
 
-    // 更新
+    // 更新 
     // 返回值为0时表示需要摧毁这个对象
     bool
     GameObjectUpdate();

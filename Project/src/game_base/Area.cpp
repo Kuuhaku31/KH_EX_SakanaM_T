@@ -1,22 +1,26 @@
 
 #include "base.hpp"
 
+Area::Area()
+{}
+
 Area::Area(Shape* s)
 {
     Shape_copy(s);
 }
 
 Area::Area(Point xy, int w, int h)
-    : Position(xy)
+    : Position{xy}
     , Shape(w, h)
 {}
 
 Area::Area(Position* p, Point xy, int w, int h)
-    : Position(p)
+    : Position{xy, p}
     , Shape(w, h)
 {}
 
-Area::~Area() {}
+Area::~Area()
+{}
 
 int
 Area::Area_local_x(int x) const
@@ -31,50 +35,49 @@ Area::Area_local_y(int y) const
 }
 
 Point
-Area::Area_local(Point p) const
+Area::Area_local_xy(Point p) const
 {
-    return {p.px - Position_root_x(), p.py - Position_root_y()};
-}
-
-int
-Area::Area_in(int x, int y) const
-{
-    return Shape_in(Area_local_x(x), Area_local_y(y));
+    return Point{p.px - Position_root_x(), p.py - Position_root_y()};
 }
 
 int
 Area::Area_in(Point p) const
 {
-    return Shape_in(Area_local_x(p.px), Area_local_y(p.py));
+    return Shape_in(Area_local_xy(p));
 }
 
 int
 Area::Area_in(Position* pos) const
 {
-    return Shape_in(Area_local_x(pos->Position_root_x()), Area_local_y(pos->Position_root_y()));
+    return Shape_in(Area_local_xy(pos->Position_root_xy()));
+}
+
+bool
+Area::Area_in(Point p, int b) const
+{
+    return Shape_in(Area_local_xy(p), b);
+}
+
+bool
+Area::Area_in(Position* pos, int b) const
+{
+    return Shape_in(Area_local_xy(pos->Position_root_xy()), b);
 }
 
 void
 Area::Area_align()
 {
-    Position_set(-(int)shape_wide / 2, -(int)shape_high / 2);
+    *this = Point{-(int)shape_wide / 2, -(int)shape_high / 2};
 }
 
 void
 Area::Area_align_x()
 {
-    Position_set_x(-shape_wide / 2);
+    px = -shape_wide / 2;
 }
 
 void
 Area::Area_align_y()
 {
-    Position_set_y(-shape_high / 2);
-}
-
-void
-Area::Area_copy(Area* a)
-{
-    Shape_copy(a);
-    Position_set(a->Position_pos_x(), a->Position_pos_y());
+    py = -shape_high / 2;
 }

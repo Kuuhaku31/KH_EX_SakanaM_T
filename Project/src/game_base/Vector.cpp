@@ -2,39 +2,44 @@
 #include "base.hpp"
 
 // 计算模长
-float moudle(Point p)
+float
+moudle(Point p)
 {
     return kh::sqrt(p.px * p.px + p.py * p.py);
 }
 
-float module(Vector v)
+float
+module(Vector v)
 {
     return kh::sqrt(v.vx * v.vx + v.vy * v.vy);
 }
 
 // 化为单位向量
-Vector unit(Point p)
+Vector
+unit(Point p)
 {
-    float m = moudle(p);
+    float  m = moudle(p);
     Vector v;
     v.vx = p.px / m;
     v.vy = p.py / m;
     return v;
 }
 
-Vector unit(Vector v)
+Vector
+unit(Vector v)
 {
     Vector v1;
-    if (v != Vector{0.0f, 0.0f})
+    if(v != Vector{0.0f, 0.0f})
     {
         float m = module(v);
-        v1.vx = v.vx / m;
-        v1.vy = v.vy / m;
+        v1.vx   = v.vx / m;
+        v1.vy   = v.vy / m;
     }
     return v1;
 }
 
-Vector operator*(const Vector &v, float f)
+Vector
+operator*(const Vector& v, float f)
 {
     Vector res;
     res.vx = v.vx * f;
@@ -42,25 +47,29 @@ Vector operator*(const Vector &v, float f)
     return res;
 }
 
-Vector &operator*=(Vector &v, float f)
+Vector&
+operator*=(Vector& v, float f)
 {
     v.vx *= f;
     v.vy *= f;
     return v;
 }
 
-bool operator==(const Vector &v1, const Vector &v2)
+bool
+operator==(const Vector& v1, const Vector& v2)
 {
     return v1.vx == v2.vx && v1.vy == v2.vy;
 }
 
-bool operator!=(const Vector &v1, const Vector &v2)
+bool
+operator!=(const Vector& v1, const Vector& v2)
 {
     return v1.vx != v2.vx || v1.vy != v2.vy;
 }
 
 // 重载加法操作符
-Point operator+(const Point &p1, const Point &p2)
+Point
+operator+(const Point& p1, const Point& p2)
 {
     Point p;
     p.px = p1.px + p2.px;
@@ -68,7 +77,8 @@ Point operator+(const Point &p1, const Point &p2)
     return p;
 }
 
-Vector operator+(const Vector &v1, const Vector &v2)
+Vector
+operator+(const Vector& v1, const Vector& v2)
 {
     Vector v;
     v.vx = v1.vx + v2.vx;
@@ -76,7 +86,8 @@ Vector operator+(const Vector &v1, const Vector &v2)
     return v;
 }
 
-Vector operator+(const Vector &v, const Point &p)
+Vector
+operator+(const Vector& v, const Point& p)
 {
     Vector v1;
     v1.vx = v.vx + p.px;
@@ -84,7 +95,8 @@ Vector operator+(const Vector &v, const Point &p)
     return v1;
 }
 
-Vector operator+(const Point &p, const Vector &v)
+Vector
+operator+(const Point& p, const Vector& v)
 {
     Vector v1;
     v1.vx = p.px + v.vx;
@@ -93,21 +105,24 @@ Vector operator+(const Point &p, const Vector &v)
 }
 
 // 重载+=操作符
-Point &operator+=(Point &p1, const Point &p2)
+Point&
+operator+=(Point& p1, const Point& p2)
 {
     p1.px += p2.px;
     p1.py += p2.py;
     return p1;
 }
 
-Vector &operator+=(Vector &v1, const Vector &v2)
+Vector&
+operator+=(Vector& v1, const Vector& v2)
 {
     v1.vx += v2.vx;
     v1.vy += v2.vy;
     return v1;
 }
 
-Vector &operator+=(Vector &v, const Point &p)
+Vector&
+operator+=(Vector& v, const Point& p)
 {
     v.vx += p.px;
     v.vy += p.py;
@@ -115,7 +130,8 @@ Vector &operator+=(Vector &v, const Point &p)
 }
 
 // 重载减法操作符
-Point operator-(const Point &p1, const Point &p2)
+Point
+operator-(const Point& p1, const Point& p2)
 {
     Point p;
     p.px = p1.px - p2.px;
@@ -123,7 +139,8 @@ Point operator-(const Point &p1, const Point &p2)
     return p;
 }
 
-Vector operator-(const Vector &v1, const Vector &v2)
+Vector
+operator-(const Vector& v1, const Vector& v2)
 {
     Vector v;
     v.vx = v1.vx - v2.vx;
@@ -131,7 +148,8 @@ Vector operator-(const Vector &v1, const Vector &v2)
     return v;
 }
 
-Vector operator-(const Vector &v, const Point &p)
+Vector
+operator-(const Vector& v, const Point& p)
 {
     Vector v1;
     v1.vx = v.vx - p.px;
@@ -139,7 +157,8 @@ Vector operator-(const Vector &v, const Point &p)
     return v1;
 }
 
-Vector operator-(const Point &p, const Vector &v)
+Vector
+operator-(const Point& p, const Vector& v)
 {
     Vector v1;
     v1.vx = p.px - v.vx;
@@ -148,21 +167,24 @@ Vector operator-(const Point &p, const Vector &v)
 }
 
 // 重载-=操作符
-Point &operator-=(Point &p1, const Point &p2)
+Point&
+operator-=(Point& p1, const Point& p2)
 {
     p1.px -= p2.px;
     p1.py -= p2.py;
     return p1;
 }
 
-Vector &operator-=(Vector &v1, const Vector &v2)
+Vector&
+operator-=(Vector& v1, const Vector& v2)
 {
     v1.vx -= v2.vx;
     v1.vy -= v2.vy;
     return v1;
 }
 
-Vector &operator-=(Vector &v, const Point &p)
+Vector&
+operator-=(Vector& v, const Point& p)
 {
     v.vx -= p.px;
     v.vy -= p.py;

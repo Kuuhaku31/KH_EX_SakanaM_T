@@ -1,42 +1,91 @@
 
 #include "base.hpp"
 
-Collision::Collision(Position *p, short w, short h) : Position(p)
+// 设置点的分布位置
+inline void
+setpoints(Position* p, int count, int w, int h)
 {
-    for (short i = 0; i < TESTPOINTCOUNT; i++)
+    if(count == 1)
     {
-        test_points[i] = new Position(this);
+        (Point) p[0] = Point{0, 0};
+    }
+    else if(count == 4)
+    {
+        (Point) p[0] = Point{w / 2, 0};
+        (Point) p[1] = Point{w, h / 2};
+        (Point) p[2] = Point{w / 2, h};
+        (Point) p[3] = Point{0, h / 2};
+    }
+    else if(count == 8)
+    {
+        (Point) p[0] = Point{w / 4, 0};
+        (Point) p[1] = Point{w / 2, 0};
+        (Point) p[2] = Point{3 * w / 4, 0};
+        (Point) p[3] = Point{w, h / 4};
+        (Point) p[4] = Point{w, h / 2};
+        (Point) p[5] = Point{w, 3 * h / 4};
+        (Point) p[6] = Point{3 * w / 4, h};
+        (Point) p[7] = Point{w / 2, h};
+    }
+    else if(count = 12)
+    {
+        (Point) p[0]  = Point{w / 4, 0};
+        (Point) p[1]  = Point{w / 2, 0};
+        (Point) p[2]  = Point{3 * w / 4, 0};
+        (Point) p[3]  = Point{w, h / 4};
+        (Point) p[4]  = Point{w, h / 2};
+        (Point) p[5]  = Point{w, 3 * h / 4};
+        (Point) p[6]  = Point{3 * w / 4, h};
+        (Point) p[7]  = Point{w / 2, h};
+        (Point) p[8]  = Point{w / 4, h};
+        (Point) p[9]  = Point{0, 3 * h / 4};
+        (Point) p[10] = Point{0, h / 2};
+        (Point) p[11] = Point{0, h / 4};
+    }
+    else
+    {
+        for(int i = 0; i < count; i++)
+        {
+            (Point) p[i] = Point{w / 2, h / 2};
+        }
+    }
+}
+
+Collision::Collision(Position* p, int w, int h)
+{
+    parent_pos = p;
+    for(int i = 0; i < TESTPOINTCOUNT; i++)
+    {
+        test_points[i].parent_pos = this;
     }
     CollResetTestPoints(w, h);
 }
 
 Collision::~Collision()
-{
-    for (short i = 0; i < TESTPOINTCOUNT; i++)
-    {
-        delete test_points[i];
-    }
-}
+{}
 
-void Collision::CollTest(Area *area)
+void
+Collision::CollTest(Area* area)
 {
     // 遍历检测点
-    for (short i = 0; i < TESTPOINTCOUNT; i++)
+    for(int i = 0; i < TESTPOINTCOUNT; i++)
     {
         test_points_value[i] = area->Area_in(test_points[i]);
     }
 }
 
-void Collision::CollResetTestPoints(short w, short h)
+int
+Collision::CollTestPointValue(int n) const
 {
-    test_points[0]->Position_set(w / 3, 0);
-    test_points[1]->Position_set(2 * w / 3, 0);
-    test_points[2]->Position_set(w, h / 3);
-    test_points[3]->Position_set(w, 2 * h / 3);
-    test_points[4]->Position_set(2 * w / 3, h);
-    test_points[5]->Position_set(w / 3, h);
-    test_points[6]->Position_set(0, 2 * h / 3);
-    test_points[7]->Position_set(0, h / 3);
+    Limit(n, 0, TESTPOINTCOUNT - 1);
+    return test_points_value[n];
+}
 
-    Position_set(-w / 2, -h / 2);
+void
+Collision::CollResetTestPoints(int w, int h)
+{
+    // 设置检测点的位置
+    setpoints(test_points, TESTPOINTCOUNT, w, h);
+
+    *(Point*)this = Point{-w / 2, -h / 2};
 }
