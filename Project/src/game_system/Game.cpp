@@ -9,7 +9,7 @@ Game::Game(GraphInterface* gi, Library* lib)
     Say("Game Init...", WIN_COLOR_GRAY);
 
     library->LibZone(&main_zone);
-    relative_area_vector = Vector{7.5f, 0.0007f};
+    relative_area_vector = Vector{0.05f, 0.005f};
 
     main_zone.ZoneSetColor(0x880000ff, zone_area_wall);
 
@@ -23,9 +23,14 @@ Game::Game(GraphInterface* gi, Library* lib)
     wall_skin_02.parent_pos = &main_zone;
     wall_skin_02.Shape_copy(library->LibMat(shape_img_wall_02));
 
+    // 初始化matter
+    matter.parent_pos = &main_zone;
+    matter.Shape_copy(library->LibMat(shape_img_wall_01));
+    matter.Shape_clear(0x00ff0000, 0);
+
     // 初始化camera
     main_camera.parent_pos = &main_zone;
-    main_camera.Position_xy_to(Point{40, 30});
+    main_camera.Position_xy_to(Point{400, 200});
     main_camera.CameraSight_size(GRAPHWIDE / 4, GRAPHHIGH / 4);
     main_camera.CameraSight_align();
 
@@ -34,15 +39,27 @@ Game::Game(GraphInterface* gi, Library* lib)
 
     sakana = new Fish();
     sakana->Position_xy_to(Point{410, 225});
+    sakana->movement_mass = 0.5f;
+    sakana->ObjectGetArea(fish_main_hitbox)->Shape_copy(library->LibMat(shape_hitbox16));
+    sakana->ObjectGetArea(fish_main_hitbox)->Shape_clear(20, 0);
+    sakana->ObjectGetArea(fish_main_hitbox)->Area_align();
     sakana->ObjectGetArea(fish_main_skin)->Shape_copy(library->LibMat(shape_img_skin_sakana));
+    sakana->ObjectGetArea(fish_main_skin)->Area_align();
+    sakana->ObjectGetCollision(fish_main_coll)->CollResetTestPoints(12, 18, 10);
 
     sayarin = new Fish();
     sayarin->Position_xy_to(Point{400, 250});
+    sayarin->ObjectGetArea(fish_main_hitbox)->Shape_copy(library->LibMat(shape_img_skin_ikacyann));
+    sayarin->ObjectGetArea(fish_main_hitbox)->Shape_clear(20, 0);
+    sayarin->ObjectGetArea(fish_main_hitbox)->Area_align();
     sayarin->ObjectGetArea(fish_main_skin)->Shape_copy(library->LibMat(shape_img_skin_ikacyann));
+    sayarin->ObjectGetArea(fish_main_skin)->Area_align();
+    sayarin->ObjectGetCollision(fish_main_coll)->CollResetTestPoints(24, 28, 28);
 
     zaruto = new Fish();
     zaruto->Position_xy_to(Point{420, 200});
     zaruto->ObjectGetArea(fish_main_skin)->Shape_copy(library->LibMat(shape_img_skin_sakana));
+    zaruto->ObjectGetArea(fish_main_skin)->Area_align();
 
     // 初始化fishRing
     ring_fish.Node_add(sakana);
@@ -108,8 +125,8 @@ Game::Update()
         }
 
         camera_move_vector   = getPoint(ip.arr_U, ip.arr_D, ip.arr_L, ip.arr_R, 10);
-        sakana_force_vector  = getVector(ip.key_W, ip.key_S, ip.key_A, ip.key_D, 100);
-        sayarin_force_vector = getVector(ip.key_I, ip.key_K, ip.key_J, ip.key_L, 100);
+        sakana_force_vector  = getVector(ip.key_W, ip.key_S, ip.key_A, ip.key_D, 20);
+        sayarin_force_vector = getVector(ip.key_I, ip.key_K, ip.key_J, ip.key_L, 20);
     }
 
     // 更新
@@ -121,32 +138,49 @@ Game::Update()
         sakana->movement_resistance  = relative_area_vector;
         sayarin->movement_resistance = relative_area_vector;
 
+        sakana->FishAddHitbox(&matter);
+        sayarin->FishAddHitbox(&matter);
+
+        rending();
+
+        sakana->ObjectGetCollision(fish_main_coll)->CollTest(&matter);
         sakana->Update();
+
+        sayarin->ObjectGetCollision(fish_main_coll)->CollTest(&matter);
         sayarin->Update();
-    }
 
-    // 渲染
-    {
-        // graphInterface->ClearScreen();
-        main_camera.CameraClearSight();
-
-        main_camera.CameraRending(&world_skin);
-        main_camera.CameraRending(&wall_skin_01);
-
-        // 渲染ringfish所有对象
-        Fish* temp = nullptr;
-        while(temp = ring_fish.Node_next())
-        {
-            main_camera.CameraRending(temp->ObjectGetArea(fish_main_skin));
-        }
-
-        main_camera.CameraRending(&wall_skin_02);
-        main_camera.CameraRending(&main_zone, zone_area_wall);
-
-        graphInterface->Photographed(main_camera.ObjectGetArea(0));
+        sakana->FishDelHitbox(&matter);
+        sayarin->FishDelHitbox(&matter);
     }
 
     return flag;
 }
 
 #undef ip
+
+// 渲染
+void
+Game::rending()
+{
+    // graphInterface->ClearScreen();
+    main_camera.CameraClearSight();
+
+    main_camera.CameraRending(&world_skin);
+    main_camera.CameraRending(&wall_skin_01);
+
+    // 渲染ringfish所有对象
+    Fish* temp = nullptr;
+    while(temp = ring_fish.Node_next())
+    {
+        main_camera.CameraRending(temp->ObjectGetArea(fish_main_skin));
+    }
+
+    main_camera.CameraRending(&wall_skin_02);
+    //main_camera.CameraRending(&main_zone, zone_area_wall);
+    main_camera.CameraRendingMatter(&matter);
+
+    main_camera.CameraRending(sakana->ObjectGetCollision(fish_main_coll), 0x88ff0000);
+    main_camera.CameraRending(sayarin->ObjectGetCollision(fish_main_coll), 0x88ff0000);
+
+    graphInterface->Photographed(main_camera.ObjectGetArea(0));
+}

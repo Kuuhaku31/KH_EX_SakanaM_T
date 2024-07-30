@@ -1,6 +1,27 @@
 
 #include "GameObjects.hpp"
 
+// 线性插值函数
+inline unsigned int
+interpolateColor(int value, int max_value)
+{
+    // 起点颜色 (黑色)
+    int r1 = 0, g1 = 0, b1 = 0;
+    // 终点颜色 (白色)
+    int r2 = 255, g2 = 255, b2 = 255;
+
+    // 计算插值
+    int r = r1 + (r2 - r1) * value / max_value;
+    int g = g1 + (g2 - g1) * value / max_value;
+    int b = b1 + (b2 - b1) * value / max_value;
+
+    unsigned int output = 0x88000000;
+    output |= (r << 16);
+    output |= (g << 8);
+    output |= b;
+
+    return output;
+}
 
 // 用于混合两个颜色
 inline void
@@ -87,6 +108,48 @@ Camera::CameraRending(Zone* zone, ZoneAreaType zt, int t)
                  ({
                      unsigned int c = b >> zt;
                      (c & 0x1) ? c = zone->ZoneGetColor(zt) : c = 0x0;
+
+                     mix_color(a, c);
+                 }));
+}
+
+// 渲染碰撞检测
+void
+Camera::CameraRending(Collision* coll, unsigned int c, int t)
+{
+    Position* tem = nullptr;
+    int       i   = 0;
+    while(coll->CollGetTestPoint(tem, i))
+    {
+        Point        p  = tem->Position_root_xy();
+        Point        lp = objectAreas[t].Area_local_xy(p);
+        unsigned int b  = objectAreas[t].Area_in(p);
+
+        mix_color(b, c);
+
+        objectAreas[t].Shape_draw_point(lp.px, lp.py, b);
+
+        i++;
+    }
+}
+
+void
+Camera::CameraRendingMatter(Area* area, int t)
+{
+    AREA_COMPUTE((&objectAreas[t]), area,
+                 ({
+                     unsigned int c = 0;
+                     if(b > 0xff)
+                     {
+                         c = 0x88ff88ff;
+                     }
+                     else
+                     {
+                         c = 0x88000000;
+                         c |= (b << 16);
+                         c |= (b << 8);
+                         c |= b;
+                     }
 
                      mix_color(a, c);
                  }));

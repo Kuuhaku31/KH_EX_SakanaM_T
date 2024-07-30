@@ -13,70 +13,85 @@ Fish::Update()
 
 
     // 根据碰撞情况更新Movement
-#define tpv objectColls[fish_main_coll].test_points_value
+#define tpv(i) objectColls[fish_main_coll].CollGetTestPointValue(i)
+#define back 1
 
     Vector force_vector = ZEROVECTOR;
-    int    maxforce     = 1000000;
-    int    force        = 0;
 
-    // 上方受到碰撞
-    if(force = tpv[0] + tpv[1] + tpv[2])
+    int side  = objectColls[fish_main_coll].CollGetTestPointCount() / 4;
+    int side2 = side * 2;
+    int side3 = side * 3;
+
+    int force = 0;
+
+    // 检测上方碰撞
+    for(int i = 0; i < side; i++) { force += tpv(i); }
+    if(force)
     {
-        if(force > maxforce) // 如果受到的力过大，则视为碰到墙壁，立即停止
+        if(force > WALL_LIM)
         {
-            movement_velocity.vy = 0;
-            px += 1;
+            movement_velocity.vy = 0; // 如果受到的力过大，则视为碰到墙壁，立即停止
+            py += back;
         }
         else
         {
-            force_vector.vy += force / 3;
+            force_vector.vy += force / side;
         }
+        force = 0;
     }
-
-    // 右方受到碰撞
-    if(force = tpv[2] + tpv[3] + tpv[4])
+    
+    // 检测右方碰撞
+    for(int i = side; i < side2; i++) { force += tpv(i); }
+    if(force)
     {
-        if(force > maxforce)
+        if(force > WALL_LIM)
         {
             movement_velocity.vx = 0;
-            px -= 1;
+            px -= back;
         }
         else
         {
-            force_vector.vx -= force / 3;
+            force_vector.vx -= force / side;
         }
+        force = 0;
     }
 
-    // 下方受到碰撞
-    if(force = tpv[4] + tpv[5] + tpv[6])
+    // 检测下方碰撞
+    for(int i = side2; i < side3; i++) { force += tpv(i); }
+    if(force)
     {
-        if(force > maxforce)
+        if(force > WALL_LIM)
         {
             movement_velocity.vy = 0;
-            px -= 1;
+            py -= back;
         }
         else
         {
-            force_vector.vy -= force / 3;
+            force_vector.vy -= force / side;
         }
+        force = 0;
     }
 
-    // 左方受到碰撞
-    if(force = tpv[6] + tpv[7] + tpv[0])
+    // 检测左方碰撞
+    for(int i = side3; i < side * 4; i++) { force += tpv(i); }
+    if(force)
     {
-        if(force > maxforce)
+        if(force > WALL_LIM)
         {
             movement_velocity.vx = 0;
-            px += 1;
+            px += back;
         }
         else
         {
-            force_vector.vx += force / 3;
+            force_vector.vx += force / side;
         }
+        force = 0;
     }
+
     ObjectAddForce(force_vector);
 
 #undef tpv
+#undef back
 
     // 更新
     Object::Update();
@@ -119,4 +134,24 @@ Fish::FishSetPower_d(int p)
 {
     fish_power += p;
     Limit(fish_power, 0, fish_power_MAX);
+}
+
+void
+Fish::FishAddHitbox(Area* matter)
+{
+    hitbox_point = objectAreas[fish_main_hitbox].Position_root_xy();
+    AREA_COMPUTE(matter, (&objectAreas[fish_main_hitbox]), (a += b));
+}
+
+void
+Fish::FishDelHitbox(Area* matter)
+{
+    M0M2(
+        matter,
+        (&objectAreas[fish_main_hitbox]),
+        (hitbox_point.px - matter->Position_root_x()),
+        (hitbox_point.py - matter->Position_root_y()),
+        {
+            (a -= b);
+        });
 }

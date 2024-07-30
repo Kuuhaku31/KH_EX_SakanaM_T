@@ -82,7 +82,7 @@ Shape::Shape_buffer()
 int
 Shape::Shape_in(int n) const
 {
-    if(Limit(n, 0, shape_long))
+    if(Limit(n, 0, shape_long) && shape_long)
     {
         return shape_buffer[n];
     }
@@ -95,7 +95,7 @@ Shape::Shape_in(int n) const
 int
 Shape::Shape_in(Point p) const
 {
-    if(Limit(p, ZEROPOINT, Point{shape_wide, shape_high}))
+    if(Limit(p, ZEROPOINT, Point{shape_wide, shape_high}) && shape_long)
     {
         return shape_buffer[p.py * shape_wide + p.px];
     }
@@ -108,7 +108,7 @@ Shape::Shape_in(Point p) const
 bool
 Shape::Shape_in(int n, int b) const
 {
-    if(Limit(n, 0, shape_long) && Limit<0, 31>(b))
+    if(Limit(n, 0, shape_long) && Limit<0, 31>(b) && shape_long)
     {
         return shape_buffer[n] & (1 << b);
     }
@@ -122,7 +122,7 @@ Shape::Shape_in(int n, int b) const
 bool
 Shape::Shape_in(Point p, int b) const
 {
-    if(Limit(p, ZEROPOINT, Point{shape_wide, shape_high}) && Limit<0, 31>(b))
+    if(Limit(p, ZEROPOINT, Point{shape_wide, shape_high}) && Limit<0, 31>(b) && shape_long)
     {
         return shape_buffer[p.py * shape_wide + p.px] & (1 << b);
     }

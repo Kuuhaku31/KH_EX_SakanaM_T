@@ -51,5 +51,11 @@
 // 定义一些需要的函数
 namespace kh
 {
-    float sqrt(float);
+float sqrt(float);
 } // namespace kh
+
+// 对于所有大于
+// 0x 00 00 00 ff (225)
+// 的值
+// 认为是墙壁
+#define WALL_LIM 0xff

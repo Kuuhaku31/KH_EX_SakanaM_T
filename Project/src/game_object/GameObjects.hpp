@@ -16,6 +16,10 @@ public:
     // 渲染
     void CameraRending(Area*, int = 0);
     void CameraRending(Zone*, ZoneAreaType, int = 0);
+    void CameraRending(Collision*, unsigned int = 0x88ff0000, int = 0);
+
+    // 渲染质量地图
+    void CameraRendingMatter(Area*, int = 0);
 
     // 清屏
     void CameraClearSight(int = 0);
@@ -59,6 +63,10 @@ public:
     void FishSetHP_d(int);
     void FishSetPower_d(int);
 
+    // 给matter添加、删除hitbox
+    void FishAddHitbox(Area*);
+    void FishDelHitbox(Area*);
+
     bool fish_alive = true;
 
 private:
@@ -66,4 +74,6 @@ private:
     int fish_HP        = 1000;
     int fish_power_MAX = 2000;
     int fish_power     = 2000;
+
+    Point hitbox_point;
 };

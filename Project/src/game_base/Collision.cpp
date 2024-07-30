@@ -5,72 +5,117 @@
 inline void
 setpoints(Position* p, int count, int w, int h)
 {
-    if(count == 1)
-    {
-        (Point) p[0] = Point{0, 0};
-    }
-    else if(count == 4)
-    {
-        (Point) p[0] = Point{w / 2, 0};
-        (Point) p[1] = Point{w, h / 2};
-        (Point) p[2] = Point{w / 2, h};
-        (Point) p[3] = Point{0, h / 2};
-    }
-    else if(count == 8)
-    {
-        (Point) p[0] = Point{w / 4, 0};
-        (Point) p[1] = Point{w / 2, 0};
-        (Point) p[2] = Point{3 * w / 4, 0};
-        (Point) p[3] = Point{w, h / 4};
-        (Point) p[4] = Point{w, h / 2};
-        (Point) p[5] = Point{w, 3 * h / 4};
-        (Point) p[6] = Point{3 * w / 4, h};
-        (Point) p[7] = Point{w / 2, h};
-    }
-    else if(count = 12)
-    {
-        (Point) p[0]  = Point{w / 4, 0};
-        (Point) p[1]  = Point{w / 2, 0};
-        (Point) p[2]  = Point{3 * w / 4, 0};
-        (Point) p[3]  = Point{w, h / 4};
-        (Point) p[4]  = Point{w, h / 2};
-        (Point) p[5]  = Point{w, 3 * h / 4};
-        (Point) p[6]  = Point{3 * w / 4, h};
-        (Point) p[7]  = Point{w / 2, h};
-        (Point) p[8]  = Point{w / 4, h};
-        (Point) p[9]  = Point{0, 3 * h / 4};
-        (Point) p[10] = Point{0, h / 2};
-        (Point) p[11] = Point{0, h / 4};
-    }
-    else
+    //如果count不是4的倍数
+    if(count % 4)
     {
         for(int i = 0; i < count; i++)
         {
             (Point) p[i] = Point{w / 2, h / 2};
         }
     }
+    else
+    {
+        int side     = count / 4;
+        int spaced_w = w / (side + 1);
+        int spaced_h = h / (side + 1);
+
+        for(int i = 0; i < side; i++)
+        {
+            p[i]            = Point{spaced_w * (i + 1), 0};
+            p[i + side]     = Point{w, spaced_h * (i + 1)};
+            p[i + 2 * side] = Point{w - spaced_w * (i + 1), h};
+            p[i + 3 * side] = Point{0, h - spaced_h * (i + 1)};
+        }
+    }
+}
+
+Collision::Collision() {}
+
+Collision::Collision(int count, int w, int h)
+{
+    CollResetTestPoints(test_point_count, w, h);
+}
+
+Collision::~Collision()
+{
+    if(test_points) { delete[] test_points; }
+    if(test_points_value) { delete[] test_points_value; }
 }
 
 void
 Collision::CollTest(Area* area)
 {
     // 遍历检测点
-    for(int i = 0; i < TESTPOINTCOUNT; i++)
+    for(int i = 0; i < test_point_count; i++)
     {
-        test_points_value[i] = area->Area_in(test_points[i]);
+        test_points_value[i] = area->Area_in(&test_points[i]);
     }
 
     // 设置主检测点
-    test_point_main = area->Area_in(*this);
+    test_point_main = area->Area_in(this);
 }
 
 void
-Collision::CollResetTestPoints(int w, int h)
+Collision::CollClearValue()
 {
-    // 设置检测点的父位置
-    for(int i = 0; i < TESTPOINTCOUNT; i++) { test_points[i].parent_pos = this; }
-    // 设置检测点的位置
-    setpoints(test_points, TESTPOINTCOUNT, w, h);
+    for(int i = 0; i < test_point_count; i++) { test_points_value[i] = 0; }
+    test_point_main = 0;
+}
 
-    *(Point*)this = Point{-w / 2, -h / 2};
+void
+Collision::CollResetTestPoints(int count, int w, int h)
+{
+    // 先释放原来的检测点
+    if(test_points) { delete[] test_points; }
+    if(test_points_value) { delete[] test_points_value; }
+
+    // 重新设置检测点
+    test_point_count  = count;
+    test_points       = new Position[test_point_count];
+    test_points_value = new unsigned int[test_point_count];
+
+    // 设置检测点的父位置
+    for(int i = 0; i < test_point_count; i++) { test_points[i].parent_pos = this; }
+    // 设置检测点的位置
+    setpoints(test_points, test_point_count, w, h);
+
+    px = -w / 2;
+    py = -h / 2;
+}
+
+bool
+Collision::CollGetTestPoint(Position*& p, int i)
+{
+    if(Limit(i, 0, test_point_count - 1))
+    {
+        p = &test_points[i];
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+int
+Collision::CollGetTestPointCount() const
+{
+    return test_point_count;
+}
+
+unsigned int
+Collision::CollGetTestPointValue(int index) const
+{
+    if(index == -1)
+    {
+        return test_point_main;
+    }
+    else if(Limit(index, 0, test_point_count - 1))
+    {
+        return test_points_value[index];
+    }
+    else
+    {
+        return 0;
+    }
 }

@@ -186,6 +186,8 @@ private:
     Point  camera_move_vector;
     Vector sakana_force_vector;
     Vector sayarin_force_vector;
+
+    void rending();
 };
 
 

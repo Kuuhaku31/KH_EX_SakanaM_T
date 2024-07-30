@@ -30,6 +30,14 @@ struct Position : public Point
     void Position_y_to(int);
     void Position_xy_to(Point);
     bool Position_xy_to(Position*);
+
+    Point&
+    operator=(const Point& p)
+    {
+        px = p.px;
+        py = p.py;
+        return *this;
+    }
 };
 
 // 向量
@@ -392,17 +400,38 @@ private:
 
 */
 
-#define TESTPOINTCOUNT 12
+enum TestPointCount
+{
+    testpoint_count_001 = 1,
+    testpoint_count_004 = 4,
+    testpoint_count_008 = 8,
+    testpoint_count_012 = 12,
+    testpoint_count_016 = 16,
+    testpoint_count_020 = 20,
+    testpoint_count_024 = 24
+};
 
 // 有12个检测点，分别在角色的四个角和四个边的中点
-struct Collision : public Position
+class Collision : public Position
 {
-    Position test_points[TESTPOINTCOUNT];             // 检测点
-    int      test_points_value[TESTPOINTCOUNT] = {0}; // 检测点的值
-    int      test_point_main                   = 0;   // 主要检测点
+public:
+    Collision();
+    Collision(int, int, int);
+    ~Collision();
 
-    void CollResetTestPoints(int, int); // 设置检测点的坐标
-    void CollTest(Area*);               // 检测碰撞
+    void CollResetTestPoints(int, int, int); // 设置检测点的数量、坐标
+    void CollTest(Area*);                    // 检测碰撞
+    void CollClearValue();                   // 清空检测点的值
+
+    bool         CollGetTestPoint(Position*&, int);      // 获取检测点
+    int          CollGetTestPointCount() const;         // 获取检测点的数量
+    unsigned int CollGetTestPointValue(int = -1) const; // 获取检测点的值，-1为主要检测点
+
+private:
+    int           test_point_count  = 0;       // 检测点的数量
+    Position*     test_points       = nullptr; // 检测点
+    unsigned int* test_points_value = nullptr; // 检测点的值
+    int           test_point_main   = 0;       // 主要检测点
 };
 
 
