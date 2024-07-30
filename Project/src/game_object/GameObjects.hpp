@@ -15,7 +15,7 @@ public:
 
     // 渲染
     void CameraRending(Area*, int = 0);
-    void CameraRending(Zone*, int, int);
+    void CameraRending(Zone*, ZoneAreaType, int = 0);
 
     // 清屏
     void CameraClearSight(int = 0);
@@ -28,15 +28,15 @@ public:
 
 enum FishAreaTyep
 {
-    main_skin,
-    HP_bar,
-    power_bar,
-    main_hitbox
+    fish_main_skin,
+    fish_HP_bar,
+    fish_power_bar,
+    fish_main_hitbox
 };
 
 enum FishCollType
 {
-    main_coll
+    fish_main_coll
 };
 
 class Fish : public Object

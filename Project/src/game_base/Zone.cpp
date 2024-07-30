@@ -5,32 +5,38 @@ Zone::Zone()
 {}
 
 Zone::~Zone()
-{}
+{
+}
 
 int
-Zone::Zone_color(int i) const
+Zone::ZoneGetColor(ZoneAreaType t) const
 {
-    Limit<0, 31>(i);
-    return colors[i];
+    return colors[t];
 }
 
-void*
-Zone::Zone_data(int i) const
-{
-    Limit<0, 31>(i);
-    return data[i];
-}
-
-void
-Zone::Zone_color(int i, int c)
-{
-    Limit<0, 31>(i);
-    colors[i] = c;
-}
+// bool
+// Zone::ZoneGetData(void* d, ZoneAreaType t) const
+// {
+//     d = data[t];
+//     return d ? true : false;
+// }
 
 void
-Zone::Zone_data(int i, void* d)
+Zone::ZoneSetColor(int c, ZoneAreaType t)
 {
-    Limit<0, 31>(i);
-    data[i] = d;
+    colors[t] = c;
 }
+
+// bool
+// Zone::ZoneSetData(void* d, ZoneAreaType t)
+// {
+//     if(d)
+//     {
+//         data[t] = d;
+//         return true;
+//     }
+//     else
+//     {
+//         return false;
+//     }
+// }

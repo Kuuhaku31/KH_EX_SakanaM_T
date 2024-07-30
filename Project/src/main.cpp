@@ -1,10 +1,15 @@
 
-#include "GameManager.hpp"
+#include "game_systems.hpp"
 
-int main()
+int
+main()
 {
-	GameManager g;
-	g.RUN();
+    Say("START", WIN_COLOR_WHITE, KHCOLOR_BLACK);
 
-	return 0;
+    GameManager g;
+    g.RUN();
+
+    Say("OVER", WIN_COLOR_WHITE, KHCOLOR_BLACK);
+
+    return 0;
 }

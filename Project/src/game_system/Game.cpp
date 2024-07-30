@@ -1,139 +1,96 @@
 
-#include "Game.hpp"
+#include "game_systems.hpp"
 
-#define KEY_W graphInterface->Key_W()
-#define KEY_S graphInterface->Key_S()
-#define KEY_A graphInterface->Key_A()
-#define KEY_D graphInterface->Key_D()
-
-#define KEY_I graphInterface->Key_I()
-#define KEY_K graphInterface->Key_K()
-#define KEY_J graphInterface->Key_J()
-#define KEY_L graphInterface->Key_L()
-
-#define KEY_Q graphInterface->Key_Q()
-#define KEY_E graphInterface->Key_E()
-#define KEY_R graphInterface->Key_R()
-#define KEY_F graphInterface->Key_F()
-
-#define ARR_U graphInterface->Arr_U()
-#define ARR_D graphInterface->Arr_D()
-#define ARR_L graphInterface->Arr_L()
-#define ARR_R graphInterface->Arr_R()
-
-#define SPACE graphInterface->Space()
-#define SHIFT graphInterface->Shift()
-#define ESC__ graphInterface->Esc__()
-#define ENTER graphInterface->Enter()
-
-#define MOUSE_X graphInterface->Mouse_X()
-#define MOUSE_Y graphInterface->Mouse_Y()
-#define MOUSE_DX graphInterface->MouseDX()
-#define MOUSE_DY graphInterface->MouseDY()
-#define MOUSE_V graphInterface->Mouse_V()
-#define MOUSE_L graphInterface->Mouse_L()
-#define MOUSE_R graphInterface->Mouse_R()
-#define MOUSE_M graphInterface->Mouse_M()
-#define MOUSE_W graphInterface->Mouse_W()
-
-Game::Game(MessageSystem* mss, GraphInterface* gi, Library* lib)
-    : messageSystem(mss)
-    , graphInterface(gi)
+Game::Game(GraphInterface* gi, Library* lib)
+    : graphInterface(gi)
     , library(lib)
 {
     // Initialize Game...
-    library->InitMat();
+    Say("Game Init...", WIN_COLOR_GRAY);
 
-    // 初始化zone
-    std::string paths[20] = {
-        MATPATH "/area_main.png",
-        MATPATH "/area_wall.png",
-        MATPATH "/area_main.png"};
-    int bit[20] = {main_area, wall_area_01, relative_area_01};
+    library->LibZone(&main_zone);
+    relative_area_vector = Vector{7.5f, 0.0007f};
 
-    main_zone = new_ZoneMade(paths, bit, 3);
-    main_zone->ZoneSetRelative(relative_area_01, Vector{7.5f, 0.0007f});
-    main_zone->ZoneSetWallCollForce(wall_area_01, 100);
-    main_zone->ZoneSetColor(wall_area_01, 0x880000ff);
+    main_zone.ZoneSetColor(0x880000ff, zone_area_wall);
 
     // 初始化areas
-    main_world.Shape_copy(library->LibMat(shape_img_world_ground));
-    main_world.Position_set(main_zone);
+    world_skin.parent_pos = &main_zone;
+    world_skin.Shape_copy(library->LibMat(shape_img_world_ground));
 
     // 初始化wallskin
-    wall_skin_01.Position_set(main_zone);
+    wall_skin_01.parent_pos = &main_zone;
     wall_skin_01.Shape_copy(library->LibMat(shape_img_wall_01));
-    wall_skin_02.Position_set(main_zone);
+    wall_skin_02.parent_pos = &main_zone;
     wall_skin_02.Shape_copy(library->LibMat(shape_img_wall_02));
 
     // 初始化camera
-    main_camera = new Camera(messageSystem, main_zone, Point{40, 30}, GRAPHWIDE / 4, GRAPHHIGH / 4);
-    main_camera->Sight_align();
+    main_camera.parent_pos = &main_zone;
+    main_camera.Position_xy_to(Point{40, 30});
+    main_camera.CameraSight_size(GRAPHWIDE / 4, GRAPHHIGH / 4);
+    main_camera.CameraSight_align();
 
     // 工厂
-    gameObjectFactory = new GameObjectFactory(mss, library);
+    // gameObjectFactory = new GameObjectFactory(mss, library);
 
-    sakana  = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{410, 225});
-    sayarin = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{400, 250});
-    zaruto  = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{420, 200});
+    sakana = new Fish();
+    sakana->Position_xy_to(Point{410, 225});
+    sakana->ObjectGetArea(fish_main_skin)->Shape_copy(library->LibMat(shape_img_skin_sakana));
+
+    sayarin = new Fish();
+    sayarin->Position_xy_to(Point{400, 250});
+    sayarin->ObjectGetArea(fish_main_skin)->Shape_copy(library->LibMat(shape_img_skin_ikacyann));
+
+    zaruto = new Fish();
+    zaruto->Position_xy_to(Point{420, 200});
+    zaruto->ObjectGetArea(fish_main_skin)->Shape_copy(library->LibMat(shape_img_skin_sakana));
 
     // 初始化fishRing
-    ring_fish = new Ring<GameObject>();
-    ring_fish->Node_add(sakana);
-    ring_fish->Node_add(sayarin);
-    ring_fish->Node_add(zaruto);
+    ring_fish.Node_add(sakana);
+    ring_fish.Node_add(sayarin);
+    ring_fish.Node_add(zaruto);
 
     Say("Game Init Success", WIN_COLOR_GRAY);
 }
 
-inline Point
-getMovement(GraphInterface* graphInterface, int w, int s, int a, int d, int f)
+Game::~Game()
 {
-    Point move_vector;
-    if(w)
-    {
-        move_vector.py = -f;
-    }
-    if(s)
-    {
-        move_vector.py = f;
-    }
-    if(a)
-    {
-        move_vector.px = -f;
-    }
-    if(d)
-    {
-        move_vector.px = f;
-    }
-    return move_vector;
+    // Exit Game...
+
+    // 释放ringfish
+    ring_fish.Node_delete_all();
+
+    Say("Game Destroyed", WIN_COLOR_GRAY);
+}
+
+inline Point
+getPoint(bool w, bool s, bool a, bool d, int f = 1)
+{
+    Point p;
+
+    if(w) { p.py -= f; }
+    if(s) { p.py += f; }
+    if(a) { p.px -= f; }
+    if(d) { p.px += f; }
+
+    return p;
 }
 
 inline Vector
-getForce(GraphInterface* graphInterface, int w, int s, int a, int d, float f)
+getVector(bool w, bool s, bool a, bool d, float f = 1.0f)
 {
     Vector force_vector;
-    if(w)
-    {
-        force_vector.vy = -1.0f;
-    }
-    if(s)
-    {
-        force_vector.vy = 1.0f;
-    }
-    if(a)
-    {
-        force_vector.vx = -1.0f;
-    }
-    if(d)
-    {
-        force_vector.vx = 1.0f;
-    }
+
+    if(w) { force_vector.vy--; }
+    if(s) { force_vector.vy++; }
+    if(a) { force_vector.vx--; }
+    if(d) { force_vector.vx++; }
 
     force_vector = unit(force_vector) * f;
 
     return force_vector;
 }
+
+#define ip graphInterface->input
 
 // 只有返回值为true时才会继续运行
 bool
@@ -143,81 +100,53 @@ Game::Update()
 
     // 获取输入
     {
-        graphInterface->GetInput();
-        if(ENTER)
+        ip.Input_Get_Messagelist();
+        if(ip.enter)
         {
             Say("Game Exit...", WIN_COLOR_WHITE);
             flag = false;
         }
 
-        camera_move_vector   = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R, 10);
-        sakana_force_vector  = getForce(graphInterface, KEY_W, KEY_S, KEY_A, KEY_D, 100);
-        sayarin_force_vector = getForce(graphInterface, KEY_I, KEY_K, KEY_J, KEY_L, 100);
+        camera_move_vector   = getPoint(ip.arr_U, ip.arr_D, ip.arr_L, ip.arr_R, 10);
+        sakana_force_vector  = getVector(ip.key_W, ip.key_S, ip.key_A, ip.key_D, 100);
+        sayarin_force_vector = getVector(ip.key_I, ip.key_K, ip.key_J, ip.key_L, 100);
     }
 
     // 更新
     {
-
-        main_camera->Position_move(camera_move_vector);
+        main_camera += camera_move_vector;
         sakana->ObjectAddForce(sakana_force_vector);
         sayarin->ObjectAddForce(sayarin_force_vector);
-        sakana->GameObjectUpdate();
-        sayarin->GameObjectUpdate();
+
+        sakana->movement_resistance  = relative_area_vector;
+        sayarin->movement_resistance = relative_area_vector;
+
+        sakana->Update();
+        sayarin->Update();
     }
 
     // 渲染
     {
         // graphInterface->ClearScreen();
-        main_camera->Clearsight();
+        main_camera.CameraClearSight();
 
-        main_camera->Rending(&main_world);
-        main_camera->Rending(&wall_skin_01);
+        main_camera.CameraRending(&world_skin);
+        main_camera.CameraRending(&wall_skin_01);
 
         // 渲染ringfish所有对象
-        GameObject* temp = nullptr;
-        while(temp = ring_fish->Node_next())
+        Fish* temp = nullptr;
+        while(temp = ring_fish.Node_next())
         {
-            main_camera->RendingObject(temp, skin01);
+            main_camera.CameraRending(temp->ObjectGetArea(fish_main_skin));
         }
 
-        main_camera->Rending(&wall_skin_02);
-        // main_camera->RendingZone(main_zone, wall_area_01);
+        main_camera.CameraRending(&wall_skin_02);
+        main_camera.CameraRending(&main_zone, zone_area_wall);
 
-        main_camera->SendToMessageSystem(SourceScreen01);
-
-        graphInterface->ReceiveFromMessageSystem();
-        graphInterface->Photographed();
+        graphInterface->Photographed(main_camera.ObjectGetArea(0));
     }
 
     return flag;
 }
 
-Game::~Game()
-{
-    // Exit Game...
-
-    // 释放工厂
-    delete gameObjectFactory;
-
-    // 释放Zone
-    delete main_zone;
-
-    // 释放cameras
-    for(int i = 0; i < 10; i++)
-    {
-        if(main_camera != nullptr)
-        {
-            delete main_camera;
-            main_camera = nullptr;
-        }
-    }
-
-    // 释放ringfish
-    if(ring_fish != nullptr)
-    {
-        delete ring_fish;
-        ring_fish = nullptr;
-    }
-
-    Say("Game Destroyed", WIN_COLOR_GRAY);
-}
+#undef ip

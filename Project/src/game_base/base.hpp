@@ -232,14 +232,14 @@ class Shape
 {
 public:
     Shape(int = 0, int = 0, int = 0);
-    Shape(const int*, int, int);
+    Shape(const unsigned int*, int, int);
     ~Shape(); // **记得释放内存**
 
     // 获取形状的宽高、缓冲区大小
-    int  Shape_wide() const;
-    int  Shape_high() const;
-    int  Shape_long() const;
-    int* Shape_buffer();
+    int           Shape_wide() const;
+    int           Shape_high() const;
+    int           Shape_long() const;
+    unsigned int* Shape_buffer();
 
     // 获取形状某个点的值
     int  Shape_in(int) const;
@@ -269,10 +269,10 @@ public:
     void Shape_not();
 
 protected:
-    int* shape_buffer;
-    int  shape_wide;
-    int  shape_high;
-    int  shape_long;
+    unsigned int* shape_buffer;
+    int           shape_wide;
+    int           shape_high;
+    int           shape_long;
 };
 
 
@@ -281,14 +281,14 @@ protected:
     { \
         int m[6] = {s1->Shape_wide(), s1->Shape_high(), s2->Shape_wide(), s2->Shape_high(), x, y}; \
         transformat(m); \
-        int* b1 = s1->Shape_buffer(); \
-        int* b2 = s2->Shape_buffer(); \
+        unsigned int* b1 = s1->Shape_buffer(); \
+        unsigned int* b2 = s2->Shape_buffer(); \
         for(int i = 0; i < m[5]; i++) \
         { \
             for(int j = 0; j < m[4]; j++) \
             { \
-                int& a = b1[m[0]]; \
-                int& b = b2[m[2]]; \
+                unsigned int& a = b1[m[0]]; \
+                unsigned int& b = b2[m[2]]; \
                 action; \
                 m[0]++; \
                 m[2]++; \
@@ -333,7 +333,13 @@ public:
 // 天才！！！！
 // 一个Area的点有32位
 // 每一位表示不同的Area
-//
+enum ZoneAreaType
+{
+    zone_area_main,
+    zone_area_relative,
+    zone_area_wall
+};
+
 // 一个Zone类可以存储32个Area信息
 // main_area 为主要区域，用于判断是否在区域内
 class Zone : public Area
@@ -344,20 +350,19 @@ public:
     Zone(Shape*);
     ~Zone();
 
-    int   Zone_color(int) const; // 获取某个area的颜色
-    void* Zone_data(int) const;  // 获取某个area的数据
+    int ZoneGetColor(ZoneAreaType) const; // 获取某个area的颜色
+    //bool ZoneGetData(void*, ZoneAreaType) const; // 获取某个area的数据
 
     // 第一个参数为area的编号，第二个参数为颜色
-    void Zone_color(int, int);  // 设置某个area的颜色
-    void Zone_data(int, void*); // 设置某个area的数据
+    void ZoneSetColor(int, ZoneAreaType); // 设置某个area的颜色
 
-    void ZoneSetArea(Area*, int); // 设置某个area的区域
+    // bool ZoneSetData(void*, ZoneAreaType); // 设置某个area的数据
+
+    void ZoneSetArea(Area*, ZoneAreaType); // 设置某个area的区域
 
 private:
     // 32个area对应的颜色
     int colors[32] = {0};
-    // 32个任意指针指向Area对应的数据
-    void* data[32] = {nullptr};
 };
 
 // =================================================================================================

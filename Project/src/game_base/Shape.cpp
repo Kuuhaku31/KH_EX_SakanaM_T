@@ -12,7 +12,7 @@ Shape::Shape(int w, int h, int v)
     }
     else
     {
-        shape_buffer = new int[w * h];
+        shape_buffer = new unsigned int[w * h];
         shape_wide   = w;
         shape_high   = h;
         shape_long   = w * h;
@@ -24,7 +24,7 @@ Shape::Shape(int w, int h, int v)
     }
 }
 
-Shape::Shape(const int* b, int w, int h)
+Shape::Shape(const unsigned int* b, int w, int h)
 {
     if(!b || 0 >= w || 0 >= h)
     {
@@ -35,7 +35,7 @@ Shape::Shape(const int* b, int w, int h)
     }
     else
     {
-        shape_buffer = new int[w * h];
+        shape_buffer = new unsigned int[w * h];
         shape_wide   = w;
         shape_high   = h;
         shape_long   = w * h;
@@ -73,7 +73,7 @@ Shape::Shape_long() const
     return shape_long;
 }
 
-int*
+unsigned int*
 Shape::Shape_buffer()
 {
     return shape_buffer;
@@ -259,7 +259,7 @@ Shape::Shape_reset(int w, int h, int v)
     else
     {
         delete[] shape_buffer;
-        shape_buffer = new int[w * h];
+        shape_buffer = new unsigned int[w * h];
         shape_wide   = w;
         shape_high   = h;
         shape_long   = w * h;
@@ -286,7 +286,7 @@ Shape::Shape_reset(const int* b, int w, int h)
     else
     {
         delete[] shape_buffer;
-        shape_buffer = new int[w * h];
+        shape_buffer = new unsigned int[w * h];
         shape_wide   = w;
         shape_high   = h;
         shape_long   = w * h;
@@ -305,7 +305,7 @@ Shape::Shape_copy(Shape* s)
     shape_high = s->shape_high;
     shape_long = s->shape_long;
     delete[] shape_buffer;
-    shape_buffer = new int[shape_long];
+    shape_buffer = new unsigned int[shape_long];
     for(int i = 0; i < shape_long; i++)
     {
         shape_buffer[i] = s->shape_buffer[i];

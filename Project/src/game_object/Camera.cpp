@@ -4,7 +4,7 @@
 
 // 用于混合两个颜色
 inline void
-mix_color(int& c1, int& c2)
+mix_color(unsigned int& c1, unsigned int& c2)
 {
     int a2 = (c2 & 0xff000000) >> 24;
     if(!a2)
@@ -31,31 +31,31 @@ mix_color(int& c1, int& c2)
 }
 
 inline void
-fun_add_AH(int& a, int& b)
+fun_add_AH(unsigned int& a, unsigned int& b)
 {
     if(b)
     {
-        int d = ((b * 0xff) / 40000) << 24;
+        unsigned int d = ((b * 0xff) / 40000) << 24;
         mix_color(a, d);
     }
 }
 
 inline void
-fun_add_AC(int& a, int& b)
+fun_add_AC(unsigned int& a, unsigned int& b)
 {
     if(b)
     {
-        int d = ((b * 0xff) / 800) << 24;
-        int c = 0x00000000 | d;
+        unsigned int d = ((b * 0xff) / 800) << 24;
+        unsigned int c = 0x00000000 | d;
         mix_color(a, c);
     }
 }
 
 template<int bit, int color>
 inline void
-fun_rend_zone(int& a, int& b)
+fun_rend_zone(unsigned int& a, unsigned int& b)
 {
-    int c = b >> bit;
+    unsigned int c = b >> bit;
     (c & 0x1) ? c = color : c = 0x0;
 
     mix_color(a, c);
@@ -81,12 +81,12 @@ Camera::CameraRending(Area* area, int t)
 }
 
 void
-Camera::CameraRending(Zone* zone, int zt, int t)
+Camera::CameraRending(Zone* zone, ZoneAreaType zt, int t)
 {
     AREA_COMPUTE((&objectAreas[t]), zone,
                  ({
-                     int c = b >> zt;
-                     (c & 0x1) ? c = zone->Zone_color(zt) : c = 0x0;
+                     unsigned int c = b >> zt;
+                     (c & 0x1) ? c = zone->ZoneGetColor(zt) : c = 0x0;
 
                      mix_color(a, c);
                  }));

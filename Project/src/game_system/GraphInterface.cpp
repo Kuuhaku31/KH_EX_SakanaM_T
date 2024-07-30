@@ -1,78 +1,70 @@
 
-#include "GraphInterface.hpp"
+#include "game_systems.hpp"
 
-GraphInterface::GraphInterface(MessageSystem *mss) : message_system(mss)
+void
+GraphInterface::NewGraph(int w, int h, int x, int y, char* name)
 {
     // 初始化窗口，设置参数
-    graph_HWND = initgraph(GRAPHWIDE, GRAPHHIGH, 1);
-    SetWindowPos(graph_HWND, nullptr, GRAPH_X, GRAPH_Y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-    SetWindowText(graph_HWND, _T(GAME_NAME));
+    graph_HWND = initgraph(w, h, 1);
+    SetWindowPos(graph_HWND, nullptr, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+    SetWindowText(graph_HWND, name);
 
-    graph_HDC = GetImageHDC();
-    graph_buffer = (int *)GetImageBuffer();
-    graph_wide = GRAPHWIDE;
-    graph_high = GRAPHHIGH;
-    graph_long = GRAPHLONG;
+    graph_HDC    = GetImageHDC();
+    graph_buffer = (int*)GetImageBuffer();
+    graph_wide   = w;
+    graph_high   = h;
+    graph_long   = x * y;
 
-    graph_half_wide = GRAPHWIDE / 2;
-    graph_half_high = GRAPHHIGH / 2;
-
-    screen.Resize(graph_wide, graph_high);
+    graph_half_wide = w / 2;
+    graph_half_high = h / 2;
 
     // 输出参数
-    output_x1 = 0;
-    output_y1 = 0;
-    output_x2 = GRAPHWIDE;
-    output_y2 = GRAPHHIGH;
+    output_p1 = {0, 0};
+    output_p2 = {w, h};
 
-    output_wide = output_x2 - output_x1;
-    output_high = output_y2 - output_y1;
+    output_wide = output_p2.px - output_p1.px;
+    output_high = output_p2.py - output_p1.py;
 }
 
-GraphInterface::~GraphInterface()
+void
+GraphInterface::CloseGraph()
 {
-    // 退出窗口
     closegraph();
 }
 
-void GraphInterface::ClearScreen()
+void
+GraphInterface::ClearScreen()
 {
-    SetWorkingImage(&screen);
     setbkcolor(0);
     cleardevice();
     SetWorkingImage();
 }
 
-void GraphInterface::ReceiveFromMessageSystem()
+void
+GraphInterface::Photographed(Shape* shape)
 {
-    conversion_IMAGE_Area(&screen, message_system->Send_Shapes(SourceScreen01));
-}
+    IMAGE img;
+    conversion_IMAGE_Area(&img, shape);
 
-void GraphInterface::Photographed()
-{
-    // putimage(0, 0, &screen);
     StretchBlt(
         graph_HDC,
-        0,         // output_x1,
-        0,         // output_y1,
-        GRAPHWIDE, // output_x2,
-        GRAPHHIGH, // output_y2,
+        output_p1.px,
+        output_p1.py,
+        output_wide,
+        output_high,
 
-        GetImageHDC(&screen),
+        GetImageHDC(&img),
         0,
         0,
-        screen.getwidth(),
-        screen.getheight(),
+        img.getwidth(),
+        img.getheight(),
 
         SRCCOPY);
 }
 
-// int Camera::Mouse_X(int x)
-// {
-//     return x * kx + Get_x() - shape_wide / 2;
-// }
-
-// int Camera::Mouse_Y(int y)
-// {
-//     return y * ky + Get_y() - shape_high / 2;
-// }
+Point
+GraphInterface::MousePointInSight(int w, int h)
+{
+    // (mouse_x - output_x1)/target_x = output_wide/sight_wide
+    return Point{(input.mouse_X - output_p1.px) * w / output_wide, (input.mouse_Y - output_p1.py) * h / output_high};
+}

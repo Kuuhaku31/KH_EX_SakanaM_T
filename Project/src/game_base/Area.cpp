@@ -67,7 +67,7 @@ Area::Area_in(Position* pos, int b) const
 void
 Area::Area_align()
 {
-    *this = Point{-(int)shape_wide / 2, -(int)shape_high / 2};
+    *(Point*)this = Point{-shape_wide / 2, -shape_high / 2};
 }
 
 void

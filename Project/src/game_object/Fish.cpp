@@ -13,7 +13,7 @@ Fish::Update()
 
 
     // 根据碰撞情况更新Movement
-#define tpv objectColls[main_coll].test_points_value
+#define tpv objectColls[fish_main_coll].test_points_value
 
     Vector force_vector = ZEROVECTOR;
     int    maxforce     = 1000000;

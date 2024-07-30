@@ -18,10 +18,11 @@ public:
     Ring(Tem* p = nullptr, int = 0);
     ~Ring(); // 会直接尝试删除所有节点包括所有data
 
-    Tem* Node_next();  // nownode前进一个，返回data
-    Tem* Node_last();  // nownode后退一个，返回data
-    Tem* Node_now();   // 返回data
-    int  Node_count(); // 返回节点数量
+    void Node_to_head(); // 移动到head
+    Tem* Node_next();    // nownode前进一个，返回data
+    Tem* Node_last();    // nownode后退一个，返回data
+    Tem* Node_now();     // 返回data
+    int  Node_count();   // 返回节点数量
 
     // 在nownode之前添加若干个新节点，n为数量
     void Node_add(Tem* d, int n = 1);
@@ -29,6 +30,7 @@ public:
     // 删除nownode这个节点，nodenow回退一个
     // 返回删除节点的data，如果是head则返回nullptr
     Tem* Node_delete();
+    void Node_delete_all(); // 删除所有节点
 
 private:
     node<Tem>  node_head;  // 头节点
@@ -65,6 +67,13 @@ Ring<Tem>::Node_next()
 {
     node_now = node_now->node_next;
     return node_now->node_data;
+}
+
+template<class Tem>
+void
+Ring<Tem>::Node_to_head()
+{
+    node_now = &node_head;
 }
 
 template<class Tem>
@@ -129,5 +138,18 @@ Ring<Tem>::Node_delete()
     else
     {
         return nullptr;
+    }
+}
+
+template<class Tem>
+void
+Ring<Tem>::Node_delete_all()
+{
+    node_now = node_head.node_last;
+
+    Tem* d = nullptr;
+    while(d = Node_delete())
+    {
+        delete d;
     }
 }
