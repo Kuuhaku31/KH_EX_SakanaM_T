@@ -51,19 +51,6 @@ setpoints(Position* p, int count, int w, int h)
     }
 }
 
-Collision::Collision(Position* p, int w, int h)
-{
-    parent_pos = p;
-    for(int i = 0; i < TESTPOINTCOUNT; i++)
-    {
-        test_points[i].parent_pos = this;
-    }
-    CollResetTestPoints(w, h);
-}
-
-Collision::~Collision()
-{}
-
 void
 Collision::CollTest(Area* area)
 {
@@ -72,18 +59,16 @@ Collision::CollTest(Area* area)
     {
         test_points_value[i] = area->Area_in(test_points[i]);
     }
-}
 
-int
-Collision::CollTestPointValue(int n) const
-{
-    Limit(n, 0, TESTPOINTCOUNT - 1);
-    return test_points_value[n];
+    // 设置主检测点
+    test_point_main = area->Area_in(*this);
 }
 
 void
 Collision::CollResetTestPoints(int w, int h)
 {
+    // 设置检测点的父位置
+    for(int i = 0; i < TESTPOINTCOUNT; i++) { test_points[i].parent_pos = this; }
     // 设置检测点的位置
     setpoints(test_points, TESTPOINTCOUNT, w, h);
 

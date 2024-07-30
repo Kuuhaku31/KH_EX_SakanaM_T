@@ -36,7 +36,10 @@
 #define MOUSE_M graphInterface->Mouse_M()
 #define MOUSE_W graphInterface->Mouse_W()
 
-Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem(mss), graphInterface(gi), library(lib)
+Game::Game(MessageSystem* mss, GraphInterface* gi, Library* lib)
+    : messageSystem(mss)
+    , graphInterface(gi)
+    , library(lib)
 {
     // Initialize Game...
     library->InitMat();
@@ -70,9 +73,9 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
     // 工厂
     gameObjectFactory = new GameObjectFactory(mss, library);
 
-    sakana = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{410, 225});
+    sakana  = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{410, 225});
     sayarin = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{400, 250});
-    zaruto = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{420, 200});
+    zaruto  = gameObjectFactory->CreateGameObject(main_zone, game_object_sakana, Point{420, 200});
 
     // 初始化fishRing
     ring_fish = new Ring<GameObject>();
@@ -84,22 +87,22 @@ Game::Game(MessageSystem *mss, GraphInterface *gi, Library *lib) : messageSystem
 }
 
 inline Point
-getMovement(GraphInterface *graphInterface, int w, int s, int a, int d, int f)
+getMovement(GraphInterface* graphInterface, int w, int s, int a, int d, int f)
 {
     Point move_vector;
-    if (w)
+    if(w)
     {
         move_vector.py = -f;
     }
-    if (s)
+    if(s)
     {
         move_vector.py = f;
     }
-    if (a)
+    if(a)
     {
         move_vector.px = -f;
     }
-    if (d)
+    if(d)
     {
         move_vector.px = f;
     }
@@ -107,22 +110,22 @@ getMovement(GraphInterface *graphInterface, int w, int s, int a, int d, int f)
 }
 
 inline Vector
-getForce(GraphInterface *graphInterface, int w, int s, int a, int d, float f)
+getForce(GraphInterface* graphInterface, int w, int s, int a, int d, float f)
 {
     Vector force_vector;
-    if (w)
+    if(w)
     {
         force_vector.vy = -1.0f;
     }
-    if (s)
+    if(s)
     {
         force_vector.vy = 1.0f;
     }
-    if (a)
+    if(a)
     {
         force_vector.vx = -1.0f;
     }
-    if (d)
+    if(d)
     {
         force_vector.vx = 1.0f;
     }
@@ -133,21 +136,22 @@ getForce(GraphInterface *graphInterface, int w, int s, int a, int d, float f)
 }
 
 // 只有返回值为true时才会继续运行
-bool Game::Update()
+bool
+Game::Update()
 {
     bool flag = true;
 
     // 获取输入
     {
         graphInterface->GetInput();
-        if (ENTER)
+        if(ENTER)
         {
             Say("Game Exit...", WIN_COLOR_WHITE);
             flag = false;
         }
 
-        camera_move_vector = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R, 10);
-        sakana_force_vector = getForce(graphInterface, KEY_W, KEY_S, KEY_A, KEY_D, 100);
+        camera_move_vector   = getMovement(graphInterface, ARR_U, ARR_D, ARR_L, ARR_R, 10);
+        sakana_force_vector  = getForce(graphInterface, KEY_W, KEY_S, KEY_A, KEY_D, 100);
         sayarin_force_vector = getForce(graphInterface, KEY_I, KEY_K, KEY_J, KEY_L, 100);
     }
 
@@ -155,8 +159,8 @@ bool Game::Update()
     {
 
         main_camera->Position_move(camera_move_vector);
-        sakana->MovementAddForce(sakana_force_vector);
-        sayarin->MovementAddForce(sayarin_force_vector);
+        sakana->ObjectAddForce(sakana_force_vector);
+        sayarin->ObjectAddForce(sayarin_force_vector);
         sakana->GameObjectUpdate();
         sayarin->GameObjectUpdate();
     }
@@ -170,8 +174,8 @@ bool Game::Update()
         main_camera->Rending(&wall_skin_01);
 
         // 渲染ringfish所有对象
-        GameObject *temp = nullptr;
-        while (temp = ring_fish->Node_next())
+        GameObject* temp = nullptr;
+        while(temp = ring_fish->Node_next())
         {
             main_camera->RendingObject(temp, skin01);
         }
@@ -199,9 +203,9 @@ Game::~Game()
     delete main_zone;
 
     // 释放cameras
-    for (int i = 0; i < 10; i++)
+    for(int i = 0; i < 10; i++)
     {
-        if (main_camera != nullptr)
+        if(main_camera != nullptr)
         {
             delete main_camera;
             main_camera = nullptr;
@@ -209,7 +213,7 @@ Game::~Game()
     }
 
     // 释放ringfish
-    if (ring_fish != nullptr)
+    if(ring_fish != nullptr)
     {
         delete ring_fish;
         ring_fish = nullptr;

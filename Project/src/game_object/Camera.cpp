@@ -1,12 +1,13 @@
 
 #include "GameObjects.hpp"
 
+
 // 用于混合两个颜色
 inline void
-mix_color(int &c1, int &c2)
+mix_color(int& c1, int& c2)
 {
     int a2 = (c2 & 0xff000000) >> 24;
-    if (!a2)
+    if(!a2)
     {
         return;
     }
@@ -30,9 +31,9 @@ mix_color(int &c1, int &c2)
 }
 
 inline void
-fun_add_AH(int &a, int &b)
+fun_add_AH(int& a, int& b)
 {
-    if (b)
+    if(b)
     {
         int d = ((b * 0xff) / 40000) << 24;
         mix_color(a, d);
@@ -40,9 +41,9 @@ fun_add_AH(int &a, int &b)
 }
 
 inline void
-fun_add_AC(int &a, int &b)
+fun_add_AC(int& a, int& b)
 {
-    if (b)
+    if(b)
     {
         int d = ((b * 0xff) / 800) << 24;
         int c = 0x00000000 | d;
@@ -50,9 +51,9 @@ fun_add_AC(int &a, int &b)
     }
 }
 
-template <int bit, int color>
+template<int bit, int color>
 inline void
-fun_rend_zone(int &a, int &b)
+fun_rend_zone(int& a, int& b)
 {
     int c = b >> bit;
     (c & 0x1) ? c = color : c = 0x0;
@@ -60,64 +61,57 @@ fun_rend_zone(int &a, int &b)
     mix_color(a, c);
 }
 
-// 定义一个宏，方便调用
-#define CAMERASIGHT Object::objectAreas[ObjectAreaType::skin01]
 
 // 构造、析构函数
-Camera::Camera(MessageSystem *mss, Zone *z, Point poi, int w, int h) : GameObject(mss, z, poi)
+Camera::Camera()
+{}
+
+Camera::Camera(Position* p, int w, int h)
+    : Object(p)
 {
-    CAMERASIGHT.Shape_reset(w, h);
+    objectAreas[0].Shape_reset(w, h);
 }
 
 Camera::~Camera() {}
 
-void Camera::Rending(Area *area)
+void
+Camera::CameraRending(Area* area, int t)
 {
-    AREA_COMPUTE((&CAMERASIGHT), area, (mix_color(a, b)));
+    AREA_COMPUTE((&objectAreas[t]), area, (mix_color(a, b)));
 }
 
-void Camera::RendingObject(Object *obj, ObjectAreaType t)
+void
+Camera::CameraRending(Zone* zone, int zt, int t)
 {
-    AREA_COMPUTE((&CAMERASIGHT), obj->ObjectGetArea(t), (mix_color(a, b)));
-}
-
-void Camera::RendingZone(Zone *zone, ZoneAreaType t)
-{
-    AREA_COMPUTE((&CAMERASIGHT), zone,
+    AREA_COMPUTE((&objectAreas[t]), zone,
                  ({
-                     int c = b >> t;
-                     (c & 0x1) ? c = zone->ZoneGetColor(t) : c = 0x0;
+                     int c = b >> zt;
+                     (c & 0x1) ? c = zone->Zone_color(zt) : c = 0x0;
 
                      mix_color(a, c);
                  }));
 }
 
-void Camera::Clearsight()
+void
+Camera::CameraClearSight(int t)
 {
-    CAMERASIGHT.Shape_clear();
+    objectAreas[t].Shape_clear();
 }
 
-void Camera::Sight_size(int w, int h)
+void
+Camera::CameraSight_size(int w, int h, int t)
 {
-    CAMERASIGHT.Shape_reset(w, h);
+    objectAreas[t].Shape_reset(w, h);
 }
 
-void Camera::Sight_align(bool b)
+void
+Camera::CameraSight_size_d(int dw, int dh, int t)
 {
-    if (b)
-    {
-        CAMERASIGHT.Area_align();
-    }
-    else
-    {
-        CAMERASIGHT.Position_set(ZEROPOINT);
-    }
+    objectAreas[t].Shape_reset(objectAreas[t].Shape_wide() + dw, objectAreas[t].Shape_high() + dh);
 }
 
-void Camera::SendToMessageSystem(ShapeType t)
+void
+Camera::CameraSight_align(int t)
 {
-    message_system->Receive_Shapes(&CAMERASIGHT, t);
+    objectAreas[t].Area_align();
 }
-
-// 取消宏
-#undef CAMERASIGHT

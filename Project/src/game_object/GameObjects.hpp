@@ -3,104 +3,67 @@
 
 #include "base.hpp"
 
-struct GameObjectData
-{
-    // 速度
-    Vector velocity;
-    // 质量
-    float mass;
-
-    // 皮肤
-    Shape* skin;
-    // 碰撞箱
-    Shape* hitbox;
-    // 碰撞检测参数
-    Point coll_test_points;
-};
-
-class GameObject : public Object
-{
-public:
-    GameObject(Zone*, Point = ZEROPOINT);
-    ~GameObject();
-
-    // 更新 
-    // 返回值为0时表示需要摧毁这个对象
-    bool
-    GameObjectUpdate();
-
-    Zone*
-    GameObjectZoneGet();
-
-protected:
-    Zone* zone;
-};
-
 // 摄像机的类
 // 不负责把图像渲染到窗口上
 
-class Camera : public GameObject
+class Camera : public Object
 {
 public:
-    Camera(MessageSystem*, Zone*, Point = ZEROPOINT, int = 0, int = 0);
+    Camera();
+    Camera(Position*, int = 0, int = 0);
     ~Camera();
 
     // 渲染
-    void
-    Rending(Area*);
-    void
-    RendingObject(Object*, ObjectAreaType = skin01);
-    void
-    RendingZone(Zone*, ZoneAreaType = main_area);
+    void CameraRending(Area*, int = 0);
+    void CameraRending(Zone*, int, int);
 
     // 清屏
-    void
-    Clearsight();
+    void CameraClearSight(int = 0);
 
     // 设置镜头参数
-    void
-    Sight_size(int = 0, int = 0);
-    void
-    Sight_align(bool = true);
-
-    // 把当前画面发送给MessageSystem
-    void SendToMessageSystem(ShapeType);
+    void CameraSight_size(int = 0, int = 0, int = 0);
+    void CameraSight_size_d(int = 0, int = 0, int = 0);
+    void CameraSight_align(int = 0);
 };
 
-struct FishData
+enum FishAreaTyep
 {
+    main_skin,
+    HP_bar,
+    power_bar,
+    main_hitbox
 };
 
-class Fish : public GameObject
+enum FishCollType
+{
+    main_coll
+};
+
+class Fish : public Object
 {
 public:
-    Fish(MessageSystem*, Zone*);
+    Fish();
     ~Fish();
 
-    bool
-    FishUpdate();
+    void Update();
 
     // 获取
-    int
-    FishGetHP();
-    int
-    FishGetPower();
+    int FishGetHP();
+    int FishGetPower();
 
     // 重置血量、能量
-    void
-    FishSetHP(int);
-    void
-    FishSetPower(int);
+    void FishSetHP(int);
+    void FishSetPower(int);
 
     // 增减
-    void
-    FishSetHP_d(int);
-    void
-    FishSetPower_d(int);
+    void FishSetHP_d(int);
+    void FishSetPower_d(int);
+
+    bool fish_alive = true;
 
 private:
-    int fish_HP_MAX;
-    int fish_HP;
-    int fish_power_MAX;
-    int fish_power;
+    int fish_HP_MAX    = 1000;
+    int fish_HP        = 1000;
+    int fish_power_MAX = 2000;
+    int fish_power     = 2000;
 };

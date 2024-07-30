@@ -68,6 +68,7 @@ Point&  operator-=(Point&, const Point&);         // 重载-=操作符
 Vector& operator-=(Vector&, const Vector&);       //
 Vector& operator-=(Vector&, const Point&);        //
 
+
 //限制器模板函数
 // 如果value不在范围内，则调整并返回false
 template<int MIN, int MAX>
@@ -86,10 +87,143 @@ Limit(int& value)
     }
     return true;
 }
-bool Limit(int& value, int min, int max);
-bool Limit(float& value, float min, float max);
-bool Limit(Point& value, Point min, Point max);
-bool Limit(Vector& value, Vector min, Vector max);
+
+inline bool
+Limit(int& value, int min, int max)
+{
+    if(value < min)
+    {
+        value = min;
+        return false;
+    }
+    if(value > max)
+    {
+        value = max;
+        return false;
+    }
+    return true;
+}
+
+inline bool
+Limit(Point& value, Point min, Point max)
+{
+    if(!Limit(min.px, 0, max.px) || !Limit(min.py, 0, max.py))
+    {
+        return false;
+    }
+    if(!Limit(value.px, min.px, max.px) || !Limit(value.py, min.py, max.py))
+    {
+        return false;
+    }
+    return true;
+}
+
+inline bool
+Limit(float& value, float min, float max)
+{
+    if(value < min)
+    {
+        value = min;
+        return false;
+    }
+    if(value > max)
+    {
+        value = max;
+        return false;
+    }
+    return true;
+}
+
+inline bool
+Limit(Vector& value, Vector min, Vector max)
+{
+    if(!Limit(min.vx, 0, max.vx) || !Limit(min.vy, 0, max.vy))
+    {
+        return false;
+    }
+    if(!Limit(value.vx, min.vx, max.vx) || !Limit(value.vy, min.vy, max.vy))
+    {
+        return false;
+    }
+    return true;
+}
+
+inline void
+transformat(int* m) // 长度为6
+{
+    /*
+	A的宽度
+	A的高度
+	B的宽度
+	B的高度
+	B的左上角相对于A的左上角的x坐标
+	B的左上角相对于A的左上角的y坐标
+
+		||
+		\/
+
+	A的起始点
+	A的间隔
+	B的起始点
+	B的间隔
+	宽度
+	次数
+	*/
+
+    int A_start = 0;
+    int A_skip  = 0;
+    int B_start = 0;
+    int B_skip  = 0;
+
+    int wide = m[2];
+    int high = m[3];
+
+    int R = m[4] + m[2] - m[0];
+    int L = m[4];
+    int T = m[5];
+    int B = m[5] + m[3] - m[1];
+
+    if(R > 0)
+    {
+        wide -= R;
+        B_skip += R;
+    }
+    if(R < 0)
+    {
+        A_skip -= R;
+    }
+    if(L > 0)
+    {
+        A_skip += L;
+        A_start += L;
+    }
+    if(L < 0)
+    {
+        wide += L;
+        B_skip -= L;
+        B_start -= L;
+    }
+    if(B > 0)
+    {
+        high -= B;
+    }
+    if(T > 0)
+    {
+        A_start += m[0] * T;
+    }
+    if(T < 0)
+    {
+        high += T;
+        B_start -= m[2] * T;
+    }
+
+    m[0] = A_start;
+    m[1] = A_skip;
+    m[2] = B_start;
+    m[3] = B_skip;
+    m[4] = wide;
+    m[5] = high;
+}
 
 
 // 最基础的图形类，用四个字节的数组表示一个矩阵，每个字节表示一个像素点的颜色
@@ -141,8 +275,6 @@ protected:
     int  shape_long;
 };
 
-// 数组长度为6用来储存输出
-void transformat(int*);
 
 // action为一个表达式，用来操作两个Shape的对应点
 #define M0M2(s1, s2, x, y, action) \
@@ -219,6 +351,8 @@ public:
     void Zone_color(int, int);  // 设置某个area的颜色
     void Zone_data(int, void*); // 设置某个area的数据
 
+    void ZoneSetArea(Area*, int); // 设置某个area的区域
+
 private:
     // 32个area对应的颜色
     int colors[32] = {0};
@@ -230,55 +364,6 @@ private:
 // =================================================================================================
 // =================================================================================================
 
-// Movement.hpp
-// Movement类
-// 用于指导物体的运动
-
-// 阻力参数：摩擦力、空气阻力
-// Frictional resistance, air resistance、
-// 直接用Vector表示
-
-class Movement
-{
-public:
-    Movement(Position*);
-    ~Movement();
-
-    // 更新运动状态
-    void MovementUpdate(Vector = ZEROVECTOR);
-
-    // 更改物体的运动参数
-    void MovementResetDT(float = 0.1f);
-    void MovementResetMass(float = 0.0f);
-
-    void MovementResetVelocity(Vector = ZEROVECTOR);
-    void MovementResetVelocity_x(float = 0.0f);
-    void MovementResetVelocity_y(float = 0.0f);
-    void MovementAddVelocity(Vector);
-
-    void MovementResetAcceleration(Vector = ZEROVECTOR);
-    void MovementResetAcceleration_x(float = 0.0f);
-    void MovementResetAcceleration_y(float = 0.0f);
-    void MovementAddAcceleration(Vector);
-
-    void MovementAddForce(Vector);
-
-    // 获取物体的运动参数
-    float  MovementDT();
-    float  MovementMass();
-    Vector MovementVelocity();
-    Vector MovementAcceleration();
-
-protected:
-    // 附着的Position类
-    Position* position;
-
-    float  DT;    // 时间间隔
-    float  mass;  // 质量（为0时视为质量无穷大）
-    Vector buf_p; // 位置缓冲
-    Vector mov_v; // 速度
-    Vector mov_a; // 加速度
-};
 
 // 碰撞检测类
 // 用于检测角色是否与墙体或其他角色发生碰撞
@@ -304,55 +389,27 @@ protected:
 
 #define TESTPOINTCOUNT 12
 
-class Collision : public Position
+// 有12个检测点，分别在角色的四个角和四个边的中点
+struct Collision : public Position
 {
-public:
-    Collision(Position* p = nullptr, int = 0, int = 0);
-    ~Collision();
+    Position test_points[TESTPOINTCOUNT];             // 检测点
+    int      test_points_value[TESTPOINTCOUNT] = {0}; // 检测点的值
+    int      test_point_main                   = 0;   // 主要检测点
 
-    // 检测碰撞
-    void CollTest(Area*);
-
-    // 获取检测点的值
-    int CollTestPointValue(int) const;
-
-    // 重置检测点的坐标
-    void CollResetTestPoints(int, int);
-
-private:
-    // 检测点以及检测点的值
-    Position test_points[TESTPOINTCOUNT];
-    int      test_points_value[TESTPOINTCOUNT];
+    void CollResetTestPoints(int, int); // 设置检测点的坐标
+    void CollTest(Area*);               // 检测碰撞
 };
 
-// 可能用到的类型
-enum ObjectAreaType
-{
-    skin01,
-    skin02,
-    widget01,
-    widget02,
-    widget03,
-    hitbox01,
-    hitbox02,
-    hitbox03,
-    NULL01,
-    NULL02
-};
-
-enum ObjectCollType
-{
-    object_coll_01,
-    object_coll_02,
-    object_coll_03,
-    object_coll_04,
-    object_coll_05
-};
 
 #define OBJECTAREASCOUNT 10
 #define OBJECTCOLLCOUNT 5
 
-class Object : public Position, public Movement
+// 用于指导物体的运动
+// 位置参数：坐标、速度、加速度
+// 阻力参数：摩擦力、空气阻力
+// Frictional resistance, air resistance、
+// 直接用Vector表示
+class Object : public Position
 {
 public:
     Object();
@@ -360,8 +417,20 @@ public:
     ~Object();
 
     // 返回area、碰撞检测
-    Area*      ObjectGetArea(ObjectAreaType);
-    Collision* ObjectGetCollision(ObjectCollType);
+    Area*      ObjectGetArea(int);
+    Collision* ObjectGetCollision(int);
+
+
+    virtual void Update(); // 更新运动状态
+
+    void ObjectAddForce(Vector); // 受力
+
+    float  movement_DT           = 0.1f;       // 时间间隔
+    float  movement_mass         = 1.0f;       // 质量（为0时视为质量无穷大）
+    Vector movement_buffer       = ZEROVECTOR; // 位移缓冲
+    Vector movement_velocity     = ZEROVECTOR; // 速度
+    Vector movement_acceleration = ZEROVECTOR; // 加速度
+    Vector movement_resistance   = ZEROVECTOR; // 阻力
 
 protected:
     // 皮肤、碰撞检测
