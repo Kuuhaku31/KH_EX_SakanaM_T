@@ -118,8 +118,9 @@ Game::~Game()
 {
     // Exit Game...
 
-    // 释放ringfish
+    // 释放ring
     ring_fish.Node_delete_all();
+    ring_bullet.Node_delete_all();
 
     Say("Game Destroyed", WIN_COLOR_GRAY);
 }
@@ -186,6 +187,26 @@ Game::Update()
         sakana->FishAddHitbox(&matter);
         sayarin->FishAddHitbox(&matter);
 
+        // 当按下空格键时，鱼发射子弹
+        if(ip.space)
+        {
+            Bullet* b = new Bullet(&main_zone, sakana->Position_root_xy(), Vector{10, 0}, &area_damage);
+            b->px += 10;
+            b->movement_mass = 0.f;
+
+            Area* tem = nullptr;
+            b->ObjectGetArea(&tem, bullet_skin);
+            tem->Shape_copy(library->LibMat(shape_img_skin_bullet));
+            tem->Area_align();
+
+            b->ObjectGetArea(&tem, bullet_explode_range);
+            tem->Shape_copy(library->LibMat(shape_hitbox_ikayan));
+            tem->Shape_clear(-20, 0);
+            tem->Area_align();
+
+            ring_bullet.Node_add(b);
+        }
+
         rending();
 
         sakana->FishSetHP_d(area_damage.Area_in(sakana));
@@ -195,6 +216,21 @@ Game::Update()
         sayarin->FishSetHP_d(area_damage.Area_in(sayarin));
         sayarin->ObjectCollTest(&matter);
         sayarin->Update();
+
+        // 更新ringbullet所有对象
+        Bullet* temp_bullet = nullptr;
+        while(temp_bullet = ring_bullet.Node_next())
+        {
+            if(temp_bullet->bullet_alive)
+            {
+                temp_bullet->ObjectCollTest(&matter);
+                temp_bullet->Update();
+            }
+            else
+            {
+                ring_bullet.Node_delete();
+            }
+        }
 
         sakana->FishDelHitbox(&matter);
         sayarin->FishDelHitbox(&matter);
@@ -217,9 +253,10 @@ Game::rending()
     main_camera.CameraRending(&world_skin);
     main_camera.CameraRending(&wall_skin_01);
 
-    // 渲染ringfish所有对象
-    Fish* temp      = nullptr;
     Area* temp_area = nullptr;
+
+    // 渲染ringfish所有对象
+    Fish* temp = nullptr;
     while(temp = ring_fish.Node_next())
     {
         temp->ObjectGetArea(&temp_area, fish_main_skin);
@@ -232,9 +269,18 @@ Game::rending()
         // main_camera.CameraRending(temp_area);
     }
 
+    // 渲染ringbullet所有对象
+    Bullet* temp_bullet = nullptr;
+    while(temp_bullet = ring_bullet.Node_next())
+    {
+        temp_bullet->ObjectGetArea(&temp_area, bullet_skin);
+        main_camera.CameraRending(temp_area);
+    }
+
     main_camera.CameraRending(&wall_skin_02);
     // main_camera.CameraRending(&main_zone, zone_area_wall);
     // main_camera.CameraRendingMatter(&matter);
+    // main_camera.CameraRendingMatter(&area_damage);
 
     main_camera.CameraRending(sakana->ObjectGetColl(), sakana->ObjectGetCollCount(), 0x88ff0000);
     main_camera.CameraRending(sayarin->ObjectGetColl(), sayarin->ObjectGetCollCount(), 0x88ff0000);

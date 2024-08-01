@@ -188,10 +188,11 @@ private:
     // 游戏对象
     Camera main_camera;
 
-    Fish*      sakana;
-    Fish*      sayarin;
-    Fish*      zaruto;
-    Ring<Fish> ring_fish;
+    Fish*        sakana;
+    Fish*        sayarin;
+    Fish*        zaruto;
+    Ring<Fish>   ring_fish;
+    Ring<Bullet> ring_bullet;
 
     // 移动向量
     Point  camera_move_vector;

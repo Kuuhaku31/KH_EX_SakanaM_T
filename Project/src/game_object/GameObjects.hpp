@@ -116,7 +116,7 @@ class Bullet : public Object
 {
 public:
     Bullet();
-    Bullet(Position*, Point, Vector);
+    Bullet(Position*, Point, Vector, Area*);
     ~Bullet();
 
     void Update();
@@ -127,9 +127,14 @@ public:
 
     bool bullet_alive = true;
 
-    void BulletExplode(Area*);
+    void BulletExplode();
+    void BulletExplodeDel();
 
 private:
+    bool is_timer = false;
+    int  timer    = 10;
+
+    Area* explode_area = nullptr;
 
     void init();
 };
