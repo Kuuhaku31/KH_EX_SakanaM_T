@@ -85,6 +85,7 @@ enum LibraryMatType
 
     shape_img_skin_sakana,
     shape_img_skin_ikacyan,
+    shape_img_skin_bullet,
 
     shape_hitbox16,
     shape_hitbox_sakana,

@@ -85,6 +85,7 @@ Library::InitMat()
     lib_mat_path[shape_img_wall_02]      = "/skin_wall_02.png";
     lib_mat_path[shape_img_skin_sakana]  = "/skin_sakana.png";
     lib_mat_path[shape_img_skin_ikacyan] = "/skin_ikacyan.png";
+    lib_mat_path[shape_img_skin_bullet]  = "/skin_bullet.png";
     lib_mat_path[shape_hitbox16]         = "/hitbox/hitbox16.png";
     lib_mat_path[shape_hitbox_sakana]    = "/hitbox/hitbox_sakana.png";
     lib_mat_path[shape_hitbox_ikayan]    = "/hitbox/hitbox_ikacyan.png";

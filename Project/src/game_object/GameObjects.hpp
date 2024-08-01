@@ -101,29 +101,35 @@ private:
 };
 
 
+#define BULLET_AREA_COUNT 3
+enum BulletAreaType
+{
+    bullet_skin,
+    bullet_hitbox,
+    bullet_explode_range
+};
+
+#define BULLET_TEST_POINTS_COUNT 0
+
 // 子弹类
 class Bullet : public Object
 {
 public:
     Bullet();
-    Bullet(Position*, Point, Vector, int);
+    Bullet(Position*, Point, Vector);
     ~Bullet();
 
     void Update();
 
-    // 获取
-    int BulletGetPower();
-
-    // 设置
+    int  BulletGetPower();
     void BulletSetPower(int);
-
-    // 增减
     void BulletSetPower_d(int);
 
     bool bullet_alive = true;
 
+    void BulletExplode(Area*);
+
 private:
-    int bullet_power = 100;
 
     void init();
 };
