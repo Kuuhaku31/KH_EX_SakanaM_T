@@ -1,9 +1,26 @@
 
 #include "GameObjects.hpp"
 
+void
+Fish::init()
+{
+    ObjectResetAreas(FISH_AREA_COUNT);
+    ObjectResetColls(FISH_TEST_POINTS_COUNT);
+}
 
-Fish::Fish() {}
-Fish::~Fish() {}
+Fish::Fish()
+{
+    init();
+}
+
+Fish::Fish(Position* pos, Point poi)
+    : Object(pos, poi)
+{
+    init();
+}
+
+Fish::~Fish()
+{}
 
 void
 Fish::Update()
@@ -12,20 +29,19 @@ Fish::Update()
     if(fish_HP <= 0) { fish_alive = false; }
 
 
-    // 根据碰撞情况更新Movement
-#define tpv(i) objectColls[fish_main_coll].CollGetTestPointValue(i)
+// 根据碰撞情况更新Movement
+#define side 3
 #define back 1
 
     Vector force_vector = ZEROVECTOR;
 
-    int side  = objectColls[fish_main_coll].CollGetTestPointCount() / 4;
-    int side2 = side * 2;
-    int side3 = side * 3;
-
     int force = 0;
 
     // 检测上方碰撞
-    for(int i = 0; i < side; i++) { force += tpv(i); }
+    for(int i = fish_test_point_top_start; i < fish_test_point_top_end; i++)
+    {
+        force += object_test_points_value[i];
+    }
     if(force)
     {
         if(force > WALL_LIM)
@@ -39,9 +55,12 @@ Fish::Update()
         }
         force = 0;
     }
-    
+
     // 检测右方碰撞
-    for(int i = side; i < side2; i++) { force += tpv(i); }
+    for(int i = fish_test_point_right_start; i < fish_test_point_right_end; i++)
+    {
+        force += object_test_points_value[i];
+    }
     if(force)
     {
         if(force > WALL_LIM)
@@ -57,7 +76,10 @@ Fish::Update()
     }
 
     // 检测下方碰撞
-    for(int i = side2; i < side3; i++) { force += tpv(i); }
+    for(int i = fish_test_point_down_start; i < fish_test_point_down_end; i++)
+    {
+        force += object_test_points_value[i];
+    }
     if(force)
     {
         if(force > WALL_LIM)
@@ -73,7 +95,10 @@ Fish::Update()
     }
 
     // 检测左方碰撞
-    for(int i = side3; i < side * 4; i++) { force += tpv(i); }
+    for(int i = fish_test_point_left_start; i < fish_test_point_left_end; i++)
+    {
+        force += object_test_points_value[i];
+    }
     if(force)
     {
         if(force > WALL_LIM)
@@ -90,7 +115,7 @@ Fish::Update()
 
     ObjectAddForce(force_vector);
 
-#undef tpv
+#undef side
 #undef back
 
     // 更新
@@ -139,8 +164,8 @@ Fish::FishSetPower_d(int p)
 void
 Fish::FishAddHitbox(Area* matter)
 {
-    hitbox_point = objectAreas[fish_main_hitbox].Position_root_xy();
-    AREA_COMPUTE(matter, (&objectAreas[fish_main_hitbox]), (a += b));
+    hitbox_point = object_areas[fish_main_hitbox].Position_root_xy();
+    AREA_COMPUTE(matter, (&object_areas[fish_main_hitbox]), (a += b));
 }
 
 void
@@ -148,7 +173,7 @@ Fish::FishDelHitbox(Area* matter)
 {
     M0M2(
         matter,
-        (&objectAreas[fish_main_hitbox]),
+        (&object_areas[fish_main_hitbox]),
         (hitbox_point.px - matter->Position_root_x()),
         (hitbox_point.py - matter->Position_root_y()),
         {

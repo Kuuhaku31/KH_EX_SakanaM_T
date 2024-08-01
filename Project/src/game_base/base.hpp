@@ -8,6 +8,14 @@ struct Point
 {
     int px = 0;
     int py = 0;
+
+    inline Point&
+    operator=(const Point& p)
+    {
+        px = p.px;
+        py = p.py;
+        return *this;
+    }
 };
 
 #define ZEROPOINT \
@@ -45,6 +53,14 @@ struct Vector
 {
     float vx = 0.0f;
     float vy = 0.0f;
+
+    inline Vector&
+    operator=(const Vector& v)
+    {
+        vx = v.vx;
+        vy = v.vy;
+        return *this;
+    }
 };
 
 #define ZEROVECTOR \
@@ -378,7 +394,7 @@ private:
 // =================================================================================================
 
 
-// 碰撞检测类
+// 碰撞检测
 // 用于检测角色是否与墙体或其他角色发生碰撞
 // 有12个检测点，分别在角色的四个角和四个边的中点
 // 当角色的检测点与墙体或其他角色的检测点重合时，认为发生碰撞
@@ -400,44 +416,8 @@ private:
 
 */
 
-enum TestPointCount
-{
-    testpoint_count_001 = 1,
-    testpoint_count_004 = 4,
-    testpoint_count_008 = 8,
-    testpoint_count_012 = 12,
-    testpoint_count_016 = 16,
-    testpoint_count_020 = 20,
-    testpoint_count_024 = 24
-};
 
-// 有12个检测点，分别在角色的四个角和四个边的中点
-class Collision : public Position
-{
-public:
-    Collision();
-    Collision(int, int, int);
-    ~Collision();
-
-    void CollResetTestPoints(int, int, int); // 设置检测点的数量、坐标
-    void CollTest(Area*);                    // 检测碰撞
-    void CollClearValue();                   // 清空检测点的值
-
-    bool         CollGetTestPoint(Position*&, int);      // 获取检测点
-    int          CollGetTestPointCount() const;         // 获取检测点的数量
-    unsigned int CollGetTestPointValue(int = -1) const; // 获取检测点的值，-1为主要检测点
-
-private:
-    int           test_point_count  = 0;       // 检测点的数量
-    Position*     test_points       = nullptr; // 检测点
-    unsigned int* test_points_value = nullptr; // 检测点的值
-    int           test_point_main   = 0;       // 主要检测点
-};
-
-
-#define OBJECTAREASCOUNT 10
-#define OBJECTCOLLCOUNT 5
-
+// 有若干个个检测点，分别在角色的四个角和四个边的中点
 // 用于指导物体的运动
 // 位置参数：坐标、速度、加速度
 // 阻力参数：摩擦力、空气阻力
@@ -450,14 +430,20 @@ public:
     Object(Position*, Point = ZEROPOINT);
     ~Object();
 
-    // 返回area、碰撞检测
-    Area*      ObjectGetArea(int);
-    Collision* ObjectGetCollision(int);
+    virtual void Update();               // 更新运动状态
+    void         ObjectAddForce(Vector); // 受力
+    void         ObjectCollTest(Area*);  // 碰撞检测
 
 
-    virtual void Update(); // 更新运动状态
+    bool      ObjectGetArea(Area**, int);     // 返回area
+    bool      ObjectGetColl(Position**, int); // 返回检测点
+    void      ObjectResetAreas(int);          // 重置area
+    void      ObjectResetColls(int);          // 重置检测点
+    Area*     ObjectGetArea();                // 返回全部area
+    Position* ObjectGetColl();                // 返回全部检测点
+    int       ObjectGetAreaCount();           // 返回area的数量
+    int       ObjectGetCollCount();           // 返回检测点的数量
 
-    void ObjectAddForce(Vector); // 受力
 
     float  movement_DT           = 0.1f;       // 时间间隔
     float  movement_mass         = 1.0f;       // 质量（为0时视为质量无穷大）
@@ -468,8 +454,12 @@ public:
 
 protected:
     // 皮肤、碰撞检测
-    Area      objectAreas[OBJECTAREASCOUNT];
-    Collision objectColls[OBJECTCOLLCOUNT];
+    Area*         object_areas                  = nullptr; // 皮肤
+    int           object_area_count             = 0;       // 皮肤的数量
+    Position*     object_test_points            = nullptr; // 检测点
+    unsigned int* object_test_points_value      = nullptr; // 检测点的值
+    unsigned int  object_test_points_value_main = 0;       // 主检测点的值
+    int           object_test_point_count       = 0;       // 检测点的数量
 };
 
 // =================================================================================================

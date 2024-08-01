@@ -9,6 +9,10 @@ GraphInterface::NewGraph(int w, int h, int x, int y, char* name)
     SetWindowPos(graph_HWND, nullptr, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
     SetWindowText(graph_HWND, name);
 
+    // 全屏
+    // SetWindowLong(graph_HWND, GWL_STYLE, GetWindowLong(graph_HWND, GWL_STYLE) - WS_CAPTION);
+    // SetWindowPos(graph_HWND, HWND_TOP, 0, 0, GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN), SWP_SHOWWINDOW);
+
     graph_HDC    = GetImageHDC();
     graph_buffer = (int*)GetImageBuffer();
     graph_wide   = w;

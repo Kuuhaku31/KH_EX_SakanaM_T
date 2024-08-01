@@ -85,26 +85,29 @@ fun_rend_zone(unsigned int& a, unsigned int& b)
 
 // 构造、析构函数
 Camera::Camera()
-{}
+{
+    ObjectResetAreas(CAMERA_AREA_COUNT);
+}
 
 Camera::Camera(Position* p, int w, int h)
     : Object(p)
 {
-    objectAreas[0].Shape_reset(w, h);
+    ObjectResetAreas(CAMERA_AREA_COUNT);
+    object_areas[camera_sight_01].Shape_reset(w, h);
 }
 
 Camera::~Camera() {}
 
 void
-Camera::CameraRending(Area* area, int t)
+Camera::CameraRending(Area* area, CameraAreaType t)
 {
-    AREA_COMPUTE((&objectAreas[t]), area, (mix_color(a, b)));
+    AREA_COMPUTE((&object_areas[t]), area, (mix_color(a, b)));
 }
 
 void
-Camera::CameraRending(Zone* zone, ZoneAreaType zt, int t)
+Camera::CameraRending(Zone* zone, ZoneAreaType zt, CameraAreaType t)
 {
-    AREA_COMPUTE((&objectAreas[t]), zone,
+    AREA_COMPUTE((&object_areas[t]), zone,
                  ({
                      unsigned int c = b >> zt;
                      (c & 0x1) ? c = zone->ZoneGetColor(zt) : c = 0x0;
@@ -115,28 +118,24 @@ Camera::CameraRending(Zone* zone, ZoneAreaType zt, int t)
 
 // 渲染碰撞检测
 void
-Camera::CameraRending(Collision* coll, unsigned int c, int t)
+Camera::CameraRending(Position* ps, int pc, unsigned int c, CameraAreaType t)
 {
-    Position* tem = nullptr;
-    int       i   = 0;
-    while(coll->CollGetTestPoint(tem, i))
+    for(int i = 0; i < pc; i++)
     {
-        Point        p  = tem->Position_root_xy();
-        Point        lp = objectAreas[t].Area_local_xy(p);
-        unsigned int b  = objectAreas[t].Area_in(p);
+        Point        p  = ps[i].Position_root_xy();
+        Point        lp = object_areas[t].Area_local_xy(p);
+        unsigned int b  = object_areas[t].Shape_in(lp);
 
         mix_color(b, c);
 
-        objectAreas[t].Shape_draw_point(lp.px, lp.py, b);
-
-        i++;
+        object_areas[t].Shape_draw_point(lp.px, lp.py, b);
     }
 }
 
 void
-Camera::CameraRendingMatter(Area* area, int t)
+Camera::CameraRendingMatter(Area* area, CameraAreaType t)
 {
-    AREA_COMPUTE((&objectAreas[t]), area,
+    AREA_COMPUTE((&object_areas[t]), area,
                  ({
                      unsigned int c = 0;
                      if(b > 0xff)
@@ -156,25 +155,25 @@ Camera::CameraRendingMatter(Area* area, int t)
 }
 
 void
-Camera::CameraClearSight(int t)
+Camera::CameraClearSight(CameraAreaType t)
 {
-    objectAreas[t].Shape_clear();
+    object_areas[t].Shape_clear();
 }
 
 void
-Camera::CameraSight_size(int w, int h, int t)
+Camera::CameraSight_size(int w, int h, CameraAreaType t)
 {
-    objectAreas[t].Shape_reset(w, h);
+    object_areas[t].Shape_reset(w, h);
 }
 
 void
-Camera::CameraSight_size_d(int dw, int dh, int t)
+Camera::CameraSight_size_d(int dw, int dh, CameraAreaType t)
 {
-    objectAreas[t].Shape_reset(objectAreas[t].Shape_wide() + dw, objectAreas[t].Shape_high() + dh);
+    object_areas[t].Shape_reset(object_areas[t].Shape_wide() + dw, object_areas[t].Shape_high() + dh);
 }
 
 void
-Camera::CameraSight_align(int t)
+Camera::CameraSight_align(CameraAreaType t)
 {
-    objectAreas[t].Area_align();
+    object_areas[t].Area_align();
 }

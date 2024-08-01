@@ -1,6 +1,65 @@
 
 #include "game_systems.hpp"
 
+// 设置点的分布位置
+inline void
+setpoints(Position* p, int count, int w, int h)
+{
+    //如果count不是4的倍数
+    if(count % 4)
+    {
+        for(int i = 0; i < count; i++)
+        {
+            p[i] = Point{w / 2, h / 2};
+        }
+    }
+    else
+    {
+        int side     = count / 4;
+        int spaced_w = w / (side + 1);
+        int spaced_h = h / (side + 1);
+
+        Point dp = Point{-w / 2, -h / 2};
+
+        for(int i = 0; i < side; i++)
+        {
+            p[i]            = Point{spaced_w * (i + 1), 0} + dp;
+            p[i + side]     = Point{w, spaced_h * (i + 1)} + dp;
+            p[i + 2 * side] = Point{w - spaced_w * (i + 1), h} + dp;
+            p[i + 3 * side] = Point{0, h - spaced_h * (i + 1)} + dp;
+        }
+    }
+}
+
+
+// 创建一个新的鱼
+// 传入一个坐标
+// **记得释放内存**
+inline Fish*
+newFish(Position* parent, Point p, Shape* skin, Shape* hitbox, int w, int h)
+{
+    Fish* f       = new Fish();
+    f->parent_pos = parent;  // 设置父对象
+    f->Position_xy_to(p);    // 设置位置
+    f->movement_mass = 0.5f; // 设置质量
+
+    Area* tem = nullptr;
+
+    f->ObjectGetArea(&tem, fish_main_hitbox);
+    tem->Shape_copy(hitbox); // 设置碰撞区域
+    tem->Shape_clear(20, 0); // 设置碰撞区域
+    tem->Area_align();       // 设置碰撞区域
+
+    f->ObjectGetArea(&tem, fish_main_skin);
+    tem->Shape_copy(skin); // 设置皮肤
+    tem->Area_align();     // 设置皮肤
+
+    setpoints(f->ObjectGetColl(), f->ObjectGetCollCount(), w, h);
+
+    return f;
+}
+
+
 Game::Game(GraphInterface* gi, Library* lib)
     : graphInterface(gi)
     , library(lib)
@@ -34,32 +93,11 @@ Game::Game(GraphInterface* gi, Library* lib)
     main_camera.CameraSight_size(GRAPHWIDE / 4, GRAPHHIGH / 4);
     main_camera.CameraSight_align();
 
-    // 工厂
-    // gameObjectFactory = new GameObjectFactory(mss, library);
 
-    sakana = new Fish();
-    sakana->Position_xy_to(Point{410, 225});
-    sakana->movement_mass = 0.5f;
-    sakana->ObjectGetArea(fish_main_hitbox)->Shape_copy(library->LibMat(shape_hitbox16));
-    sakana->ObjectGetArea(fish_main_hitbox)->Shape_clear(20, 0);
-    sakana->ObjectGetArea(fish_main_hitbox)->Area_align();
-    sakana->ObjectGetArea(fish_main_skin)->Shape_copy(library->LibMat(shape_img_skin_sakana));
-    sakana->ObjectGetArea(fish_main_skin)->Area_align();
-    sakana->ObjectGetCollision(fish_main_coll)->CollResetTestPoints(12, 18, 10);
+    sakana  = newFish(&main_zone, Point{410, 225}, library->LibMat(shape_img_skin_sakana), library->LibMat(shape_hitbox_sakana), 23, 12);
+    sayarin = newFish(&main_zone, Point{400, 250}, library->LibMat(shape_img_skin_ikacyan), library->LibMat(shape_hitbox_ikayan), 35, 35);
+    zaruto  = newFish(&main_zone, Point{420, 200}, library->LibMat(shape_img_skin_sakana), library->LibMat(shape_hitbox_sakana), 20, 10);
 
-    sayarin = new Fish();
-    sayarin->Position_xy_to(Point{400, 250});
-    sayarin->ObjectGetArea(fish_main_hitbox)->Shape_copy(library->LibMat(shape_img_skin_ikacyann));
-    sayarin->ObjectGetArea(fish_main_hitbox)->Shape_clear(20, 0);
-    sayarin->ObjectGetArea(fish_main_hitbox)->Area_align();
-    sayarin->ObjectGetArea(fish_main_skin)->Shape_copy(library->LibMat(shape_img_skin_ikacyann));
-    sayarin->ObjectGetArea(fish_main_skin)->Area_align();
-    sayarin->ObjectGetCollision(fish_main_coll)->CollResetTestPoints(24, 28, 28);
-
-    zaruto = new Fish();
-    zaruto->Position_xy_to(Point{420, 200});
-    zaruto->ObjectGetArea(fish_main_skin)->Shape_copy(library->LibMat(shape_img_skin_sakana));
-    zaruto->ObjectGetArea(fish_main_skin)->Area_align();
 
     // 初始化fishRing
     ring_fish.Node_add(sakana);
@@ -143,14 +181,16 @@ Game::Update()
 
         rending();
 
-        sakana->ObjectGetCollision(fish_main_coll)->CollTest(&matter);
+        sakana->ObjectCollTest(&matter);
         sakana->Update();
 
-        sayarin->ObjectGetCollision(fish_main_coll)->CollTest(&matter);
+        sayarin->ObjectCollTest(&matter);
         sayarin->Update();
 
         sakana->FishDelHitbox(&matter);
         sayarin->FishDelHitbox(&matter);
+
+        // main_camera.Position_xy_to(sayarin);
     }
 
     return flag;
@@ -169,18 +209,21 @@ Game::rending()
     main_camera.CameraRending(&wall_skin_01);
 
     // 渲染ringfish所有对象
-    Fish* temp = nullptr;
+    Fish* temp      = nullptr;
+    Area* temp_area = nullptr;
     while(temp = ring_fish.Node_next())
     {
-        main_camera.CameraRending(temp->ObjectGetArea(fish_main_skin));
+        temp->ObjectGetArea(&temp_area, fish_main_skin);
+        main_camera.CameraRending(temp_area);
     }
 
     main_camera.CameraRending(&wall_skin_02);
     //main_camera.CameraRending(&main_zone, zone_area_wall);
     main_camera.CameraRendingMatter(&matter);
 
-    main_camera.CameraRending(sakana->ObjectGetCollision(fish_main_coll), 0x88ff0000);
-    main_camera.CameraRending(sayarin->ObjectGetCollision(fish_main_coll), 0x88ff0000);
+    main_camera.CameraRending(sakana->ObjectGetColl(), sakana->ObjectGetCollCount(), 0x88ff0000);
+    main_camera.CameraRending(sayarin->ObjectGetColl(), sayarin->ObjectGetCollCount(), 0x88ff0000);
 
-    graphInterface->Photographed(main_camera.ObjectGetArea(0));
+    main_camera.ObjectGetArea(&temp_area, camera_sight_01);
+    graphInterface->Photographed(temp_area);
 }

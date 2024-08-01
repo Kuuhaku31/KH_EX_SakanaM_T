@@ -5,6 +5,14 @@
 
 // 摄像机的类
 // 不负责把图像渲染到窗口上
+#define CAMERA_AREA_COUNT 3
+
+enum CameraAreaType
+{
+    camera_sight_01,
+    camera_sight_02,
+    camera_sight_03,
+};
 
 class Camera : public Object
 {
@@ -14,22 +22,23 @@ public:
     ~Camera();
 
     // 渲染
-    void CameraRending(Area*, int = 0);
-    void CameraRending(Zone*, ZoneAreaType, int = 0);
-    void CameraRending(Collision*, unsigned int = 0x88ff0000, int = 0);
+    void CameraRending(Area*, CameraAreaType = camera_sight_01);
+    void CameraRending(Zone*, ZoneAreaType, CameraAreaType = camera_sight_01);
+    void CameraRending(Position*, int, unsigned int = 0x88ff0000, CameraAreaType = camera_sight_01);
 
     // 渲染质量地图
-    void CameraRendingMatter(Area*, int = 0);
+    void CameraRendingMatter(Area*, CameraAreaType = camera_sight_01);
 
     // 清屏
-    void CameraClearSight(int = 0);
+    void CameraClearSight(CameraAreaType = camera_sight_01);
 
     // 设置镜头参数
-    void CameraSight_size(int = 0, int = 0, int = 0);
-    void CameraSight_size_d(int = 0, int = 0, int = 0);
-    void CameraSight_align(int = 0);
+    void CameraSight_size(int = 0, int = 0, CameraAreaType = camera_sight_01);
+    void CameraSight_size_d(int = 0, int = 0, CameraAreaType = camera_sight_01);
+    void CameraSight_align(CameraAreaType = camera_sight_01);
 };
 
+#define FISH_AREA_COUNT 4
 enum FishAreaTyep
 {
     fish_main_skin,
@@ -38,15 +47,24 @@ enum FishAreaTyep
     fish_main_hitbox
 };
 
+#define FISH_TEST_POINTS_COUNT 12
 enum FishCollType
 {
-    fish_main_coll
+    fish_test_point_top_start   = 0,
+    fish_test_point_top_end     = 2,
+    fish_test_point_right_start = 3,
+    fish_test_point_right_end   = 5,
+    fish_test_point_down_start  = 6,
+    fish_test_point_down_end    = 8,
+    fish_test_point_left_start  = 9,
+    fish_test_point_left_end    = 11,
 };
 
 class Fish : public Object
 {
 public:
     Fish();
+    Fish(Position*, Point);
     ~Fish();
 
     void Update();
@@ -76,4 +94,6 @@ private:
     int fish_power     = 2000;
 
     Point hitbox_point;
+
+    void init();
 };

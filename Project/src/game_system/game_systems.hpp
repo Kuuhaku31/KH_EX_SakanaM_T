@@ -84,9 +84,11 @@ enum LibraryMatType
     shape_img_wall_02,
 
     shape_img_skin_sakana,
-    shape_img_skin_ikacyann,
+    shape_img_skin_ikacyan,
 
-    shape_hitbox16
+    shape_hitbox16,
+    shape_hitbox_sakana,
+    shape_hitbox_ikayan
 };
 
 class Library

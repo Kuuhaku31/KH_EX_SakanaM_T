@@ -79,14 +79,16 @@ Library::LibZone(Zone* z)
 void
 Library::InitMat()
 {
-    lib_mat_path[shape_area_main]         = "/area_main.png";
-    lib_mat_path[shape_area_wall]         = "/area_wall.png";
-    lib_mat_path[shape_img_world_ground]  = "/skin_main.png";
-    lib_mat_path[shape_img_wall_01]       = "/skin_wall_01.png";
-    lib_mat_path[shape_img_wall_02]       = "/skin_wall_02.png";
-    lib_mat_path[shape_img_skin_sakana]   = "/skin_sakana.png";
-    lib_mat_path[shape_img_skin_ikacyann] = "/skin_ikacyann.png";
-    lib_mat_path[shape_hitbox16]          = "/hitbox16.png";
+    lib_mat_path[shape_area_main]        = "/area_main.png";
+    lib_mat_path[shape_area_wall]        = "/area_wall.png";
+    lib_mat_path[shape_img_world_ground] = "/skin_main.png";
+    lib_mat_path[shape_img_wall_01]      = "/skin_wall_01.png";
+    lib_mat_path[shape_img_wall_02]      = "/skin_wall_02.png";
+    lib_mat_path[shape_img_skin_sakana]  = "/skin_sakana.png";
+    lib_mat_path[shape_img_skin_ikacyan] = "/skin_ikacyan.png";
+    lib_mat_path[shape_hitbox16]         = "/hitbox/hitbox16.png";
+    lib_mat_path[shape_hitbox_sakana]    = "/hitbox/hitbox_sakana.png";
+    lib_mat_path[shape_hitbox_ikayan]    = "/hitbox/hitbox_ikacyan.png";
 
     for(int i = 0; i < MATMAX; i++)
     {
