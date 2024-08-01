@@ -2,7 +2,7 @@
 #include "game_systems.hpp"
 
 bool
-madeZone(Zone* z, std::string* paths, ZoneAreaType* bit, int count)
+madeZone(Zone* z, std::string* paths, int* bit, int count)
 {
     if(z == nullptr || paths == nullptr || bit == nullptr || count <= 0)
     {
@@ -18,8 +18,8 @@ madeZone(Zone* z, std::string* paths, ZoneAreaType* bit, int count)
         int h = img.getheight();
 
         z->Shape_reset(w, h);
-        unsigned int* zongbuffer = z->Shape_buffer();
-        int           l          = z->Shape_long();
+        int* zongbuffer = z->Shape_buffer();
+        int  l          = z->Shape_long();
 
         for(int i = 0; i < count; i++)
         {
@@ -67,13 +67,12 @@ Library::~Library()
 }
 
 void
-Library::LibZone(Zone* z)
+Library::LibZone(Zone* z, int* bits, int count)
 {
     // 初始化zone
-    std::string  paths[20] = {MATPATH "/area_main.png", MATPATH "/area_wall.png", MATPATH "/area_main.png"};
-    ZoneAreaType bit[20]   = {zone_area_main, zone_area_wall, zone_area_relative};
+    std::string paths[20] = {MATPATH "/area_main.png", MATPATH "/area_wall.png", MATPATH "/area_main.png"};
 
-    madeZone(z, paths, bit, 3);
+    madeZone(z, paths, bits, count);
 }
 
 void

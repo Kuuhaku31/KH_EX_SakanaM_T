@@ -2,7 +2,7 @@
 #include "GameObjects.hpp"
 
 // 线性插值函数
-inline unsigned int
+inline int
 interpolateColor(int value, int max_value)
 {
     // 起点颜色 (黑色)
@@ -15,7 +15,7 @@ interpolateColor(int value, int max_value)
     int g = g1 + (g2 - g1) * value / max_value;
     int b = b1 + (b2 - b1) * value / max_value;
 
-    unsigned int output = 0x88000000;
+    int output = 0x88000000;
     output |= (r << 16);
     output |= (g << 8);
     output |= b;
@@ -25,7 +25,7 @@ interpolateColor(int value, int max_value)
 
 // 用于混合两个颜色
 inline void
-mix_color(unsigned int& c1, unsigned int& c2)
+mix_color(int& c1, int& c2)
 {
     int a2 = (c2 & 0xff000000) >> 24;
     if(!a2)
@@ -52,31 +52,31 @@ mix_color(unsigned int& c1, unsigned int& c2)
 }
 
 inline void
-fun_add_AH(unsigned int& a, unsigned int& b)
+fun_add_AH(int& a, int& b)
 {
     if(b)
     {
-        unsigned int d = ((b * 0xff) / 40000) << 24;
+        int d = ((b * 0xff) / 40000) << 24;
         mix_color(a, d);
     }
 }
 
 inline void
-fun_add_AC(unsigned int& a, unsigned int& b)
+fun_add_AC(int& a, int& b)
 {
     if(b)
     {
-        unsigned int d = ((b * 0xff) / 800) << 24;
-        unsigned int c = 0x00000000 | d;
+        int d = ((b * 0xff) / 800) << 24;
+        int c = 0x00000000 | d;
         mix_color(a, c);
     }
 }
 
 template<int bit, int color>
 inline void
-fun_rend_zone(unsigned int& a, unsigned int& b)
+fun_rend_zone(int& a, int& b)
 {
-    unsigned int c = b >> bit;
+    int c = b >> bit;
     (c & 0x1) ? c = color : c = 0x0;
 
     mix_color(a, c);
@@ -105,11 +105,11 @@ Camera::CameraRending(Area* area, CameraAreaType t)
 }
 
 void
-Camera::CameraRending(Zone* zone, ZoneAreaType zt, CameraAreaType t)
+Camera::CameraRending(Zone* zone, int zt, CameraAreaType t)
 {
     AREA_COMPUTE((&object_areas[t]), zone,
                  ({
-                     unsigned int c = b >> zt;
+                     int c = b >> zt;
                      (c & 0x1) ? c = zone->ZoneGetColor(zt) : c = 0x0;
 
                      mix_color(a, c);
@@ -118,13 +118,13 @@ Camera::CameraRending(Zone* zone, ZoneAreaType zt, CameraAreaType t)
 
 // 渲染碰撞检测
 void
-Camera::CameraRending(Position* ps, int pc, unsigned int c, CameraAreaType t)
+Camera::CameraRending(Position* ps, int pc, int c, CameraAreaType t)
 {
     for(int i = 0; i < pc; i++)
     {
-        Point        p  = ps[i].Position_root_xy();
-        Point        lp = object_areas[t].Area_local_xy(p);
-        unsigned int b  = object_areas[t].Shape_in(lp);
+        Point p  = ps[i].Position_root_xy();
+        Point lp = object_areas[t].Area_local_xy(p);
+        int   b  = object_areas[t].Shape_in(lp);
 
         mix_color(b, c);
 
@@ -137,7 +137,7 @@ Camera::CameraRendingMatter(Area* area, CameraAreaType t)
 {
     AREA_COMPUTE((&object_areas[t]), area,
                  ({
-                     unsigned int c = 0;
+                     int c = 0;
                      if(b > 0xff)
                      {
                          c = 0x88ff88ff;

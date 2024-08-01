@@ -64,10 +64,23 @@ Area::Area_in(Position* pos, int b) const
     return Shape_in(Area_local_xy(pos->Position_root_xy()), b);
 }
 
+bool
+Area::Area_in_addr(int** addr, Point p)
+{
+    return Shape_in_addr(addr, Area_local_xy(p));
+}
+
+bool
+Area::Area_in_addr(int** addr, Position* pos)
+{
+    return Shape_in_addr(addr, Area_local_xy(pos->Position_root_xy()));
+}
+
 void
 Area::Area_align()
 {
-    *(Point*)this = Point{-shape_wide / 2, -shape_high / 2};
+    px = -shape_wide / 2;
+    py = -shape_high / 2;
 }
 
 void

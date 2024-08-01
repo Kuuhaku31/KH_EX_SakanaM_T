@@ -147,7 +147,7 @@ Object::ObjectResetColls(int count)
 
     object_test_point_count  = count;
     object_test_points       = new Position[count];
-    object_test_points_value = new unsigned int[count];
+    object_test_points_value = new int[count];
 
     for(int i = 0; i < object_test_point_count; i++)
     {

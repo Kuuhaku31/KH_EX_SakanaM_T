@@ -31,10 +31,10 @@ Say(std::string str, int txtCode = WIN_COLOR_WHITE, int bakcgroudCode = KHCOLOR_
 inline void
 conversion_IMAGE_Area(IMAGE* img, Shape* area)
 {
-    int           w     = area->Shape_wide();
-    int           h     = area->Shape_high();
-    int           l     = area->Shape_long();
-    unsigned int* areab = area->Shape_buffer();
+    int  w     = area->Shape_wide();
+    int  h     = area->Shape_high();
+    int  l     = area->Shape_long();
+    int* areab = area->Shape_buffer();
 
     img->Resize(w, h);
     DWORD* imgb = GetImageBuffer(img);
@@ -51,8 +51,8 @@ conversion_IMAGE_Area(Shape* area, IMAGE* img)
     int w = img->getwidth();
     int h = img->getheight();
     area->Shape_reset(w, h);
-    int           l     = area->Shape_long();
-    unsigned int* areab = area->Shape_buffer();
+    int  l     = area->Shape_long();
+    int* areab = area->Shape_buffer();
 
     DWORD* imgb = GetImageBuffer(img);
 
@@ -69,7 +69,7 @@ conversion_IMAGE_Area(Shape* area, IMAGE* img)
 
 // 制作Zone，返回是否成功
 // 传入Zone指针，图片路径数组，位数组，图片数量
-bool madeZone(Zone*, std::string*, ZoneAreaType*, int);
+bool madeZone(Zone*, std::string*, int*, int);
 
 // 根据地址导入图片，返回是否成功
 bool loadshape(Shape*, std::string);
@@ -98,7 +98,7 @@ public:
     ~Library();
 
     // 获取Zone
-    void LibZone(Zone*);
+    void LibZone(Zone*, int*, int);
 
     // 初始化所有静态资源
     void InitMat();
@@ -168,7 +168,14 @@ private:
     // GameObjectFactory* gameObjectFactory;
 
     // 地图
-    Zone   main_zone;
+    Zone main_zone;
+    enum gameZoneType
+    {
+        zone_area_main     = 0,
+        zone_area_wall     = 1,
+        zone_area_relative = 2,
+        zone_end           = 31
+    };
     Vector relative_area_vector;
     Area   matter;
 

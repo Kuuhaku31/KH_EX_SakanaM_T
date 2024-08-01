@@ -3,24 +3,6 @@
 
 #include "include_base.hpp"
 
-// 数对（点）
-struct Point
-{
-    int px = 0;
-    int py = 0;
-
-    inline Point&
-    operator=(const Point& p)
-    {
-        px = p.px;
-        py = p.py;
-        return *this;
-    }
-};
-
-#define ZEROPOINT \
-    Point { 0, 0 }
-//
 
 // 游戏对象的基本位置类
 struct Position : public Point
@@ -48,207 +30,6 @@ struct Position : public Point
     }
 };
 
-// 向量
-struct Vector
-{
-    float vx = 0.0f;
-    float vy = 0.0f;
-
-    inline Vector&
-    operator=(const Vector& v)
-    {
-        vx = v.vx;
-        vy = v.vy;
-        return *this;
-    }
-};
-
-#define ZEROVECTOR \
-    Vector { 0.0f, 0.0f }
-//
-
-float  moudle(Point);  // 计算模长
-float  module(Vector); //
-Vector unit(Point);    // 化为单位向量
-Vector unit(Vector);   //
-
-// 重载操作符
-Vector  operator*(const Vector&, float);          // 数乘
-Vector& operator*=(Vector&, float);               //
-bool    operator==(const Vector&, const Vector&); //
-bool    operator!=(const Vector&, const Vector&); //
-Point   operator+(const Point&, const Point&);    // 重载加法操作符
-Vector  operator+(const Vector&, const Vector&);  //
-Vector  operator+(const Vector&, const Point&);   //
-Vector  operator+(const Point&, const Vector&);   //
-Point&  operator+=(Point&, const Point&);         // 重载+=操作符
-Vector& operator+=(Vector&, const Vector&);       //
-Vector& operator+=(Vector&, const Point&);        //
-Point   operator-(const Point&, const Point&);    // 重载减法操作符
-Vector  operator-(const Vector&, const Vector&);  //
-Vector  operator-(const Vector&, const Point&);   //
-Vector  operator-(const Point&, const Vector&);   //
-Point&  operator-=(Point&, const Point&);         // 重载-=操作符
-Vector& operator-=(Vector&, const Vector&);       //
-Vector& operator-=(Vector&, const Point&);        //
-
-
-//限制器模板函数
-// 如果value不在范围内，则调整并返回false
-template<int MIN, int MAX>
-inline bool
-Limit(int& value)
-{
-    if(value < MIN)
-    {
-        value = MIN;
-        return false;
-    }
-    if(value > MAX)
-    {
-        value = MAX;
-        return false;
-    }
-    return true;
-}
-
-inline bool
-Limit(int& value, int min, int max)
-{
-    if(value < min)
-    {
-        value = min;
-        return false;
-    }
-    if(value > max)
-    {
-        value = max;
-        return false;
-    }
-    return true;
-}
-
-inline bool
-Limit(Point& value, Point min, Point max)
-{
-    if(!Limit(min.px, 0, max.px) || !Limit(min.py, 0, max.py))
-    {
-        return false;
-    }
-    if(!Limit(value.px, min.px, max.px) || !Limit(value.py, min.py, max.py))
-    {
-        return false;
-    }
-    return true;
-}
-
-inline bool
-Limit(float& value, float min, float max)
-{
-    if(value < min)
-    {
-        value = min;
-        return false;
-    }
-    if(value > max)
-    {
-        value = max;
-        return false;
-    }
-    return true;
-}
-
-inline bool
-Limit(Vector& value, Vector min, Vector max)
-{
-    if(!Limit(min.vx, 0, max.vx) || !Limit(min.vy, 0, max.vy))
-    {
-        return false;
-    }
-    if(!Limit(value.vx, min.vx, max.vx) || !Limit(value.vy, min.vy, max.vy))
-    {
-        return false;
-    }
-    return true;
-}
-
-inline void
-transformat(int* m) // 长度为6
-{
-    /*
-	A的宽度
-	A的高度
-	B的宽度
-	B的高度
-	B的左上角相对于A的左上角的x坐标
-	B的左上角相对于A的左上角的y坐标
-
-		||
-		\/
-
-	A的起始点
-	A的间隔
-	B的起始点
-	B的间隔
-	宽度
-	次数
-	*/
-
-    int A_start = 0;
-    int A_skip  = 0;
-    int B_start = 0;
-    int B_skip  = 0;
-
-    int wide = m[2];
-    int high = m[3];
-
-    int R = m[4] + m[2] - m[0];
-    int L = m[4];
-    int T = m[5];
-    int B = m[5] + m[3] - m[1];
-
-    if(R > 0)
-    {
-        wide -= R;
-        B_skip += R;
-    }
-    if(R < 0)
-    {
-        A_skip -= R;
-    }
-    if(L > 0)
-    {
-        A_skip += L;
-        A_start += L;
-    }
-    if(L < 0)
-    {
-        wide += L;
-        B_skip -= L;
-        B_start -= L;
-    }
-    if(B > 0)
-    {
-        high -= B;
-    }
-    if(T > 0)
-    {
-        A_start += m[0] * T;
-    }
-    if(T < 0)
-    {
-        high += T;
-        B_start -= m[2] * T;
-    }
-
-    m[0] = A_start;
-    m[1] = A_skip;
-    m[2] = B_start;
-    m[3] = B_skip;
-    m[4] = wide;
-    m[5] = high;
-}
-
 
 // 最基础的图形类，用四个字节的数组表示一个矩阵，每个字节表示一个像素点的颜色
 // **所用的宽高全部用无符号int**
@@ -256,14 +37,14 @@ class Shape
 {
 public:
     Shape(int = 0, int = 0, int = 0);
-    Shape(const unsigned int*, int, int);
+    Shape(const int*, int, int);
     ~Shape(); // **记得释放内存**
 
     // 获取形状的宽高、缓冲区大小
-    int           Shape_wide() const;
-    int           Shape_high() const;
-    int           Shape_long() const;
-    unsigned int* Shape_buffer();
+    int  Shape_wide() const;
+    int  Shape_high() const;
+    int  Shape_long() const;
+    int* Shape_buffer();
 
     // 获取形状某个点的值
     int  Shape_in(int) const;
@@ -271,8 +52,11 @@ public:
     bool Shape_in(int, int) const;   // 获取某个bit位的值，第三个参数为0-31
     bool Shape_in(Point, int) const; // 获取某个bit位的值，第三个参数为0-31
 
+    // 获取某个点的地址
+    bool Shape_in_addr(int**, int);
+    bool Shape_in_addr(int**, Point);
+
     // 绘制圆形
-    void Shape_draw_point(int, int = OXF);
     void Shape_draw_point(int, int, int = OXF);
     void Shape_draw_line(int, int, int, int, int = OXF);
     void Shape_draw_rectangle(int, int, int, int, int = OXF);
@@ -293,10 +77,10 @@ public:
     void Shape_not();
 
 protected:
-    unsigned int* shape_buffer;
-    int           shape_wide;
-    int           shape_high;
-    int           shape_long;
+    int* shape_buffer;
+    int  shape_wide;
+    int  shape_high;
+    int  shape_long;
 };
 
 
@@ -305,14 +89,14 @@ protected:
     { \
         int m[6] = {s1->Shape_wide(), s1->Shape_high(), s2->Shape_wide(), s2->Shape_high(), x, y}; \
         transformat(m); \
-        unsigned int* b1 = s1->Shape_buffer(); \
-        unsigned int* b2 = s2->Shape_buffer(); \
+        int* b1 = s1->Shape_buffer(); \
+        int* b2 = s2->Shape_buffer(); \
         for(int i = 0; i < m[5]; i++) \
         { \
             for(int j = 0; j < m[4]; j++) \
             { \
-                unsigned int& a = b1[m[0]]; \
-                unsigned int& b = b2[m[2]]; \
+                int& a = b1[m[0]]; \
+                int& b = b2[m[2]]; \
                 action; \
                 m[0]++; \
                 m[2]++; \
@@ -346,6 +130,9 @@ public:
     bool Area_in(Point, int) const;
     bool Area_in(Position*, int) const;
 
+    bool Area_in_addr(int**, Point);
+    bool Area_in_addr(int**, Position*);
+
     // 对齐
     void Area_align();
     void Area_align_x();
@@ -357,13 +144,6 @@ public:
 // 天才！！！！
 // 一个Area的点有32位
 // 每一位表示不同的Area
-enum ZoneAreaType
-{
-    zone_area_main,
-    zone_area_relative,
-    zone_area_wall
-};
-
 // 一个Zone类可以存储32个Area信息
 // main_area 为主要区域，用于判断是否在区域内
 class Zone : public Area
@@ -374,15 +154,9 @@ public:
     Zone(Shape*);
     ~Zone();
 
-    int ZoneGetColor(ZoneAreaType) const; // 获取某个area的颜色
-    //bool ZoneGetData(void*, ZoneAreaType) const; // 获取某个area的数据
-
-    // 第一个参数为area的编号，第二个参数为颜色
-    void ZoneSetColor(int, ZoneAreaType); // 设置某个area的颜色
-
-    // bool ZoneSetData(void*, ZoneAreaType); // 设置某个area的数据
-
-    void ZoneSetArea(Area*, ZoneAreaType); // 设置某个area的区域
+    int  ZoneGetColor(int) const; // 获取某个area的颜色
+    void ZoneSetColor(int, int);  // 设置某个area的颜色
+    void ZoneSetArea(Area*, int); // 设置某个area的区域
 
 private:
     // 32个area对应的颜色
@@ -454,12 +228,12 @@ public:
 
 protected:
     // 皮肤、碰撞检测
-    Area*         object_areas                  = nullptr; // 皮肤
-    int           object_area_count             = 0;       // 皮肤的数量
-    Position*     object_test_points            = nullptr; // 检测点
-    unsigned int* object_test_points_value      = nullptr; // 检测点的值
-    unsigned int  object_test_points_value_main = 0;       // 主检测点的值
-    int           object_test_point_count       = 0;       // 检测点的数量
+    Area*     object_areas                  = nullptr; // 皮肤
+    int       object_area_count             = 0;       // 皮肤的数量
+    Position* object_test_points            = nullptr; // 检测点
+    int*      object_test_points_value      = nullptr; // 检测点的值
+    int       object_test_points_value_main = 0;       // 主检测点的值
+    int       object_test_point_count       = 0;       // 检测点的数量
 };
 
 // =================================================================================================

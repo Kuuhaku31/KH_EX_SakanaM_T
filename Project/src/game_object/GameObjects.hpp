@@ -23,8 +23,8 @@ public:
 
     // 渲染
     void CameraRending(Area*, CameraAreaType = camera_sight_01);
-    void CameraRending(Zone*, ZoneAreaType, CameraAreaType = camera_sight_01);
-    void CameraRending(Position*, int, unsigned int = 0x88ff0000, CameraAreaType = camera_sight_01);
+    void CameraRending(Zone*, int, CameraAreaType = camera_sight_01);
+    void CameraRending(Position*, int, int = 0x88ff0000, CameraAreaType = camera_sight_01);
 
     // 渲染质量地图
     void CameraRendingMatter(Area*, CameraAreaType = camera_sight_01);
@@ -38,6 +38,7 @@ public:
     void CameraSight_align(CameraAreaType = camera_sight_01);
 };
 
+
 #define FISH_AREA_COUNT 4
 enum FishAreaTyep
 {
@@ -48,17 +49,6 @@ enum FishAreaTyep
 };
 
 #define FISH_TEST_POINTS_COUNT 12
-enum FishCollType
-{
-    fish_test_point_top_start   = 0,
-    fish_test_point_top_end     = 2,
-    fish_test_point_right_start = 3,
-    fish_test_point_right_end   = 5,
-    fish_test_point_down_start  = 6,
-    fish_test_point_down_end    = 8,
-    fish_test_point_left_start  = 9,
-    fish_test_point_left_end    = 11,
-};
 
 class Fish : public Object
 {
@@ -94,6 +84,46 @@ private:
     int fish_power     = 2000;
 
     Point hitbox_point;
+
+    enum FishCollType
+    {
+        fish_test_point_top_start   = 0,
+        fish_test_point_top_end     = 2,
+        fish_test_point_right_start = 3,
+        fish_test_point_right_end   = 5,
+        fish_test_point_down_start  = 6,
+        fish_test_point_down_end    = 8,
+        fish_test_point_left_start  = 9,
+        fish_test_point_left_end    = 11,
+    };
+
+    void init();
+};
+
+
+// 子弹类
+class Bullet : public Object
+{
+public:
+    Bullet();
+    Bullet(Position*, Point, Vector, int);
+    ~Bullet();
+
+    void Update();
+
+    // 获取
+    int BulletGetPower();
+
+    // 设置
+    void BulletSetPower(int);
+
+    // 增减
+    void BulletSetPower_d(int);
+
+    bool bullet_alive = true;
+
+private:
+    int bullet_power = 100;
 
     void init();
 };

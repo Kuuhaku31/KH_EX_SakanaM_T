@@ -67,7 +67,9 @@ Game::Game(GraphInterface* gi, Library* lib)
     // Initialize Game...
     Say("Game Init...", WIN_COLOR_GRAY);
 
-    library->LibZone(&main_zone);
+    // 初始化zone
+    int zonetypes[3] = {zone_area_main, zone_area_wall, zone_area_relative};
+    library->LibZone(&main_zone, zonetypes, 3);
     relative_area_vector = Vector{0.05f, 0.005f};
 
     main_zone.ZoneSetColor(0x880000ff, zone_area_wall);

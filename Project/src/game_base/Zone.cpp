@@ -4,27 +4,37 @@
 Zone::Zone()
 {}
 
+Zone::Zone(int w, int h)
+    : Area(ZEROPOINT, w, h)
+{}
+
+Zone::Zone(Shape* s)
+    : Area(s)
+{}
+
 Zone::~Zone()
-{
-}
+{}
 
 int
-Zone::ZoneGetColor(ZoneAreaType t) const
+Zone::ZoneGetColor(int t) const
 {
-    return colors[t];
+    if(t >= 0 && t < 32)
+    {
+        return colors[t];
+    }
+    else
+    {
+        return 0;
+    }
 }
 
-// bool
-// Zone::ZoneGetData(void* d, ZoneAreaType t) const
-// {
-//     d = data[t];
-//     return d ? true : false;
-// }
-
 void
-Zone::ZoneSetColor(int c, ZoneAreaType t)
+Zone::ZoneSetColor(int c, int t)
 {
-    colors[t] = c;
+    if(t >= 0 && t < 32)
+    {
+        colors[t] = c;
+    }
 }
 
 // bool
