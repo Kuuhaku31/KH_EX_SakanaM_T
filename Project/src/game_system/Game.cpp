@@ -5,7 +5,7 @@
 inline void
 setpoints(Position* p, int count, int w, int h)
 {
-    //如果count不是4的倍数
+    // 如果count不是4的倍数
     if(count % 4)
     {
         for(int i = 0; i < count; i++)
@@ -88,6 +88,11 @@ Game::Game(GraphInterface* gi, Library* lib)
     matter.parent_pos = &main_zone;
     matter.Shape_copy(library->LibMat(shape_img_wall_01));
     matter.Shape_clear(0x00ff0000, 0);
+
+    // 初始化area_damage
+    area_damage.parent_pos = &main_zone;
+    area_damage.Shape_copy(library->LibMat(shape_area_main));
+    area_damage.Shape_clear(1, 0);
 
     // 初始化camera
     main_camera.parent_pos = &main_zone;
@@ -183,9 +188,11 @@ Game::Update()
 
         rending();
 
+        sakana->FishSetHP_d(area_damage.Area_in(sakana));
         sakana->ObjectCollTest(&matter);
         sakana->Update();
 
+        sayarin->FishSetHP_d(area_damage.Area_in(sayarin));
         sayarin->ObjectCollTest(&matter);
         sayarin->Update();
 
@@ -217,11 +224,17 @@ Game::rending()
     {
         temp->ObjectGetArea(&temp_area, fish_main_skin);
         main_camera.CameraRending(temp_area);
+
+        temp->ObjectGetArea(&temp_area, fish_HP_bar);
+        main_camera.CameraRending(temp_area);
+
+        // temp->ObjectGetArea(&temp_area, fish_power_bar);
+        // main_camera.CameraRending(temp_area);
     }
 
     main_camera.CameraRending(&wall_skin_02);
-    //main_camera.CameraRending(&main_zone, zone_area_wall);
-    main_camera.CameraRendingMatter(&matter);
+    // main_camera.CameraRending(&main_zone, zone_area_wall);
+    // main_camera.CameraRendingMatter(&matter);
 
     main_camera.CameraRending(sakana->ObjectGetColl(), sakana->ObjectGetCollCount(), 0x88ff0000);
     main_camera.CameraRending(sayarin->ObjectGetColl(), sayarin->ObjectGetCollCount(), 0x88ff0000);

@@ -1,11 +1,42 @@
 
 #include "GameObjects.hpp"
 
+
+#define barcolor 0x8800ff00
+#define barbkcolor 0x88aaaaaa
+#define barboundcolor 0x88dddddd
+
+inline void
+initbar(Area* barimg)
+{
+    barimg->Shape_reset(20, 5);
+    barimg->Shape_draw_rectangle(0, 0, 20, 5, barboundcolor);
+    barimg->Shape_draw_rectangle(1, 1, 18, 3, barbkcolor);
+    barimg->Area_align();
+    barimg->py -= 10;
+}
+
+inline void
+setbar(Shape* barimg, int value, int max)
+{
+    int longer = 18 * value / max;
+
+    barimg->Shape_draw_rectangle(1, 1, longer, 3, barcolor);
+    barimg->Shape_draw_rectangle(longer + 1, 1, 18 - longer, 3, barbkcolor);
+}
+
+#undef barcolor
+#undef barbkcolor
+#undef barboundcolor
+
 void
 Fish::init()
 {
     ObjectResetAreas(FISH_AREA_COUNT);
     ObjectResetColls(FISH_TEST_POINTS_COUNT);
+
+    initbar(&object_areas[fish_HP_bar]);
+    initbar(&object_areas[fish_power_bar]);
 }
 
 Fish::Fish()
@@ -73,6 +104,8 @@ Fish::Update()
             force_vector.vx -= force / side;
         }
         force = 0;
+
+        FishSetHP_d(-10);
     }
 
     // 检测下方碰撞
@@ -111,6 +144,8 @@ Fish::Update()
             force_vector.vx += force / side;
         }
         force = 0;
+
+        FishSetHP_d(-10);
     }
 
     ObjectAddForce(force_vector);
@@ -119,6 +154,10 @@ Fish::Update()
 #undef back
 
     // 更新
+
+    setbar(&object_areas[fish_HP_bar], fish_HP, fish_HP_MAX);
+    setbar(&object_areas[fish_power_bar], fish_power, fish_power_MAX);
+
     Object::Update();
 }
 

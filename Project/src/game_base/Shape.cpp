@@ -247,9 +247,22 @@ Shape::Shape_draw_line(int x1, int y1, int x2, int y2, int v)
 }
 
 void
-Shape::Shape_draw_rectangle(int, int, int, int, int)
+Shape::Shape_draw_rectangle(int x, int y, int w, int h, int color)
 {
-    // ...
+    int m[6] = {shape_wide, shape_high, w, h, x, y};
+    transformat(m);
+
+    for(int i = 0; i < m[5]; i++)
+    {
+        for(int j = 0; j < m[4]; j++)
+        {
+            shape_buffer[m[0]] = color;
+            m[0]++;
+            m[2]++;
+        }
+        m[0] += m[1];
+        m[2] += m[3];
+    }
 }
 
 void

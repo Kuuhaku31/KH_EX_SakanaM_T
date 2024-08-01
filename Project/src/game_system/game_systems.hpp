@@ -178,6 +178,7 @@ private:
     };
     Vector relative_area_vector;
     Area   matter;
+    Area   area_damage;
 
     Area world_skin;
     Area wall_skin_01;
