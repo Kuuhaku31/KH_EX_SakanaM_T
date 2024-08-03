@@ -4,8 +4,9 @@
 Object::Object() {}
 
 Object::Object(Position* pos, Point poi)
-    : Position{poi, pos}
-{}
+    : Position{ poi, pos }
+{
+}
 
 Object::~Object() {}
 
@@ -16,7 +17,7 @@ Object::Update()
 {
     // 更新速度、加速度
     movement_velocity += movement_acceleration * movement_DT;
-    movement_acceleration = {0.0f, 0.0f};
+    movement_acceleration = { 0.0f, 0.0f };
 
     if(movement_mass && movement_velocity != ZEROVECTOR && movement_resistance != ZEROVECTOR)
     {
@@ -35,7 +36,7 @@ Object::Update()
     }
 
     Vector float_dp = movement_velocity * movement_DT;
-    Point  int_dp   = {(int)float_dp.vx, (int)float_dp.vy};
+    Point  int_dp   = { (int)float_dp.vx, (int)float_dp.vy };
     movement_buffer += float_dp - int_dp;
 
     if(movement_buffer.vx > 1.0f)
@@ -113,6 +114,32 @@ Object::ObjectGetColl(Position** p, int t)
     else
     {
         return false;
+    }
+}
+
+Area*
+Object::ObjectGetArea(int t)
+{
+    if(Limit(t, 0, object_area_count - 1))
+    {
+        return &object_areas[t];
+    }
+    else
+    {
+        return nullptr;
+    }
+}
+
+Position*
+Object::ObjectGetColl(int t)
+{
+    if(Limit(t, 0, object_test_point_count - 1))
+    {
+        return &object_test_points[t];
+    }
+    else
+    {
+        return nullptr;
     }
 }
 

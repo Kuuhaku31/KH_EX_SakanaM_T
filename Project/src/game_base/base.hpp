@@ -85,25 +85,25 @@ protected:
 
 
 // action为一个表达式，用来操作两个Shape的对应点
-#define M0M2(s1, s2, x, y, action)                                                                 \
-    {                                                                                              \
-        int m[6] = {s1->Shape_wide(), s1->Shape_high(), s2->Shape_wide(), s2->Shape_high(), x, y}; \
-        transformat(m);                                                                            \
-        int* b1 = s1->Shape_buffer();                                                              \
-        int* b2 = s2->Shape_buffer();                                                              \
-        for(int i = 0; i < m[5]; i++)                                                              \
-        {                                                                                          \
-            for(int j = 0; j < m[4]; j++)                                                          \
-            {                                                                                      \
-                int& a = b1[m[0]];                                                                 \
-                int& b = b2[m[2]];                                                                 \
-                action;                                                                            \
-                m[0]++;                                                                            \
-                m[2]++;                                                                            \
-            }                                                                                      \
-            m[0] += m[1];                                                                          \
-            m[2] += m[3];                                                                          \
-        }                                                                                          \
+#define M0M2(s1, s2, x, y, action)                                                                   \
+    {                                                                                                \
+        int m[6] = { s1->Shape_wide(), s1->Shape_high(), s2->Shape_wide(), s2->Shape_high(), x, y }; \
+        transformat(m);                                                                              \
+        int* b1 = s1->Shape_buffer();                                                                \
+        int* b2 = s2->Shape_buffer();                                                                \
+        for(int i = 0; i < m[5]; i++)                                                                \
+        {                                                                                            \
+            for(int j = 0; j < m[4]; j++)                                                            \
+            {                                                                                        \
+                int& a = b1[m[0]];                                                                   \
+                int& b = b2[m[2]];                                                                   \
+                action;                                                                              \
+                m[0]++;                                                                              \
+                m[2]++;                                                                              \
+            }                                                                                        \
+            m[0] += m[1];                                                                            \
+            m[2] += m[3];                                                                            \
+        }                                                                                            \
     }
 //
 
@@ -160,7 +160,7 @@ public:
 
 private:
     // 32个area对应的颜色
-    int colors[32] = {0};
+    int colors[32] = { 0 };
 };
 
 // =================================================================================================
@@ -211,6 +211,8 @@ public:
 
     bool      ObjectGetArea(Area**, int);     // 返回area
     bool      ObjectGetColl(Position**, int); // 返回检测点
+    Area*     ObjectGetArea(int);             // 返回area
+    Position* ObjectGetColl(int);             // 返回检测点
     void      ObjectResetAreas(int);          // 重置area
     void      ObjectResetColls(int);          // 重置检测点
     Area*     ObjectGetArea();                // 返回全部area

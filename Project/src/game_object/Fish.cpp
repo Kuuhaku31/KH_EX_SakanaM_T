@@ -39,28 +39,34 @@ Fish::init()
     initbar(&object_areas[fish_power_bar]);
 }
 
-Fish::Fish()
-{
-    init();
-}
-
-Fish::Fish(Position* pos, Point poi)
+Fish::Fish(Position* pos, Point poi, Area* ca, Area* da)
     : Object(pos, poi)
+    , coll_area(ca)
+    , dHP_area(da)
 {
     init();
 }
 
 Fish::~Fish()
-{}
+{
+}
 
 void
 Fish::Update()
 {
+    if(!fish_alive) return;
+
     // 如果HP为0，立即死亡
-    if(fish_HP <= 0) { fish_alive = false; }
+    if(fish_HP <= 0)
+    {
+        fish_alive = false;
+        return;
+    }
 
+    FishSetHP_d(dHP_area->Area_in(this));
+    ObjectCollTest(coll_area);
 
-// 根据碰撞情况更新Movement
+    // 根据碰撞情况更新Movement
 #define side 3
 #define back 1
 
@@ -159,6 +165,34 @@ Fish::Update()
     setbar(&object_areas[fish_power_bar], fish_power, fish_power_MAX);
 
     Object::Update();
+}
+
+bool
+Fish::FishIsAlive()
+{
+    return fish_alive;
+}
+
+void
+Fish::FishKill()
+{
+    fish_alive = false;
+}
+
+Bullet*
+Fish::FishShoot(Position* p, Vector v)
+{
+    fish_power -= bullet_power;
+    Bullet* bullet = new Bullet(p, *this, v * 50, dHP_area);
+    bullet->ObjectGetArea(bullet_skin)->Shape_copy(&object_areas[fish_bullet_skin]);
+    bullet->ObjectGetArea(bullet_skin)->Area_align();
+    bullet->ObjectGetArea(bullet_explode_range)->Shape_copy(&object_areas[fish_bullet_hitbox]);
+    bullet->ObjectGetArea(bullet_explode_range)->Area_align();
+
+    bullet->px += v.vx * 10;
+    bullet->py += v.vy * 10;
+
+    return bullet;
 }
 
 int

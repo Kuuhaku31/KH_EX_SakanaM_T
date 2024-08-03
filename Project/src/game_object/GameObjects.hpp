@@ -6,7 +6,6 @@
 // 摄像机的类
 // 不负责把图像渲染到窗口上
 #define CAMERA_AREA_COUNT 3
-
 enum CameraAreaType
 {
     camera_sight_01,
@@ -38,26 +37,67 @@ public:
     void CameraSight_align(CameraAreaType = camera_sight_01);
 };
 
+#define BULLET_AREA_COUNT 3
+#define BULLET_TEST_POINTS_COUNT 0
+enum BulletAreaType
+{
+    bullet_skin,
+    bullet_hitbox,
+    bullet_explode_range
+};
 
-#define FISH_AREA_COUNT 4
+// 子弹类
+class Bullet : public Object
+{
+public:
+    Bullet();
+    Bullet(Position*, Point, Vector, Area*);
+    ~Bullet();
+
+    void Update();
+
+    bool BulletIsAlive() const; // 返回子弹是否存活
+    void BulletKill();          // 杀死子弹
+
+private:
+    Area* explode_area = nullptr; // 爆炸影响的区域
+    bool  bullet_alive = true;    // 是否存活
+    bool  is_timer     = false;   // 是否计时
+    int   timer        = 10;      // 爆炸计时器，爆炸持续时间，为0时爆炸结束，调用explodeDel
+
+    void init();
+    void explode();
+    void explodeDel();
+};
+
+
+#define FISH_AREA_COUNT 6
+#define FISH_TEST_POINTS_COUNT 12
 enum FishAreaTyep
 {
     fish_main_skin,
     fish_HP_bar,
     fish_power_bar,
-    fish_main_hitbox
-};
+    fish_main_hitbox,
 
-#define FISH_TEST_POINTS_COUNT 12
+    fish_bullet_skin,
+    fish_bullet_hitbox,
+    fish_bullet_explode_range
+};
 
 class Fish : public Object
 {
 public:
-    Fish();
-    Fish(Position*, Point);
+    Fish(Position*, Point, Area*, Area*);
     ~Fish();
 
+    // 更新，如果鱼死亡，不更新
     void Update();
+    bool FishIsAlive(); // 返回鱼是否存活
+    void FishKill();    // 杀死鱼
+
+    // 技能函数
+    Bullet* FishShoot(Position*, Vector);
 
     // 获取
     int FishGetHP();
@@ -75,15 +115,17 @@ public:
     void FishAddHitbox(Area*);
     void FishDelHitbox(Area*);
 
-    bool fish_alive = true;
 
 private:
-    int fish_HP_MAX    = 1000;
-    int fish_HP        = 1000;
-    int fish_power_MAX = 2000;
-    int fish_power     = 2000;
-
-    Point hitbox_point;
+    Area* coll_area      = nullptr; // 碰撞区域
+    Area* dHP_area       = nullptr; // 血条区域
+    bool  fish_alive     = true;
+    int   fish_HP_MAX    = 1000;
+    int   fish_HP        = 1000;
+    int   fish_power_MAX = 2000;
+    int   fish_power     = 2000;
+    Point hitbox_point   = ZEROPOINT; // 用于记录添加hitbox时的位置
+    int   bullet_power   = 100;       // 子弹的威力
 
     enum FishCollType
     {
@@ -96,45 +138,6 @@ private:
         fish_test_point_left_start  = 9,
         fish_test_point_left_end    = 11,
     };
-
-    void init();
-};
-
-
-#define BULLET_AREA_COUNT 3
-enum BulletAreaType
-{
-    bullet_skin,
-    bullet_hitbox,
-    bullet_explode_range
-};
-
-#define BULLET_TEST_POINTS_COUNT 0
-
-// 子弹类
-class Bullet : public Object
-{
-public:
-    Bullet();
-    Bullet(Position*, Point, Vector, Area*);
-    ~Bullet();
-
-    void Update();
-
-    int  BulletGetPower();
-    void BulletSetPower(int);
-    void BulletSetPower_d(int);
-
-    bool bullet_alive = true;
-
-    void BulletExplode();
-    void BulletExplodeDel();
-
-private:
-    bool is_timer = false;
-    int  timer    = 10;
-
-    Area* explode_area = nullptr;
 
     void init();
 };
