@@ -206,6 +206,14 @@ Game::rending()
         main_camera.CameraRending(temp_area);
     }
 
+    // 渲染ringmarble所有对象
+    Marble* temp_marble = nullptr;
+    while(temp_marble = ring_marble.Node_next())
+    {
+        temp_marble->ObjectGetArea(&temp_area, marble_skin);
+        main_camera.CameraRending(temp_area);
+    }
+
     main_camera.CameraRending(&wall_skin_02);
     // main_camera.CameraRending(&main_zone, zone_area_wall);
     // main_camera.CameraRendingMatter(&matter);
@@ -256,6 +264,14 @@ Game::update01()
         ring_bullet.Node_add(b);
     }
 
+    // 当按F时，鱼发射大理石
+    if(ip.key_F)
+    {
+        Vector  v = unit(zaruto->Position_root_xy() - sakana->Position_root_xy());
+        Marble* m = sakana->FishThrow(&main_zone, v);
+        ring_marble.Node_add(m);
+    }
+
     // 移动鼠标追踪zaruto
     Area* tem = nullptr;
     main_camera.ObjectGetArea(&tem, camera_sight_01);
@@ -282,6 +298,21 @@ Game::update02()
         else
         {
             ring_bullet.Node_delete();
+        }
+    }
+
+    // 更新ringmarble所有对象
+    Marble* temp_marble = nullptr;
+    while(temp_marble = ring_marble.Node_next())
+    {
+        if(temp_marble->MarbleIsAlive())
+        {
+            temp_marble->ObjectCollTest(&matter);
+            temp_marble->Update();
+        }
+        else
+        {
+            ring_marble.Node_delete();
         }
     }
 

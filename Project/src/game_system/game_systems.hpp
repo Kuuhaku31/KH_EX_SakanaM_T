@@ -193,6 +193,7 @@ private:
     Fish*        zaruto;
     Ring<Fish>   ring_fish;
     Ring<Bullet> ring_bullet;
+    Ring<Marble> ring_marble;
 
     // 移动向量
     Point  camera_move_vector;

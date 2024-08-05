@@ -62,7 +62,7 @@ public:
 private:
     Area* explode_area = nullptr; // 爆炸影响的区域
     bool  bullet_alive = true;    // 是否存活
-    bool  is_timer     = false;   // 是否计时
+    bool  is_exploding = false;   // 是否计时
     int   timer        = 10;      // 爆炸计时器，爆炸持续时间，为0时爆炸结束，调用explodeDel
 
     void init();
@@ -70,6 +70,32 @@ private:
     void explodeDel();
 };
 
+#define MARBLE_AREA_COUNT 1
+#define MARBLE_TEST_POINTS_COUNT 4
+enum MarbleAreaType
+{
+    marble_skin,
+};
+
+// 弹珠类
+class Marble : public Object
+{
+public:
+    Marble();
+    Marble(Position*, Point, Vector);
+    ~Marble();
+
+    void Update();
+
+    bool MarbleIsAlive() const; // 返回弹珠是否存活
+    void MarbleKill();          // 杀死弹珠
+
+private:
+    bool marble_alive = true; // 是否存活
+    int  marble_HP    = 100;  // 血量
+
+    void init();
+};
 
 #define FISH_AREA_COUNT 6
 #define FISH_TEST_POINTS_COUNT 12
@@ -98,6 +124,7 @@ public:
 
     // 技能函数
     Bullet* FishShoot(Position*, Vector);
+    Marble* FishThrow(Position*, Vector);
 
     // 获取
     int FishGetHP();

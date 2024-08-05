@@ -195,6 +195,20 @@ Fish::FishShoot(Position* p, Vector v)
     return bullet;
 }
 
+Marble*
+Fish::FishThrow(Position* p, Vector v)
+{
+    fish_power -= bullet_power;
+    Marble* marble = new Marble(p, *this, v * 50);
+    marble->ObjectGetArea(marble_skin)->Shape_copy(&object_areas[fish_bullet_skin]);
+    marble->ObjectGetArea(marble_skin)->Area_align();
+
+    marble->px += v.vx * 20;
+    marble->py += v.vy * 20;
+
+    return marble;
+}
+
 int
 Fish::FishGetHP()
 {
