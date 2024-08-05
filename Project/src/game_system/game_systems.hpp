@@ -155,13 +155,13 @@ public:
     Game(GraphInterface*, Library*);
     ~Game();
 
-    // 更新,需要每次循环调用
-    // 返回false表示游戏结束
-    // 返回true表示游戏继续
+    // 更新,需要每次循环调用，返回false表示游戏结束
     bool Update();
 
 private:
     // 游戏
+    bool is_game_continue = true;
+
     GraphInterface* graphInterface;
     Library*        library;
 
@@ -199,7 +199,10 @@ private:
     Vector sakana_force_vector;
     Vector sayarin_force_vector;
 
+    void getInput();
     void rending();
+    void update01();
+    void update02();
 };
 
 

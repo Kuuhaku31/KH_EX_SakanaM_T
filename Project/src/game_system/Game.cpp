@@ -1,6 +1,35 @@
 
 #include "game_systems.hpp"
 
+inline Point
+getPoint(bool w, bool s, bool a, bool d, int f = 1)
+{
+    Point p;
+
+    if(w) p.py -= f;
+    if(s) p.py += f;
+    if(a) p.px -= f;
+    if(d) p.px += f;
+
+    return p;
+}
+
+inline Vector
+getVector(bool w, bool s, bool a, bool d, float f = 1.0f)
+{
+    Vector force_vector;
+
+    if(w) force_vector.vy--;
+    if(s) force_vector.vy++;
+    if(a) force_vector.vx--;
+    if(d) force_vector.vx++;
+
+    force_vector = unit(force_vector) * f;
+
+    return force_vector;
+}
+
+
 // 设置点的分布位置
 inline void
 setpoints(Position* p, int count, int w, int h)
@@ -132,137 +161,16 @@ Game::~Game()
     Say("Game Destroyed", WIN_COLOR_GRAY);
 }
 
-inline Point
-getPoint(bool w, bool s, bool a, bool d, int f = 1)
-{
-    Point p;
-
-    if(w)
-    {
-        p.py -= f;
-    }
-    if(s)
-    {
-        p.py += f;
-    }
-    if(a)
-    {
-        p.px -= f;
-    }
-    if(d)
-    {
-        p.px += f;
-    }
-
-    return p;
-}
-
-inline Vector
-getVector(bool w, bool s, bool a, bool d, float f = 1.0f)
-{
-    Vector force_vector;
-
-    if(w)
-    {
-        force_vector.vy--;
-    }
-    if(s)
-    {
-        force_vector.vy++;
-    }
-    if(a)
-    {
-        force_vector.vx--;
-    }
-    if(d)
-    {
-        force_vector.vx++;
-    }
-
-    force_vector = unit(force_vector) * f;
-
-    return force_vector;
-}
-
-#define ip graphInterface->input
-
 // 只有返回值为true时才会继续运行
 bool
 Game::Update()
 {
-    bool flag = true;
-
-    // 获取输入
-    {
-        ip.Input_Get_Messagelist();
-        if(ip.enter)
-        {
-            Say("Game Exit...", WIN_COLOR_WHITE);
-            flag = false;
-        }
-
-        camera_move_vector   = getPoint(ip.arr_U, ip.arr_D, ip.arr_L, ip.arr_R, 10);
-        sakana_force_vector  = getVector(ip.key_W, ip.key_S, ip.key_A, ip.key_D, 20);
-        sayarin_force_vector = getVector(ip.key_I, ip.key_K, ip.key_J, ip.key_L, 20);
-    }
-
-    // 更新
-    {
-        main_camera += camera_move_vector;
-        sakana->ObjectAddForce(sakana_force_vector);
-        sayarin->ObjectAddForce(sayarin_force_vector);
-
-        sakana->movement_resistance  = relative_area_vector;
-        sayarin->movement_resistance = relative_area_vector;
-
-        sakana->FishAddHitbox(&matter);
-        sayarin->FishAddHitbox(&matter);
-
-        // 当按下空格键时，鱼发射子弹
-        if(ip.space)
-        {
-            Vector  v = unit(zaruto->Position_root_xy() - sakana->Position_root_xy());
-            Bullet* b = sakana->FishShoot(&main_zone, v);
-            ring_bullet.Node_add(b);
-        }
-
-        // 移动鼠标追踪zaruto
-        Area* tem = nullptr;
-        main_camera.ObjectGetArea(&tem, camera_sight_01);
-        Point p = graphInterface->MousePointInSight(tem->Shape_wide(), tem->Shape_high());
-        p += tem->Position_root_xy();
-        zaruto->Position_xy_to(p);
-
-        rending();
-
-        sakana->Update();
-        sayarin->Update();
-
-        // 更新ringbullet所有对象
-        Bullet* temp_bullet = nullptr;
-        while(temp_bullet = ring_bullet.Node_next())
-        {
-            if(temp_bullet->BulletIsAlive())
-            {
-                temp_bullet->ObjectCollTest(&matter);
-                temp_bullet->Update();
-            }
-            else
-            {
-                ring_bullet.Node_delete();
-            }
-        }
-
-        sakana->FishDelHitbox(&matter);
-        sayarin->FishDelHitbox(&matter);
-
-        // main_camera.Position_xy_to(sayarin);
-    }
-
-    return flag;
+    getInput();
+    update01();
+    rending();
+    update02();
+    return is_game_continue;
 }
-
-#undef ip
 
 // 渲染
 void
@@ -309,3 +217,78 @@ Game::rending()
     main_camera.ObjectGetArea(&temp_area, camera_sight_01);
     graphInterface->Photographed(temp_area);
 }
+
+#define ip graphInterface->input
+
+void
+Game::getInput()
+{
+    ip.Input_Get_Messagelist();
+    if(ip.enter)
+    {
+        Say("Game Exit...", WIN_COLOR_WHITE);
+        is_game_continue = false;
+    }
+
+    camera_move_vector   = getPoint(ip.arr_U, ip.arr_D, ip.arr_L, ip.arr_R, 10);
+    sakana_force_vector  = getVector(ip.key_W, ip.key_S, ip.key_A, ip.key_D, 20);
+    sayarin_force_vector = getVector(ip.key_I, ip.key_K, ip.key_J, ip.key_L, 20);
+}
+
+void
+Game::update01()
+{
+    main_camera += camera_move_vector;
+    sakana->ObjectAddForce(sakana_force_vector);
+    sayarin->ObjectAddForce(sayarin_force_vector);
+
+    sakana->movement_resistance  = relative_area_vector;
+    sayarin->movement_resistance = relative_area_vector;
+
+    sakana->FishAddHitbox(&matter);
+    sayarin->FishAddHitbox(&matter);
+
+    // 当按下空格键时，鱼发射子弹
+    if(ip.space)
+    {
+        Vector  v = unit(zaruto->Position_root_xy() - sakana->Position_root_xy());
+        Bullet* b = sakana->FishShoot(&main_zone, v);
+        ring_bullet.Node_add(b);
+    }
+
+    // 移动鼠标追踪zaruto
+    Area* tem = nullptr;
+    main_camera.ObjectGetArea(&tem, camera_sight_01);
+    Point p = graphInterface->MousePointInSight(tem->Shape_wide(), tem->Shape_high());
+    p += tem->Position_root_xy();
+    zaruto->Position_xy_to(p);
+}
+
+void
+Game::update02()
+{
+    sakana->Update();
+    sayarin->Update();
+
+    // 更新ringbullet所有对象
+    Bullet* temp_bullet = nullptr;
+    while(temp_bullet = ring_bullet.Node_next())
+    {
+        if(temp_bullet->BulletIsAlive())
+        {
+            temp_bullet->ObjectCollTest(&matter);
+            temp_bullet->Update();
+        }
+        else
+        {
+            ring_bullet.Node_delete();
+        }
+    }
+
+    sakana->FishDelHitbox(&matter);
+    sayarin->FishDelHitbox(&matter);
+
+    // main_camera.Position_xy_to(sayarin);
+}
+
+#undef ip
