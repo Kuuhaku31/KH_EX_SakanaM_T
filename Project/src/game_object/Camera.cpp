@@ -84,28 +84,30 @@ fun_rend_zone(int& a, int& b)
 
 
 // 构造、析构函数
-Camera::Camera()
-{
-    ObjectResetAreas(CAMERA_AREA_COUNT);
-}
+Camera::Camera() {}
 
 Camera::Camera(Position* p, int w, int h)
-    : GameObject(p)
 {
-    ObjectResetAreas(CAMERA_AREA_COUNT);
-    object_areas[camera_sight_01].Shape_reset(w, h);
+    parent_pos = p;
+    camera_sight.Shape_reset(w, h);
 }
 
 Camera::~Camera() {}
 
 void
-Camera::CameraRending(Area* area, CameraAreaType t)
+Camera::CameraRending(Area* area, CameraRendingType t)
 {
-    AREA_COMPUTE((&object_areas[t]), area, (mix_color(a, b)));
+    AREA_COMPUTE((&camera_sight), area, (mix_color(a, b)));
 }
 
 void
-Camera::CameraRending(Zone* zone, int zt, CameraAreaType t)
+Camera::CameraRending(GameObject* obj, CameraRendingType t)
+{
+    AREA_COMPUTE((&camera_sight), area, (mix_color(a, b)));
+}
+
+void
+Camera::CameraRending(Zone* zone, int zt, )
 {
     AREA_COMPUTE((&object_areas[t]), zone, ({
                      int c = b >> zt;
@@ -117,7 +119,7 @@ Camera::CameraRending(Zone* zone, int zt, CameraAreaType t)
 
 // 渲染碰撞检测
 void
-Camera::CameraRending(Position* ps, int pc, int c, CameraAreaType t)
+Camera::CameraRending(Position* ps, int pc, int c)
 {
     for(int i = 0; i < pc; i++)
     {
@@ -132,7 +134,7 @@ Camera::CameraRending(Position* ps, int pc, int c, CameraAreaType t)
 }
 
 void
-Camera::CameraRendingMatter(Area* area, CameraAreaType t)
+Camera::CameraRendingMatter(Area* area)
 {
     AREA_COMPUTE((&object_areas[t]), area, ({
                      int c = 0;
@@ -153,25 +155,25 @@ Camera::CameraRendingMatter(Area* area, CameraAreaType t)
 }
 
 void
-Camera::CameraClearSight(CameraAreaType t)
+Camera::CameraClearSight()
 {
-    object_areas[t].Shape_clear();
+    camera_sight.Shape_clear();
 }
 
 void
-Camera::CameraSight_size(int w, int h, CameraAreaType t)
+Camera::CameraSight_size(int w, int h)
 {
-    object_areas[t].Shape_reset(w, h);
+    camera_sight.Shape_reset(w, h);
 }
 
 void
-Camera::CameraSight_size_d(int dw, int dh, CameraAreaType t)
+Camera::CameraSight_size_d(int dw, int dh)
 {
-    object_areas[t].Shape_reset(object_areas[t].Shape_wide() + dw, object_areas[t].Shape_high() + dh);
+    camera_sight.Shape_reset(camera_sight.Shape_wide() + dw, camera_sight.Shape_high() + dh);
 }
 
 void
-Camera::CameraSight_align(CameraAreaType t)
+Camera::CameraSight_align()
 {
-    object_areas[t].Area_align();
+    camera_sight.Area_align();
 }

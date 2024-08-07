@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "animation.hpp"
 #include "base.hpp"
 
 
@@ -55,8 +56,8 @@ class GameObject : public Position
     friend class Camera;
 
 public:
-    GameObject()  = default;
-    ~GameObject() = default;
+    GameObject() = default;
+    ~GameObject();
 
     virtual void Update();      // 更新运动状态
     virtual void Force(Vector); // 受力
@@ -68,36 +69,44 @@ public:
     Vector movement_resistance   = ZEROVECTOR; // 阻力
 
 protected:
+    bool  is_alive = true; // 是否存活
     Zone* zone;
     float movement_DT   = 0.1f; // 时间间隔
     float movement_mass = 1.0f; // 质量（为0时视为质量无穷大）
-
-    Area* show_areas      = nullptr; // 皮肤
-    int   show_area_count = 0;       // 皮肤的数量
-    Area  area_matter;               // 物质
+    Area  area_matter;          // 物质区域
 
     Position* test_points            = nullptr; // 检测点
     int*      test_points_value      = nullptr; // 检测点的值
     int       test_points_value_main = 0;       // 主检测点的值
     int       test_point_count       = 0;       // 检测点的数量
+
+    Timer          animation_timer; // 动画计时器
+    AnimationList* animation_list;  // 动画列表
+
+private:
+    virtual void init();            // 初始化
+    virtual void free();            // 释放内存，析构函数调用
+    virtual void updateTimer();     // 更新动画
+    virtual void updateMovement();  // 更新运动状态
+    virtual void updateTestValue(); // 更新检测点的值
 };
 
 // =================================================================================================
 // =================================================================================================
 // =================================================================================================
 
+// 摄像机的渲染方式枚举
+enum CameraRendingType
+{
+    camera_rending_default, // 默认
+    camera_rending_fill,    // 填充
+    camera_rending_line,    // 线框
+    camera_rending_point    // 点
+};
 
 // 摄像机的类
 // 不负责把图像渲染到窗口上
-#define CAMERA_AREA_COUNT 3
-enum CameraAreaType
-{
-    camera_sight_01,
-    camera_sight_02,
-    camera_sight_03,
-};
-
-class Camera : public GameObject
+class Camera : public Position
 {
 public:
     Camera();
@@ -105,109 +114,76 @@ public:
     ~Camera();
 
     // 渲染
-    void CameraRending(Area*, CameraAreaType = camera_sight_01);
-    void CameraRending(GameObject*, CameraAreaType = camera_sight_01);
-    void CameraRendingZone(int, CameraAreaType = camera_sight_01);
-    void CameraRendingSelf(CameraAreaType = camera_sight_01);
-    void CameraRending(Position*, int, int = 0x88ff0000, CameraAreaType = camera_sight_01);
+    void CameraRending(Area*, CameraRendingType = camera_rending_default);
+    void CameraRending(GameObject*, CameraRendingType = camera_rending_default);
+    void CameraRending(Zone*, int, CameraRendingType = camera_rending_default);
+    void CameraRending(Position*, int, int = 0x88ff0000, CameraRendingType = camera_rending_default);
 
     // 清屏
-    void CameraClearSight(CameraAreaType = camera_sight_01);
+    void CameraClearSight();
 
     // 设置镜头参数
-    void CameraSight_size(int = 0, int = 0, CameraAreaType = camera_sight_01);
-    void CameraSight_size_d(int = 0, int = 0, CameraAreaType = camera_sight_01);
-    void CameraSight_align(CameraAreaType = camera_sight_01);
+    void CameraSight_size(int = 0, int = 0);
+    void CameraSight_size_d(int = 0, int = 0);
+    void CameraSight_align();
+
+private:
+    Area camera_sight;
 };
 
-#define BULLET_AREA_COUNT 3
-#define BULLET_TEST_POINTS_COUNT 0
-enum BulletAreaType
-{
-    bullet_skin,
-    bullet_hitbox,
-    bullet_explode_range
-};
 
 // 子弹类
 class Bullet : public GameObject
 {
 public:
     Bullet();
-    Bullet(Position*, Point, Vector, Area*);
     ~Bullet();
 
-    void Update();
+    virtual void Update();
 
-    bool BulletIsAlive() const; // 返回子弹是否存活
-    void BulletKill();          // 杀死子弹
+protected:
+    bool is_exploding = false; // 是否正在爆炸
+    int  timer        = 0;     // 爆炸持续时间，为0时爆炸结束，调用explodeDel
 
-private:
-    Area* explode_area = nullptr; // 爆炸影响的区域
-    bool  bullet_alive = true;    // 是否存活
-    bool  is_exploding = false;   // 是否计时
-    int   timer        = 10;      // 爆炸计时器，爆炸持续时间，为0时爆炸结束，调用explodeDel
-
-    void init();
-    void explode();
-    void explodeDel();
+    virtual void explode();
+    virtual void explodeDel();
 };
 
-#define MARBLE_AREA_COUNT 1
-#define MARBLE_TEST_POINTS_COUNT 4
-enum MarbleAreaType
-{
-    marble_skin,
-};
+// #define MARBLE_AREA_COUNT 1
+// #define MARBLE_TEST_POINTS_COUNT 4
+// enum MarbleAreaType
+// {
+//     marble_skin,
+// };
 
-// 弹珠类
-class Marble : public GameObject
-{
-public:
-    Marble();
-    Marble(Position*, Point, Vector);
-    ~Marble();
+// // 弹珠类
+// class Marble : public GameObject
+// {
+// public:
+//     Marble();
+//     Marble(Position*, Point, Vector);
+//     ~Marble();
 
-    void Update();
+//     void Update();
 
-    bool MarbleIsAlive() const; // 返回弹珠是否存活
-    void MarbleKill();          // 杀死弹珠
+//     bool MarbleIsAlive() const; // 返回弹珠是否存活
+//     void MarbleKill();          // 杀死弹珠
 
-private:
-    bool marble_alive = true; // 是否存活
-    int  marble_HP    = 100;  // 血量
+// private:
+//     bool marble_alive = true; // 是否存活
+//     int  marble_HP    = 100;  // 血量
 
-    void init();
-};
-
-#define FISH_AREA_COUNT 6
-#define FISH_TEST_POINTS_COUNT 12
-enum FishAreaTyep
-{
-    fish_main_skin,
-    fish_HP_bar,
-    fish_power_bar,
-    fish_main_hitbox,
-
-    fish_bullet_skin,
-    fish_bullet_hitbox,
-    fish_bullet_explode_range
-};
+//     void init();
+// };
 
 class Fish : public GameObject
 {
 public:
-    Fish(Position*, Point, Area*, Area*);
+    Fish();
     ~Fish();
 
     // 更新，如果鱼死亡，不更新
-    void Update();
-    bool FishIsAlive(); // 返回鱼是否存活
-    void FishKill();    // 杀死鱼
-
-    // 技能函数
-    Bullet* FishShoot(Position*, Vector);
-    Marble* FishThrow(Position*, Vector);
+    virtual void Update();
 
     // 获取
     int FishGetHP();
@@ -222,17 +198,17 @@ public:
     void FishSetPower_d(int);
 
     // 给matter添加、删除hitbox
-    void FishAddHitbox(Area*);
-    void FishDelHitbox(Area*);
+    void FishMatterAdd();
+    void FishMatterDel();
 
 
-private:
+protected:
     int   fish_HP_MAX    = 1000;
     int   fish_HP        = 1000;
     int   fish_power_MAX = 2000;
     int   fish_power     = 2000;
     Point hitbox_point   = ZEROPOINT; // 用于记录添加hitbox时的位置
-    int   bullet_power   = 100;       // 子弹的威力
+    bool  is_add_matter  = false;     // 是否添加matters
 
     enum FishCollType
     {
@@ -246,5 +222,6 @@ private:
         fish_test_point_left_end    = 11,
     };
 
-    void init();
+private:
+    virtual void init();
 };
