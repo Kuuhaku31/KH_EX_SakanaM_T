@@ -90,7 +90,7 @@ Camera::Camera()
 }
 
 Camera::Camera(Position* p, int w, int h)
-    : Object(p)
+    : GameObject(p)
 {
     ObjectResetAreas(CAMERA_AREA_COUNT);
     object_areas[camera_sight_01].Shape_reset(w, h);
@@ -107,8 +107,7 @@ Camera::CameraRending(Area* area, CameraAreaType t)
 void
 Camera::CameraRending(Zone* zone, int zt, CameraAreaType t)
 {
-    AREA_COMPUTE((&object_areas[t]), zone,
-                 ({
+    AREA_COMPUTE((&object_areas[t]), zone, ({
                      int c = b >> zt;
                      (c & 0x1) ? c = zone->ZoneGetColor(zt) : c = 0x0;
 
@@ -135,8 +134,7 @@ Camera::CameraRending(Position* ps, int pc, int c, CameraAreaType t)
 void
 Camera::CameraRendingMatter(Area* area, CameraAreaType t)
 {
-    AREA_COMPUTE((&object_areas[t]), area,
-                 ({
+    AREA_COMPUTE((&object_areas[t]), area, ({
                      int c = 0;
                      if(b > 0xff)
                      {

@@ -40,7 +40,7 @@ Fish::init()
 }
 
 Fish::Fish(Position* pos, Point poi, Area* ca, Area* da)
-    : Object(pos, poi)
+    : GameObject(pos, poi)
     , coll_area(ca)
     , dHP_area(da)
 {
@@ -164,7 +164,7 @@ Fish::Update()
     setbar(&object_areas[fish_HP_bar], fish_HP, fish_HP_MAX);
     setbar(&object_areas[fish_power_bar], fish_power, fish_power_MAX);
 
-    Object::Update();
+    GameObject::Update();
 }
 
 bool

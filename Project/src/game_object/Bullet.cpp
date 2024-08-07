@@ -8,7 +8,7 @@ Bullet::Bullet()
 }
 
 Bullet::Bullet(Position* pos, Point poi, Vector vec, Area* ea)
-    : Object(pos, poi)
+    : GameObject(pos, poi)
     , explode_area(ea)
 {
     ObjectResetAreas(BULLET_AREA_COUNT);
@@ -45,7 +45,7 @@ Bullet::Update()
             return;
         }
 
-        Object::Update();
+        GameObject::Update();
     }
 }
 
@@ -103,7 +103,7 @@ Marble::Marble()
 }
 
 Marble::Marble(Position* pos, Point poi, Vector vec)
-    : Object(pos, poi)
+    : GameObject(pos, poi)
 {
     ObjectResetAreas(MARBLE_AREA_COUNT);
     ObjectResetColls(MARBLE_TEST_POINTS_COUNT);
@@ -164,7 +164,7 @@ Marble::Update()
         px += dmp;
     }
 
-    Object::Update();
+    GameObject::Update();
 }
 
 bool

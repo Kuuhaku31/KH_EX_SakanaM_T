@@ -1,19 +1,10 @@
 
-#include "base.hpp"
-
-Object::Object() {}
-
-Object::Object(Position* pos, Point poi)
-    : Position{ poi, pos }
-{
-}
-
-Object::~Object() {}
+#include "GameObjects.hpp"
 
 
 // 更新运动状态
 void
-Object::Update()
+GameObject::Update()
 {
     // 更新速度、加速度
     movement_velocity += movement_acceleration * movement_DT;
@@ -90,7 +81,7 @@ Object::ObjectCollTest(Area* a)
 
 // 返回
 bool
-Object::ObjectGetArea(Area** a, int t)
+GameObject::ObjectGetArea(Area** a, int t)
 {
     if(Limit(t, 0, object_area_count - 1))
     {
@@ -104,7 +95,7 @@ Object::ObjectGetArea(Area** a, int t)
 }
 
 bool
-Object::ObjectGetColl(Position** p, int t)
+GameObject::ObjectGetColl(Position** p, int t)
 {
     if(Limit(t, 0, object_test_point_count - 1))
     {
@@ -118,7 +109,7 @@ Object::ObjectGetColl(Position** p, int t)
 }
 
 Area*
-Object::ObjectGetArea(int t)
+GameObject::ObjectGetArea(int t)
 {
     if(Limit(t, 0, object_area_count - 1))
     {
@@ -131,7 +122,7 @@ Object::ObjectGetArea(int t)
 }
 
 Position*
-Object::ObjectGetColl(int t)
+GameObject::ObjectGetColl(int t)
 {
     if(Limit(t, 0, object_test_point_count - 1))
     {
@@ -144,7 +135,7 @@ Object::ObjectGetColl(int t)
 }
 
 void
-Object::ObjectResetAreas(int count)
+GameObject::ObjectResetAreas(int count)
 {
     if(object_areas)
     {
@@ -160,7 +151,7 @@ Object::ObjectResetAreas(int count)
 }
 
 void
-Object::ObjectResetColls(int count)
+GameObject::ObjectResetColls(int count)
 {
     if(object_test_points)
     {
@@ -183,25 +174,25 @@ Object::ObjectResetColls(int count)
 }
 
 Area*
-Object::ObjectGetArea()
+GameObject::ObjectGetArea()
 {
     return object_areas;
 }
 
 Position*
-Object::ObjectGetColl()
+GameObject::ObjectGetColl()
 {
     return object_test_points;
 }
 
 int
-Object::ObjectGetAreaCount()
+GameObject::ObjectGetAreaCount()
 {
     return object_area_count;
 }
 
 int
-Object::ObjectGetCollCount()
+GameObject::ObjectGetCollCount()
 {
     return object_test_point_count;
 }

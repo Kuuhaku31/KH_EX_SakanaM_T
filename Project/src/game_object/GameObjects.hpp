@@ -3,6 +3,90 @@
 
 #include "base.hpp"
 
+
+// 天才！！！！
+// 一个Area的点有32位
+// 每一位表示不同的Area
+// 一个Zone类可以存储32个Area信息
+// main_area 为主要区域，用于判断是否在区域内
+struct Zone
+{
+    Area zone_data;
+    Area zone_matter;
+    Area zone_damage;
+
+    int zone_data_colors[32] = { 0 };
+
+    void ZoneSetArea(Area*, int); // 设置某个area的区域
+};
+
+// 碰撞检测
+// 用于检测角色是否与墙体或其他角色发生碰撞
+// 有12个检测点，分别在角色的四个角和四个边的中点
+// 当角色的检测点与墙体或其他角色的检测点重合时，认为发生碰撞
+/*
+
+(0,0)------(w/4,0)-----(w/2,0)-----(3w/4,0)-----(w,0)
+  |           |           |           |           |
+  |           |           |           |           |
+(0,h/4)----(w/4,h/4)---(w/2,h/4)---(3w/4,h/4)---(w,h/4)
+  |           |           |           |           |
+  |           |           |           |           |
+(0,h/2)----(w/4,h/2)---(w/2,h/2)---(3w/4,h/2)---(w,h/2)
+  |           |           |           |           |
+  |           |           |           |           |
+(0,3h/4)--(w/4,3h/4)--(w/2,3h/4)--(3w/4,3h/4)--(w,3h/4)
+  |           |           |           |           |
+  |           |           |           |           |
+(0,h)------(w/4,h)-----(w/2,h)-----(3w/4,h)-----(w,h)
+
+*/
+
+
+// 有若干个个检测点，分别在角色的四个角和四个边的中点
+// 用于指导物体的运动
+// 位置参数：坐标、速度、加速度
+// 阻力参数：摩擦力、空气阻力
+// Frictional resistance, air resistance、
+// 直接用Vector表示
+class GameObject : public Position
+{
+    friend class GameFactory;
+    friend class Camera;
+
+public:
+    GameObject()  = default;
+    ~GameObject() = default;
+
+    virtual void Update();      // 更新运动状态
+    virtual void Force(Vector); // 受力
+
+
+    Vector movement_buffer       = ZEROVECTOR; // 位移缓冲
+    Vector movement_velocity     = ZEROVECTOR; // 速度
+    Vector movement_acceleration = ZEROVECTOR; // 加速度
+    Vector movement_resistance   = ZEROVECTOR; // 阻力
+
+protected:
+    Zone* zone;
+    float movement_DT   = 0.1f; // 时间间隔
+    float movement_mass = 1.0f; // 质量（为0时视为质量无穷大）
+
+    Area* show_areas      = nullptr; // 皮肤
+    int   show_area_count = 0;       // 皮肤的数量
+    Area  area_matter;               // 物质
+
+    Position* test_points            = nullptr; // 检测点
+    int*      test_points_value      = nullptr; // 检测点的值
+    int       test_points_value_main = 0;       // 主检测点的值
+    int       test_point_count       = 0;       // 检测点的数量
+};
+
+// =================================================================================================
+// =================================================================================================
+// =================================================================================================
+
+
 // 摄像机的类
 // 不负责把图像渲染到窗口上
 #define CAMERA_AREA_COUNT 3
@@ -13,7 +97,7 @@ enum CameraAreaType
     camera_sight_03,
 };
 
-class Camera : public Object
+class Camera : public GameObject
 {
 public:
     Camera();
@@ -22,11 +106,10 @@ public:
 
     // 渲染
     void CameraRending(Area*, CameraAreaType = camera_sight_01);
-    void CameraRending(Zone*, int, CameraAreaType = camera_sight_01);
+    void CameraRending(GameObject*, CameraAreaType = camera_sight_01);
+    void CameraRendingZone(int, CameraAreaType = camera_sight_01);
+    void CameraRendingSelf(CameraAreaType = camera_sight_01);
     void CameraRending(Position*, int, int = 0x88ff0000, CameraAreaType = camera_sight_01);
-
-    // 渲染质量地图
-    void CameraRendingMatter(Area*, CameraAreaType = camera_sight_01);
 
     // 清屏
     void CameraClearSight(CameraAreaType = camera_sight_01);
@@ -47,7 +130,7 @@ enum BulletAreaType
 };
 
 // 子弹类
-class Bullet : public Object
+class Bullet : public GameObject
 {
 public:
     Bullet();
@@ -78,7 +161,7 @@ enum MarbleAreaType
 };
 
 // 弹珠类
-class Marble : public Object
+class Marble : public GameObject
 {
 public:
     Marble();
@@ -111,7 +194,7 @@ enum FishAreaTyep
     fish_bullet_explode_range
 };
 
-class Fish : public Object
+class Fish : public GameObject
 {
 public:
     Fish(Position*, Point, Area*, Area*);
@@ -144,9 +227,6 @@ public:
 
 
 private:
-    Area* coll_area      = nullptr; // 碰撞区域
-    Area* dHP_area       = nullptr; // 血条区域
-    bool  fish_alive     = true;
     int   fish_HP_MAX    = 1000;
     int   fish_HP        = 1000;
     int   fish_power_MAX = 2000;
