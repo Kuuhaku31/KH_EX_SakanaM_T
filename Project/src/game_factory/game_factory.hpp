@@ -1,5 +1,6 @@
 
-#include "base.hpp"
+#include "GameObjects.hpp"
+
 #include <filesystem>
 #include <graphics.h>
 #include <vector>
@@ -69,4 +70,20 @@ private:
     // 加载动画资源
     // 传入动画资源列表，资源路径文件夹
     void loadAnimation(AnimationList*, std::string);
+};
+
+
+class GameFactory
+{
+public:
+    GameFactory(Library*);
+    ~GameFactory();
+
+    Fish*   createFish(Zone*, Point);
+    Bullet* createBullet(Zone*, Point, Vector);
+
+    void InitZone(Zone*);
+
+private:
+    Library* library;
 };

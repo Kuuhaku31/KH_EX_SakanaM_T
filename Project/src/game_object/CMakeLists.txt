@@ -9,7 +9,7 @@ aux_source_directory(. DIR_LIB_SRCS)
 add_library(${PROJECT_NAME} ${DIR_LIB_SRCS})
 
 # 添加头文件路径
-target_include_directories(${PROJECT_NAME} PUBLIC ${GAME_BASE})
+target_include_directories(${PROJECT_NAME} PUBLIC ${GAME_WIDGETS})
 
 # 添加链接库
-target_link_libraries(${PROJECT_NAME} game_base easyx)
+target_link_libraries(${PROJECT_NAME} game_widgets)

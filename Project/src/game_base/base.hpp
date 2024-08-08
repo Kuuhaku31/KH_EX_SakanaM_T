@@ -2,6 +2,7 @@
 #pragma once
 
 #include "include_base.hpp"
+#include "ring.hpp"
 
 
 // 游戏对象的基本位置类

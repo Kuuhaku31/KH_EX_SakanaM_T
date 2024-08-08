@@ -1,28 +1,8 @@
 
 #pragma once
 
-#include "base.hpp"
+#include "game_widgets.hpp"
 
-
-// 天才！！！！
-// 一个Area的点有32位
-// 每一位表示不同的Area
-// 一个Zone类可以存储32个Area信息
-// main_area 为主要区域，用于判断是否在区域内
-class Zone : public Position
-{
-public:
-    Zone();
-    ~Zone();
-
-    Area zone_data;
-    Area zone_matter;
-    Area zone_damage;
-
-    int zone_data_colors[32] = { 0 };
-
-    void ZoneSetArea(Area*, int); // 设置某个area的区域
-};
 
 // 碰撞检测
 // 用于检测角色是否与墙体或其他角色发生碰撞
@@ -214,10 +194,12 @@ public:
     void FishMatterAdd();
     void FishMatterDel();
 
+    Bar fish_HP_bar;
+    Bar fish_power_bar;
 
 protected:
     int   fish_HP_MAX    = 1000;
-    int   fish_HP        = 1000;
+    int   fish_HP        = 400;
     int   fish_power_MAX = 2000;
     int   fish_power     = 2000;
     Point hitbox_point   = ZEROPOINT; // 用于记录添加hitbox时的位置

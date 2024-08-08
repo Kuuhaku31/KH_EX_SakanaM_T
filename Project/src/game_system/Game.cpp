@@ -215,7 +215,8 @@ Game::rending()
 
     main_camera.CameraRending(&wall_skin_02);
     main_camera.CameraRending(&main_zone, camera_rending_zone_damage);
-    //  main_camera.CameraRending(&main_zone, camera_rending_zone_matter);
+
+    main_camera.CameraRending(&sakana->fish_HP_bar);
 
     graphInterface->Photographed(&main_camera.camera_sight);
 }

@@ -14,6 +14,10 @@
 Fish::Fish(Zone* z)
     : GameObject(z)
 {
+    fish_HP_bar.parent_pos = this;
+    fish_HP_bar.Shape_reset(20, 5);
+    fish_HP_bar.Area_align();
+    fish_HP_bar.py -= 15;
 }
 
 Fish::~Fish()
@@ -132,6 +136,10 @@ Fish::Update()
 
     updateMovement();
     updateTimer();
+
+    // 更新bar
+    fish_HP_bar.Bar_draw(fish_HP, fish_HP_MAX);
+    fish_power_bar.Bar_draw(fish_power, fish_power_MAX);
 }
 
 // Bullet*
