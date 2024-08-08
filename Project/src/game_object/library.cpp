@@ -126,8 +126,8 @@ Library::InitMat()
         }
     }
 
-    loadAnimation(&lib_animation[ani_sakana_swim], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/ikacyan/swim");
-    loadAnimation(&lib_animation[ani_sakana_die], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/ikacyan/die");
+    loadAnimation(&lib_animation[ani_sakana_swim], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/sakana/swim");
+    loadAnimation(&lib_animation[ani_sakana_die], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/sakana/die");
     loadAnimation(&lib_animation[ani_ikacyan_swim], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/ikacyan/swim");
     loadAnimation(&lib_animation[ani_ikacyan_die], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/ikacyan/die");
     loadAnimation(&lib_animation[ani_bullet_fly], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/bullet/fly");

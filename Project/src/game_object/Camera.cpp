@@ -52,11 +52,15 @@ mix_color(int& c1, int& c2)
 }
 
 // 构造、析构函数
-Camera::Camera() {}
+Camera::Camera()
+{
+    camera_sight.parent_pos = this;
+}
 
 Camera::Camera(Position* p, int w, int h)
 {
-    parent_pos = p;
+    parent_pos              = p;
+    camera_sight.parent_pos = this;
     camera_sight.Shape_reset(w, h);
 }
 
@@ -71,7 +75,7 @@ action_mixcolor(int& a, int& b, int v)
 void
 Camera::CameraRending(Area* area, CameraRendingType t)
 {
-    camera_sight.Area_merge(area, action_mixcolor);
+    camera_sight.Shape_merge(area, *area - camera_sight, action_mixcolor);
 }
 
 static void
@@ -97,7 +101,9 @@ void
 Camera::CameraRending(GameObject* obj, CameraRendingType t)
 {
     Shape* skin = obj->animation_list->AnimationList_getFrame(obj->animation_timer.Timer_getTime());
-    camera_sight.Shape_merge(skin, *obj + obj->animation_point, action_mixcolor);
+    camera_sight.Shape_merge(skin, (*obj - camera_sight) + obj->animation_point, action_mixcolor);
+
+    CameraRending(obj->test_points, obj->test_point_count, 0x88ff0000, t);
 }
 
 void
@@ -119,7 +125,7 @@ Camera::CameraRending(Zone* zone, CameraRendingType t)
         break;
     }
 
-    camera_sight.Area_merge(area, action_mixcolor);
+    camera_sight.Area_merge(area, action_rend_matter);
 }
 
 // 渲染碰撞检测

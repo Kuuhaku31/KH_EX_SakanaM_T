@@ -35,12 +35,12 @@ setTestPoints(Position* master, Position* ps, int count, int w, int h)
         int spaced_w = w / (side + 1); // 每个边上的点的间隔
         int spaced_h = h / (side + 1); // 每个边上的点的间隔
 
-        for(int i = 1; i <= side; i++)
+        for(int i = 0; i < side; i++)
         {
-            ps[i]            = Point{ spaced_w * i, 0 };
-            ps[i + side]     = Point{ w, spaced_h * i };
-            ps[i + 2 * side] = Point{ w - spaced_w * i, h };
-            ps[i + 3 * side] = Point{ 0, h - spaced_h * i };
+            ps[i]            = Point{ spaced_w * (i + 1), 0 };
+            ps[i + side]     = Point{ w, spaced_h * (i + 1) };
+            ps[i + 2 * side] = Point{ w - spaced_w * (i + 1), h };
+            ps[i + 3 * side] = Point{ 0, h - spaced_h * (i + 1) };
         }
         for(int i = 0; i < count; i++) ps[i] += Point{ -w / 2, -h / 2 };
     }
@@ -67,6 +67,7 @@ GameFactory::createFish(Zone* zone, Point p)
     // 动画
     fish->animation_list = library->LibAnimation(ani_sakana_swim);
     fish->animation_timer.Timer_setTime(fish->animation_list->AnimationList_getFrameCount());
+    fish->animation_point = Point{ -16, -16 };
 
     // 质量
     fish->area_matter.Shape_copy(library->LibMat(shape_hitbox_sakana));
@@ -88,11 +89,14 @@ GameFactory::createBullet(Zone* zone, Point p, Vector v)
     Bullet* bullet     = new Bullet(zone);
     bullet->parent_pos = zone;
     bullet->Position_xy_to(p);
-    bullet->movement_velocity = v;
+    bullet->px += v.vy * 10;
+    bullet->py += v.vx * 10;
+    bullet->movement_velocity = v * 100;
 
     // 动画
     bullet->animation_list = library->LibAnimation(ani_bullet_fly);
     bullet->animation_timer.Timer_setTime(bullet->animation_list->AnimationList_getFrameCount());
+    bullet->animation_point = Point{ -8, -8 };
 
     // 质量
     bullet->area_matter.Shape_copy(library->LibMat(shape_hitbox16));

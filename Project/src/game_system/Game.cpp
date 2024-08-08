@@ -133,7 +133,7 @@ Game::Game(GraphInterface* gi, GameFactory* gf, Library* lib)
 
     // 初始化camera
     main_camera.parent_pos = &main_zone;
-    main_camera.Position_xy_to(Point{ 400, 200 });
+    main_camera.Position_xy_to(Point{ 0, 0 });
     main_camera.CameraSight_size(GRAPHWIDE / 4, GRAPHHIGH / 4);
     main_camera.CameraSight_align();
 
@@ -215,10 +215,7 @@ Game::rending()
 
     main_camera.CameraRending(&wall_skin_02);
     // main_camera.CameraRending(&main_zone, zone_area_wall);
-    // main_camera.CameraRendingMatter(&matter);
-
-    // main_camera.CameraRending(sakana->ObjectGetColl(), sakana->ObjectGetCollCount(), 0x88ff0000);
-    // main_camera.CameraRending(sayarin->ObjectGetColl(), sayarin->ObjectGetCollCount(), 0x88ff0000);
+    main_camera.CameraRending(&main_zone, camera_rending_zone_matter);
 
     graphInterface->Photographed(&main_camera.camera_sight);
 }
