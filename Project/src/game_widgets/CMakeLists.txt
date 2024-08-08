@@ -1,5 +1,5 @@
 
-project(game_system)
+project(game_widgets)
 
 # 查找当前目录下的所有源文件
 # 并将名称保存到 DIR_LIB_SRCS 变量
@@ -9,7 +9,7 @@ aux_source_directory(. DIR_LIB_SRCS)
 add_library(${PROJECT_NAME} ${DIR_LIB_SRCS})
 
 # 添加头文件路径
-target_include_directories(${PROJECT_NAME} PUBLIC ${GAME_FACTORY})
+target_include_directories(${PROJECT_NAME} PUBLIC ${GAME_BASE})
 
 # 添加链接库
-target_link_libraries(${PROJECT_NAME} game_factory)
+target_link_libraries(${PROJECT_NAME} game_base)
