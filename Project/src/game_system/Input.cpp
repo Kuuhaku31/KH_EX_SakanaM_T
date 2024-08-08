@@ -1,5 +1,5 @@
 
-#include "Input.hpp"
+#include "game_systems.hpp"
 
 // 更新输入状态
 inline void
@@ -99,5 +99,8 @@ Input::Input_Peekmessage()
 void
 Input::Input_Get_Messagelist()
 {
-    while(peekmessage(&msg)) { updateInput(*this, msg); }
+    while(peekmessage(&msg))
+    {
+        updateInput(*this, msg);
+    }
 }
