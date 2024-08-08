@@ -2,7 +2,6 @@
 #pragma once
 
 #include "game_factory.hpp"
-#include "ring.hpp"
 
 
 #define GRAPHWIDE 1600
