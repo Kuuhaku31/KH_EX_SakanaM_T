@@ -110,7 +110,7 @@ GameFactory::createBullet(Zone* zone, Point p, Vector v)
     // 爆炸范围
     bullet->explode_timer_del.Timer_setTime(100);
     bullet->explode_area.Shape_copy(library->LibMat(shape_hitbox_ikayan));
-    bullet->explode_area.Shape_clear(20, 0);
+    bullet->explode_area.Shape_clear(-20, 0);
     bullet->explode_area.Area_align();
 
     // 计时器

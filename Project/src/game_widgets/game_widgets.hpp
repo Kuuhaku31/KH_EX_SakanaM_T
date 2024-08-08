@@ -21,3 +21,15 @@ public:
 
     void ZoneSetArea(Area*, int); // 设置某个area的区域
 };
+
+
+// bar类
+struct Bar : public Area
+{
+    int bar_border_thickness = 1;
+    int bar_background_color = 0x88cccccc;
+    int bar_border_color     = 0x88000000;
+    int bar_fill_color       = 0x8800ff00;
+
+    void Bar_draw(int, int);
+};

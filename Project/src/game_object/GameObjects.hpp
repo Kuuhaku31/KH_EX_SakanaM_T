@@ -194,10 +194,12 @@ public:
     void FishMatterAdd();
     void FishMatterDel();
 
+    Bar fish_HP_bar;
+    Bar fish_power_bar;
 
 protected:
     int   fish_HP_MAX    = 1000;
-    int   fish_HP        = 1000;
+    int   fish_HP        = 400;
     int   fish_power_MAX = 2000;
     int   fish_power     = 2000;
     Point hitbox_point   = ZEROPOINT; // 用于记录添加hitbox时的位置
