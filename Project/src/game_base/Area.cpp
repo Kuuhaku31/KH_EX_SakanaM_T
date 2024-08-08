@@ -2,7 +2,8 @@
 #include "base.hpp"
 
 Area::Area()
-{}
+{
+}
 
 Area::Area(Shape* s)
 {
@@ -10,17 +11,20 @@ Area::Area(Shape* s)
 }
 
 Area::Area(Point xy, int w, int h)
-    : Position{xy}
+    : Position{ xy }
     , Shape(w, h)
-{}
+{
+}
 
 Area::Area(Position* p, Point xy, int w, int h)
-    : Position{xy, p}
+    : Position{ xy, p }
     , Shape(w, h)
-{}
+{
+}
 
 Area::~Area()
-{}
+{
+}
 
 int
 Area::Area_local_x(int x) const
@@ -37,7 +41,7 @@ Area::Area_local_y(int y) const
 Point
 Area::Area_local_xy(Point p) const
 {
-    return Point{p.px - Position_root_x(), p.py - Position_root_y()};
+    return Point{ p.px - Position_root_x(), p.py - Position_root_y() };
 }
 
 int
@@ -93,4 +97,25 @@ void
 Area::Area_align_y()
 {
     py = -shape_high / 2;
+}
+
+// 重载赋值运算符
+Area&
+Area::operator+=(Area& a)
+{
+    Shape_merge(&a, a - *this, default_action_add);
+    return *this;
+}
+
+Area&
+Area::operator-=(Area& a)
+{
+    Shape_merge(&a, a - *this, default_action_sub);
+    return *this;
+}
+
+void
+Area::Area_merge(Area* a, void (*action)(int&, int&, int), int v)
+{
+    Shape_merge(a, *a - *this, action);
 }

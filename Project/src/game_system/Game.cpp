@@ -217,7 +217,7 @@ Game::rending()
     main_camera.CameraRending(&wall_skin_02);
     // main_camera.CameraRending(&main_zone, zone_area_wall);
     // main_camera.CameraRendingMatter(&matter);
-    // main_camera.CameraRendingMatter(&area_damage);
+    main_camera.CameraRendingMatter(&area_damage);
 
     // main_camera.CameraRending(sakana->ObjectGetColl(), sakana->ObjectGetCollCount(), 0x88ff0000);
     // main_camera.CameraRending(sayarin->ObjectGetColl(), sayarin->ObjectGetCollCount(), 0x88ff0000);

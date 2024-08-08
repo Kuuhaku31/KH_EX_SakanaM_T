@@ -100,6 +100,25 @@ Camera::CameraRending(Area* area, CameraRendingType t)
     AREA_COMPUTE((&camera_sight), area, (mix_color(a, b)));
 }
 
+static void
+action(int& a, int& b, int zt)
+{
+    int c = 0;
+    if(b > 0xff)
+    {
+        c = 0x88ff88ff;
+    }
+    else
+    {
+        c = 0x88000000;
+        c |= (b << 16);
+        c |= (b << 8);
+        c |= b;
+    }
+
+    mix_color(a, c);
+}
+
 void
 Camera::CameraRending(GameObject* obj, CameraRendingType t)
 {
@@ -115,6 +134,8 @@ Camera::CameraRending(Zone* zone, int zt, )
 
                      mix_color(a, c);
                  }));
+
+    // object_areas[t].Area_merge(zone, action, zt);
 }
 
 // 渲染碰撞检测
@@ -150,8 +171,10 @@ Camera::CameraRendingMatter(Area* area)
                          c |= b;
                      }
 
-                     mix_color(a, c);
-                 }));
+    //                  mix_color(a, c);
+    //              }));
+
+    object_areas[t].Area_merge(area, action);
 }
 
 void
