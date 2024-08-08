@@ -156,8 +156,6 @@ protected:
 
     Area explode_area; // 爆炸范围
 
-    bool is_exploding = false; // 是否爆炸
-
     virtual void explode();
     virtual void explodeDel();
 };

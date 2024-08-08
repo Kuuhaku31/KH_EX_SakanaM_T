@@ -97,6 +97,29 @@ action_rend_matter(int& a, int& b, int zt)
     mix_color(a, c);
 }
 
+static void
+action_rend_damage(int& a, int& b, int zt)
+{
+    int c = 0;
+    if(b > 0xff)
+    {
+        c = 0x88ff88ff;
+    }
+    else if(b < 0)
+    {
+        c = 0x88ff0000;
+    }
+    else if(b > 0)
+    {
+        c = 0x88000000;
+        c |= (b << 16);
+        c |= (b << 8);
+        c |= b;
+    }
+
+    mix_color(a, c);
+}
+
 void
 Camera::CameraRending(GameObject* obj, CameraRendingType t)
 {
@@ -117,15 +140,15 @@ Camera::CameraRending(Zone* zone, CameraRendingType t)
         break;
     case camera_rending_zone_matter:
         area = &zone->zone_matter;
+        camera_sight.Area_merge(area, action_rend_matter);
         break;
     case camera_rending_zone_damage:
         area = &zone->zone_damage;
+        camera_sight.Area_merge(area, action_rend_damage);
         break;
     default:
         break;
     }
-
-    camera_sight.Area_merge(area, action_rend_matter);
 }
 
 // 渲染碰撞检测

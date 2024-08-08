@@ -177,20 +177,19 @@ class Timer
 public:
     Timer(int = 0);
 
-    void Timer_start();       // 开始计时
-    void Timer_stop();        // 停止计时
-    void Timer_reset();       // 重置计时
-    void Timer_update();      // 更新计时
-    void Timer_setLoop(bool); // 设置循环
-    void Timer_setTime(int);  // 设置时间
+
+    void Timer_reset();      // 重置计时
+    void Timer_update();     // 更新计时
+    void Timer_setTime(int); // 设置时间
 
     int Timer_getTime(); // 获取时间
 
-private:
     bool is_timing = false; // 是否正在计时
     bool is_loop   = false; // 是否循环
-    int  time      = 0;     // 时间
-    int  time_max  = 0;     // 最大时间
+
+private:
+    int time     = 0; // 时间
+    int time_max = 0; // 最大时间
 };
 
 class AnimationList

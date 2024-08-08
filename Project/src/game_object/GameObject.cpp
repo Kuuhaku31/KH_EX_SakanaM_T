@@ -6,9 +6,9 @@ GameObject::GameObject(Zone* z)
 {
     if(z)
     {
-        zone                   = z;
-        area_matter.parent_pos = this;
-        animation_timer.Timer_setLoop(true);
+        zone                    = z;
+        area_matter.parent_pos  = this;
+        animation_timer.is_loop = true;
     }
     else
     {

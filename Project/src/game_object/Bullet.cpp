@@ -4,6 +4,7 @@
 Bullet::Bullet(Zone* z)
     : GameObject(z)
 {
+    explode_area.parent_pos = this;
 }
 
 
@@ -17,7 +18,7 @@ Bullet::Update()
 {
     if(!is_alive) return;
 
-    if(is_exploding)
+    if(explode_timer_del.is_timing)
     {
         if(explode_timer_del.Timer_getTime())
         {
@@ -26,6 +27,7 @@ Bullet::Update()
         else
         {
             explodeDel();
+            is_alive = false;
         }
     }
     else
@@ -44,15 +46,15 @@ Bullet::Update()
 void
 Bullet::explode()
 {
-    if(is_exploding)
+    if(explode_timer_del.is_timing)
     {
         // 如果已经爆炸，直接返回
         return;
     }
     else
     {
-        is_exploding      = true;
-        movement_velocity = ZEROVECTOR; // 立刻停止运动，添加爆炸影响
+        explode_timer_del.is_timing = true;
+        movement_velocity           = ZEROVECTOR; // 立刻停止运动，添加爆炸影响
         zone->zone_damage += explode_area;
     }
 }
@@ -61,8 +63,11 @@ Bullet::explode()
 void
 Bullet::explodeDel()
 {
-    is_alive = false;
-    zone->zone_damage -= explode_area;
+    if(explode_timer_del.is_timing)
+    {
+        explode_timer_del.is_timing = false;
+        zone->zone_damage -= explode_area;
+    }
 }
 
 

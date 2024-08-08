@@ -66,8 +66,10 @@ GameFactory::createFish(Zone* zone, Point p)
 
     // 动画
     fish->animation_list = library->LibAnimation(ani_sakana_swim);
-    fish->animation_timer.Timer_setTime(fish->animation_list->AnimationList_getFrameCount());
-    fish->animation_point = Point{ -16, -16 };
+    fish->animation_timer.Timer_setTime(fish->animation_list->AnimationList_getFrameCount() - 1);
+    fish->animation_timer.is_loop   = true;
+    fish->animation_timer.is_timing = true;
+    fish->animation_point           = Point{ -16, -16 };
 
     // 质量
     fish->area_matter.Shape_copy(library->LibMat(shape_hitbox_sakana));
@@ -89,14 +91,16 @@ GameFactory::createBullet(Zone* zone, Point p, Vector v)
     Bullet* bullet     = new Bullet(zone);
     bullet->parent_pos = zone;
     bullet->Position_xy_to(p);
-    bullet->px += v.vy * 10;
-    bullet->py += v.vx * 10;
-    bullet->movement_velocity = v * 100;
+    bullet->px += v.vx * 10;
+    bullet->py += v.vy * 10;
+    bullet->movement_velocity = v * 30;
 
     // 动画
     bullet->animation_list = library->LibAnimation(ani_bullet_fly);
-    bullet->animation_timer.Timer_setTime(bullet->animation_list->AnimationList_getFrameCount());
-    bullet->animation_point = Point{ -8, -8 };
+    bullet->animation_timer.Timer_setTime(bullet->animation_list->AnimationList_getFrameCount() - 1);
+    bullet->animation_timer.is_loop   = true;
+    bullet->animation_timer.is_timing = true;
+    bullet->animation_point           = Point{ -8, -8 };
 
     // 质量
     bullet->area_matter.Shape_copy(library->LibMat(shape_hitbox16));
@@ -105,7 +109,12 @@ GameFactory::createBullet(Zone* zone, Point p, Vector v)
 
     // 爆炸范围
     bullet->explode_timer_del.Timer_setTime(100);
-    bullet->explode_area.Shape_copy(library->LibMat(shape_img_skin_ikacyan));
+    bullet->explode_area.Shape_copy(library->LibMat(shape_hitbox_ikayan));
+    bullet->explode_area.Shape_clear(20, 0);
+    bullet->explode_area.Area_align();
+
+    // 计时器
+    bullet->explode_timer_del.Timer_setTime(100);
 
     return bullet;
 }

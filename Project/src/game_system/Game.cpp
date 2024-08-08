@@ -129,11 +129,11 @@ Game::Game(GraphInterface* gi, GameFactory* gf, Library* lib)
     // 初始化area_damage
     main_zone.zone_damage.parent_pos = &main_zone;
     main_zone.zone_damage.Shape_copy(library->LibMat(shape_area_main));
-    main_zone.zone_damage.Shape_clear(1, 0);
+    main_zone.zone_damage.Shape_clear(0);
 
     // 初始化camera
     main_camera.parent_pos = &main_zone;
-    main_camera.Position_xy_to(Point{ 0, 0 });
+    main_camera.Position_xy_to(Point{ 200, 150 });
     main_camera.CameraSight_size(GRAPHWIDE / 4, GRAPHHIGH / 4);
     main_camera.CameraSight_align();
 
@@ -214,8 +214,8 @@ Game::rending()
     // }
 
     main_camera.CameraRending(&wall_skin_02);
-    // main_camera.CameraRending(&main_zone, zone_area_wall);
-    main_camera.CameraRending(&main_zone, camera_rending_zone_matter);
+    main_camera.CameraRending(&main_zone, camera_rending_zone_damage);
+    //  main_camera.CameraRending(&main_zone, camera_rending_zone_matter);
 
     graphInterface->Photographed(&main_camera.camera_sight);
 }
