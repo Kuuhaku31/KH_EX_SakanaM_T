@@ -39,9 +39,11 @@ void
 GameManager::init()
 {
     // 初始化
-    gi   = new GraphInterface;
-    lib  = new Library;
-    game = new Game(gi, lib);
+    gi  = new GraphInterface;
+    lib = new Library;
+    gf  = new GameFactory(lib);
+
+    game = new Game(gi, gf, lib);
 
     char name[] = "Game";
     gi->NewGraph(GRAPHWIDE, GRAPHHIGH, GRAPH_X, GRAPH_Y, name);
@@ -56,8 +58,9 @@ GameManager::exit()
     gi->CloseGraph();
 
     // 退出，释放资源
-    // 顺序不能变
     delete game;
+
+    delete gf;
     delete lib;
     delete gi;
 

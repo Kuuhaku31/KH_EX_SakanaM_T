@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "animation.hpp"
 #include "base.hpp"
 
 
@@ -10,8 +9,12 @@
 // 每一位表示不同的Area
 // 一个Zone类可以存储32个Area信息
 // main_area 为主要区域，用于判断是否在区域内
-struct Zone
+class Zone : public Position
 {
+public:
+    Zone();
+    ~Zone();
+
     Area zone_data;
     Area zone_matter;
     Area zone_damage;
@@ -56,12 +59,13 @@ class GameObject : public Position
     friend class Camera;
 
 public:
-    GameObject() = default;
+    GameObject(Zone*);
     ~GameObject();
 
     virtual void Update();      // 更新运动状态
     virtual void Force(Vector); // 受力
 
+    bool GameObjectIsAlive() const; // 返回物体是否存活
 
     Vector movement_buffer       = ZEROVECTOR; // 位移缓冲
     Vector movement_velocity     = ZEROVECTOR; // 速度
@@ -69,11 +73,11 @@ public:
     Vector movement_resistance   = ZEROVECTOR; // 阻力
 
 protected:
-    bool  is_alive = true; // 是否存活
-    Zone* zone;
-    float movement_DT   = 0.1f; // 时间间隔
-    float movement_mass = 1.0f; // 质量（为0时视为质量无穷大）
-    Area  area_matter;          // 物质区域
+    bool  is_alive      = true;    // 是否存活
+    Zone* zone          = nullptr; // 所在区域
+    float movement_DT   = 0.1f;    // 时间间隔
+    float movement_mass = 1.0f;    // 质量（为0时视为质量无穷大）
+    Area  area_matter;             // 物质区域
 
     Position* test_points            = nullptr; // 检测点
     int*      test_points_value      = nullptr; // 检测点的值
@@ -81,12 +85,12 @@ protected:
     int       test_point_count       = 0;       // 检测点的数量
 
     Timer          animation_timer; // 动画计时器
+    Point          animation_point; // 动画位置
     AnimationList* animation_list;  // 动画列表
 
-private:
-    virtual void init();            // 初始化
+
     virtual void free();            // 释放内存，析构函数调用
-    virtual void updateTimer();     // 更新动画
+    virtual void updateTimer();     // 更新计时器
     virtual void updateMovement();  // 更新运动状态
     virtual void updateTestValue(); // 更新检测点的值
 };
@@ -101,7 +105,11 @@ enum CameraRendingType
     camera_rending_default, // 默认
     camera_rending_fill,    // 填充
     camera_rending_line,    // 线框
-    camera_rending_point    // 点
+    camera_rending_point,   // 点
+
+    camera_rending_zone_data,   // 区域数据
+    camera_rending_zone_matter, // 区域物质
+    camera_rending_zone_damage, // 区域伤害
 };
 
 // 摄像机的类
@@ -116,7 +124,7 @@ public:
     // 渲染
     void CameraRending(Area*, CameraRendingType = camera_rending_default);
     void CameraRending(GameObject*, CameraRendingType = camera_rending_default);
-    void CameraRending(Zone*, int, CameraRendingType = camera_rending_default);
+    void CameraRending(Zone*, CameraRendingType = camera_rending_default);
     void CameraRending(Position*, int, int = 0x88ff0000, CameraRendingType = camera_rending_default);
 
     // 清屏
@@ -127,7 +135,6 @@ public:
     void CameraSight_size_d(int = 0, int = 0);
     void CameraSight_align();
 
-private:
     Area camera_sight;
 };
 
@@ -135,19 +142,26 @@ private:
 // 子弹类
 class Bullet : public GameObject
 {
+    friend class GameFactory;
+
 public:
-    Bullet();
+    Bullet(Zone*);
     ~Bullet();
 
     virtual void Update();
 
 protected:
-    bool is_exploding = false; // 是否正在爆炸
-    int  timer        = 0;     // 爆炸持续时间，为0时爆炸结束，调用explodeDel
+    Timer explode_timer;     // 爆炸倒计时
+    Timer explode_timer_del; // 爆炸持续时间计时器
+
+    Area explode_area; // 爆炸范围
+
+    bool is_exploding = false; // 是否爆炸
 
     virtual void explode();
     virtual void explodeDel();
 };
+
 
 // #define MARBLE_AREA_COUNT 1
 // #define MARBLE_TEST_POINTS_COUNT 4
@@ -176,10 +190,11 @@ protected:
 //     void init();
 // };
 
+#define FISH_TEST_POINTS_COUNT 12
 class Fish : public GameObject
 {
 public:
-    Fish();
+    Fish(Zone*);
     ~Fish();
 
     // 更新，如果鱼死亡，不更新
@@ -221,7 +236,4 @@ protected:
         fish_test_point_left_start  = 9,
         fish_test_point_left_end    = 11,
     };
-
-private:
-    virtual void init();
 };

@@ -2,6 +2,20 @@
 #include "GameObjects.hpp"
 
 
+GameObject::GameObject(Zone* z)
+{
+    if(z)
+    {
+        zone                   = z;
+        area_matter.parent_pos = this;
+        animation_timer.Timer_setLoop(true);
+    }
+    else
+    {
+        is_alive = false;
+    }
+}
+
 GameObject::~GameObject()
 {
     free();
@@ -27,15 +41,10 @@ GameObject::Force(Vector f)
     }
 }
 
-void
-GameObject::init()
+bool
+GameObject::GameObjectIsAlive() const
 {
-    if(zone == nullptr)
-    {
-        is_alive = false;
-        return;
-    }
-    animation_timer.Timer_setLoop(true);
+    return is_alive;
 }
 
 void

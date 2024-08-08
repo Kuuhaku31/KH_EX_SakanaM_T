@@ -5,5 +5,15 @@
 
 class GameFactory
 {
-    Fish* createFish();
+public:
+    GameFactory(Library*);
+    ~GameFactory();
+
+    Fish*   createFish(Zone*, Point);
+    Bullet* createBullet(Zone*, Point, Vector);
+
+    void InitZone(Zone*);
+
+private:
+    Library* library;
 };

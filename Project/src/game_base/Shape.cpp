@@ -390,15 +390,18 @@ Shape::Shape_not()
 void
 Shape::Shape_merge(Shape* s, Point p, void (*action)(int&, int&, int), int v)
 {
-    int m[6] = { this->Shape_wide(), this->Shape_high(), s->Shape_wide(), s->Shape_high(), p.px, p.py };
-    transformat(m);
-    int* b1 = this->Shape_buffer();
-    int* b2 = s->Shape_buffer();
-    for(int i = 0; i < m[5]; i++, m[0] += m[1], m[2] += m[3])
+    if(s)
     {
-        for(int j = 0; j < m[4]; j++, m[0]++, m[2]++)
+        int m[6] = { this->Shape_wide(), this->Shape_high(), s->Shape_wide(), s->Shape_high(), p.px, p.py };
+        transformat(m);
+        int* b1 = this->Shape_buffer();
+        int* b2 = s->Shape_buffer();
+        for(int i = 0; i < m[5]; i++, m[0] += m[1], m[2] += m[3])
         {
-            action(b1[m[0]], b2[m[2]], v);
+            for(int j = 0; j < m[4]; j++, m[0]++, m[2]++)
+            {
+                action(b1[m[0]], b2[m[2]], v);
+            }
         }
     }
 }

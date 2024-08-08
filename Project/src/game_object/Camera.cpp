@@ -2,7 +2,7 @@
 #include "GameObjects.hpp"
 
 // 线性插值函数
-inline int
+static int
 interpolateColor(int value, int max_value)
 {
     // 起点颜色 (黑色)
@@ -24,7 +24,7 @@ interpolateColor(int value, int max_value)
 }
 
 // 用于混合两个颜色
-inline void
+static void
 mix_color(int& c1, int& c2)
 {
     int a2 = (c2 & 0xff000000) >> 24;
@@ -51,38 +51,6 @@ mix_color(int& c1, int& c2)
     c1 = (a << 24) | (r << 16) | (g << 8) | b;
 }
 
-inline void
-fun_add_AH(int& a, int& b)
-{
-    if(b)
-    {
-        int d = ((b * 0xff) / 40000) << 24;
-        mix_color(a, d);
-    }
-}
-
-inline void
-fun_add_AC(int& a, int& b)
-{
-    if(b)
-    {
-        int d = ((b * 0xff) / 800) << 24;
-        int c = 0x00000000 | d;
-        mix_color(a, c);
-    }
-}
-
-template<int bit, int color>
-inline void
-fun_rend_zone(int& a, int& b)
-{
-    int c = b >> bit;
-    (c & 0x1) ? c = color : c = 0x0;
-
-    mix_color(a, c);
-}
-
-
 // 构造、析构函数
 Camera::Camera() {}
 
@@ -94,14 +62,20 @@ Camera::Camera(Position* p, int w, int h)
 
 Camera::~Camera() {}
 
+static void
+action_mixcolor(int& a, int& b, int v)
+{
+    mix_color(a, b);
+}
+
 void
 Camera::CameraRending(Area* area, CameraRendingType t)
 {
-    AREA_COMPUTE((&camera_sight), area, (mix_color(a, b)));
+    camera_sight.Area_merge(area, action_mixcolor);
 }
 
 static void
-action(int& a, int& b, int zt)
+action_rend_matter(int& a, int& b, int zt)
 {
     int c = 0;
     if(b > 0xff)
@@ -122,59 +96,46 @@ action(int& a, int& b, int zt)
 void
 Camera::CameraRending(GameObject* obj, CameraRendingType t)
 {
-    AREA_COMPUTE((&camera_sight), area, (mix_color(a, b)));
+    Shape* skin = obj->animation_list->AnimationList_getFrame(obj->animation_timer.Timer_getTime());
+    camera_sight.Shape_merge(skin, *obj + obj->animation_point, action_mixcolor);
 }
 
 void
-Camera::CameraRending(Zone* zone, int zt, )
+Camera::CameraRending(Zone* zone, CameraRendingType t)
 {
-    AREA_COMPUTE((&object_areas[t]), zone, ({
-                     int c = b >> zt;
-                     (c & 0x1) ? c = zone->ZoneGetColor(zt) : c = 0x0;
+    Area* area = nullptr;
+    switch(t)
+    {
+    case camera_rending_zone_data:
+        area = &zone->zone_data;
+        break;
+    case camera_rending_zone_matter:
+        area = &zone->zone_matter;
+        break;
+    case camera_rending_zone_damage:
+        area = &zone->zone_damage;
+        break;
+    default:
+        break;
+    }
 
-                     mix_color(a, c);
-                 }));
-
-    // object_areas[t].Area_merge(zone, action, zt);
+    camera_sight.Area_merge(area, action_mixcolor);
 }
 
 // 渲染碰撞检测
 void
-Camera::CameraRending(Position* ps, int pc, int c)
+Camera::CameraRending(Position* ps, int pc, int c, CameraRendingType t)
 {
     for(int i = 0; i < pc; i++)
     {
         Point p  = ps[i].Position_root_xy();
-        Point lp = object_areas[t].Area_local_xy(p);
-        int   b  = object_areas[t].Shape_in(lp);
+        Point lp = camera_sight.Area_local_xy(p);
+        int   b  = camera_sight.Shape_in(lp);
 
         mix_color(b, c);
 
-        object_areas[t].Shape_draw_point(lp.px, lp.py, b);
+        camera_sight.Shape_draw_point(lp.px, lp.py, b);
     }
-}
-
-void
-Camera::CameraRendingMatter(Area* area)
-{
-    AREA_COMPUTE((&object_areas[t]), area, ({
-                     int c = 0;
-                     if(b > 0xff)
-                     {
-                         c = 0x88ff88ff;
-                     }
-                     else
-                     {
-                         c = 0x88000000;
-                         c |= (b << 16);
-                         c |= (b << 8);
-                         c |= b;
-                     }
-
-    //                  mix_color(a, c);
-    //              }));
-
-    object_areas[t].Area_merge(area, action);
 }
 
 void
