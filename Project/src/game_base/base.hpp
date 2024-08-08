@@ -30,6 +30,25 @@ struct Position : public Point
     }
 };
 
+// 重载操作符，计算两个位置的差
+inline Point
+operator-(const Position& p1, const Position& p2)
+{
+    return p1.Position_root_xy() - p2.Position_root_xy();
+}
+
+
+static void
+default_action_add(int& a, int& b, int v)
+{
+    a += b;
+}
+
+static void
+default_action_sub(int& a, int& b, int v)
+{
+    a -= b;
+}
 
 // 最基础的图形类，用四个字节的数组表示一个矩阵，每个字节表示一个像素点的颜色
 // **所用的宽高全部用无符号int**
@@ -51,6 +70,9 @@ public:
     int  Shape_in(Point) const;
     bool Shape_in(int, int) const;   // 获取某个bit位的值，第三个参数为0-31
     bool Shape_in(Point, int) const; // 获取某个bit位的值，第三个参数为0-31
+
+    // 合并两个形状
+    void Shape_merge(Shape*, Point = ZEROPOINT, void (*action)(int&, int&, int) = default_action_add, int = 0);
 
     // 获取某个点的地址
     bool Shape_in_addr(int**, int);
@@ -137,6 +159,11 @@ public:
     void Area_align();
     void Area_align_x();
     void Area_align_y();
+
+    // 重载运算符
+    Area& operator+=(Area&);
+    Area& operator-=(Area&);
+    void  Area_merge(Area*, void (*action)(int&, int&, int) = default_action_add, int = 0);
 };
 
 #define AREA_COMPUTE(a1, a2, action) M0M2(a1, a2, a2->Position_root_x() - a1->Position_root_x(), a2->Position_root_y() - a1->Position_root_y(), action);
