@@ -249,7 +249,7 @@ Shape::Shape_draw_line(int x1, int y1, int x2, int y2, int v)
 void
 Shape::Shape_draw_rectangle(int x, int y, int w, int h, int color)
 {
-    int m[6] = {shape_wide, shape_high, w, h, x, y};
+    int m[6] = { shape_wide, shape_high, w, h, x, y };
     transformat(m);
 
     for(int i = 0; i < m[5]; i++)
@@ -384,5 +384,24 @@ Shape::Shape_not()
     for(int i = 0; i < shape_long; i++)
     {
         shape_buffer[i] = ~shape_buffer[i];
+    }
+}
+
+void
+Shape::Shape_merge(Shape* s, Point p, void (*action)(int&, int&, int), int v)
+{
+    if(s)
+    {
+        int m[6] = { this->Shape_wide(), this->Shape_high(), s->Shape_wide(), s->Shape_high(), p.px, p.py };
+        transformat(m);
+        int* b1 = this->Shape_buffer();
+        int* b2 = s->Shape_buffer();
+        for(int i = 0; i < m[5]; i++, m[0] += m[1], m[2] += m[3])
+        {
+            for(int j = 0; j < m[4]; j++, m[0]++, m[2]++)
+            {
+                action(b1[m[0]], b2[m[2]], v);
+            }
+        }
     }
 }

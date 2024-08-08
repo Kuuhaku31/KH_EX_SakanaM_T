@@ -30,6 +30,25 @@ struct Position : public Point
     }
 };
 
+// 重载操作符，计算两个位置的差
+inline Point
+operator-(const Position& p1, const Position& p2)
+{
+    return p1.Position_root_xy() - p2.Position_root_xy();
+}
+
+
+static void
+default_action_add(int& a, int& b, int v)
+{
+    a += b;
+}
+
+static void
+default_action_sub(int& a, int& b, int v)
+{
+    a -= b;
+}
 
 // 最基础的图形类，用四个字节的数组表示一个矩阵，每个字节表示一个像素点的颜色
 // **所用的宽高全部用无符号int**
@@ -51,6 +70,9 @@ public:
     int  Shape_in(Point) const;
     bool Shape_in(int, int) const;   // 获取某个bit位的值，第三个参数为0-31
     bool Shape_in(Point, int) const; // 获取某个bit位的值，第三个参数为0-31
+
+    // 合并两个形状
+    void Shape_merge(Shape*, Point = ZEROPOINT, void (*action)(int&, int&, int) = default_action_add, int = 0);
 
     // 获取某个点的地址
     bool Shape_in_addr(int**, int);
@@ -137,107 +159,53 @@ public:
     void Area_align();
     void Area_align_x();
     void Area_align_y();
+
+    // 重载运算符
+    Area& operator+=(Area&);
+    Area& operator-=(Area&);
+    void  Area_merge(Area*, void (*action)(int&, int&, int) = default_action_add, int = 0);
 };
 
 #define AREA_COMPUTE(a1, a2, action) M0M2(a1, a2, a2->Position_root_x() - a1->Position_root_x(), a2->Position_root_y() - a1->Position_root_y(), action);
 
-// 天才！！！！
-// 一个Area的点有32位
-// 每一位表示不同的Area
-// 一个Zone类可以存储32个Area信息
-// main_area 为主要区域，用于判断是否在区域内
-class Zone : public Area
+// =================================================================================================
+// =================================================================================================
+// =================================================================================================
+
+class Timer
 {
 public:
-    Zone();
-    Zone(int, int);
-    Zone(Shape*);
-    ~Zone();
+    Timer(int = 0);
 
-    int  ZoneGetColor(int) const; // 获取某个area的颜色
-    void ZoneSetColor(int, int);  // 设置某个area的颜色
-    void ZoneSetArea(Area*, int); // 设置某个area的区域
+
+    void Timer_reset();      // 重置计时
+    void Timer_update();     // 更新计时
+    void Timer_setTime(int); // 设置时间
+
+    int Timer_getTime(); // 获取时间
+
+    bool is_timing = false; // 是否正在计时
+    bool is_loop   = false; // 是否循环
 
 private:
-    // 32个area对应的颜色
-    int colors[32] = { 0 };
+    int time     = 0; // 时间
+    int time_max = 0; // 最大时间
 };
 
-// =================================================================================================
-// =================================================================================================
-// =================================================================================================
-
-
-// 碰撞检测
-// 用于检测角色是否与墙体或其他角色发生碰撞
-// 有12个检测点，分别在角色的四个角和四个边的中点
-// 当角色的检测点与墙体或其他角色的检测点重合时，认为发生碰撞
-/*
-
-(0,0)------(w/4,0)-----(w/2,0)-----(3w/4,0)-----(w,0)
-  |           |           |           |           |
-  |           |           |           |           |
-(0,h/4)----(w/4,h/4)---(w/2,h/4)---(3w/4,h/4)---(w,h/4)
-  |           |           |           |           |
-  |           |           |           |           |
-(0,h/2)----(w/4,h/2)---(w/2,h/2)---(3w/4,h/2)---(w,h/2)
-  |           |           |           |           |
-  |           |           |           |           |
-(0,3h/4)--(w/4,3h/4)--(w/2,3h/4)--(3w/4,3h/4)--(w,3h/4)
-  |           |           |           |           |
-  |           |           |           |           |
-(0,h)------(w/4,h)-----(w/2,h)-----(3w/4,h)-----(w,h)
-
-*/
-
-
-// 有若干个个检测点，分别在角色的四个角和四个边的中点
-// 用于指导物体的运动
-// 位置参数：坐标、速度、加速度
-// 阻力参数：摩擦力、空气阻力
-// Frictional resistance, air resistance、
-// 直接用Vector表示
-class Object : public Position
+class AnimationList
 {
+    friend class Library;
+
 public:
-    Object();
-    Object(Position*, Point = ZEROPOINT);
-    ~Object();
+    AnimationList() = default;
+    ~AnimationList();
 
-    virtual void Update();               // 更新运动状态
-    void         ObjectAddForce(Vector); // 受力
-    void         ObjectCollTest(Area*);  // 碰撞检测
+    Shape* AnimationList_getFrame(int);   // 获取帧
+    int    AnimationList_getFrameCount(); // 获取帧数
 
+private:
+    Shape* frames      = nullptr; // 帧数组
+    int    frame_count = 0;       // 帧数
 
-    bool      ObjectGetArea(Area**, int);     // 返回area
-    bool      ObjectGetColl(Position**, int); // 返回检测点
-    Area*     ObjectGetArea(int);             // 返回area
-    Position* ObjectGetColl(int);             // 返回检测点
-    void      ObjectResetAreas(int);          // 重置area
-    void      ObjectResetColls(int);          // 重置检测点
-    Area*     ObjectGetArea();                // 返回全部area
-    Position* ObjectGetColl();                // 返回全部检测点
-    int       ObjectGetAreaCount();           // 返回area的数量
-    int       ObjectGetCollCount();           // 返回检测点的数量
-
-
-    float  movement_DT           = 0.1f;       // 时间间隔
-    float  movement_mass         = 1.0f;       // 质量（为0时视为质量无穷大）
-    Vector movement_buffer       = ZEROVECTOR; // 位移缓冲
-    Vector movement_velocity     = ZEROVECTOR; // 速度
-    Vector movement_acceleration = ZEROVECTOR; // 加速度
-    Vector movement_resistance   = ZEROVECTOR; // 阻力
-
-protected:
-    // 皮肤、碰撞检测
-    Area*     object_areas                  = nullptr; // 皮肤
-    int       object_area_count             = 0;       // 皮肤的数量
-    Position* object_test_points            = nullptr; // 检测点
-    int*      object_test_points_value      = nullptr; // 检测点的值
-    int       object_test_points_value_main = 0;       // 主检测点的值
-    int       object_test_point_count       = 0;       // 检测点的数量
+    void free(); // 释放内存
 };
-
-// =================================================================================================
-// =================================================================================================
-// =================================================================================================

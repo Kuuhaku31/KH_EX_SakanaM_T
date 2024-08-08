@@ -1,9 +1,10 @@
 
 #pragma once
 
-#include "GameObjects.hpp"
 #include "Input.hpp"
+#include "game_factory.hpp"
 #include "ring.hpp"
+
 
 #define GRAPHWIDE 1600
 #define GRAPHHIGH 900
@@ -13,105 +14,6 @@
 #define GRAPH_Y 30
 
 #define GAME_NAME "Sakana"
-
-// 用于在控制台打印消息
-inline void
-Say(std::string str, int txtCode = WIN_COLOR_WHITE, int bakcgroudCode = KHCOLOR_BLACK)
-{
-    // 设置控制台文字颜色
-    int    code           = txtCode + (bakcgroudCode << 4);
-    HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsoleOutput, code);
-    std::cout << std::endl
-              << str;
-    SetConsoleTextAttribute(hConsoleOutput, WIN_COLOR_WHITE);
-}
-
-// 实现IMAGE类和Shape类的互相转化
-inline void
-conversion_IMAGE_Area(IMAGE* img, Shape* area)
-{
-    int  w     = area->Shape_wide();
-    int  h     = area->Shape_high();
-    int  l     = area->Shape_long();
-    int* areab = area->Shape_buffer();
-
-    img->Resize(w, h);
-    DWORD* imgb = GetImageBuffer(img);
-
-    for(int i = 0; i < l; i++)
-    {
-        imgb[i] = areab[i];
-    }
-};
-
-inline void
-conversion_IMAGE_Area(Shape* area, IMAGE* img)
-{
-    int w = img->getwidth();
-    int h = img->getheight();
-    area->Shape_reset(w, h);
-    int  l     = area->Shape_long();
-    int* areab = area->Shape_buffer();
-
-    DWORD* imgb = GetImageBuffer(img);
-
-    for(int i = 0; i < l; i++)
-    {
-        areab[i] = imgb[i];
-    }
-};
-
-
-// mat路径
-#define MATPATH "D:/Project/VS Code/KH_EX_SakanaM_T/mat/"
-#define MATMAX 1000
-
-// 制作Zone，返回是否成功
-// 传入Zone指针，图片路径数组，位数组，图片数量
-bool madeZone(Zone*, std::string*, int*, int);
-
-// 根据地址导入图片，返回是否成功
-bool loadshape(Shape*, std::string);
-
-enum LibraryMatType
-{
-    shape_area_main,
-    shape_area_wall,
-
-    shape_img_world_ground,
-    shape_img_wall_01,
-    shape_img_wall_02,
-
-    shape_img_skin_sakana,
-    shape_img_skin_ikacyan,
-    shape_img_skin_bullet,
-
-    shape_hitbox16,
-    shape_hitbox_sakana,
-    shape_hitbox_ikayan
-};
-
-class Library
-{
-public:
-    Library();
-    ~Library();
-
-    // 获取Zone
-    void LibZone(Zone*, int*, int);
-
-    // 初始化所有静态资源
-    void InitMat();
-
-    // 获取资源
-    Shape* LibMat(LibraryMatType);
-
-private:
-    std::string lib_mat_path[MATMAX];
-    Shape       lib_mat[MATMAX];
-};
-
 
 class GraphInterface
 {
@@ -152,7 +54,7 @@ private:
 class Game
 {
 public:
-    Game(GraphInterface*, Library*);
+    Game(GraphInterface*, GameFactory*, Library*);
     ~Game();
 
     // 更新,需要每次循环调用，返回false表示游戏结束
@@ -163,6 +65,7 @@ private:
     bool is_game_continue = true;
 
     GraphInterface* graphInterface;
+    GameFactory*    gameFactory;
     Library*        library;
 
     // 工厂
@@ -178,8 +81,6 @@ private:
         zone_end           = 31
     };
     Vector relative_area_vector;
-    Area   matter;
-    Area   area_damage;
 
     Area world_skin;
     Area wall_skin_01;
@@ -193,7 +94,7 @@ private:
     Fish*        zaruto;
     Ring<Fish>   ring_fish;
     Ring<Bullet> ring_bullet;
-    Ring<Marble> ring_marble;
+    // Ring<Marble> ring_marble;
 
     // 移动向量
     Point  camera_move_vector;
@@ -217,6 +118,7 @@ public:
 private:
     Game*           game = nullptr;
     GraphInterface* gi   = nullptr;
+    GameFactory*    gf   = nullptr;
     Library*        lib  = nullptr;
 
     void init();
