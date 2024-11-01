@@ -42,7 +42,7 @@ private:
 
 template<class Tem>
 Ring<Tem>::Ring(Tem* t, int n)
-    : node_head({&node_head, &node_head, nullptr})
+    : node_head({ &node_head, &node_head, nullptr })
     , node_count(0)
     , node_now(&node_head)
 {

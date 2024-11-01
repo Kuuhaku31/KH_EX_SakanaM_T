@@ -7,7 +7,7 @@
 
 
 // mat路径
-#define MATPATH "D:/Project/VS Code/KH_EX_SakanaM_T/mat/"
+#define MATPATH "D:/Project/KH_EX_SakanaM_T/mat/"
 #define MATMAX 1000
 
 

@@ -3,10 +3,11 @@
 
 // 对接用的头文件
 
+#include <ctime>
+#include <iostream>
 #include <math.h>
 #include <string>
-#include <iostream>
-#include <ctime>
+
 
 // 宏定义
 
@@ -60,8 +61,8 @@ float sqrt(float);
 // 认为是墙壁
 #define WALL_LIM 0xff
 
-//限制器模板函数
-// 如果value不在范围内，则调整并返回false
+// 限制器模板函数
+//  如果value不在范围内，则调整并返回false
 template<int MIN, int MAX>
 inline bool
 Limit(int& value)
@@ -99,23 +100,23 @@ inline void
 transformat(int* m) // 长度为6
 {
     /*
-	A的宽度
-	A的高度
-	B的宽度
-	B的高度
-	B的左上角相对于A的左上角的x坐标
-	B的左上角相对于A的左上角的y坐标
+    A的宽度
+    A的高度
+    B的宽度
+    B的高度
+    B的左上角相对于A的左上角的x坐标
+    B的左上角相对于A的左上角的y坐标
 
-		||
-		\/
+        ||
+        \/
 
-	A的起始点
-	A的间隔
-	B的起始点
-	B的间隔
-	宽度
-	次数
-	*/
+    A的起始点
+    A的间隔
+    B的起始点
+    B的间隔
+    宽度
+    次数
+    */
 
     int A_start = 0;
     int A_skip  = 0;
@@ -203,9 +204,9 @@ struct Vector
 };
 
 #define ZEROPOINT \
-    Point { 0, 0 }
+    Point{ 0, 0 }
 #define ZEROVECTOR \
-    Vector { 0.0f, 0.0f }
+    Vector{ 0.0f, 0.0f }
 //
 
 
@@ -286,25 +287,25 @@ operator<=(const Point& p1, const Point& p2)
 inline Point
 operator+(const Point& p1, const Point& p2)
 {
-    return Point{p1.px + p2.px, p1.py + p2.py};
+    return Point{ p1.px + p2.px, p1.py + p2.py };
 }
 
 inline Vector
 operator+(const Vector& v1, const Vector& v2)
 {
-    return Vector{v1.vx + v2.vx, v1.vy + v2.vy};
+    return Vector{ v1.vx + v2.vx, v1.vy + v2.vy };
 }
 
 inline Vector
 operator+(const Vector& v, const Point& p)
 {
-    return Vector{v.vx + p.px, v.vy + p.py};
+    return Vector{ v.vx + p.px, v.vy + p.py };
 }
 
 inline Vector
 operator+(const Point& p, const Vector& v)
 {
-    return Vector{p.px + v.vx, p.py + v.vy};
+    return Vector{ p.px + v.vx, p.py + v.vy };
 }
 
 inline Point&
@@ -334,25 +335,25 @@ operator+=(Vector& v, const Point& p)
 inline Point
 operator-(const Point& p1, const Point& p2)
 {
-    return Point{p1.px - p2.px, p1.py - p2.py};
+    return Point{ p1.px - p2.px, p1.py - p2.py };
 }
 
 inline Vector
 operator-(const Vector& v1, const Vector& v2)
 {
-    return Vector{v1.vx - v2.vx, v1.vy - v2.vy};
+    return Vector{ v1.vx - v2.vx, v1.vy - v2.vy };
 }
 
 inline Vector
 operator-(const Vector& v, const Point& p)
 {
-    return Vector{v.vx - p.px, v.vy - p.py};
+    return Vector{ v.vx - p.px, v.vy - p.py };
 }
 
 inline Vector
 operator-(const Point& p, const Vector& v)
 {
-    return Vector{p.px - v.vx, p.py - v.vy};
+    return Vector{ p.px - v.vx, p.py - v.vy };
 }
 
 inline Point&
@@ -382,13 +383,13 @@ operator-=(Vector& v, const Point& p)
 inline Vector
 operator*(const Vector& v, float f)
 {
-    return Vector{v.vx * f, v.vy * f};
+    return Vector{ v.vx * f, v.vy * f };
 }
 
 inline Vector
 operator*(const Point& p, float f)
 {
-    return Vector{p.px * f, p.py * f};
+    return Vector{ p.px * f, p.py * f };
 }
 
 inline Vector&

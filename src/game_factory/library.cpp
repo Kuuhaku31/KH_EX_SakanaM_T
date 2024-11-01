@@ -1,6 +1,6 @@
 
 #include "game_factory.hpp"
-
+#include <algorithm> // 添加此行以包含 std::sort
 
 // 用于在控制台打印消息
 void
@@ -26,7 +26,7 @@ loadshape(Shape* shape, std::string path)
     else
     {
         IMAGE img;
-        loadimage(&img, path.c_str(), 0, 0, true);
+        loadimage(&img, (LPCTSTR)path.c_str(), 0, 0, true);
         shape->Shape_reset((int*)GetImageBuffer(&img), img.getwidth(), img.getheight());
         return true;
     }
@@ -126,12 +126,12 @@ Library::InitMat()
         }
     }
 
-    loadAnimation(&lib_animation[ani_sakana_swim], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/sakana/swim");
-    loadAnimation(&lib_animation[ani_sakana_die], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/sakana/die");
-    loadAnimation(&lib_animation[ani_ikacyan_swim], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/ikacyan/swim");
-    loadAnimation(&lib_animation[ani_ikacyan_die], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/ikacyan/die");
-    loadAnimation(&lib_animation[ani_bullet_fly], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/bullet/fly");
-    loadAnimation(&lib_animation[ani_bullet_explode], "D:/Project/VS Code/KH_EX_SakanaM_T/mat/ani/bullet/explode");
+    loadAnimation(&lib_animation[ani_sakana_swim], std::string(MATPATH) + "/ani/sakana/swim");
+    loadAnimation(&lib_animation[ani_sakana_die], std::string(MATPATH) + "/ani/sakana/die");
+    loadAnimation(&lib_animation[ani_ikacyan_swim], std::string(MATPATH) + "/ani/ikacyan/swim");
+    loadAnimation(&lib_animation[ani_ikacyan_die], std::string(MATPATH) + "/ani/ikacyan/die");
+    loadAnimation(&lib_animation[ani_bullet_fly], std::string(MATPATH) + "/ani/bullet/fly");
+    loadAnimation(&lib_animation[ani_bullet_explode], std::string(MATPATH) + "/ani/bullet/explode");
 }
 
 Shape*

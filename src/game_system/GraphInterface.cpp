@@ -7,7 +7,7 @@ GraphInterface::NewGraph(int w, int h, int x, int y, char* name)
     // 初始化窗口，设置参数
     graph_HWND = initgraph(w, h, 1);
     SetWindowPos(graph_HWND, nullptr, x, y, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-    SetWindowText(graph_HWND, name);
+    SetWindowTextW(graph_HWND, (wchar_t*)name);
 
     // 全屏
     // SetWindowLong(graph_HWND, GWL_STYLE, GetWindowLong(graph_HWND, GWL_STYLE) - WS_CAPTION);
@@ -23,8 +23,8 @@ GraphInterface::NewGraph(int w, int h, int x, int y, char* name)
     graph_half_high = h / 2;
 
     // 输出参数
-    output_p1 = {0, 0};
-    output_p2 = {w, h};
+    output_p1 = { 0, 0 };
+    output_p2 = { w, h };
 
     output_wide = output_p2.px - output_p1.px;
     output_high = output_p2.py - output_p1.py;
@@ -70,5 +70,5 @@ Point
 GraphInterface::MousePointInSight(int w, int h)
 {
     // (mouse_x - output_x1)/target_x = output_wide/sight_wide
-    return Point{(input.mouse_X - output_p1.px) * w / output_wide, (input.mouse_Y - output_p1.py) * h / output_high};
+    return Point{ (input.mouse_X - output_p1.px) * w / output_wide, (input.mouse_Y - output_p1.py) * h / output_high };
 }
